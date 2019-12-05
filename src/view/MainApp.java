@@ -41,7 +41,7 @@ public class MainApp {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 0, 1440, 1024);
+		frame.setBounds(100, 0, 1000, 1000);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new GridLayout(1, 0, 0, 0));
 		
