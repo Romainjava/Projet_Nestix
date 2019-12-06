@@ -61,7 +61,7 @@ public class MainApp {
 		
 		String tabHeader[]={"Titre","ISBN","Année de sortie"};
 		double elmsSize[]= {1.0,1.0,1.0,1.0};
-		HeaderPanel livre_header=new HeaderPanel(livre_panel,tabHeader,elmsSize);
+		HeaderPanel livre_header=new HeaderPanel(livre_panel,"Cet onglet permet de renseigner des livres",tabHeader,elmsSize);
 		
 		JPanel film_Panel = new JPanel();
 		tabbedPane.addTab("Films", null, film_Panel, null);
