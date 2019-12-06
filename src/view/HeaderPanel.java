@@ -23,7 +23,7 @@ public class HeaderPanel extends JPanel {
 		JtextArrray = jtextArrray;
 	}
 
-	public HeaderPanel(JPanel panel, String tab[],double elmsSize[]) {
+	public HeaderPanel(JPanel panel,String infoOnglet,String tab[],double elmsSize[]) {
 		super();
 		JtextArrray=new ArrayList<>();
 		JPanel header_panel = new JPanel();
@@ -38,7 +38,7 @@ public class HeaderPanel extends JPanel {
 		gbl_livre_header_panel.rowWeights = new double[]{1.0, 1.0, 1.0};
 		header_panel.setLayout(gbl_livre_header_panel);
 		
-		JLabel livre_header_info_label = new JLabel("Cet onglet permet de renseigner des livres");
+		JLabel livre_header_info_label = new JLabel(infoOnglet);
 		GridBagConstraints gbc_livre_header_info_label = new GridBagConstraints();
 		gbc_livre_header_info_label.gridwidth = 3;
 		gbc_livre_header_info_label.anchor = GridBagConstraints.WEST;
