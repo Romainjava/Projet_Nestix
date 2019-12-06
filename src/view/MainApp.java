@@ -55,14 +55,13 @@ public class MainApp {
 		JPanel livre_panel = new JPanel();
 		tabbedPane.addTab("Livres", null, livre_panel, null);
 		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWeights = new double[]{};
-		gbl_panel.rowWeights = new double[]{};
+		gbl_panel.columnWeights = new double[]{3.0,1.0};
+		gbl_panel.rowWeights = new double[]{1.0,3.5,0.5};
 		livre_panel.setLayout(gbl_panel);
 		
 		String tabHeader[]={"Titre","ISBN","Année de sortie"};
 		double elmsSize[]= {1.0,1.0,1.0,1.0};
 		HeaderPanel livre_header=new HeaderPanel(livre_panel,"Cet onglet permet de renseigner des livres",tabHeader,elmsSize);
-		
 		JPanel film_Panel = new JPanel();
 		tabbedPane.addTab("Films", null, film_Panel, null);
 		film_Panel.setLayout(new GridLayout(1, 0, 0, 0));
