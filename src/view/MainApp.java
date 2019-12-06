@@ -7,6 +7,11 @@ import javax.swing.JTabbedPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.GridLayout;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Color;
+import net.miginfocom.swing.MigLayout;
+import javax.swing.JTextField;
 
 public class MainApp {
 
@@ -40,53 +45,57 @@ public class MainApp {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 0, 1000, 1000);
+		frame.setBounds(100, 0, 1000, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new GridLayout(1, 0, 0, 0));
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		frame.getContentPane().add(tabbedPane);
 		
-		JPanel panel = new JPanel();
-		tabbedPane.addTab("Livres", null, panel, null);
-		panel.setLayout(new GridLayout(1, 0, 0, 0));
+		JPanel livre_panel = new JPanel();
+		tabbedPane.addTab("Livres", null, livre_panel, null);
+		GridBagLayout gbl_panel = new GridBagLayout();
+		gbl_panel.columnWeights = new double[]{};
+		gbl_panel.rowWeights = new double[]{};
+		livre_panel.setLayout(gbl_panel);
 		
-		JLabel livresLabel = new JLabel("Livres");
-		panel.add(livresLabel);
+		String tabHeader[]={"Titre","ISBN","Année de sortie"};
+		double elmsSize[]= {1.0,1.0,1.0,1.0};
+		HeaderPanel livre_header=new HeaderPanel(livre_panel,tabHeader,elmsSize);
 		
-		JPanel panel_1 = new JPanel();
-		tabbedPane.addTab("Films", null, panel_1, null);
-		panel_1.setLayout(new GridLayout(1, 0, 0, 0));
+		JPanel film_Panel = new JPanel();
+		tabbedPane.addTab("Films", null, film_Panel, null);
+		film_Panel.setLayout(new GridLayout(1, 0, 0, 0));
 		
 		JLabel filmsLabel = new JLabel("Films");
-		panel_1.add(filmsLabel);
+		film_Panel.add(filmsLabel);
 		
-		JPanel panel_2 = new JPanel();
-		tabbedPane.addTab("Musiques", null, panel_2, null);
-		panel_2.setLayout(new GridLayout(1, 0, 0, 0));
+		JPanel musique_Panel = new JPanel();
+		tabbedPane.addTab("Musiques", null, musique_Panel, null);
+		musique_Panel.setLayout(new GridLayout(1, 0, 0, 0));
 		
 		JLabel musiqueLabel = new JLabel("Musiques");
-		panel_2.add(musiqueLabel);
+		musique_Panel.add(musiqueLabel);
 		
-		JPanel panel_3 = new JPanel();
-		tabbedPane.addTab("Artistes", null, panel_3, null);
-		panel_3.setLayout(new GridLayout(1, 0, 0, 0));
+		JPanel artiste_Panel = new JPanel();
+		tabbedPane.addTab("Artistes", null, artiste_Panel, null);
+		artiste_Panel.setLayout(new GridLayout(1, 0, 0, 0));
 		
 		JLabel artistesLabel = new JLabel("Artistes");
-		panel_3.add(artistesLabel);
+		artiste_Panel.add(artistesLabel);
 		
-		JPanel panel_4 = new JPanel();
-		tabbedPane.addTab("A valider", null, panel_4, null);
-		panel_4.setLayout(new GridLayout(1, 0, 0, 0));
+		JPanel valider_Panel = new JPanel();
+		tabbedPane.addTab("A valider", null, valider_Panel, null);
+		valider_Panel.setLayout(new GridLayout(1, 0, 0, 0));
 		
 		JLabel avaliderLabel = new JLabel("A valider");
-		panel_4.add(avaliderLabel);
+		valider_Panel.add(avaliderLabel);
 		
-		JPanel panel_5 = new JPanel();
-		tabbedPane.addTab("Nettoyage BDD", null, panel_5, null);
-		panel_5.setLayout(new GridLayout(1, 0, 0, 0));
+		JPanel nettoyage_Panel = new JPanel();
+		tabbedPane.addTab("Nettoyage BDD", null, nettoyage_Panel, null);
+		nettoyage_Panel.setLayout(new GridLayout(1, 0, 0, 0));
 		
 		JLabel nettoyageLabel = new JLabel("Nettoyage BDD");
-		panel_5.add(nettoyageLabel);
+		nettoyage_Panel.add(nettoyageLabel);
 	}
 }
