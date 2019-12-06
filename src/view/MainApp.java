@@ -52,22 +52,22 @@ public class MainApp {
 		tabbedPane.addTab("New tab", null, panel, null);
 		panel.setLayout(new GridLayout(1, 0, 0, 0));
 		
-		JLabel lblNewLabel = new JLabel("coucou kevin");
+		JLabel lblNewLabel = new JLabel("Livres");
 		panel.add(lblNewLabel);
 		
 		JPanel panel_1 = new JPanel();
-		tabbedPane.addTab("New tab", null, panel_1, null);
+		tabbedPane.addTab("Film", null, panel_1, null);
 		
 		JPanel panel_2 = new JPanel();
-		tabbedPane.addTab("New tab", null, panel_2, null);
+		tabbedPane.addTab("Musique", null, panel_2, null);
 		
 		JPanel panel_3 = new JPanel();
-		tabbedPane.addTab("New tab", null, panel_3, null);
+		tabbedPane.addTab("Artiste", null, panel_3, null);
 		
 		JPanel panel_4 = new JPanel();
-		tabbedPane.addTab("New tab", null, panel_4, null);
+		tabbedPane.addTab("A valider", null, panel_4, null);
 		
 		JPanel panel_5 = new JPanel();
-		tabbedPane.addTab("New tab", null, panel_5, null);
+		tabbedPane.addTab("Nettoyage BDD", null, panel_5, null);
 	}
 }
