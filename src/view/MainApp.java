@@ -49,25 +49,45 @@ public class MainApp {
 		frame.getContentPane().add(tabbedPane);
 		
 		JPanel panel = new JPanel();
-		tabbedPane.addTab("New tab", null, panel, null);
+		tabbedPane.addTab("Livres", null, panel, null);
 		panel.setLayout(new GridLayout(1, 0, 0, 0));
 		
-		JLabel lblNewLabel = new JLabel("Livres");
-		panel.add(lblNewLabel);
+		JLabel livresLabel = new JLabel("Livres");
+		panel.add(livresLabel);
 		
 		JPanel panel_1 = new JPanel();
-		tabbedPane.addTab("Film", null, panel_1, null);
+		tabbedPane.addTab("Films", null, panel_1, null);
+		panel_1.setLayout(new GridLayout(1, 0, 0, 0));
+		
+		JLabel filmsLabel = new JLabel("Films");
+		panel_1.add(filmsLabel);
 		
 		JPanel panel_2 = new JPanel();
-		tabbedPane.addTab("Musique", null, panel_2, null);
+		tabbedPane.addTab("Musiques", null, panel_2, null);
+		panel_2.setLayout(new GridLayout(1, 0, 0, 0));
+		
+		JLabel musiqueLabel = new JLabel("Musiques");
+		panel_2.add(musiqueLabel);
 		
 		JPanel panel_3 = new JPanel();
-		tabbedPane.addTab("Artiste", null, panel_3, null);
+		tabbedPane.addTab("Artistes", null, panel_3, null);
+		panel_3.setLayout(new GridLayout(1, 0, 0, 0));
+		
+		JLabel artistesLabel = new JLabel("Artistes");
+		panel_3.add(artistesLabel);
 		
 		JPanel panel_4 = new JPanel();
 		tabbedPane.addTab("A valider", null, panel_4, null);
+		panel_4.setLayout(new GridLayout(1, 0, 0, 0));
+		
+		JLabel avaliderLabel = new JLabel("A valider");
+		panel_4.add(avaliderLabel);
 		
 		JPanel panel_5 = new JPanel();
 		tabbedPane.addTab("Nettoyage BDD", null, panel_5, null);
+		panel_5.setLayout(new GridLayout(1, 0, 0, 0));
+		
+		JLabel nettoyageLabel = new JLabel("Nettoyage BDD");
+		panel_5.add(nettoyageLabel);
 	}
 }
