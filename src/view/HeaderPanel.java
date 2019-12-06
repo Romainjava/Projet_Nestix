@@ -31,7 +31,7 @@ public class HeaderPanel extends JPanel {
 		GridBagConstraints gbc_header_panel = new GridBagConstraints();
 		gbc_header_panel.fill = GridBagConstraints.BOTH;
 		gbc_header_panel.gridx = 0;
-		gbc_header_panel.gridy = 0;
+		gbc_header_panel.gridy =0;
 		panel.add(header_panel, gbc_header_panel);
 		GridBagLayout gbl_livre_header_panel = new GridBagLayout();
 		gbl_livre_header_panel.columnWeights = elmsSize;
