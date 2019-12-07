@@ -78,6 +78,7 @@ public class MainApp {
 		HeaderPanel livre_header = new HeaderPanel(livres_panel, "Cet onglet permet de renseigner des livres", tabHeader,
 				elmsSize);
 		// === FIN HEADER PANEL LIVRE === //
+		
 		// === ICI MAIN PANEL LIVRE === //
 		MainPanel livre_main = new MainPanel(livre_panel);
 		//Add element
@@ -96,6 +97,7 @@ public class MainApp {
 		livres_aside_panel.ajouterLigne(new Object[] { "toto", null, null, null });
 		// === FIN LIVRE ASIDE === //
 		// === FIN LIVRE PANEL === //
+
 		// === ICI AJOUT FILMS PANEL === //
 		JPanel films_panel = new JPanel();
 		tabbedPane.addTab("Films", null, films_panel, null);
