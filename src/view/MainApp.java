@@ -13,6 +13,10 @@ import java.awt.Color;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JTextField;
 
+import modele.ImageModule;
+import modele.LinkModule;
+import modele.Module;
+
 public class MainApp {
 
 	private JFrame frame;
@@ -62,6 +66,19 @@ public class MainApp {
 		String tabHeader[]={"Titre","ISBN","Année de sortie"};
 		double elmsSize[]= {1.0,1.0,1.0,1.0};
 		HeaderPanel livre_header=new HeaderPanel(livre_panel,"Cet onglet permet de renseigner des livres",tabHeader,elmsSize);
+		
+		//livre main panel//
+		MainPanel livre_main = new MainPanel(livre_panel);
+		//Add element
+		livre_main.addModule(new LinkModule("Personne"), 0, 0);
+		livre_main.addModule(new Module(), 1, 0);
+		livre_main.addModule(new ImageModule(), 2, 0);
+		
+		livre_main.addModule(new LinkModule("Genre"), 0, 1);
+		livre_main.addModule(new Module(), 1, 1);
+		livre_main.addModule(new Module(), 2, 1);
+		
+		
 		JPanel film_Panel = new JPanel();
 		tabbedPane.addTab("Films", null, film_Panel, null);
 		film_Panel.setLayout(new GridLayout(1, 0, 0, 0));
