@@ -17,6 +17,10 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
 import net.miginfocom.swing.MigLayout;
 
+import modele.ImageModule;
+import modele.LinkModule;
+import modele.Module;
+
 public class MainApp {
 
 	private JFrame frame;
@@ -75,7 +79,19 @@ public class MainApp {
 				elmsSize);
 		// === FIN HEADER PANEL LIVRE === //
 		
-		// === ICI ASIDE LIVRE PANEL === //	
+		// === ICI MAIN PANEL LIVRE === //
+		MainPanel livre_main = new MainPanel(livres_panel);
+		//Add element
+		livre_main.addModule(new LinkModule("Personne"), 0, 0);
+		livre_main.addModule(new Module(), 1, 0);
+		livre_main.addModule(new ImageModule(), 2, 0);
+
+		livre_main.addModule(new LinkModule("Genre"), 0, 1);
+		livre_main.addModule(new Module(), 1, 1);
+		livre_main.addModule(new Module(), 2, 1);
+		// === FIN MAIN PANEL LIVRE === //
+
+		// === ICI ASIDE LIVRE PANEL === //
 		AsidePanel livres_aside_panel = new AsidePanel(livres_panel);
 		livres_aside_panel.setDonnees(new Object[][] { { "La boussole d'or", null, null, null }, });
 		livres_aside_panel.ajouterLigne(new Object[] { "toto", null, null, null });
