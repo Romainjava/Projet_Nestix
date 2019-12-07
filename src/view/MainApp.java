@@ -80,7 +80,7 @@ public class MainApp {
 		// === FIN HEADER PANEL LIVRE === //
 		
 		// === ICI MAIN PANEL LIVRE === //
-		MainPanel livre_main = new MainPanel(livre_panel);
+		MainPanel livre_main = new MainPanel(livres_panel);
 		//Add element
 		livre_main.addModule(new LinkModule("Personne"), 0, 0);
 		livre_main.addModule(new Module(), 1, 0);
