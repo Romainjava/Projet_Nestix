@@ -61,20 +61,26 @@ public class MainApp {
 		// === FIN AJOUT DU JTabbedPane === //
 
 		// === ICI AJOUT LIVRE PANEL === //
-		JPanel livre_panel = new JPanel();
-		tabbedPane.addTab("Livres", null, livre_panel, null);
+		JPanel livres_panel = new JPanel();
+		tabbedPane.addTab("Livres", null, livres_panel, null);
 		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWeights = new double[]{3.0,1.0};
-		gbl_panel.rowWeights = new double[]{1.0,3.5,0.5};
-		livre_panel.setLayout(gbl_panel);
+		gbl_panel.columnWeights = new double[] { 3.0, 1.0 };
+		gbl_panel.rowWeights = new double[] { 1.0, 3.5, 0.5 };
+		livres_panel.setLayout(gbl_panel);
 
 		// === ICI HEADER PANEL LIVRE === //
-		String tabHeader[]={"Titre","ISBN","Annï¿½e de sortie"};
-		double elmsSize[]= {1.0,1.0,1.0,1.0};
-		HeaderPanel livre_header=new HeaderPanel(livre_panel,"Cet onglet permet de renseigner des livres",tabHeader,elmsSize);
+		String tabHeader[] = { "Titre", "ISBN", "Année de sortie" };
+		double elmsSize[] = { 1.0, 1.0, 1.0, 1.0 };
+		HeaderPanel livre_header = new HeaderPanel(livres_panel, "Cet onglet permet de renseigner des livres", tabHeader,
+				elmsSize);
 		// === FIN HEADER PANEL LIVRE === //
+		
+		// === ICI ASIDE LIVRE PANEL === //	
+		AsidePanel livres_aside_panel = new AsidePanel(livres_panel);
+		livres_aside_panel.setDonnees(new Object[][] { { "La boussole d'or", null, null, null }, });
+		livres_aside_panel.ajouterLigne(new Object[] { "toto", null, null, null });
+		// === FIN LIVRE ASIDE === //
 		// === FIN LIVRE PANEL === //
-
 
 		// === ICI AJOUT FILMS PANEL === //
 		JPanel films_panel = new JPanel();
@@ -85,27 +91,25 @@ public class MainApp {
 
 		// === DEBUT ASIDE FILMS === //
 		AsidePanel film_aside_panel = new AsidePanel(films_panel);
-		film_aside_panel.setDonnees(new Object[][] {
-				{"seigneur des anneaux", null, null, null},
-			});
-		film_aside_panel.ajouterLigne(new Object[]{"toto",null,null,null});
+		film_aside_panel.setDonnees(new Object[][] { { "seigneur des anneaux", null, null, null }, });
+		film_aside_panel.ajouterLigne(new Object[] { "toto", null, null, null });
 		// === FIN ASIDE FILMS === //
 		// === ICI FIN FILMS PANEL === //
-		
+
 		// === ICI MUSIQUES PANEL === //
 		JPanel musiques_panel = new JPanel();
 		tabbedPane.addTab("Musiques", null, musiques_panel, null);
 		musiques_panel.setLayout(new GridLayout(1, 0, 0, 0));
-		
+
 		JLabel musiques_label = new JLabel("Musiques");
 		musiques_panel.add(musiques_label);
 		// === ICI FIN MUSIQUES PANEL === //
-		
+
 		// === ICI ARTISTES PANEL === //
 		JPanel artistes_panel = new JPanel();
 		tabbedPane.addTab("Artistes", null, artistes_panel, null);
 		artistes_panel.setLayout(new GridLayout(1, 0, 0, 0));
-		
+
 		JLabel artistes_label = new JLabel("Artistes");
 		artistes_panel.add(artistes_label);
 		// === ICI FIN ARTISTES PANEL === //
@@ -118,52 +122,6 @@ public class MainApp {
 		JLabel avaliderLabel = new JLabel("A valider");
 		a_valider_panel.add(avaliderLabel);
 		// === ICI FIN A VALIDER PANEL === //
-
-		// ==== ICI LIVRE PANEL ==== //
-		JPanel livres_panel = new JPanel();
-		tabbedPane.addTab("Livres", null, livres_panel, null);
-		GridBagLayout gbl_livres_panel = new GridBagLayout();
-		gbl_livres_panel.columnWeights = new double[] {3.0 };
-		gbl_livres_panel.rowWeights = new double[] { 1.0, 3.0, 2.0 };
-		livres_panel.setLayout(gbl_livres_panel);
-
-		JPanel livres_header_panel = new JPanel();
-		livres_header_panel.setBackground(Color.GREEN);
-		GridBagConstraints gbc_livres_header_panel = new GridBagConstraints();
-		gbc_livres_header_panel.insets = new Insets(0, 0, 5, 5);
-		gbc_livres_header_panel.fill = GridBagConstraints.BOTH;
-		gbc_livres_header_panel.gridx = 0;
-		gbc_livres_header_panel.gridy = 0;
-		livres_panel.add(livres_header_panel, gbc_livres_header_panel);
-		
-		JPanel livres_main_panel = new JPanel();
-		livres_main_panel.setBackground(Color.RED);
-		GridBagConstraints gbc_livres_main_panel = new GridBagConstraints();
-		gbc_livres_main_panel.insets = new Insets(0, 0, 0, 5);
-		gbc_livres_main_panel.fill = GridBagConstraints.BOTH;
-		gbc_livres_main_panel.gridx = 0;
-		gbc_livres_main_panel.gridy = 1;
-		livres_panel.add(livres_main_panel, gbc_livres_main_panel);
-		
-		
-		// === DEBUT LIVRES ASIDE === //
-		AsidePanel livres_aside_panel = new AsidePanel(livres_panel);
-		livres_aside_panel.setDonnees(new Object[][] {
-			{"La boussole d'or", null, null, null},
-		});
-		livres_aside_panel.ajouterLigne(new Object[]{"toto",null,null,null});
-		// === FIN LIVRE ASIDE === //
-		
-		// === DEBUT LIVRES FOOTER PANEL === //
-		JPanel livres_footer_panel = new JPanel();
-		livres_footer_panel.setBackground(Color.CYAN);
-		GridBagConstraints gbc_livres_footer_panel = new GridBagConstraints();
-		gbc_livres_footer_panel.insets = new Insets(0, 0, 0, 5);
-		gbc_livres_footer_panel.fill = GridBagConstraints.BOTH;
-		gbc_livres_footer_panel.gridx = 0;
-		gbc_livres_footer_panel.gridy = 2;
-		livres_panel.add(livres_footer_panel, gbc_livres_footer_panel);
-		// === ICI FIN LIVRES PANEL === //
 
 		// === ICI AJOUT NETTOYAGE BDD === //
 		JPanel netoyagebdd_panel = new JPanel();
