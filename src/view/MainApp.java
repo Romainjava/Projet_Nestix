@@ -69,7 +69,7 @@ public class MainApp {
 		livres_panel.setLayout(gbl_panel);
 
 		// === ICI HEADER PANEL LIVRE === //
-		String tabHeader[] = { "Titre", "ISBN", "Année de sortie" };
+		String tabHeader[] = { "Titre", "ISBN", "Annee de sortie" };
 		double elmsSize[] = { 1.0, 1.0, 1.0, 1.0 };
 		HeaderPanel livre_header = new HeaderPanel(livres_panel, "Cet onglet permet de renseigner des livres", tabHeader,
 				elmsSize);
