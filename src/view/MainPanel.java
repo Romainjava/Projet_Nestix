@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 
 import modele.*;
+import modele.Module;
 
 public class MainPanel extends JPanel{
 	
