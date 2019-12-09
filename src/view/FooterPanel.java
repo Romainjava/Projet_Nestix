@@ -34,7 +34,6 @@ public class FooterPanel extends JPanel{
 		gbl_footer_panel.columnWeights = elmsSize;
 		gbl_footer_panel.rowWeights = new double[]{1.0};
 		footer_panel.setLayout(gbl_footer_panel);
-		System.out.println(elmsSize[0]);
 		
 		int i = 0;
 		for (String textBouton : tab) {
