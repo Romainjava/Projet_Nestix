@@ -69,8 +69,7 @@ public class MainApp {
 		double elmsSize[] = { 1.0, 1.0, 1.0, 1.0 };
 		HeaderPanel livre_header = new HeaderPanel(livres_panel, "Cet onglet permet de renseigner des livres", tabHeader,
 				elmsSize);
-		// == FIN HEADER == //
-		
+    
 		// === DEBUT MAIN LIVRE === //
 		MainPanel livre_main = new MainPanel(livres_panel);
 		//Add element
