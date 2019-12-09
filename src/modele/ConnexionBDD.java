@@ -7,12 +7,12 @@ import java.sql.SQLException;
 public class ConnexionBDD {
 
 	public static Connection startConnection() {		
-		String url = "jdbc:mysql://grp1.needemand.com:3306/c4commune?autoReconnect=true";
+		String url = "jdbc:mariadb://grp1.needemand.com:3306/c4commune?autoReconnect=true";
 		String utilisateur = "c4grp1";
-		String motDePasse = "CDAgrp134";    
+		String motDePasse = "CDAgrp134";
 		Connection co = null;
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
+			Class.forName("org.mariadb.jdbc.Driver");
 			co = (Connection) DriverManager.getConnection(url, utilisateur, motDePasse);
 			if (!co.isClosed()) {
 				System.out.println(

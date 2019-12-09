@@ -84,7 +84,7 @@ public class MainApp {
 		// == FIN MAIN == //
 		
 		// === DEBUT FOOTER LIVRE === //
-		String textBouton[] = {"Cr�er", "Modifier", "Supprimer"};
+		String textBouton[] = {"Creer", "Modifier", "Supprimer"};
 		double elmsSizeFooter[] = {1.0, 1.0, 1.0};
 		FooterPanel livre_footer_panel = new FooterPanel(livres_panel, textBouton, elmsSizeFooter);
 		// == FIN FOOTER == //
