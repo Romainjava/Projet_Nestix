@@ -12,7 +12,7 @@ import javax.swing.JTextField;
 
 public class HeaderPanel extends JPanel {
 	
-	private JTextField livre_header_entete_textField;
+	private JTextField header_entete_textField;
 	private ArrayList<JTextField> JtextArrray;
 	
 	public ArrayList<JTextField> getJtextArrray() {
@@ -55,15 +55,15 @@ public class HeaderPanel extends JPanel {
 			gbc_header_entete_label.gridy = 1;
 			header_panel.add(header_entete_label, gbc_header_entete_label);
 			
-			livre_header_entete_textField = new JTextField();
+			header_entete_textField = new JTextField();
 			GridBagConstraints gbc_header_entete_textField = new GridBagConstraints();
 			gbc_header_entete_textField.insets = new Insets(0, 0, 0, 5);
 			gbc_header_entete_textField.fill = GridBagConstraints.BOTH;
 			gbc_header_entete_textField.gridx = i;
 			gbc_header_entete_textField.gridy = 2;
-			header_panel.add(livre_header_entete_textField, gbc_header_entete_textField);
-			livre_header_entete_textField.setColumns(10);
-			JtextArrray.add(livre_header_entete_textField);
+			header_panel.add(header_entete_textField, gbc_header_entete_textField);
+			header_entete_textField.setColumns(10);
+			JtextArrray.add(header_entete_textField);
 			i++;
 		}
 	}
