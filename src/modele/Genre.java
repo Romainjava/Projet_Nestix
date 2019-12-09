@@ -1,6 +1,7 @@
 package modele;
 
 public class Genre implements I_requeteSQL {
+
 	
 	private int id_genre;
 	private String nom_genre;
