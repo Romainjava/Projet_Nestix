@@ -10,9 +10,6 @@ import java.awt.GridBagLayout;
 import javax.swing.JButton;
 import java.awt.GridBagConstraints;
 import java.awt.Color;
-import modele.ImageModule;
-import modele.LinkModule;
-import modele.Module;
 
 public class MainApp {
 
@@ -98,8 +95,7 @@ public class MainApp {
 		JPanel films_panel = new JPanel();
 		tabbedPane.addTab("Films", null, films_panel, null);
 		films_panel.setLayout(new GridLayout(1, 0, 0, 0));
-		JLabel films_label = new JLabel("Films");
-		films_panel.add(films_label);
+
 
 		// === DEBUT ASIDE FILMS === //
 		AsidePanel film_aside_panel = new AsidePanel(films_panel);
@@ -113,8 +109,6 @@ public class MainApp {
 		tabbedPane.addTab("Musiques", null, musiques_panel, null);
 		musiques_panel.setLayout(new GridLayout(1, 0, 0, 0));
 
-		JLabel musiques_label = new JLabel("Musiques");
-		musiques_panel.add(musiques_label);
 		// === ICI FIN MUSIQUES PANEL === //
 
 		// === ICI ARTISTES PANEL === //
@@ -122,8 +116,6 @@ public class MainApp {
 		tabbedPane.addTab("Artistes", null, artistes_panel, null);
 		artistes_panel.setLayout(new GridLayout(1, 0, 0, 0));
 
-		JLabel artistes_label = new JLabel("Artistes");
-		artistes_panel.add(artistes_label);
 		// === ICI FIN ARTISTES PANEL === //
 
 		// === ICI A VALIDER PANEL === //
@@ -131,8 +123,6 @@ public class MainApp {
 		tabbedPane.addTab("A valider", null, a_valider_panel, null);
 		a_valider_panel.setLayout(new GridLayout(1, 0, 0, 0));
 
-		JLabel avaliderLabel = new JLabel("A valider");
-		a_valider_panel.add(avaliderLabel);
 		// === ICI FIN A VALIDER PANEL === //
 
 		// === ICI AJOUT NETTOYAGE BDD === //
@@ -140,8 +130,6 @@ public class MainApp {
 		tabbedPane.addTab("Nettoyage BDD", null, netoyagebdd_panel, null);
 		netoyagebdd_panel.setLayout(new GridLayout(1, 0, 0, 0));
 
-		JLabel nettoyageLabel = new JLabel("Nettoyage BDD");
-		netoyagebdd_panel.add(nettoyageLabel);
 		// === ICI FIN AJOUT NETTOYAGE BDD === //
 
 	}

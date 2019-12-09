@@ -1,4 +1,4 @@
-package modele;
+package view;
 
 import javax.swing.JTextField;
 
