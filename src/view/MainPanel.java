@@ -11,7 +11,7 @@ import modele.*;
 
 public class MainPanel extends JPanel{
 	
-	private ArrayList<Module> moduleList = new ArrayList<>();
+	private ArrayList<Mogitdule> moduleList = new ArrayList<>();
 
 	public MainPanel(JPanel fPanel) {
 		super();
