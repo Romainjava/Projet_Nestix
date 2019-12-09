@@ -1,24 +1,24 @@
 package modele;
 
-public class Genre extends ConnexionBDD implements RequetesSql {
-	
-	private int id_genre;
-	private String nom_genre;
+public class Saga extends ConnexionBDD implements RequetesSql {
 
-	public int getId_genre() {
-		return id_genre;
+	private int id_saga;
+	private String nom_saga;
+
+	public String getNom_saga() {
+		return nom_saga;
 	}
 
-	public void setId_genre(int id_genre) {
-		this.id_genre = id_genre;
+	public void setNom_saga(String nom_saga) {
+		this.nom_saga = nom_saga;
 	}
 
-	public String getNom_genre() {
-		return nom_genre;
+	public int getId_sage() {
+		return id_saga;
 	}
 
-	public void setNom_genre(String nom_genre) {
-		this.nom_genre = nom_genre;
+	public void setId_sage(int id_sage) {
+		this.id_saga = id_sage;
 	}
 
 	@Override
@@ -47,7 +47,6 @@ public class Genre extends ConnexionBDD implements RequetesSql {
 
 	@Override
 	public String toString() {
-		return "Genre [id_genre=" + id_genre + ", nom_genre=" + nom_genre + "]";
+		return "Saga [id_saga=" + id_saga + ", nom_saga=" + nom_saga + "]";
 	}
-
 }
