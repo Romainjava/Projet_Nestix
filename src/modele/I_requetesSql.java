@@ -1,6 +1,6 @@
 package modele;
 
-public interface RequetesSql {
+public interface I_requetesSql {
 
 	boolean creation();
 	boolean modification();

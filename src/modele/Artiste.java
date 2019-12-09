@@ -1,12 +1,16 @@
 package modele;
 
-public class Artiste extends ConnexionBDD implements RequetesSql {
+import java.util.ArrayList;
+
+public class Artiste extends ConnexionBDD implements I_requetesSql {
 
 	private int id_artiste;
 	private String nom_artiste;
 	private String prenom_artiste;
 	private String surnom_artiste;
 	private String dob_artiste;
+	private ArrayList<Metier> metiers_artiste;
+	private Metier metier;
 
 	public int getId_artiste() {
 		return id_artiste;
@@ -46,6 +50,22 @@ public class Artiste extends ConnexionBDD implements RequetesSql {
 
 	public void setDob_artiste(String dob_artiste) {
 		this.dob_artiste = dob_artiste;
+	}
+
+	public Metier getArtiste() {
+		return metier;
+	}
+
+	public void setArtiste(Metier artiste) {
+		this.metier = artiste;
+	}
+
+	public ArrayList<Metier> getMetiers_artiste() {
+		return metiers_artiste;
+	}
+
+	public void setMetiers_artiste(ArrayList<Metier> metiers_artiste) {
+		this.metiers_artiste = metiers_artiste;
 	}
 
 	@Override

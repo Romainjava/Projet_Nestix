@@ -1,6 +1,6 @@
 package modele;
 
-public class Saga extends ConnexionBDD implements RequetesSql {
+public class Saga extends ConnexionBDD implements I_requetesSql {
 
 	private int id_saga;
 	private String nom_saga;
