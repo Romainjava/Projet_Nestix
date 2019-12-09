@@ -57,15 +57,15 @@ public class MainApp {
 		JPanel livres_panel = new JPanel();
 		tabbedPane.addTab("Livres", null, livres_panel, null);
 		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWeights = new double[] { 3.0, 1.0 };
-		gbl_panel.rowWeights = new double[] { 1.0, 3.5, 0.5 };
+		gbl_panel.columnWeights = new double[] { 3.0 };
+		gbl_panel.rowWeights = new double[] { 1.0, 3.5 };
 		livres_panel.setLayout(gbl_panel);
 
 		// === DEBUT HEADER LIVRE === //
-		String tabHeader[] = { "Titre", "ISBN", "Annee de sortie" };
+		/*String tabHeader[] = { "Titre", "ISBN", "Annee de sortie" };
 		double elmsSize[] = { 1.0, 1.0, 1.0, 1.0 };
 		HeaderPanel livre_header = new HeaderPanel(livres_panel, "Cet onglet permet de renseigner des livres",
-				tabHeader, elmsSize);
+				tabHeader, elmsSize);*/
 
 		// === DEBUT MAIN LIVRE === //
 		MainPanel livre_main = new MainPanel(livres_panel);
@@ -87,12 +87,6 @@ public class MainApp {
 
 		// === DEBUT ASIDE LIVRE === //
 		C_Livre livres_aside_panel = new C_Livre(livres_panel);
-		livres_aside_panel.ajouteTab();
-//		AsidePanel livres_aside_panel = new AsidePanel(livres_panel);
-//		livres_aside_panel.setEntetes(new String[] { "Titre", "ISBN", "Genre", "Etat", "Annee" });
-//		livres_aside_panel.setDonnees(new Object[][] { { "La boussole d'or", "toto en vacance", "valide", "2010" }, });
-//		livres_aside_panel.ajouterLigne(new Object[] { "toto", "tata et toto", null, null });
-
 		// == FIN ASIDE == //
 
 		// ===== FIN LIVRE ===== //

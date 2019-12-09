@@ -4,26 +4,39 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.MouseAdapter;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+
+import com.sun.glass.events.MouseEvent;
+
+import modele.Media;
 import net.miginfocom.swing.MigLayout;
 
 @SuppressWarnings("serial")
 public class AsidePanel extends JPanel {
+	
+
 	private JPanel panel_recherche;
 	private JLabel label_titre;
 	private JTextField textfield_recherche;
 	private JTable table_result;
-	private Object donnees[][]= {{null,null,null,null}};
-	private String entetes[]= { "Titre", "Genre", "Etat", "Date de sortie" };
-	DefaultTableModel tab_model = new DefaultTableModel(donnees, entetes);
-	
+	private Object donnees[][] = { { null, null, null, null } };
+	private String entetes[] = { "Titre", "Genre", "Etat", "Date de sortie" };
+	DefaultTableModel tab_model = new DefaultTableModel(donnees, entetes) {
+		//empêche l'edition du tableau en surchargeant la class pendant la définition
+		public boolean isCellEditable(int row, int col) {
+			return false;
+		};
+	};
+
 	public AsidePanel(JPanel panel_container) {
-		
+
 		this.setBackground(Color.LIGHT_GRAY);
 		GridBagConstraints gbc_aside_panel = new GridBagConstraints();
 		gbc_aside_panel.gridheight = 3;
@@ -32,8 +45,7 @@ public class AsidePanel extends JPanel {
 		gbc_aside_panel.gridx = 1;
 		gbc_aside_panel.gridy = 0;
 		panel_container.add(this, gbc_aside_panel);
-		
-		
+
 		GridBagLayout gbl_aside_panel = new GridBagLayout();
 		gbl_aside_panel.columnWeights = new double[] { 1.0 };
 		gbl_aside_panel.rowWeights = new double[] { 0.2, 0.8 };
@@ -65,8 +77,9 @@ public class AsidePanel extends JPanel {
 		table_result = new JTable();
 		scrollPane.setViewportView(table_result);
 		table_result.setModel(tab_model);
+		
 	}
-	
+
 	public String[] getEntetes() {
 		return entetes;
 	}
@@ -83,7 +96,6 @@ public class AsidePanel extends JPanel {
 		return donnees;
 	}
 
-	
 	public void ajouterLigne(Object[] rowData) {
 		tab_model.addRow(rowData);
 	}
@@ -93,9 +105,10 @@ public class AsidePanel extends JPanel {
 		this.tab_model.setRowCount(0); // vide le tableau
 		for (Object[] objects : donnees) {
 			ajouterLigne(objects);
-		}		
+		}
 	}
 
-	
-	
+	public JTable getTable_result() {
+		return this.table_result;
+	}
 }
