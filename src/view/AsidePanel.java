@@ -67,6 +67,18 @@ public class AsidePanel extends JPanel {
 		table_result.setModel(tab_model);
 	}
 	
+	public String[] getEntetes() {
+		return entetes;
+	}
+
+	public void setEntetes(String[] entetes) {
+		this.entetes = entetes;
+		tab_model.setColumnCount(0);
+		for (String string : entetes) {
+			tab_model.addColumn(string);
+		}
+	}
+
 	public Object[][] getDonnees() {
 		return donnees;
 	}

@@ -4,8 +4,20 @@ public class Livre extends Media {
 	private String resume_livre;
 	private int tome_livre;
 	private int ISBN;
+	private String titre;
+	private String annee;
 	
-
+	
+	public String[] toRowData() {
+		String[] data = {this.titre, this.ISBN + "", this.annee};
+		return data;
+	}
+	
+	public String[] toHeaderData() {
+		String[] data = {"Titre","ISBN", "Genre", "Annee"};
+		return data;
+	}
+	
 	public String getResume_livre() {
 		return resume_livre;
 	}

@@ -2,7 +2,9 @@ package modele;
 
 import java.util.ArrayList;
 
-public abstract class Media extends ConnexionBDD implements I_requetesSql {
+import view.I_dataListable;
+
+public abstract class Media extends ConnexionBDD implements I_requeteSQL,I_dataListable {
 	
 	private int id_media;
 	private String titre_media;
