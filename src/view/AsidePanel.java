@@ -25,27 +25,27 @@ public class AsidePanel extends JPanel {
 	public AsidePanel(JPanel panel_container) {
 		
 		this.setBackground(Color.LIGHT_GRAY);
-		GridBagConstraints gbc_livre_aside_panel = new GridBagConstraints();
-		gbc_livre_aside_panel.gridheight = 3;
-		gbc_livre_aside_panel.gridwidth = 1;
-		gbc_livre_aside_panel.fill = GridBagConstraints.BOTH;
-		gbc_livre_aside_panel.gridx = 1;
-		gbc_livre_aside_panel.gridy = 0;
-		panel_container.add(this, gbc_livre_aside_panel);
+		GridBagConstraints gbc_aside_panel = new GridBagConstraints();
+		gbc_aside_panel.gridheight = 3;
+		gbc_aside_panel.gridwidth = 1;
+		gbc_aside_panel.fill = GridBagConstraints.BOTH;
+		gbc_aside_panel.gridx = 1;
+		gbc_aside_panel.gridy = 0;
+		panel_container.add(this, gbc_aside_panel);
 		
 		
-		GridBagLayout gbl_livre_aside_panel = new GridBagLayout();
-		gbl_livre_aside_panel.columnWeights = new double[] { 1.0 };
-		gbl_livre_aside_panel.rowWeights = new double[] { 0.2, 0.8 };
-		this.setLayout(gbl_livre_aside_panel);
+		GridBagLayout gbl_aside_panel = new GridBagLayout();
+		gbl_aside_panel.columnWeights = new double[] { 1.0 };
+		gbl_aside_panel.rowWeights = new double[] { 0.2, 0.8 };
+		this.setLayout(gbl_aside_panel);
 
 		panel_recherche = new JPanel();
-		GridBagConstraints gbc_livre_aside_panel_recherche = new GridBagConstraints();
-		gbc_livre_aside_panel_recherche.fill = GridBagConstraints.BOTH;
-		gbc_livre_aside_panel_recherche.insets = new Insets(0, 0, 5, 0);
-		gbc_livre_aside_panel_recherche.gridx = 0;
-		gbc_livre_aside_panel_recherche.gridy = 0;
-		this.add(panel_recherche, gbc_livre_aside_panel_recherche);
+		GridBagConstraints gbc_aside_panel_recherche = new GridBagConstraints();
+		gbc_aside_panel_recherche.fill = GridBagConstraints.BOTH;
+		gbc_aside_panel_recherche.insets = new Insets(0, 0, 5, 0);
+		gbc_aside_panel_recherche.gridx = 0;
+		gbc_aside_panel_recherche.gridy = 0;
+		this.add(panel_recherche, gbc_aside_panel_recherche);
 		panel_recherche.setLayout(new MigLayout("", "[grow,center]", "[50px,center][20px,center]"));
 
 		label_titre = new JLabel("Recherche");
