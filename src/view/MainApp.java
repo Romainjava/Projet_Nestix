@@ -8,15 +8,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.GridLayout;
 import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.Color;
-import javax.swing.JTextField;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.JScrollPane;
-import net.miginfocom.swing.MigLayout;
-
 import modele.ImageModule;
 import modele.LinkModule;
 import modele.Module;
@@ -24,9 +15,6 @@ import modele.Module;
 public class MainApp {
 
 	private JFrame frame;
-	private JTextField livre_aside_recherche_textfield;
-	private JTable livre_aside_tableau_jtable;
-
 	/**
 	 * Launch the application.
 	 */
