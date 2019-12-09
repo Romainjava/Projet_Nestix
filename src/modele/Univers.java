@@ -1,6 +1,6 @@
 package modele;
 
-public class Univers extends ConnexionBDD implements I_requeteSQL{
+public class Univers implements I_requeteSQL{
 
 	private int id_univers;
 	private String nom_univer;

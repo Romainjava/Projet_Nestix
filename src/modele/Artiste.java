@@ -1,8 +1,9 @@
 package modele;
 
+
+public class Artiste implements I_requeteSQL {
 import java.util.ArrayList;
 
-public class Artiste extends ConnexionBDD implements I_requetesSql {
 
 	private int id_artiste;
 	private String nom_artiste;

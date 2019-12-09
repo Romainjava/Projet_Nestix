@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import view.I_dataListable;
 
-public abstract class Media extends ConnexionBDD implements I_requeteSQL,I_dataListable {
+public abstract class Media implements I_requeteSQL,I_dataListable {
 	
 	private int id_media;
 	private String titre_media;
