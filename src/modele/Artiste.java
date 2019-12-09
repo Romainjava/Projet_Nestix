@@ -1,6 +1,6 @@
 package modele;
 
-public class Artiste extends ConnexionBDD implements I_requeteSQL {
+public class Artiste implements I_requeteSQL {
 
 	private int id_artiste;
 	private String nom_artiste;
