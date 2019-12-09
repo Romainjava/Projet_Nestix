@@ -3,6 +3,8 @@ package view;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
+
+import controller.C_Livre;
 import modele.ConnexionBDD;
 import javax.swing.JPanel;
 import java.awt.GridLayout;
@@ -84,10 +86,12 @@ public class MainApp {
 		// == FIN FOOTER == //
 
 		// === DEBUT ASIDE LIVRE === //
-		AsidePanel livres_aside_panel = new AsidePanel(livres_panel);
-		livres_aside_panel.setEntetes(new String[] { "Titre", "ISBN", "Genre", "Etat", "Annee" });
-		livres_aside_panel.setDonnees(new Object[][] { { "La boussole d'or", "toto en vacance", "valide", "2010" }, });
-		livres_aside_panel.ajouterLigne(new Object[] { "toto", "tata et toto", null, null });
+		C_Livre livres_aside_panel = new C_Livre(livres_panel);
+		livres_aside_panel.ajouteTab();
+//		AsidePanel livres_aside_panel = new AsidePanel(livres_panel);
+//		livres_aside_panel.setEntetes(new String[] { "Titre", "ISBN", "Genre", "Etat", "Annee" });
+//		livres_aside_panel.setDonnees(new Object[][] { { "La boussole d'or", "toto en vacance", "valide", "2010" }, });
+//		livres_aside_panel.ajouterLigne(new Object[] { "toto", "tata et toto", null, null });
 
 		// == FIN ASIDE == //
 

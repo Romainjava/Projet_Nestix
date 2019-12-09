@@ -41,5 +41,17 @@ public class Musiques extends Media {
 		return "Musiques [duree_musique=" + duree_musique + ", toString()=" + super.toString() + "]";
 	}
 
+	@Override
+	public String[] toRowData() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String[] toHeaderData() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
 }

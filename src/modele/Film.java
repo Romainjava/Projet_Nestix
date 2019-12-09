@@ -51,4 +51,16 @@ public class Film extends Media {
 				+ "]";
 	}
 
+	@Override
+	public String[] toRowData() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String[] toHeaderData() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

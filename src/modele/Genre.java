@@ -1,6 +1,6 @@
 package modele;
 
-public class Genre extends ConnexionBDD implements RequetesSql {
+public class Genre extends ConnexionBDD implements I_requeteSQL {
 	
 	private int id_genre;
 	private String nom_genre;
