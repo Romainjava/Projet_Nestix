@@ -1,24 +1,15 @@
 package modele;
 
-public class Genre extends ConnexionBDD implements RequetesSql {
+public class Musiques extends Media {
 	
-	private int id_genre;
-	private String nom_genre;
+	private int duree_musique;
 
-	public int getId_genre() {
-		return id_genre;
+	public int getDuree_musique() {
+		return duree_musique;
 	}
 
-	public void setId_genre(int id_genre) {
-		this.id_genre = id_genre;
-	}
-
-	public String getNom_genre() {
-		return nom_genre;
-	}
-
-	public void setNom_genre(String nom_genre) {
-		this.nom_genre = nom_genre;
+	public void setDuree_musique(int duree_musique) {
+		this.duree_musique = duree_musique;
 	}
 
 	@Override
@@ -47,7 +38,8 @@ public class Genre extends ConnexionBDD implements RequetesSql {
 
 	@Override
 	public String toString() {
-		return "Genre [id_genre=" + id_genre + ", nom_genre=" + nom_genre + "]";
+		return "Musiques [duree_musique=" + duree_musique + ", toString()=" + super.toString() + "]";
 	}
 
+	
 }
