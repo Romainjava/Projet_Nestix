@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class ConnexionBDD {
 
-	public static Connection startConnection() {		
+	public static Connection startConnection() {
 		String url = "jdbc:mariadb://grp1.needemand.com:3306/c4commune?autoReconnect=true";
 		String utilisateur = "c4grp1";
 		String motDePasse = "CDAgrp134";
@@ -22,9 +22,9 @@ public class ConnexionBDD {
 		} catch (ClassNotFoundException | SQLException e) {
 			System.err.println("Exception: " + e.getMessage());
 		}
-		return co;	    
+		return co;
 	}
-	
+
 	public static void closeConnection(Connection co) {
 		if (co != null) {
 			try {
