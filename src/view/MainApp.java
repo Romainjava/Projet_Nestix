@@ -9,9 +9,6 @@ import java.awt.GridBagLayout;
 import javax.swing.JButton;
 import java.awt.GridBagConstraints;
 import java.awt.Color;
-import modele.ImageModule;
-import modele.LinkModule;
-import modele.Module;
 
 public class MainApp {
 
