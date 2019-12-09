@@ -2,6 +2,7 @@ package view;
 
 import java.awt.EventQueue;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JTabbedPane;
 import javax.swing.JPanel;
 import java.awt.GridLayout;
@@ -78,7 +79,7 @@ public class MainApp {
 		// === FIN MAIN PANEL LIVRE === //
 		
 		// === ICI FOOTER PANEL LIVRE === //
-		String textBouton[] = {"Créer", "Modifier", "Supprimer"};
+		String textBouton[] = {"Crï¿½er", "Modifier", "Supprimer"};
 		double elmsSizeFooter[] = {1.0, 1.0, 1.0};
 		FooterPanel livre_footer_panel = new FooterPanel(livres_panel, textBouton, elmsSizeFooter);
 		// === FIN FOOTER PANEL LIVRE === //

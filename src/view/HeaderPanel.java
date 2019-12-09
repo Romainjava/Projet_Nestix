@@ -33,18 +33,18 @@ public class HeaderPanel extends JPanel {
 		gbc_header_panel.gridx = 0;
 		gbc_header_panel.gridy =0;
 		panel.add(header_panel, gbc_header_panel);
-		GridBagLayout gbl_livre_header_panel = new GridBagLayout();
-		gbl_livre_header_panel.columnWeights = elmsSize;
-		gbl_livre_header_panel.rowWeights = new double[]{1.0, 1.0, 1.0};
-		header_panel.setLayout(gbl_livre_header_panel);
+		GridBagLayout gbl_header_panel = new GridBagLayout();
+		gbl_header_panel.columnWeights = elmsSize;
+		gbl_header_panel.rowWeights = new double[]{1.0, 1.0, 1.0};
+		header_panel.setLayout(gbl_header_panel);
 		
 		JLabel livre_header_info_label = new JLabel(infoOnglet);
-		GridBagConstraints gbc_livre_header_info_label = new GridBagConstraints();
-		gbc_livre_header_info_label.gridwidth = 3;
-		gbc_livre_header_info_label.anchor = GridBagConstraints.WEST;
-		gbc_livre_header_info_label.gridx = 0;
-		gbc_livre_header_info_label.gridy = 0;
-		header_panel.add(livre_header_info_label, gbc_livre_header_info_label);
+		GridBagConstraints gbc_header_info_label = new GridBagConstraints();
+		gbc_header_info_label.gridwidth = 3;
+		gbc_header_info_label.anchor = GridBagConstraints.WEST;
+		gbc_header_info_label.gridx = 0;
+		gbc_header_info_label.gridy = 0;
+		header_panel.add(livre_header_info_label, gbc_header_info_label);
 		int i = 0;
 		
 		for (String entete : tab) {
