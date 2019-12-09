@@ -4,6 +4,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTabbedPane;
+
+import modele.ConnexionBDD;
+
 import javax.swing.JPanel;
 import java.awt.GridLayout;
 import java.awt.GridBagLayout;
@@ -45,6 +48,8 @@ public class MainApp {
 		frame.setBounds(100, 0, 1000, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new GridLayout(1, 0, 0, 0));
+		
+		ConnexionBDD.startConnection();
 
 		// === ICI AJOUT DU JTabbedPane === //
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
