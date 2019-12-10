@@ -51,40 +51,14 @@ public class MainApp {
 
 		// ====== DEBUT LIVRE PANEL ====== //
 
-		JPanel livres_panel = new JPanel();
-		tabbedPane.addTab("Livres", null, livres_panel, null);
+		JPanel livres_panel = new JPanel();		
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWeights = new double[] { 3.0 };
 		gbl_panel.rowWeights = new double[] { 1.0, 3.5 };
 		livres_panel.setLayout(gbl_panel);
-
-		// === DEBUT HEADER LIVRE === //
-		/*String tabHeader[] = { "Titre", "ISBN", "Annee de sortie" };
-		double elmsSize[] = { 1.0, 1.0, 1.0, 1.0 };
-		HeaderPanel livre_header = new HeaderPanel(livres_panel, "Cet onglet permet de renseigner des livres",
-				tabHeader, elmsSize);*/
-
-		// === DEBUT MAIN LIVRE === //
-		MainPanel livre_main = new MainPanel(livres_panel);
-		// Add element
-		livre_main.addModule(new LinkModule("Personne"), 0, 0);
-		livre_main.addModule(new Module(), 1, 0);
-		livre_main.addModule(new ImageModule(), 2, 0);
-
-		livre_main.addModule(new LinkModule("Genre"), 0, 1);
-		livre_main.addModule(new Module(), 1, 1);
-		livre_main.addModule(new Module(), 2, 1);
-		// == FIN MAIN == //
-
-		// === DEBUT FOOTER LIVRE === //
-		String textBouton[] = { "Creer", "Modifier", "Supprimer" };
-		double elmsSizeFooter[] = { 1.0, 1.0, 1.0 };
-		FooterPanel livre_footer_panel = new FooterPanel(livres_panel, textBouton, elmsSizeFooter);
-		// == FIN FOOTER == //
-
-		// === DEBUT ASIDE LIVRE === //
-		C_Livre livres_aside_panel = new C_Livre(livres_panel);
-		// == FIN ASIDE == //
+		tabbedPane.addTab("Livres", null, livres_panel, null);
+		// === Construction du livre panel === //
+		C_Livre livres_controler_panel = new C_Livre(livres_panel);
 
 		// ===== FIN LIVRE ===== //
 
