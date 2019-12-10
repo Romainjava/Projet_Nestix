@@ -12,9 +12,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
-
-import com.sun.glass.events.MouseEvent;
-
 import modele.Media;
 import net.miginfocom.swing.MigLayout;
 
