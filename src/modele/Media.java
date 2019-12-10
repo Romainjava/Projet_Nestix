@@ -70,4 +70,7 @@ public abstract class Media implements I_requeteSQL,I_dataListable,I_recherche {
 	public void addGenre(Genre genre) {
 		this.genres.add(genre);
 	}
+	public void addArtiste(Artiste artiste) {
+		this.artistes.add(artiste);
+	}
 }
