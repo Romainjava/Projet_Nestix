@@ -1,6 +1,8 @@
 package modele;
 
-public class Saga implements I_requeteSQL {
+import java.util.ArrayList;
+
+public class Saga implements I_requeteSQL,I_recherche {
 
 	private int id_saga;
 	private String nom_saga;
@@ -48,5 +50,29 @@ public class Saga implements I_requeteSQL {
 	public boolean suppression(int id) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public ArrayList<I_recherche> lectureTout(int limit) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean recherchePar(int limit) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Object[] toRowData() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String[] toHeaderData() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

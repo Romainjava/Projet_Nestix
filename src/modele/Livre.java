@@ -6,12 +6,10 @@ public class Livre extends Media {
 	private String resume_livre;
 	private int tome_livre;
 	private int ISBN;
-	private String titre;
-	private String annee;
 	
 	
 	public String[] toRowData() {
-		String[] data = {this.titre, this.ISBN + "", this.annee};
+		String[] data = {this.titre_media, this.ISBN + "", this.annee_sortie_media};
 		return data;
 	}
 	
@@ -81,20 +79,9 @@ public class Livre extends Media {
 	}
 
 	@Override
-	public boolean rechercheParSurnom(int limit) {
+	public boolean recherchePar(int limit) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
-	public boolean rechercheParTitre(int limit) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean rechercheParAnnee(int limit) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 }

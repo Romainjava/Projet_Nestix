@@ -101,25 +101,6 @@ public class Artiste implements I_requeteSQL,I_recherche {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	@Override
-	public boolean rechercheParSurnom(int limit) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean rechercheParTitre(int limit) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean rechercheParAnnee(int limit) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 	@Override
 	public Object[] toRowData() {
 		// TODO Auto-generated method stub
@@ -130,5 +111,16 @@ public class Artiste implements I_requeteSQL,I_recherche {
 	public String[] toHeaderData() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean recherchePar(int limit) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	public boolean rechercheParMetier() {
+//		à coder
+		return false;
 	}
 }

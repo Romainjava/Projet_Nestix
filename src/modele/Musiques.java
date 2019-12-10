@@ -21,8 +21,8 @@ public class Musiques extends Media {
 
 	@Override
 	public String[] toRowData() {
-		// TODO Auto-generated method stub
-		return null;
+		String[] data = {this.titre_media,this.genres.toString(),this.annee_sortie_media};
+		return data;
 	}
 
 	@Override
@@ -62,22 +62,21 @@ public class Musiques extends Media {
 	}
 
 	@Override
-	public boolean rechercheParSurnom(int limit) {
+	public boolean recherchePar(int limit) {
 		// TODO Auto-generated method stub
 		return false;
-	}
-
-	@Override
-	public boolean rechercheParTitre(int limit) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean rechercheParAnnee(int limit) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
+	}	
 	
+	
+	public static void main(String[] args) {
+		Musiques musique= new Musiques();
+		musique.setTitre_media("test");
+		Genre genre = new Genre();
+		genre.setNom_genre("rock");
+		musique.addGenre(genre);
+		musique.setAnnee_sortie_media("1060");
+		for (String iterable_element : musique.toRowData()) {
+			System.out.println(iterable_element);
+		}
+	}
 }
