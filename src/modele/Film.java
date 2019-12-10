@@ -1,5 +1,7 @@
 package modele;
 
+import java.util.ArrayList;
+
 public class Film extends Media {
 	
 	private String resume_film;
@@ -58,6 +60,30 @@ public class Film extends Media {
 
 	@Override
 	public boolean suppression(int id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public ArrayList<I_recherche> lectureTout(int limit) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean rechercheParSurnom(int limit) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean rechercheParTitre(int limit) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean rechercheParAnnee(int limit) {
 		// TODO Auto-generated method stub
 		return false;
 	}

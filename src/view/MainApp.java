@@ -46,7 +46,6 @@ public class MainApp {
 		frame.setBounds(100, 0, 1000, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new GridLayout(1, 0, 0, 0));
-		ConnexionBDD.startConnection();
 		// AJOUT DU JTabbedPane
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		frame.getContentPane().add(tabbedPane);
