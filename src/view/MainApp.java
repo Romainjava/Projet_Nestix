@@ -6,6 +6,7 @@ import javax.swing.JTabbedPane;
 
 import controller.C_Livre;
 import modele.ConnexionBDD;
+import modele.Musiques;
 
 import javax.swing.JPanel;
 import java.awt.GridLayout;
@@ -60,7 +61,7 @@ public class MainApp {
 		tabbedPane.addTab("Livres", null, livres_panel, null);
 		// === Construction du livre panel === //
 		C_Livre livres_controler_panel = new C_Livre(livres_panel);
-
+		
 		// ===== FIN LIVRE ===== //
 
 		// ====== DEBUT FILMS PANEL ====== //

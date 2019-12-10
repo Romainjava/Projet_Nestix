@@ -69,21 +69,8 @@ public class Film extends Media {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 	@Override
-	public boolean rechercheParSurnom(int limit) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean rechercheParTitre(int limit) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean rechercheParAnnee(int limit) {
+	public boolean recherchePar(int limit) {
 		// TODO Auto-generated method stub
 		return false;
 	}
