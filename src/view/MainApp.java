@@ -6,6 +6,7 @@ import javax.swing.JTabbedPane;
 
 import controller.C_Livre;
 import controller.C_film;
+import controller.C_musique;
 import modele.ConnexionBDD;
 import modele.Musiques;
 
@@ -87,8 +88,13 @@ public class MainApp {
 		// ====== DEBUT MUSIQUES PANEL ====== //
 
 		JPanel musiques_panel = new JPanel();
-		tabbedPane.addTab("Musiques", null, musiques_panel, null);
-		musiques_panel.setLayout(new GridLayout(1, 0, 0, 0));
+		GridBagLayout gbl_musique_panel = new GridBagLayout();
+		gbl_musique_panel.columnWeights = new double[] { 3.0 };
+		gbl_musique_panel.rowWeights = new double[] { 1.0, 3.5 };
+		musiques_panel.setLayout(gbl_musique_panel);
+		tabbedPane.addTab("Musique", null, musiques_panel, null);
+		// === Construction du livre panel === //
+		C_musique musique_controler_panel = new C_musique(musiques_panel);
 
 		// ===== FIN MUSIQUES ===== //
 
