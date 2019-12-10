@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 
 import controller.C_Livre;
+import controller.C_musique;
 import modele.ConnexionBDD;
 import modele.Musiques;
 
@@ -54,10 +55,10 @@ public class MainApp {
 		// ====== DEBUT LIVRE PANEL ====== //
 
 		JPanel livres_panel = new JPanel();		
-		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWeights = new double[] { 3.0 };
-		gbl_panel.rowWeights = new double[] { 1.0, 3.5 };
-		livres_panel.setLayout(gbl_panel);
+		GridBagLayout gbl_livres_panel = new GridBagLayout();
+		gbl_livres_panel.columnWeights = new double[] { 3.0,1.0 };
+		gbl_livres_panel.rowWeights = new double[] { 1.0, 3.5,0.5};
+		livres_panel.setLayout(gbl_livres_panel);
 		tabbedPane.addTab("Livres", null, livres_panel, null);
 		// === Construction du livre panel === //
 		C_Livre livres_controler_panel = new C_Livre(livres_panel);
@@ -81,8 +82,13 @@ public class MainApp {
 		// ====== DEBUT MUSIQUES PANEL ====== //
 
 		JPanel musiques_panel = new JPanel();
-		tabbedPane.addTab("Musiques", null, musiques_panel, null);
-		musiques_panel.setLayout(new GridLayout(1, 0, 0, 0));
+		GridBagLayout gbl_musique_panel = new GridBagLayout();
+		gbl_musique_panel.columnWeights = new double[] { 3.0 };
+		gbl_musique_panel.rowWeights = new double[] { 1.0, 3.5 };
+		musiques_panel.setLayout(gbl_musique_panel);
+		tabbedPane.addTab("Musique", null, musiques_panel, null);
+		// === Construction du livre panel === //
+		C_musique musique_controler_panel = new C_musique(musiques_panel);
 
 		// ===== FIN MUSIQUES ===== //
 
