@@ -43,32 +43,32 @@ public class Livre extends Media {
 	}
 
 	@Override
+	public String toString() {
+		return "Livre [resume_livre=" + resume_livre + ", tome_livre=" + tome_livre + ", ISBN=" + ISBN + ", toString()="
+				+ super.toString() + "]";
+	}
+
+	@Override
 	public boolean creation() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean modification() {
+	public boolean modification(int id) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean lecture() {
+	public boolean lireUn(int id) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean suppression() {
+	public boolean suppression(int id) {
 		// TODO Auto-generated method stub
 		return false;
-	}
-
-	@Override
-	public String toString() {
-		return "Livre [resume_livre=" + resume_livre + ", tome_livre=" + tome_livre + ", ISBN=" + ISBN + ", toString()="
-				+ super.toString() + "]";
 	}
 }

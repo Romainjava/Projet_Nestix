@@ -66,6 +66,11 @@ public class Artiste implements I_requeteSQL {
 	public void setMetiers_artiste(ArrayList<Metier> metiers_artiste) {
 		this.metiers_artiste = metiers_artiste;
 	}
+	@Override
+	public String toString() {
+		return "Artiste [id_artiste=" + id_artiste + ", nom_artiste=" + nom_artiste + ", prenom_artiste="
+				+ prenom_artiste + ", surnom_artiste=" + surnom_artiste + ", dob_artiste=" + dob_artiste + "]";
+	}
 
 	@Override
 	public boolean creation() {
@@ -74,26 +79,20 @@ public class Artiste implements I_requeteSQL {
 	}
 
 	@Override
-	public boolean modification() {
+	public boolean modification(int id) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean lecture() {
+	public boolean lireUn(int id) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean suppression() {
+	public boolean suppression(int id) {
 		// TODO Auto-generated method stub
 		return false;
-	}
-
-	@Override
-	public String toString() {
-		return "Artiste [id_artiste=" + id_artiste + ", nom_artiste=" + nom_artiste + ", prenom_artiste="
-				+ prenom_artiste + ", surnom_artiste=" + surnom_artiste + ", dob_artiste=" + dob_artiste + "]";
 	}
 }
