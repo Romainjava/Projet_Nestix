@@ -21,6 +21,10 @@ public class Genre implements I_requeteSQL {
 	public void setNom_genre(String nom_genre) {
 		this.nom_genre = nom_genre;
 	}
+	@Override
+	public String toString() {
+		return "Genre [id_genre=" + id_genre + ", nom_genre=" + nom_genre + "]";
+	}
 
 	@Override
 	public boolean creation() {
@@ -29,26 +33,21 @@ public class Genre implements I_requeteSQL {
 	}
 
 	@Override
-	public boolean modification() {
+	public boolean modification(int id) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean lecture() {
+	public boolean lireUn(int id) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean suppression() {
+	public boolean suppression(int id) {
 		// TODO Auto-generated method stub
 		return false;
-	}
-
-	@Override
-	public String toString() {
-		return "Genre [id_genre=" + id_genre + ", nom_genre=" + nom_genre + "]";
 	}
 
 }
