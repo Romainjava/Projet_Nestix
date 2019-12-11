@@ -11,7 +11,7 @@ public class Artiste implements I_requeteSQL,I_recherche {
 	private ArrayList<Metier> metiers_artiste;
 	private Metier metier;
 	private String etat;
-
+	
 	public int getId_artiste() {
 		return id_artiste;
 	}
@@ -107,8 +107,8 @@ public class Artiste implements I_requeteSQL,I_recherche {
 
 	@Override
 	public ArrayList<I_recherche> lectureTout(int limit) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return M_artiste.lireTout(limit);
 	}
 	@Override
 	public Object[] toRowData() {
