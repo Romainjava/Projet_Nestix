@@ -74,7 +74,7 @@ public class MainApp {
 		gbl_films_panel.columnWeights = new double[] { 3.0, 1.0 };
 		gbl_films_panel.rowWeights = new double[] { 1.0, 3.5, 0.5 };
 		films_panel.setLayout(gbl_films_panel);
-		tabbedPane.addTab("Livres", null, films_panel, null);
+		tabbedPane.addTab("Films", null, films_panel, null);
 		
 		C_film film_controler_panel = new C_film(films_panel); 
 
