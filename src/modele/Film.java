@@ -45,13 +45,6 @@ public class Film extends Media {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
-	@Override
-	public boolean modification(int id) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 	@Override
 	public boolean lireUn(int id) {
 		// TODO Auto-generated method stub
@@ -71,6 +64,12 @@ public class Film extends Media {
 	}
 	@Override
 	public boolean recherchePar(int limit) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean modification() {
 		// TODO Auto-generated method stub
 		return false;
 	}

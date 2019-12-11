@@ -11,12 +11,16 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import view.AsidePanel;
+import view.ComboListField;
+import view.DualLinkModule;
 import view.FooterPanel;
+import view.GridPanel;
 import view.HeaderPanel;
 import view.ImageModule;
 import view.LinkModule;
 import view.MainPanel;
 import view.Module;
+import view.TextListField;
 
 public class C_Livre {
 	private JPanel livres_panel;
@@ -62,12 +66,20 @@ public class C_Livre {
 	public void ajoutMainPanel() {
 		MainPanel livre_main = new MainPanel(this.livres_panel);
 		// Add element
-		livre_main.addModule(new LinkModule("Personne"), 0, 0);
-		livre_main.addModule(new Module(), 1, 0);
+		//ligne 1
+		livre_main.addModule(new DualLinkModule("Personne"), 0, 0, 2, 1);
+		
 		livre_main.addModule(new ImageModule(), 2, 0);
-
+		//ligne 2
 		livre_main.addModule(new LinkModule("Genre"), 0, 1);
-		livre_main.addModule(new Module(), 1, 1);
+		
+		GridPanel relationComple = new GridPanel(new double[] {1.0, 1.0}, new double[] {1.0, 1.0, 1.0});
+		livre_main.add(relationComple, livre_main.addElement(1, 1));
+		relationComple.add(new ComboListField(new String[] {"etat1", "etat2", "etat3"}), relationComple.addElement(0, 0));
+		relationComple.add(new TextListField(), relationComple.addElement(0, 1));
+		relationComple.add(new TextListField(), relationComple.addElement(1, 1));
+		relationComple.add(new TextListField(), relationComple.addElement(0, 2));
+		
 		livre_main.addModule(new Module(), 2, 1);
 	}
 	public void ajouteTab() {
@@ -83,7 +95,7 @@ public class C_Livre {
 	}
 
 	public void footerPanel() {
-		String textBouton[] = { "Creer", "Modifier", "Supprimer" };
+		String textBouton[] = {"Creer", "Modifier", "Supprimer"};
 		double elmsSizeFooter[] = { 1.0, 1.0, 1.0 };
 		FooterPanel livre_footer_panel = new FooterPanel(this.livres_panel, textBouton, elmsSizeFooter);
 	}

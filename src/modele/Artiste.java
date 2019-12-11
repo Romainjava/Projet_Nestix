@@ -1,8 +1,9 @@
 package modele;
+
 import java.util.ArrayList;
 
-public class Artiste implements I_requeteSQL,I_recherche {
-	
+public class Artiste implements I_requeteSQL, I_recherche {
+
 	private int id_artiste;
 	private String nom_artiste;
 	private String prenom_artiste;
@@ -10,6 +11,7 @@ public class Artiste implements I_requeteSQL,I_recherche {
 	private String dob_artiste;
 	private ArrayList<Metier> metiers_artiste;
 	private Metier metier;
+	private String etat;
 
 	public int getId_artiste() {
 		return id_artiste;
@@ -59,6 +61,14 @@ public class Artiste implements I_requeteSQL,I_recherche {
 		this.metier = artiste;
 	}
 
+	public String getEtat() {
+		return etat;
+	}
+
+	public void setEtat(String etat) {
+		this.etat = etat;
+	}
+
 	public ArrayList<Metier> getMetiers_artiste() {
 		return metiers_artiste;
 	}
@@ -66,6 +76,7 @@ public class Artiste implements I_requeteSQL,I_recherche {
 	public void setMetiers_artiste(ArrayList<Metier> metiers_artiste) {
 		this.metiers_artiste = metiers_artiste;
 	}
+
 	@Override
 	public String toString() {
 		return "Artiste [id_artiste=" + id_artiste + ", nom_artiste=" + nom_artiste + ", prenom_artiste="
@@ -79,7 +90,7 @@ public class Artiste implements I_requeteSQL,I_recherche {
 	}
 
 	@Override
-	public boolean modification(int id) {
+	public boolean modification() {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -98,19 +109,19 @@ public class Artiste implements I_requeteSQL,I_recherche {
 
 	@Override
 	public ArrayList<I_recherche> lectureTout(int limit) {
-		// TODO Auto-generated method stub
-		return null;
+
+		return M_artiste.lireTout(limit);
 	}
+
 	@Override
 	public Object[] toRowData() {
-		// TODO Auto-generated method stub
-		return null;
+		Object[] tab = { this.nom_artiste, this.prenom_artiste, this.surnom_artiste, this.etat, this.dob_artiste };
+		return tab;
 	}
 
 	@Override
 	public String[] toHeaderData() {
-		// TODO Auto-generated method stub
-		return null;
+		return new String[] { "Nom", "Prenom", "Surnom", "Etat", "Date de naissance" };
 	}
 
 	@Override
@@ -118,9 +129,10 @@ public class Artiste implements I_requeteSQL,I_recherche {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
+
 	public boolean rechercheParMetier() {
 //		à coder
 		return false;
 	}
+
 }
