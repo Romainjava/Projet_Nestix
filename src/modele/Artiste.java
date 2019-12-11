@@ -10,6 +10,7 @@ public class Artiste implements I_requeteSQL,I_recherche {
 	private String dob_artiste;
 	private ArrayList<Metier> metiers_artiste;
 	private Metier metier;
+	private String etat;
 
 	public int getId_artiste() {
 		return id_artiste;
@@ -57,6 +58,14 @@ public class Artiste implements I_requeteSQL,I_recherche {
 
 	public void setArtiste(Metier artiste) {
 		this.metier = artiste;
+	}
+	
+	public String getEtat() {
+		return etat;
+	}
+
+	public void setEtat(String etat) {
+		this.etat = etat;
 	}
 
 	public ArrayList<Metier> getMetiers_artiste() {
@@ -123,4 +132,6 @@ public class Artiste implements I_requeteSQL,I_recherche {
 //		à coder
 		return false;
 	}
+
+	
 }
