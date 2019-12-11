@@ -4,11 +4,6 @@ import java.util.ArrayList;
 
 public class Univers extends Info{
 	
-	@Override
-	public boolean modification(int id) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 	@Override
 	public boolean suppression(int id) {

@@ -18,7 +18,7 @@ public class GlobalRequete {
 			if(result.next()) {
 				id= result.getInt(1);
 			}else {
-				query="INSERT INTO "+table+"("+nomId+") VALUES(?)";				
+				query="INSERT INTO nestix_"+table+"("+nomId+") VALUES(?)";				
 				statement = (PreparedStatement) ConnexionBDD.startConnection().prepareStatement(query);
 				statement.setString(1, value);
 				result = statement.executeQuery();

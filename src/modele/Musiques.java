@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.sun.org.apache.xalan.internal.xsltc.compiler.sym;
+
 public class Musiques extends Media {
 
 	private int duree_musique;
@@ -64,7 +66,7 @@ public class Musiques extends Media {
 	}
 
 	@Override
-	public boolean modification(int id) {
+	public boolean modification() {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -97,8 +99,13 @@ public class Musiques extends Media {
 		Musiques musique= new Musiques();
 //		musique.setTitre_media("test");
 		Genre genre = new Genre();
+		genre.setNom("romann");
+		genre.getId();
+		System.out.println(genre);
 		genre.setNom("Roman");
-		genre.creation();
+		genre.modification();
+		System.out.println(genre);
+
 //		Genre genre2 = new Genre();
 //		genre2.setNom_genre("pop");
 //		musique.addGenre(genre);

@@ -59,7 +59,7 @@ public class Livre extends Media {
 	}
 
 	@Override
-	public boolean modification(int id) {
+	public boolean modification() {
 		// TODO Auto-generated method stub
 		return false;
 	}

@@ -12,7 +12,7 @@ public class Etat extends Info{
 
 
 	@Override
-	public boolean modification(int id) {
+	public boolean modification() {
 		// TODO Auto-generated method stub
 		return false;
 	}
