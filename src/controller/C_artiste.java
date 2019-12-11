@@ -25,10 +25,12 @@ public class C_artiste {
 	// COMPOSANT
 	JTable artiste_result_table;
 	JTextField artiste_nom_textfield;
-
+	JTextField artiste_prenom_textfield;
+	JTextField artiste_surnom_textfield;
+	JTextField artiste_dob_textfield;
+	
 	public C_artiste(JPanel artiste_panel) {
 		this.artiste_panel = artiste_panel;
-
 		ajouteHeader();
 		ajouteTab();
 		ajoutMainPanel();
@@ -42,6 +44,9 @@ public class C_artiste {
 				tabHeader, elmSize);
 		ArrayList<JTextField> liste = artiste_header.getJtextArrray();
 		this.artiste_nom_textfield = liste.get(0);
+		this.artiste_prenom_textfield = liste.get(1);
+		this.artiste_surnom_textfield = liste.get(3);
+		this.artiste_dob_textfield = liste.get(2);
 	}
 
 	public void ajoutMainPanel() {
@@ -58,9 +63,9 @@ public class C_artiste {
 
 	public void ajouteTab() {
 		AsidePanel artiste_aside = new AsidePanel(this.artiste_panel);
-		artiste_aside.setEntetes(new String[] { "Nom", "Prenom", "Etat", "Date de naissance" });
-		artiste_aside.setDonnees(new Object[][] { { "Collins", "Phil", "Valide", "1951" }, });
-		artiste_aside.ajouterLigne(new Object[] { "Doe", "John", "en attente", "2010" });
+		artiste_aside.setEntetes(new String[] { "Nom", "Prenom", "Surnom", "Etat", "Date de naissance" });
+		artiste_aside.setDonnees(new Object[][] { { "Collins", "Phil", "Null", "Valide", "1951" }, });
+		artiste_aside.ajouterLigne(new Object[] { "Doe", "John", "Roger", "en attente", "2010" });
 
 		// AJOUT EVENT
 		this.artiste_result_table = artiste_aside.getTable_result();
@@ -79,7 +84,10 @@ public class C_artiste {
 	public void actualiseArtiste() {
 		// ACTUALISE NOM
 		this.artiste_nom_textfield.setText(artiste.getNom_artiste());
-		// TODO RESTE A FAIRE PRENOM ETAT ETC...
+		this.artiste_prenom_textfield.setText(artiste.getPrenom_artiste());
+		this.artiste_surnom_textfield.setText(artiste.getSurnom_artiste());
+		this.artiste_dob_textfield.setText(artiste.getDob_artiste());
+		
 	}
 
 	/**
@@ -94,15 +102,22 @@ public class C_artiste {
 		public MouseAdapterTableau(C_artiste controller) {
 			this.controller = controller;
 		}
+
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			int row = this.controller.getArtiste_result_table().rowAtPoint(e.getPoint());
-			// int column =
-			// this.controller.getArtiste_result_table().columnAtPoint(e.getPoint());
+			//int column = this.controller.getArtiste_result_table().columnAtPoint(e.getPoint());
 
 			// "getAtValue" : Permet de prendre la valeur de la case ( row , column )
 			String nom = (String) this.controller.getArtiste_result_table().getValueAt(row, 0);
+			String prenom = (String) this.controller.getArtiste_result_table().getValueAt(row, 1);
+			String surnom = (String) this.controller.getArtiste_result_table().getValueAt(row, 2);
+			String dob = (String) this.controller.getArtiste_result_table().getValueAt(row, 3);
+
 			this.controller.getArtiste_nom_textfield().setText(nom);
+			this.controller.getArtiste_prenom_textfield().setText(prenom);
+			this.controller.getArtiste_surnom_textfield().setText(surnom);
+			this.controller.getArtiste_dob_textfield().setText(dob);
 		}
 	}
 
@@ -121,6 +136,29 @@ public class C_artiste {
 
 	public void setArtiste_nom_textfield(JTextField artiste_nom_textfield) {
 		this.artiste_nom_textfield = artiste_nom_textfield;
+	}
+	public JTextField getArtiste_prenom_textfield() {
+		return artiste_prenom_textfield;
+	}
+
+	public void setArtiste_prenom_textfield(JTextField artiste_prenom_textfield) {
+		this.artiste_prenom_textfield = artiste_prenom_textfield;
+	}
+
+	public JTextField getArtiste_surnom_textfield() {
+		return artiste_surnom_textfield;
+	}
+
+	public void setArtiste_surnom_textfield(JTextField artiste_surnom_textfield) {
+		this.artiste_surnom_textfield = artiste_surnom_textfield;
+	}
+
+	public JTextField getArtiste_dob_textfield() {
+		return artiste_dob_textfield;
+	}
+
+	public void setArtiste_dob_textfield(JTextField artiste_dob_textfield) {
+		this.artiste_dob_textfield = artiste_dob_textfield;
 	}
 
 }
