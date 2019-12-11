@@ -1,6 +1,8 @@
 package modele;
 
-public class Genre implements I_requeteSQL {
+import java.util.ArrayList;
+
+public class Genre implements I_requeteSQL,I_recherche {
 
 	
 	private int id_genre;
@@ -21,6 +23,10 @@ public class Genre implements I_requeteSQL {
 	public void setNom_genre(String nom_genre) {
 		this.nom_genre = nom_genre;
 	}
+	@Override
+	public String toString() {
+		return "Genre [id_genre=" + id_genre + ", nom_genre=" + nom_genre + "]";
+	}
 
 	@Override
 	public boolean creation() {
@@ -29,26 +35,45 @@ public class Genre implements I_requeteSQL {
 	}
 
 	@Override
-	public boolean modification() {
+	public boolean modification(int id) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean lecture() {
+	public boolean lireUn(int id) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean suppression() {
+	public boolean suppression(int id) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public String toString() {
-		return "Genre [id_genre=" + id_genre + ", nom_genre=" + nom_genre + "]";
+	public ArrayList<I_recherche> lectureTout(int limit) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean recherchePar(int limit) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Object[] toRowData() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String[] toHeaderData() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

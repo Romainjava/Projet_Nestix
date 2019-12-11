@@ -4,14 +4,14 @@ import java.util.ArrayList;
 
 import view.I_dataListable;
 
-public abstract class Media implements I_requeteSQL,I_dataListable {
+public abstract class Media implements I_requeteSQL,I_dataListable,I_recherche {
 	
-	private int id_media;
-	private String titre_media;
-	private String date_crea_media;
-	private String annee_sortie_media;
-	private ArrayList<Artiste> artistes;
-	private ArrayList<Genre> genres;
+	protected int id_media;
+	protected String titre_media;
+	protected String date_crea_media;
+	protected String annee_sortie_media;
+	protected ArrayList<Artiste> artistes;
+	protected ArrayList<Genre> genres=new ArrayList<>();
 
 	public int getId_media() {
 		return id_media;
@@ -67,4 +67,10 @@ public abstract class Media implements I_requeteSQL,I_dataListable {
 				+ ", annee_sortie_media=" + annee_sortie_media + ", artistes=" + artistes + ", genres=" + genres + "]";
 	}
 	
+	public void addGenre(Genre genre) {
+		this.genres.add(genre);
+	}
+	public void addArtiste(Artiste artiste) {
+		this.artistes.add(artiste);
+	}
 }

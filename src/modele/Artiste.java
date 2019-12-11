@@ -1,10 +1,8 @@
 package modele;
-
 import java.util.ArrayList;
-public class Artiste implements I_requeteSQL {
 
-
-
+public class Artiste implements I_requeteSQL,I_recherche {
+	
 	private int id_artiste;
 	private String nom_artiste;
 	private String prenom_artiste;
@@ -68,6 +66,11 @@ public class Artiste implements I_requeteSQL {
 	public void setMetiers_artiste(ArrayList<Metier> metiers_artiste) {
 		this.metiers_artiste = metiers_artiste;
 	}
+	@Override
+	public String toString() {
+		return "Artiste [id_artiste=" + id_artiste + ", nom_artiste=" + nom_artiste + ", prenom_artiste="
+				+ prenom_artiste + ", surnom_artiste=" + surnom_artiste + ", dob_artiste=" + dob_artiste + "]";
+	}
 
 	@Override
 	public boolean creation() {
@@ -76,26 +79,48 @@ public class Artiste implements I_requeteSQL {
 	}
 
 	@Override
-	public boolean modification() {
+	public boolean modification(int id) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean lecture() {
+	public boolean lireUn(int id) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean suppression() {
+	public boolean suppression(int id) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public String toString() {
-		return "Artiste [id_artiste=" + id_artiste + ", nom_artiste=" + nom_artiste + ", prenom_artiste="
-				+ prenom_artiste + ", surnom_artiste=" + surnom_artiste + ", dob_artiste=" + dob_artiste + "]";
+	public ArrayList<I_recherche> lectureTout(int limit) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Object[] toRowData() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String[] toHeaderData() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean recherchePar(int limit) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	public boolean rechercheParMetier() {
+//		à coder
+		return false;
 	}
 }

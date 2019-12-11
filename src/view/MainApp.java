@@ -5,6 +5,11 @@ import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 
 import controller.C_Livre;
+import controller.C_film;
+import controller.C_musique;
+import modele.ConnexionBDD;
+import modele.Musiques;
+
 import javax.swing.JPanel;
 import java.awt.GridLayout;
 import java.awt.GridBagLayout;
@@ -44,60 +49,38 @@ public class MainApp {
 		frame.setBounds(100, 0, 1000, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new GridLayout(1, 0, 0, 0));
-
 		// AJOUT DU JTabbedPane
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		frame.getContentPane().add(tabbedPane);
 
 		// ====== DEBUT LIVRE PANEL ====== //
 
-		JPanel livres_panel = new JPanel();
+		JPanel livres_panel = new JPanel();		
+		GridBagLayout gbl_livres_panel = new GridBagLayout();
+		gbl_livres_panel.columnWeights = new double[] { 3.0, 1.0 };
+		gbl_livres_panel.rowWeights = new double[] { 1.0, 3.5, 0.5 };
+		livres_panel.setLayout(gbl_livres_panel);
 		tabbedPane.addTab("Livres", null, livres_panel, null);
-		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWeights = new double[] { 3.0 };
-		gbl_panel.rowWeights = new double[] { 1.0, 3.5 };
-		livres_panel.setLayout(gbl_panel);
-
-		// === DEBUT HEADER LIVRE === //
-		/*String tabHeader[] = { "Titre", "ISBN", "Annee de sortie" };
-		double elmsSize[] = { 1.0, 1.0, 1.0, 1.0 };
-		HeaderPanel livre_header = new HeaderPanel(livres_panel, "Cet onglet permet de renseigner des livres",
-				tabHeader, elmsSize);*/
-
-		// === DEBUT MAIN LIVRE === //
-		MainPanel livre_main = new MainPanel(livres_panel);
-		// Add element
-		livre_main.addModule(new LinkModule("Personne"), 0, 0);
-		livre_main.addModule(new Module(), 1, 0);
-		livre_main.addModule(new ImageModule(), 2, 0);
-
-		livre_main.addModule(new LinkModule("Genre"), 0, 1);
-		livre_main.addModule(new Module(), 1, 1);
-		livre_main.addModule(new Module(), 2, 1);
-		// == FIN MAIN == //
-
-		// === DEBUT FOOTER LIVRE === //
-		String textBouton[] = { "Creer", "Modifier", "Supprimer" };
-		double elmsSizeFooter[] = { 1.0, 1.0, 1.0 };
-		FooterPanel livre_footer_panel = new FooterPanel(livres_panel, textBouton, elmsSizeFooter);
-		// == FIN FOOTER == //
-
-		// === DEBUT ASIDE LIVRE === //
-		C_Livre livres_aside_panel = new C_Livre(livres_panel);
-		// == FIN ASIDE == //
-
+		// === Construction du livre panel === //
+		C_Livre livres_controler_panel = new C_Livre(livres_panel);
+		
 		// ===== FIN LIVRE ===== //
 
 		// ====== DEBUT FILMS PANEL ====== //
 
-		JPanel films_panel = new JPanel();
-		tabbedPane.addTab("Films", null, films_panel, null);
-		films_panel.setLayout(new GridLayout(1, 0, 0, 0));
-
-		// === DEBUT ASIDE FILMS === //
-		AsidePanel film_aside_panel = new AsidePanel(films_panel);
-		film_aside_panel.setDonnees(new Object[][] { { "seigneur des anneaux", null, null, null }, });
-		film_aside_panel.ajouterLigne(new Object[] { "toto", null, null, null });
+		JPanel films_panel = new JPanel();	
+		GridBagLayout gbl_films_panel = new GridBagLayout();
+		gbl_films_panel.columnWeights = new double[] { 3.0, 1.0 };
+		gbl_films_panel.rowWeights = new double[] { 1.0, 3.5, 0.5 };
+		films_panel.setLayout(gbl_films_panel);
+		tabbedPane.addTab("Livres", null, films_panel, null);
+		
+		C_film film_controler_panel = new C_film(films_panel); 
+		
+		//AsidePanel film_aside_panel = new AsidePanel(films_panel);
+		//film_aside_panel.setDonnees(new Object[][] { { "seigneur des anneaux", null, null, null }, });
+		//film_aside_panel.ajouterLigne(new Object[] { "toto", null, null, null });
+		
 		// == FIN ASIDE == //
 
 		// ===== FIN FILMS ===== //
@@ -105,8 +88,13 @@ public class MainApp {
 		// ====== DEBUT MUSIQUES PANEL ====== //
 
 		JPanel musiques_panel = new JPanel();
-		tabbedPane.addTab("Musiques", null, musiques_panel, null);
-		musiques_panel.setLayout(new GridLayout(1, 0, 0, 0));
+		GridBagLayout gbl_musique_panel = new GridBagLayout();
+		gbl_musique_panel.columnWeights = new double[] { 3.0 };
+		gbl_musique_panel.rowWeights = new double[] { 1.0, 3.5 };
+		musiques_panel.setLayout(gbl_musique_panel);
+		tabbedPane.addTab("Musique", null, musiques_panel, null);
+		// === Construction du livre panel === //
+		C_musique musique_controler_panel = new C_musique(musiques_panel);
 
 		// ===== FIN MUSIQUES ===== //
 
