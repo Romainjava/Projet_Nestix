@@ -29,7 +29,7 @@ public class C_musique {
 	// Composants
 	JTable musique_results_table;
 	ArrayList<JTextField> musique_titre_textfield;
-	String[] header={ "Titre", "Duree","Album", "Annee de sortie" };
+	String[] header={ "Titre", "Duree","Album","Univers","Annee de sortie" };
 	
 	public JTable getMusique_results_table() {
 		return musique_results_table;

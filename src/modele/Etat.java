@@ -2,7 +2,20 @@ package modele;
 
 import java.util.ArrayList;
 
-public class Saga extends Info {
+public class Etat extends Info{
+
+	@Override
+	protected String getTableName() {
+		
+		return "etat";
+	}
+
+
+	@Override
+	public boolean modification() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 	@Override
 	public boolean suppression(int id) {
@@ -34,8 +47,4 @@ public class Saga extends Info {
 		return null;
 	}
 
-	@Override
-	protected String getTableName() {		
-		return "saga";
-	}
 }

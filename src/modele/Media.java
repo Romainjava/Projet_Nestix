@@ -10,8 +10,15 @@ public abstract class Media implements I_requeteSQL,I_dataListable,I_recherche {
 	protected String titre_media;
 	protected String date_crea_media;
 	protected String annee_sortie_media;
+	protected Univers univers=new Univers();
+	protected Saga saga=new Saga();
+	protected String titre_image;
+	protected Etat etat=new Etat();
 	protected ArrayList<Artiste> artistes;
 	protected ArrayList<Genre> genres=new ArrayList<>();
+//	donné a utiliser pour le tableau
+	protected String concat_artistes;
+	protected String concat_genre;
 
 	public int getId_media() {
 		return id_media;
@@ -59,6 +66,14 @@ public abstract class Media implements I_requeteSQL,I_dataListable,I_recherche {
 
 	public void setGenres(ArrayList<Genre> genres) {
 		this.genres = genres;
+	}
+
+	public String getImage_id() {
+		return titre_image;
+	}
+
+	public void setImage_id(String image_id) {
+		this.titre_image = image_id;
 	}
 
 	@Override
