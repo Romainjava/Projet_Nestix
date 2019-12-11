@@ -1,6 +1,5 @@
 package view;
 
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -47,7 +46,7 @@ public class LinkModule extends Module implements ActionListener{
 		String[] data = {"item1", "item2", "item3"};
 		this.text_list = new ArrayList<String>(Arrays.asList(data));
 		this.content_list = new JList(data);
-		System.out.println(text_list);
+		//System.out.println(text_list);
 	}
 	public void createEvent() {
 		this.more_btn.addActionListener(this);
@@ -58,9 +57,9 @@ public class LinkModule extends Module implements ActionListener{
 		
 		gbl.columnWeights = new double[] {1.0, 1.0, 1.0, 1.0, 1.0};
 	    gbl.rowWeights = new double[] {1.0,
+										0.5,
 										1.0,
-										1.0,
-										4.0};
+										3.5};
 	    this.setLayout(gbl);
 	    
 		gbc.gridx = 1;
@@ -108,10 +107,10 @@ public class LinkModule extends Module implements ActionListener{
 			this.text_list.remove(index_list[i]);
 		}
 		
-		System.out.println(text_list);
+		//System.out.println(text_list);
 		
 		this.content_list = new JList(text_list.toArray());
-		System.out.println(this.content_list.getModel().getSize());
+		//System.out.println(this.content_list.getModel().getSize());
 		
 		content_scroll.setViewportView(content_list);
 

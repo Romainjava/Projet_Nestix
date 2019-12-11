@@ -1,18 +1,13 @@
 package view;
 
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JScrollPane;
 
 public class DualLinkModule extends LinkModule{
 	
@@ -43,9 +38,9 @@ public class DualLinkModule extends LinkModule{
 		
 		gbl.columnWeights = new double[] {1.0, 1.0, 1.0, 1.0, 1.0, 5.0};
 	    gbl.rowWeights = new double[] {1.0,
+										0.5,
 										1.0,
-										1.0,
-										4.0};
+										3.5};
 	    this.setLayout(gbl);
 	    
 		gbc.gridx = 1;
@@ -82,8 +77,8 @@ public class DualLinkModule extends LinkModule{
 			this.combo_list.add(combo_list_field.getSelectedItem().toString());
 			combo_list_field.setSelectedIndex(0);
 			
-			System.out.println(text_list);
-			System.out.println(combo_list);
+//			System.out.println(text_list);
+//			System.out.println(combo_list);
 			
 			String[] text_list_array = new String[text_list.size()];
 			for(int i = 0; i < text_list_array.length; i++){
@@ -107,8 +102,8 @@ public class DualLinkModule extends LinkModule{
 			this.combo_list.remove(index_list[i]);
 		}
 		
-		System.out.println(text_list);
-		System.out.println(combo_list);
+//		System.out.println(text_list);
+//		System.out.println(combo_list);
 		
 		String[] text_list_array = new String[text_list.size()];
 		for(int i = 0; i < text_list_array.length; i++){
