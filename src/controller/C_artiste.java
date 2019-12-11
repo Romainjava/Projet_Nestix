@@ -112,7 +112,7 @@ public class C_artiste {
 			String nom = (String) this.controller.getArtiste_result_table().getValueAt(row, 0);
 			String prenom = (String) this.controller.getArtiste_result_table().getValueAt(row, 1);
 			String surnom = (String) this.controller.getArtiste_result_table().getValueAt(row, 2);
-			String dob = (String) this.controller.getArtiste_result_table().getValueAt(row, 3);
+			String dob = (String) this.controller.getArtiste_result_table().getValueAt(row, 4);
 
 			this.controller.getArtiste_nom_textfield().setText(nom);
 			this.controller.getArtiste_prenom_textfield().setText(prenom);
