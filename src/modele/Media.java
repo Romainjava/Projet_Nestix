@@ -10,12 +10,15 @@ public abstract class Media implements I_requeteSQL,I_dataListable,I_recherche {
 	protected String titre_media;
 	protected String date_crea_media;
 	protected String annee_sortie_media;
-	protected Univers univers;
-	protected Saga saga;
+	protected Univers univers=new Univers();
+	protected Saga saga=new Saga();
 	protected String titre_image;
-	protected Etat etat;
+	protected Etat etat=new Etat();
 	protected ArrayList<Artiste> artistes;
 	protected ArrayList<Genre> genres=new ArrayList<>();
+//	donné a utiliser pour le tableau
+	protected String concat_artistes;
+	protected String concat_genre;
 
 	public int getId_media() {
 		return id_media;
