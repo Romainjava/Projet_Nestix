@@ -12,21 +12,21 @@ public class GlobalRequete {
 		String query;
 		try {
 			query="SELECT "+nomId.toLowerCase()+" FROM nestix_"+table.toLowerCase()+" WHERE "+nomColonne.toLowerCase()+"=?";
-			statement = (PreparedStatement) ConnexionBDD.startConnection().prepareStatement(query);
+			statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
 			statement.setString(1, value.toLowerCase());
 			result = statement.executeQuery();
 			if(result.next()) {
 				id= result.getInt(1);
 			}else {
 				query="INSERT INTO nestix_"+table+"("+nomId+") VALUES(?)";				
-				statement = (PreparedStatement) ConnexionBDD.startConnection().prepareStatement(query);
+				statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
 				statement.setString(1, value);
 				result = statement.executeQuery();
 				
 				id=creaRapide(nomColonne,table, nomId, value);
 			}
 			statement.close();
-			ConnexionBDD.closeConnection();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -39,14 +39,13 @@ public class GlobalRequete {
 		String query;
 		try {
 			query="SELECT "+nomColonne.toLowerCase()+" FROM nestix_"+table.toLowerCase()+" WHERE "+nomId.toLowerCase()+"=?";
-			statement = (PreparedStatement) ConnexionBDD.startConnection().prepareStatement(query);
+			statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
 			statement.setInt(1, id);
 			result = statement.executeQuery();
 			if(result.next()) {
 				nom= result.getString(1);
 			}
 			statement.close();
-			ConnexionBDD.closeConnection();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
