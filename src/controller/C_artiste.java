@@ -8,6 +8,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import modele.Artiste;
+import modele.M_artiste;
 import view.AsidePanel;
 import view.FooterPanel;
 import view.HeaderPanel;
@@ -64,9 +65,10 @@ public class C_artiste {
 	public void ajouteTab() {
 		AsidePanel artiste_aside = new AsidePanel(this.artiste_panel);
 		artiste_aside.setEntetes(new String[] { "Nom", "Prenom", "Surnom", "Etat", "Date de naissance" });
-		artiste_aside.setDonnees(new Object[][] { { "Collins", "Phil", "Null", "Valide", "1951" }, });
-		artiste_aside.ajouterLigne(new Object[] { "Doe", "John", "Roger", "en attente", "2010" });
-
+		//artiste_aside.setDonnees(new Object[][] { { "Collins", "Phil", "Null", "Valide", "1951" }, });
+		//artiste_aside.ajouterLigne(new Object[] { "Doe", "John", "Roger", "en attente", "2010" });
+		artiste_aside.setDonnees(M_artiste.lireTout(50));
+		
 		// AJOUT EVENT
 		this.artiste_result_table = artiste_aside.getTable_result();
 		artiste_result_table.addMouseListener(new MouseAdapterTableau(this));

@@ -5,6 +5,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.MouseAdapter;
+import java.util.ArrayList;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -12,6 +13,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+
+import modele.I_recherche;
 import modele.Media;
 import net.miginfocom.swing.MigLayout;
 
@@ -98,10 +101,17 @@ public class AsidePanel extends JPanel {
 	}
 
 	public void setDonnees(Object[][] donnees) {
-		this.donnees = donnees;
+		//this.donnees = donnees;
 		this.tab_model.setRowCount(0); // vide le tableau
 		for (Object[] objects : donnees) {
 			ajouterLigne(objects);
+		}
+	}
+	
+	public void setDonnees(ArrayList<I_recherche> donnees) {
+		this.tab_model.setRowCount(0);
+		for (I_recherche i_recherche : donnees) {
+			ajouterLigne(i_recherche.toRowData());
 		}
 	}
 
