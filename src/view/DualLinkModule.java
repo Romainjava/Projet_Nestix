@@ -20,9 +20,7 @@ public class DualLinkModule extends LinkModule{
 	protected JComboBox combo_list_field;
 
 	public DualLinkModule(String ptitre) {
-		super(ptitre);
-		
-		this.setBackground(Color.ORANGE);		
+		super(ptitre);		
 		
 	}
 	@Override

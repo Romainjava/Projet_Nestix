@@ -26,8 +26,6 @@ public class LinkModule extends Module implements ActionListener{
 	public LinkModule(String ptitre) {
 		super();
 		
-		this.setBackground(Color.YELLOW);
-		
 		//Element
 		createElement(ptitre);
 		

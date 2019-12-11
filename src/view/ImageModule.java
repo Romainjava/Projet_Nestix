@@ -15,8 +15,6 @@ public class ImageModule extends Module{
 	
 	public ImageModule() {
 		super();
-		
-		this.setBackground(Color.RED);
 			
 		
 		//Element

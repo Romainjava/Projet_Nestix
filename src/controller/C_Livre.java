@@ -1,8 +1,12 @@
 package controller;
 
 import java.awt.event.MouseAdapter;
+
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import modele.Livre;
@@ -20,6 +24,7 @@ import view.ImageModule;
 import view.LinkModule;
 import view.MainPanel;
 import view.Module;
+import view.TextAreaScrollField;
 import view.TextListField;
 
 public class C_Livre {
@@ -55,8 +60,8 @@ public class C_Livre {
 	}
 	
 	public void ajouteHeader() {
-		String tabHeader[] = { "Titre", "ISBN", "Annee de sortie" };
-		double elmsSize[] = { 1.0, 1.0, 1.0, 1.0 };
+		String tabHeader[] = { "Titre", "ISBN", "Annee de sortie", "Saga", "Univers" };
+		double elmsSize[] = { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0 };
 		HeaderPanel livre_header = new HeaderPanel(this.livres_panel, "Cet onglet permet de renseigner des livres",
 				tabHeader, elmsSize);
 		ArrayList<JTextField> liste = livre_header.getJtextArrray();
@@ -73,14 +78,18 @@ public class C_Livre {
 		//ligne 2
 		livre_main.addModule(new LinkModule("Genre"), 0, 1);
 		
-		GridPanel relationComple = new GridPanel(new double[] {1.0, 1.0}, new double[] {1.0, 1.0, 1.0});
-		livre_main.add(relationComple, livre_main.addElement(1, 1));
-		relationComple.add(new ComboListField(new String[] {"etat1", "etat2", "etat3"}), relationComple.addElement(0, 0));
-		relationComple.add(new TextListField(), relationComple.addElement(0, 1));
-		relationComple.add(new TextListField(), relationComple.addElement(1, 1));
-		relationComple.add(new TextListField(), relationComple.addElement(0, 2));
+		GridPanel relation_panel = new GridPanel(new double[] {1.0, 1.0}, new double[] {1.0, 1.0, 1.0, 1.0});
+		livre_main.add(relation_panel, livre_main.addElement(1, 1));
+		relation_panel.add(new JLabel("Etat"), relation_panel.addElement(0, 0));
+		relation_panel.add(new ComboListField(new String[] {"etat1", "etat2", "etat3"}), relation_panel.addElement(0, 1));
+		relation_panel.add(new JLabel("Editeur"), relation_panel.addElement(1, 0));
+		relation_panel.add(new ComboListField(new String[] {"editeur1", "editeur2", "editeur3"}), relation_panel.addElement(1, 1));
 		
-		livre_main.addModule(new Module(), 2, 1);
+		GridPanel resume_panel = new GridPanel(new double[] {1.0}, new double[] {1.0, 5.0});
+		livre_main.add(resume_panel, livre_main.addElement(2, 1));
+		resume_panel.add(new JLabel("Resumé"), resume_panel.addElement(0, 0));
+		resume_panel.add(new TextAreaScrollField(5,10), resume_panel.addElement(0, 1));
+		
 	}
 	public void ajouteTab() {
 		AsidePanel livres_aside_panel = new AsidePanel(this.livres_panel);

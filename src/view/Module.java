@@ -9,7 +9,6 @@ public class Module extends JPanel{
 	public Module() {
 		super();
 		
-		this.setBackground(Color.CYAN);
 		
 	}
 
