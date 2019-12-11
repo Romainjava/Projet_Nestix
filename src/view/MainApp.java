@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 
 import controller.C_Livre;
+import controller.C_artiste;
 import controller.C_film;
 import controller.C_musique;
 import modele.ConnexionBDD;
@@ -73,15 +74,9 @@ public class MainApp {
 		gbl_films_panel.columnWeights = new double[] { 3.0, 1.0 };
 		gbl_films_panel.rowWeights = new double[] { 1.0, 3.5, 0.5 };
 		films_panel.setLayout(gbl_films_panel);
-		tabbedPane.addTab("Livres", null, films_panel, null);
+		tabbedPane.addTab("Films", null, films_panel, null);
 		
 		C_film film_controler_panel = new C_film(films_panel); 
-		
-		//AsidePanel film_aside_panel = new AsidePanel(films_panel);
-		//film_aside_panel.setDonnees(new Object[][] { { "seigneur des anneaux", null, null, null }, });
-		//film_aside_panel.ajouterLigne(new Object[] { "toto", null, null, null });
-		
-		// == FIN ASIDE == //
 
 		// ===== FIN FILMS ===== //
 
@@ -101,8 +96,12 @@ public class MainApp {
 		// ====== DEBUT ARTISTES PANEL ====== //
 
 		JPanel artistes_panel = new JPanel();
-		tabbedPane.addTab("Artistes", null, artistes_panel, null);
-		artistes_panel.setLayout(new GridLayout(1, 0, 0, 0));
+		GridBagLayout gbl_artistes_panel = new GridBagLayout();
+		gbl_artistes_panel.columnWeights = new double[] { 3.0, 1.0 };
+		gbl_artistes_panel.rowWeights = new double[] { 1.0, 3.5, 0.5 };
+		artistes_panel.setLayout(gbl_artistes_panel);
+		tabbedPane.addTab("Artistes", null, artistes_panel, null);		
+		C_artiste artiste_controler_panel = new C_artiste(artistes_panel);
 
 		// ===== FIN ARTISTES ===== //
 

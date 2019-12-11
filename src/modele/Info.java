@@ -25,7 +25,7 @@ public abstract class Info implements I_requeteSQL, I_recherche {
 				query = "SELECT " + this.getIdName() + " FROM nestix_" + this.getTableName() + " WHERE "
 						+ this.getColumnName() + "=?";
 				System.out.println(query);
-				statement = (PreparedStatement) ConnexionBDD.startConnection().prepareStatement(query);
+				statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
 				statement.setString(1, this.nom);
 				result = statement.executeQuery();
 				if(result.getRow() == 0) {
@@ -35,7 +35,6 @@ public abstract class Info implements I_requeteSQL, I_recherche {
 					this.id = result.getInt(1);
 				}
 				statement.close();
-				ConnexionBDD.closeConnection();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -59,14 +58,13 @@ public abstract class Info implements I_requeteSQL, I_recherche {
 				}
 				query = "SELECT " + this.getColumnName() + " FROM nestix_" + this.getTableName() + " WHERE "
 						+ this.getIdName() + "=?";
-				statement = (PreparedStatement) ConnexionBDD.startConnection().prepareStatement(query);
+				statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
 				statement.setInt(1, this.id);
 				result = statement.executeQuery();
 				if (result.next()) {
 					this.nom = result.getString(1);
 				}
 				statement.close();
-				ConnexionBDD.closeConnection();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -86,7 +84,7 @@ public abstract class Info implements I_requeteSQL, I_recherche {
 		String query;
 		try {
 			query = "INSERT IGNORE INTO nestix_" + this.getTableName() + "(" + this.getColumnName() + ") VALUES(?)";
-			statement = (PreparedStatement) ConnexionBDD.startConnection().prepareStatement(query);
+			statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
 			statement.setString(1, value);
 			result = statement.executeQuery();
 			if (result.next()) {
@@ -94,7 +92,6 @@ public abstract class Info implements I_requeteSQL, I_recherche {
 				this.id = id;
 			}
 			statement.close();
-			ConnexionBDD.closeConnection();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -109,7 +106,7 @@ public abstract class Info implements I_requeteSQL, I_recherche {
 		try {
 			query = "SELECT " + this.getColumnName() + " FROM nestix_" + this.getTableName() + " WHERE "
 					+ this.getIdName() + "=?";
-			statement = (PreparedStatement) ConnexionBDD.startConnection().prepareStatement(query);
+			statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
 			statement.setInt(1, id);
 			result = statement.executeQuery();
 			if (result.next()) {
@@ -117,7 +114,6 @@ public abstract class Info implements I_requeteSQL, I_recherche {
 				this.id = id;
 			}
 			statement.close();
-			ConnexionBDD.closeConnection();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -134,12 +130,11 @@ public abstract class Info implements I_requeteSQL, I_recherche {
 			}
 			query = "UPDATE nestix_" + this.getTableName() + " SET " + this.getColumnName() + "=? WHERE "
 					+ this.getIdName() + "=?";
-			statement = (PreparedStatement) ConnexionBDD.startConnection().prepareStatement(query);
+			statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
 			statement.setString(1, this.nom);
 			statement.setInt(2, this.id);
 			result = statement.executeUpdate();
 			statement.close();
-			ConnexionBDD.closeConnection();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

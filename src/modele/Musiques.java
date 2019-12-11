@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.sun.org.apache.xalan.internal.xsltc.compiler.sym;
+
 
 public class Musiques extends Media {
 
@@ -53,8 +53,9 @@ public class Musiques extends Media {
 			id_oeuvre=0;
 		 System.out.println(id_oeuvre);
 		try {
+			
 			String query = "INSERT INTO nestix_media(annee_sortie_media,admin_id,oeuvre_id) VALUES(?,?,?)";
-			PreparedStatement statement = (PreparedStatement) ConnexionBDD.startConnection().prepareStatement(query);
+			PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
 			statement.setString(1, this.annee_sortie_media);
 			statement.setInt(2, 4);
 			statement.setInt(3, id_oeuvre);
