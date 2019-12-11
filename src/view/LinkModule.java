@@ -8,22 +8,20 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-//import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
-//import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 public class LinkModule extends Module implements ActionListener{
 	
-	private ArrayList<String> text_list;
-//	JPanel content_panel;
-	JButton more_btn = new JButton("+");
-	JButton less_btn = new JButton("-");
-	TextListField text_list_field;
-	JScrollPane content_scroll;
-	JList content_list;
+	protected ArrayList<String> text_list;
+	protected JLabel title_label;
+	protected JButton more_btn = new JButton("+");
+	protected JButton less_btn = new JButton("-");
+	protected TextListField text_list_field;
+	protected JScrollPane content_scroll;
+	protected JList content_list;
 	
 	public LinkModule(String ptitre) {
 		super();
@@ -31,40 +29,47 @@ public class LinkModule extends Module implements ActionListener{
 		this.setBackground(Color.YELLOW);
 		
 		//Element
-		JLabel title_label = new JLabel(ptitre);
+		createElement(ptitre);
+		
+		//Event
+		createEvent();
+				
+		//Layout
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.fill = GridBagConstraints.BOTH;
+	    
+	    addElementLayout(gbc);
+	}
+	
+	public void createElement(String ptitre) {
+		title_label = new JLabel(ptitre);
 		this.more_btn = new JButton("+");
-//		content_panel = new JPanel();
 		text_list_field = new TextListField();
 		content_scroll = new JScrollPane();
 		String[] data = {"item1", "item2", "item3"};
 		this.text_list = new ArrayList<String>(Arrays.asList(data));
 		this.content_list = new JList(data);
 		System.out.println(text_list);
-		
-		//Event
+	}
+	public void createEvent() {
 		this.more_btn.addActionListener(this);
 		this.less_btn.addActionListener(this);
-				
-		//Layout
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.fill = GridBagConstraints.BOTH;
-		
+	}
+	public void addElementLayout(GridBagConstraints gbc) {
 		GridBagLayout gbl = new GridBagLayout();
-
+		
 		gbl.columnWeights = new double[] {1.0, 1.0, 1.0, 1.0, 1.0};
 	    gbl.rowWeights = new double[] {1.0,
-	    								1.0,
-	    								1.0,
-	    								4.0};
+										1.0,
+										1.0,
+										4.0};
 	    this.setLayout(gbl);
-//	    content_panel.setLayout(new BoxLayout(content_panel, BoxLayout.PAGE_AXIS));
 	    
-	    
-	    gbc.gridx = 1;
+		gbc.gridx = 1;
 		gbc.gridy = 0;
 		gbc.gridwidth = 3;
 		gbc.gridheight = 1;
-		this.add(title_label, gbc);
+		this.add(this.title_label, gbc);
 		gbc.gridx = 1;
 		gbc.gridy = 1;
 		gbc.gridwidth = 1;
@@ -83,20 +88,7 @@ public class LinkModule extends Module implements ActionListener{
 	}
 	
 	public void addTextListField() {
-//		JPanel box = new JPanel();
-//		box.setLayout(new BoxLayout(box, BoxLayout.LINE_AXIS));
-//		
-//		TextListField textListField = new TextListField();
-//		JButton remove_btn = new JButton("-");
-//		
-//		this.textListFieldList.add(textListField);
-//		
-//		box.add(textListField);
-//		box.add(remove_btn);
-//		content_panel.add(box);
 
-//		content_panel.validate();
-//		content_panel.repaint();
 		if(!text_list_field.getText().equals("")) {
 			this.text_list.add(text_list_field.getText());
 			text_list_field.setText("");
