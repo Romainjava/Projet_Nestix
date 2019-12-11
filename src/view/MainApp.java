@@ -55,10 +55,10 @@ public class MainApp {
 		// ====== DEBUT LIVRE PANEL ====== //
 
 		JPanel livres_panel = new JPanel();		
-		GridBagLayout gbl_livres_panel = new GridBagLayout();
-		gbl_livres_panel.columnWeights = new double[] { 3.0,1.0 };
-		gbl_livres_panel.rowWeights = new double[] { 1.0, 3.5,0.5};
-		livres_panel.setLayout(gbl_livres_panel);
+		GridBagLayout gbl_panel = new GridBagLayout();
+		gbl_panel.columnWeights = new double[] { 3.0,1.0 };
+		gbl_panel.rowWeights = new double[] { 1.0, 3.5,0.5};
+		livres_panel.setLayout(gbl_panel);
 		tabbedPane.addTab("Livres", null, livres_panel, null);
 		// === Construction du livre panel === //
 		C_Livre livres_controler_panel = new C_Livre(livres_panel);
