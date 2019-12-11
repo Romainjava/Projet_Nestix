@@ -1,13 +1,18 @@
 package controller;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import modele.Artiste;
+import modele.M_artiste;
 import view.AsidePanel;
 import view.FooterPanel;
 import view.HeaderPanel;
@@ -28,7 +33,7 @@ public class C_artiste {
 	JTextField artiste_prenom_textfield;
 	JTextField artiste_surnom_textfield;
 	JTextField artiste_dob_textfield;
-	
+
 	public C_artiste(JPanel artiste_panel) {
 		this.artiste_panel = artiste_panel;
 		ajouteHeader();
@@ -64,8 +69,7 @@ public class C_artiste {
 	public void ajouteTab() {
 		AsidePanel artiste_aside = new AsidePanel(this.artiste_panel);
 		artiste_aside.setEntetes(new String[] { "Nom", "Prenom", "Surnom", "Etat", "Date de naissance" });
-		artiste_aside.setDonnees(new Object[][] { { "Collins", "Phil", "Null", "Valide", "1951" }, });
-		artiste_aside.ajouterLigne(new Object[] { "Doe", "John", "Roger", "en attente", "2010" });
+		artiste_aside.setDonnees(M_artiste.lireTout(50));
 
 		// AJOUT EVENT
 		this.artiste_result_table = artiste_aside.getTable_result();
@@ -76,6 +80,18 @@ public class C_artiste {
 		String textBouton[] = { "Creer", "Modifier", "Supprimer" };
 		double elmsSizeFooter[] = { 1.0, 1.0, 1.0 };
 		FooterPanel artiste_footer = new FooterPanel(this.artiste_panel, textBouton, elmsSizeFooter);
+
+		ArrayList<JButton> btn = artiste_footer.getBoutonTab();
+		btn.get(0).addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				artiste.setSurnom_artiste(getArtiste_surnom_textfield().getText());
+				artiste.setNom_artiste(getArtiste_nom_textfield().getText());
+				artiste.setPrenom_artiste(getArtiste_prenom_textfield().getText());
+				artiste.setDob_artiste(getArtiste_dob_textfield().getText());
+				M_artiste.creation(artiste);
+			}
+		});
 	}
 
 	/**
@@ -87,7 +103,7 @@ public class C_artiste {
 		this.artiste_prenom_textfield.setText(artiste.getPrenom_artiste());
 		this.artiste_surnom_textfield.setText(artiste.getSurnom_artiste());
 		this.artiste_dob_textfield.setText(artiste.getDob_artiste());
-		
+
 	}
 
 	/**
@@ -106,7 +122,8 @@ public class C_artiste {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			int row = this.controller.getArtiste_result_table().rowAtPoint(e.getPoint());
-			//int column = this.controller.getArtiste_result_table().columnAtPoint(e.getPoint());
+			// int column =
+			// this.controller.getArtiste_result_table().columnAtPoint(e.getPoint());
 
 			// "getAtValue" : Permet de prendre la valeur de la case ( row , column )
 			String nom = (String) this.controller.getArtiste_result_table().getValueAt(row, 0);
@@ -137,6 +154,7 @@ public class C_artiste {
 	public void setArtiste_nom_textfield(JTextField artiste_nom_textfield) {
 		this.artiste_nom_textfield = artiste_nom_textfield;
 	}
+
 	public JTextField getArtiste_prenom_textfield() {
 		return artiste_prenom_textfield;
 	}
