@@ -37,7 +37,7 @@ public class Musiques extends Media {
 		boolean success;
 		try {
 			String query = "INSERT INTO nestix_media(titre_media,date_crea_media,annee_sortie_media,admin_id,univers_id,image_id,saga_id,etat_id) VALUES(?,?)";
-			PreparedStatement statement = (PreparedStatement) ConnexionBDD.startConnection().prepareStatement(query);
+			PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
 		} catch (Exception e) {
 			// TODO: handle exception
 		}

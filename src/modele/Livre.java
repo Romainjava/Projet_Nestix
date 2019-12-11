@@ -69,7 +69,7 @@ public class Livre extends Media {
 		boolean success = true;
 		try {
 			String query = "SELECT * FROM nestix_media JOIN nestix_livre ON id_media = livre_id WHERE id_media = " + id;
-			Statement state = ConnexionBDD.startConnection().createStatement();
+			Statement state = ConnexionBDD.getConnexion().createStatement();
 			ResultSet result = state.executeQuery(query);
 			
 			ResultSetMetaData resultMeta = result.getMetaData();
