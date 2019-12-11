@@ -2,7 +2,7 @@ package modele;
 
 import java.util.ArrayList;
 
-public class Saga extends Info {
+public class Oeuvre extends Info {
 
 	@Override
 	public boolean suppression(int id) {
@@ -35,7 +35,8 @@ public class Saga extends Info {
 	}
 
 	@Override
-	protected String getTableName() {		
-		return "saga";
+	protected String getTableName() {
+		return "oeuvre";
 	}
+
 }
