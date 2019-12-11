@@ -145,7 +145,7 @@ public class Musiques extends Media {
 //		genre.setNom("Roman");
 //		genre.modification();
 //		System.out.println(genre);
-		System.out.println(musique.lectureTout(10).toString());
+		System.out.println(musique.lectureTout(50));
 //		Genre genre2 = new Genre();
 //		genre2.setNom_genre("pop");
 //		musique.addGenre(genre);
