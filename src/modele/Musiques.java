@@ -1,5 +1,6 @@
 package modele;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -86,8 +87,46 @@ public class Musiques extends Media {
 
 	@Override
 	public ArrayList<I_recherche> lectureTout(int limit) {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<I_recherche> musiqueList = new ArrayList<>();
+		try {
+			Connection co = ConnexionBDD.getConnexion();
+			String query = "SELECT\r\n" + 
+					"    duree_musique,\r\n" + 
+					"    annee_sortie_media,\r\n" + 
+					"    nom_oeuvre,\r\n" + 
+					"    GROUP_CONCAT(DISTINCT surnom_artiste)AS surnom_artiste,\r\n" + 
+					"    GROUP_CONCAT(nom_genre)AS nom_genre,\r\n" + 
+					"    id_genre,\r\n" + 
+					"	 nom_genre,\r\n"+
+					"    nom_etat\r\n" + 
+					"FROM\r\n" + 
+					"    `nestix_musique`\r\n" + 
+					"JOIN nestix_media ON nestix_media.id_media = media_id\r\n" + 
+					"JOIN nestix_oeuvre ON nestix_oeuvre.id_oeuvre = nestix_media.id_media\r\n" + 
+					"JOIN nestix_artiste_metier_media ON nestix_artiste_metier_media.media_id = nestix_media.id_media\r\n" + 
+					"JOIN nestix_artiste ON nestix_artiste.id_artiste = nestix_artiste_metier_media.artiste_id\r\n" + 
+					"JOIN nestix_media_genre ON nestix_media.id_media = nestix_media_genre.media_id\r\n" + 
+					"JOIN nestix_genre ON nestix_media_genre.genre_id = nestix_genre.id_genre\r\n" + 
+					"JOIN nestix_etat ON nestix_media.etat_id=nestix_etat.id_etat\r\n" + 
+					"GROUP BY\r\n" + 
+					"    nestix_media.id_media LIMIT ?";
+			PreparedStatement statement = (PreparedStatement) co.prepareStatement(query);
+			statement.setInt(1, limit);
+			ResultSet result = statement.executeQuery();
+			while (result.next()) {
+				Musiques musique=new Musiques();
+				musique.concat_genre=result.getString("nom_genre");
+				musique.setTitre_media(result.getString("nom_oeuvre"));
+				musique.concat_artistes=result.getString("surnom_artiste");
+				musique.etat.setNom(result.getString("nom_etat"));
+				musique.setAnnee_sortie_media(result.getString("annee_sortie_media"));
+				musiqueList.add(musique);
+			}
+			//success = (statement.executeUpdate()>1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return musiqueList;
 	}
 
 	@Override
@@ -99,14 +138,14 @@ public class Musiques extends Media {
 	public static void main(String[] args) {
 		Musiques musique= new Musiques();
 //		musique.setTitre_media("test");
-		Genre genre = new Genre();
-		genre.setNom("romann");
-		genre.getId();
-		System.out.println(genre);
-		genre.setNom("Roman");
-		genre.modification();
-		System.out.println(genre);
-
+//		Genre genre = new Genre();
+//		genre.setNom("romann");
+//		genre.getId();
+//		System.out.println(genre);
+//		genre.setNom("Roman");
+//		genre.modification();
+//		System.out.println(genre);
+		System.out.println(musique.lectureTout(10).toString());
 //		Genre genre2 = new Genre();
 //		genre2.setNom_genre("pop");
 //		musique.addGenre(genre);
