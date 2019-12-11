@@ -90,7 +90,7 @@ public class Artiste implements I_requeteSQL, I_recherche {
 	}
 
 	@Override
-	public boolean modification(int id) {
+	public boolean modification() {
 		// TODO Auto-generated method stub
 		return false;
 	}

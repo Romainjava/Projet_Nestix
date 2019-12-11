@@ -1,13 +1,10 @@
 package view;
 
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
-
-import modele.*;
 
 public class MainPanel extends JPanel{
 	
@@ -32,14 +29,18 @@ public class MainPanel extends JPanel{
 	    								1.0};
 	    this.setLayout(gbl);
 
-	    //Element
-//		this.addModule(new LinkModule("Personne"), 0, 0, 1, 1);
-//		this.addModule(new Module(), 0, 1, 1, 1);
-//		
-//		this.addModule(new ImageModule(), 2, 0, 1, 1);
-
 	}
-	
+	public GridBagConstraints addElement(int x, int y) {
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.fill = GridBagConstraints.BOTH;
+		
+		gbc.gridx = x;
+		gbc.gridy = y;
+		gbc.gridwidth = 1;
+		gbc.gridheight = 1;
+		
+		return gbc;
+	}
 	public void addModule(Module pModule, int x, int y) {
 		this.moduleList.add(pModule);
 		

@@ -9,56 +9,41 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 
-public class LinkModule extends Module implements ActionListener{
+public class DualLinkModule extends LinkModule{
 	
-	protected ArrayList<String> text_list;
-	protected JLabel title_label;
-	protected JButton more_btn = new JButton("+");
-	protected JButton less_btn = new JButton("-");
-	protected TextListField text_list_field;
-	protected JScrollPane content_scroll;
-	protected JList content_list;
-	
-	public LinkModule(String ptitre) {
-		super();
+	protected ArrayList<String> combo_list;
+	protected JComboBox combo_list_field;
+
+	public DualLinkModule(String ptitre) {
+		super(ptitre);
 		
-		this.setBackground(Color.YELLOW);
+		this.setBackground(Color.ORANGE);		
 		
-		//Element
-		createElement(ptitre);
-		
-		//Event
-		createEvent();
-				
-		//Layout
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.fill = GridBagConstraints.BOTH;
-	    
-	    addElementLayout(gbc);
 	}
-	
+	@Override
 	public void createElement(String ptitre) {
-		title_label = new JLabel(ptitre);
-		this.more_btn = new JButton("+");
-		text_list_field = new TextListField();
-		content_scroll = new JScrollPane();
-		String[] data = {"item1", "item2", "item3"};
-		this.text_list = new ArrayList<String>(Arrays.asList(data));
-		this.content_list = new JList(data);
-		System.out.println(text_list);
+		super.createElement(ptitre);
+		
+		String[] dataCombo = {"second_item1", "second_item2", "second_item3"};
+		this.combo_list = new ArrayList<String>(Arrays.asList(dataCombo));
+		combo_list_field = new JComboBox(dataCombo);
 	}
-	public void createEvent() {
-		this.more_btn.addActionListener(this);
-		this.less_btn.addActionListener(this);
-	}
+//	@Override
+//	public void createEvent() {
+//		super.createEvent();
+//		
+//		
+//	}
+	@Override
 	public void addElementLayout(GridBagConstraints gbc) {
 		GridBagLayout gbl = new GridBagLayout();
 		
-		gbl.columnWeights = new double[] {1.0, 1.0, 1.0, 1.0, 1.0};
+		gbl.columnWeights = new double[] {1.0, 1.0, 1.0, 1.0, 1.0, 5.0};
 	    gbl.rowWeights = new double[] {1.0,
 										1.0,
 										1.0,
@@ -78,42 +63,61 @@ public class LinkModule extends Module implements ActionListener{
 		this.add(this.less_btn, gbc);
 		gbc.gridx = 0;
 		gbc.gridy = 2;
-		gbc.gridwidth = GridBagConstraints.REMAINDER;
+		gbc.gridwidth = 4;
 		this.add(this.text_list_field, gbc);
+		gbc.gridx = 5;
+		gbc.gridwidth = GridBagConstraints.REMAINDER;
+		this.add(this.combo_list_field, gbc);
 		gbc.gridx = 0;
 		gbc.gridy = 3;
 		gbc.gridwidth = GridBagConstraints.REMAINDER;
 		this.add(content_scroll, gbc);
 		content_scroll.setViewportView(content_list);
 	}
-	
+	@Override
 	public void addTextListField() {
 
 		if(!text_list_field.getText().equals("")) {
 			this.text_list.add(text_list_field.getText());
 			text_list_field.setText("");
-//			System.out.println(text_list);
 			
-			this.content_list = new JList(text_list.toArray());
+			this.combo_list.add(combo_list_field.getSelectedItem().toString());
+			combo_list_field.setSelectedIndex(0);
+			
+			System.out.println(text_list);
+			System.out.println(combo_list);
+			
+			String[] text_list_array = new String[text_list.size()];
+			for(int i = 0; i < text_list_array.length; i++){
+				text_list_array[i] = text_list.get(i) + " | " + combo_list.get(i);
+			}
+			
+			this.content_list = new JList(text_list_array);
 //			System.out.println(this.content_list.getModel().getSize());
 			
 			content_scroll.setViewportView(content_list);
 		}
 
 	}
-	
+	@Override
 	public void removeTextListField() {
 		
 		int[] index_list = content_list.getSelectedIndices();
 
 		for(int i = index_list.length-1; i >= 0 ; i--) {
 			this.text_list.remove(index_list[i]);
+			this.combo_list.remove(index_list[i]);
 		}
 		
 		System.out.println(text_list);
+		System.out.println(combo_list);
 		
-		this.content_list = new JList(text_list.toArray());
-		System.out.println(this.content_list.getModel().getSize());
+		String[] text_list_array = new String[text_list.size()];
+		for(int i = 0; i < text_list_array.length; i++){
+			text_list_array[i] = text_list.get(i) + " | " + combo_list.get(i);
+		}
+		this.content_list = new JList(text_list_array);
+		//System.out.println(this.content_list.getModel().getSize());
 		
 		content_scroll.setViewportView(content_list);
 

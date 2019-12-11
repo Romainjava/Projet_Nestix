@@ -1,50 +1,41 @@
 package modele;
 
+import java.util.ArrayList;
 
-public class Metier  implements I_requetesSql {
-
-
-	private int id_metier;
-	private String nom_metier;
-
-	public int getId_metier() {
-		return id_metier;
-	}
-
-	public void setId_metier(int id_metier) {
-		this.id_metier = id_metier;
-	}
-
-	public String getNom_metier() {
-		return nom_metier;
-	}
-
-	public void setNom_metier(String nom_metier) {
-		this.nom_metier = nom_metier;
-	}
+public class Metier extends Info{
 
 	@Override
-	public boolean creation() {
+	public boolean suppression(int id) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean modification() {
+	public ArrayList<I_recherche> lectureTout(int limit) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean recherchePar(int limit) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean lecture() {
+	public Object[] toRowData() {
 		// TODO Auto-generated method stub
-		return false;
+		return null;
 	}
 
 	@Override
-	public boolean suppression() {
+	public String[] toHeaderData() {
 		// TODO Auto-generated method stub
-		return false;
+		return null;
 	}
 
+	@Override
+	protected String getTableName() {
+		return "metier";
+	}
 }
