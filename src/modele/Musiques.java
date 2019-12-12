@@ -124,6 +124,8 @@ public class Musiques extends Media {
 				this.setOeuvre(result);
 				this.setUnivers(result);
 				this.setAlbum(result);
+				this.fetchArtiste(id);
+				this.fetchGenre(id);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -224,7 +226,7 @@ public class Musiques extends Media {
 					+ "		nom_etat " 
 					+ "FROM  `nestix_musique`  "
 					+ "LEFT JOIN nestix_media ON nestix_media.id_media = media_id  "
-					+ "LEFT JOIN nestix_oeuvre ON nestix_oeuvre.id_oeuvre = nestix_media.id_media "
+					+ "LEFT JOIN nestix_oeuvre ON nestix_oeuvre.id_oeuvre = nestix_media.oeuvre_id "
 					+ "LEFT JOIN nestix_artiste_metier_media ON nestix_artiste_metier_media.media_id = nestix_media.id_media "
 					+ "LEFT JOIN nestix_artiste ON nestix_artiste.id_artiste = nestix_artiste_metier_media.artiste_id  "
 					+ "LEFT JOIN nestix_media_genre ON nestix_media.id_media = nestix_media_genre.media_id "
@@ -248,5 +250,15 @@ public class Musiques extends Media {
 					+ " WHERE   id_media = ?";
 
 		}
+	}
+
+	public String getTitreAlbum() {
+		return this.album.getNom();
+	}
+	
+	public String[] toRowDataForm() {
+	//	{ "Titre", "Duree","Album","Univers","Annee de sortie" };
+		String[] data = {this.getTitre(),this.duree_musique+"", this.getTitreAlbum(),this.getNomunivers(),this.annee_sortie_media};
+		return data;
 	}
 }
