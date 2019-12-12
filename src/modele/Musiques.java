@@ -68,10 +68,29 @@ public class Musiques extends Media {
 		return false;
 	}
 	
-	private void fetchGenre() {
-		
+	private void fetchGenre(int id) {
+		try {
+			Connection co = ConnexionBDD.getConnexion();
+			String query="SELECT\r\n" + 
+					"    genre_id,nom_genre\r\n" + 
+					"FROM\r\n" + 
+					"    nestix_media_genre\r\n" + 
+					"JOIN nestix_genre ON nestix_media_genre.genre_id = nestix_genre.id_genre\r\n" + 
+					"WHERE\r\n" + 
+					"    media_id = ?";	
+			PreparedStatement statement = (PreparedStatement) co.prepareStatement(query);
+			statement.setInt(1, id);
+			ResultSet result = statement.executeQuery();
+			while(result.next()) {
+				Genre genre = new Genre();
+				genre.setId(result.getInt("genre_id"));
+				genre.setNom(result.getString("nom_genre"));
+			}
+		} catch (SQLException e) {
+			// TODO: handle exception
+		}
 	}
-	private void fetchArtiste() {
+	private void fetchArtiste(int id) {
 		
 	}
 	@Override
@@ -121,9 +140,9 @@ public class Musiques extends Media {
 				this.image.setPath_image(result.getString("path_image"));
 				this.image.setAlt_image(result.getString("alt_image"));
 				this.etat.setId(result.getInt("id_etat"));
-				this.etat.setNom(result.getString("nom_etat"));				
-				
-				
+				this.etat.setNom(result.getString("nom_etat"));
+				this.oeuvre.setId(result.getInt("oeuvre_id"));
+				this.oeuvre.setNom(result.getString("nom_oeuvre"));				
 			}
 		}catch (SQLException e) {
 			e.printStackTrace();
@@ -200,7 +219,7 @@ public class Musiques extends Media {
 //		genre.modification();
 //		System.out.println(genre);
 		ArrayList<I_recherche> testArrayList=musique.lectureTout(50);
-		System.out.println(musique.lireUn(2));
+		System.out.println(musique.lireUn(2)+" "+musique.etat.getNom());
 //		Genre genre2 = new Genre();
 //		genre2.setNom_genre("pop");
 //		musique.addGenre(genre);
