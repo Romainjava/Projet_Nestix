@@ -87,6 +87,14 @@ public abstract class Media implements I_requeteSQL,I_dataListable,I_recherche {
 		this.oeuvre = oeuvre;
 	}
 	
+	public String getTitre() {
+		return this.oeuvre.getNom();
+	}
+	
+	public String getNomunivers() {
+		return this.univers.getNom();
+	}
+	
 	/* setter with result*/
 
 	public void setUnivers(ResultSet result) {
