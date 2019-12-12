@@ -6,6 +6,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import modele.Livre;
+import modele.Oeuvre;
 
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -105,7 +106,7 @@ public class C_Livre {
 	 */
 	public void actualiseLivre() {
 		// Actualise le titre
-		this.getLivre_titre_textfield().setText(this.livre.getTitre_media());
+		this.getLivre_titre_textfield().setText(this.livre.getOeuvre().getNom());
 		// Actualise l'ISBN, etc ...
 		
 	}

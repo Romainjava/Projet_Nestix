@@ -7,16 +7,16 @@ import view.I_dataListable;
 public abstract class Media implements I_requeteSQL,I_dataListable,I_recherche {
 	
 	protected int id_media;
-	protected String titre_media;
+	protected Oeuvre oeuvre=new Oeuvre();
 	protected String date_crea_media;
 	protected String annee_sortie_media;
 	protected Univers univers=new Univers();
 	protected Saga saga=new Saga();
-	protected String titre_image;
+	protected Image image=new Image();
 	protected Etat etat=new Etat();
 	protected ArrayList<Artiste> artistes;
 	protected ArrayList<Genre> genres=new ArrayList<>();
-//	donné a utiliser pour le tableau
+//	donné à utiliser pour le tableau
 	protected String concat_artistes;
 	protected String concat_genre;
 
@@ -26,14 +26,6 @@ public abstract class Media implements I_requeteSQL,I_dataListable,I_recherche {
 
 	private void setId_media(int id_media) {
 		this.id_media = id_media;
-	}
-
-	public String getTitre_media() {
-		return titre_media;
-	}
-
-	public void setTitre_media(String titre_media) {
-		this.titre_media = titre_media;
 	}
 
 	public String getDate_crea_media() {
@@ -68,17 +60,9 @@ public abstract class Media implements I_requeteSQL,I_dataListable,I_recherche {
 		this.genres = genres;
 	}
 
-	public String getImage_id() {
-		return titre_image;
-	}
-
-	public void setImage_id(String image_id) {
-		this.titre_image = image_id;
-	}
-
 	@Override
 	public String toString() {
-		return "Media [id_media=" + id_media + ", titre_media=" + titre_media + ", date_crea_media=" + date_crea_media
+		return "Media [id_media=" + id_media + ", titre_media=" + oeuvre.getNom() + ", date_crea_media=" + date_crea_media
 				+ ", annee_sortie_media=" + annee_sortie_media + ", artistes=" + artistes + ", genres=" + genres + "]";
 	}
 	
@@ -87,5 +71,13 @@ public abstract class Media implements I_requeteSQL,I_dataListable,I_recherche {
 	}
 	public void addArtiste(Artiste artiste) {
 		this.artistes.add(artiste);
+	}
+
+	public Oeuvre getOeuvre() {
+		return oeuvre;
+	}
+
+	public void setOeuvre(Oeuvre oeuvre) {
+		this.oeuvre = oeuvre;
 	}
 }
