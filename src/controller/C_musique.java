@@ -8,15 +8,19 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
-
+import modele.I_recherche;
 import modele.Musiques;
 import view.AsidePanel;
+import view.ComboListField;
+import view.DualLinkModule;
 import view.FooterPanel;
+import view.GridPanel;
 import view.HeaderPanel;
 import view.ImageModule;
 import view.LinkModule;
 import view.MainPanel;
 import view.Module;
+import view.TextListField;
 
 public class C_musique {
 	
@@ -24,13 +28,13 @@ public class C_musique {
 	
 	// Données
 	Musiques musique = new Musiques();
-	ArrayList<Musiques> musiques = new ArrayList<>();
+	ArrayList<I_recherche> musiques = new ArrayList<>();
 	 
 	// Composants
 	JTable musique_results_table;
 	ArrayList<JTextField> musique_titre_textfield;
 	String[] header={ "Titre", "Duree","Album","Univers","Annee de sortie" };
-	
+	HeaderPanel musique_header;
 	public JTable getMusique_results_table() {
 		return musique_results_table;
 	}
@@ -53,7 +57,7 @@ public class C_musique {
 	
 	public void ajouteHeader() {
 		double elmsSize[] = { 1.0, 1.0, 1.0, 1.0 };
-		HeaderPanel musique_header = new HeaderPanel(this.musiques_panel, "Cet onglet permet de renseigner des musiques",
+		musique_header = new HeaderPanel(this.musiques_panel, "Cet onglet permet de renseigner des musiques",
 				header, elmsSize);
 		ArrayList<JTextField> liste = musique_header.getJtextArrray();
 		this.musique_titre_textfield = liste;
@@ -62,18 +66,27 @@ public class C_musique {
 	public void ajoutMainPanel() {
 		MainPanel musique_main = new MainPanel(this.musiques_panel);
 		// Add element
-		musique_main.addModule(new LinkModule("Personne"), 0, 0);
-		musique_main.addModule(new Module(), 1, 0);
+		//ligne 1
+		musique_main.addModule(new DualLinkModule("Personne"), 0, 0, 2, 1);
+		
 		musique_main.addModule(new ImageModule(), 2, 0);
-
+		//ligne 2
 		musique_main.addModule(new LinkModule("Genre"), 0, 1);
-		musique_main.addModule(new Module(), 1, 1);
+		
+		GridPanel relationComple = new GridPanel(new double[] {1.0, 1.0}, new double[] {1.0, 1.0, 1.0});
+		musique_main.add(relationComple, musique_main.addElement(1, 1));
+		relationComple.add(new ComboListField(new String[] {"etat1", "etat2", "etat3"}), relationComple.addElement(0, 0));
+		relationComple.add(new TextListField(), relationComple.addElement(0, 1));
+		relationComple.add(new TextListField(), relationComple.addElement(1, 1));
+		relationComple.add(new TextListField(), relationComple.addElement(0, 2));
+		
 		musique_main.addModule(new Module(), 2, 1);
 	}
 	public void ajouteTab() {
 		AsidePanel musiques_aside = new AsidePanel(this.musiques_panel);
 		musiques_aside.setEntetes(musique.toHeaderData());
-		musiques_aside.setDonnees(musique.lectureTout(50));
+		musiques=musique.lectureTout(50);
+		musiques_aside.setDonnees(musiques);
 		// Ajout d'un evenemment
 		this.musique_results_table = musiques_aside.getTable_result();
 		musique_results_table.addMouseListener(new MouseAdapterTableau(this));
@@ -89,9 +102,9 @@ public class C_musique {
 	/**
 	 * Actualise le formulaire de musique
 	 */
-	public void actualiseMusique(String titre) {
+	public void actualiseMusique() {
 		// Actualise le titre
-		this.getMusique_titre_textfield().get(0).setText(titre);
+		 musique_header.autoCompleteFormHeader(musique.toRowDataForm());
 	}
 	
 	
@@ -115,8 +128,8 @@ public class C_musique {
 			int row = this.controller.getMusique_results_table().rowAtPoint(e.getPoint());
 			// int column = tableau.columnAtPoint(e.getPoint());
 			// "getAtValue" : Permet de prendre la valeur de la case ( row , column )
-			String titre = (String)this.controller.getMusique_results_table().getValueAt(row, 0);
-			this.controller.actualiseMusique(titre);
+			musique.lireUn(musiques.get(row).getId());
+			this.controller.actualiseMusique();
 			// Plus tard faire appelle à la méthode actualise livre qui actualise tous les champs
 		}
 	}
