@@ -14,12 +14,16 @@ import javax.swing.JTextField;
 import modele.Artiste;
 import modele.M_artiste;
 import view.AsidePanel;
+import view.ComboListField;
+import view.DualLinkModule;
 import view.FooterPanel;
+import view.GridPanel;
 import view.HeaderPanel;
 import view.ImageModule;
 import view.LinkModule;
 import view.MainPanel;
 import view.Module;
+import view.TextListField;
 
 public class C_artiste {
 	private JPanel artiste_panel;
@@ -57,13 +61,22 @@ public class C_artiste {
 	public void ajoutMainPanel() {
 		MainPanel artiste_main = new MainPanel(this.artiste_panel);
 		// ADD ELEMENT
-		artiste_main.addModule(new LinkModule("Personne"), 0, 0);
+		artiste_main.addModule(new DualLinkModule("Media"), 0, 0);
 		artiste_main.addModule(new Module(), 1, 0);
 		artiste_main.addModule(new ImageModule(), 2, 0);
+		
+		GridPanel relationComple = new GridPanel(new double[] {1.0, 1.0}, new double[] {1.0, 1.0, 1.0});
+		artiste_main.add(relationComple, artiste_main.addElement(1, 1));
+		relationComple.add(new ComboListField(new String[] {"etat1", "etat2", "etat3"}), relationComple.addElement(0, 0));
+		relationComple.add(new TextListField(), relationComple.addElement(0, 1));
+		relationComple.add(new TextListField(), relationComple.addElement(1, 1));
+		relationComple.add(new TextListField(), relationComple.addElement(0, 2));
 
-		artiste_main.addModule(new LinkModule("Genre"), 0, 1);
-		artiste_main.addModule(new Module(), 1, 1);
-		artiste_main.addModule(new Module(), 2, 1);
+		/*
+		 * artiste_main.addModule(new LinkModule("Genre"), 0, 1);
+		 * artiste_main.addModule(new Module(), 1, 1); artiste_main.addModule(new
+		 * Module(), 2, 1);
+		 */
 	}
 
 	public void ajouteTab() {
@@ -82,6 +95,10 @@ public class C_artiste {
 		FooterPanel artiste_footer = new FooterPanel(this.artiste_panel, textBouton, elmsSizeFooter);
 
 		ArrayList<JButton> btn = artiste_footer.getBoutonTab();
+		
+		/**
+		 * Event btn creation un artiste avec requête creation dans M_artiste
+		 */
 		btn.get(0).addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -90,8 +107,24 @@ public class C_artiste {
 				artiste.setPrenom_artiste(getArtiste_prenom_textfield().getText());
 				artiste.setDob_artiste(getArtiste_dob_textfield().getText());
 				M_artiste.creation(artiste);
+				
 			}
 		});
+		
+		/**
+		 * Event btn Modifier un artiste avec requête modifier dans M_artiste
+		 */
+		btn.get(1).addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				artiste.setSurnom_artiste(getArtiste_surnom_textfield().getText());
+				artiste.setNom_artiste(getArtiste_nom_textfield().getText());
+				artiste.setPrenom_artiste(getArtiste_prenom_textfield().getText());
+				artiste.setDob_artiste(getArtiste_dob_textfield().getText());
+				M_artiste.modifier(artiste);
+			}
+		});
+		
 	}
 
 	/**
