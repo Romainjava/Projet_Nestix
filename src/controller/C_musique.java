@@ -71,13 +71,11 @@ public class C_musique {
 		musique_main.addModule(new Module(), 2, 1);
 	}
 	public void ajouteTab() {
-		AsidePanel livres_aside_panel = new AsidePanel(this.musiques_panel);
-		livres_aside_panel.setEntetes(header);
-		livres_aside_panel.setDonnees(new Object[][] { { "La boussole d'or", "toto en vacance", "valide", "2010" }, });// TODO il faut le mettre dans l'attribut "livres"
-		livres_aside_panel.ajouterLigne(new Object[] { "toto", "tata et toto", null, null });
-
+		AsidePanel musiques_aside = new AsidePanel(this.musiques_panel);
+		musiques_aside.setEntetes(header);
+		musiques_aside.setDonnees(musique.lectureTout(50));
 		// Ajout d'un evenemment
-		this.musique_results_table = livres_aside_panel.getTable_result();
+		this.musique_results_table = musiques_aside.getTable_result();
 		musique_results_table.addMouseListener(new MouseAdapterTableau(this));
 
 	}

@@ -10,13 +10,6 @@ public class Etat extends Info{
 		return "etat";
 	}
 
-
-	@Override
-	public boolean modification() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 	@Override
 	public boolean suppression(int id) {
 		// TODO Auto-generated method stub

@@ -54,7 +54,7 @@ public abstract class Info implements I_requeteSQL, I_recherche {
 			String query;
 			try {
 				if(this.id==0) {
-					throw new Exception("nom obligatoire");
+					throw new Exception("id obligatoire");
 				}
 				query = "SELECT " + this.getColumnName() + " FROM nestix_" + this.getTableName() + " WHERE "
 						+ this.getIdName() + "=?";
