@@ -87,7 +87,7 @@ public class Musiques extends Media {
 				genre.setNom(result.getString("nom_genre"));
 			}
 		} catch (SQLException e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 	}
 	private void fetchArtiste(int id) {
