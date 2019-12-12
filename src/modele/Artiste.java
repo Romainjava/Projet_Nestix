@@ -17,6 +17,9 @@ public class Artiste implements I_requeteSQL, I_recherche {
 		return id_artiste;
 	}
 
+	public int getId() {
+		return id_artiste;
+	}
 	public void setId_artiste(int id_artiste) {
 		this.id_artiste = id_artiste;
 	}
@@ -133,6 +136,11 @@ public class Artiste implements I_requeteSQL, I_recherche {
 	public boolean rechercheParMetier() {
 //		à coder
 		return false;
+	}
+
+	public void getAllMetierById(int id) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

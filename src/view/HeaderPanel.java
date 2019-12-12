@@ -13,19 +13,19 @@ import javax.swing.JTextField;
 public class HeaderPanel extends JPanel {
 	
 	private JTextField header_entete_textField;
-	private ArrayList<JTextField> JtextArrray;
+	private ArrayList<JTextField> jTextArray;
 	
 	public ArrayList<JTextField> getJtextArrray() {
-		return JtextArrray;
+		return jTextArray;
 	}
 
 	public void setJtextArrray(ArrayList<JTextField> jtextArrray) {
-		JtextArrray = jtextArrray;
+		jTextArray = jtextArrray;
 	}
 
 	public HeaderPanel(JPanel panel,String infoOnglet,String tab[],double elmsSize[]) {
 		super();
-		JtextArrray=new ArrayList<>();
+		jTextArray=new ArrayList<>();
 		JPanel header_panel = new JPanel();
 		header_panel.setBackground(Color.GREEN);
 		GridBagConstraints gbc_header_panel = new GridBagConstraints();
@@ -63,8 +63,14 @@ public class HeaderPanel extends JPanel {
 			gbc_header_entete_textField.gridy = 2;
 			header_panel.add(header_entete_textField, gbc_header_entete_textField);
 			header_entete_textField.setColumns(10);
-			JtextArrray.add(header_entete_textField);
+			jTextArray.add(header_entete_textField);
 			i++;
+		}
+	}
+	
+	public void autoCompleteFormHeader(String[] tabString) {
+		for (int i = 0; i < tabString.length; i++) {
+			jTextArray.get(i).setText(tabString[i]);
 		}
 	}
 
