@@ -67,6 +67,20 @@ public class DualLinkModule extends LinkModule{
 		this.add(content_scroll, gbc);
 		content_scroll.setViewportView(content_list);
 	}
+	
+	public void setData(String[] data, String[] data2) {
+		this.text_list = new ArrayList<String>(Arrays.asList(data));
+		this.combo_list = new ArrayList<String>(Arrays.asList(data2));
+		
+		String[] tData = new String[text_list.size()];
+		for(int i = 0; i < tData.length; i++){
+			tData[i] = this.text_list.get(i) + " | " + this.combo_list.get(i);
+		}
+		
+		this.content_list = new JList(data);
+		this.content_scroll.setViewportView(content_list);
+	}
+	
 	@Override
 	public void addTextListField() {
 

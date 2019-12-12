@@ -14,12 +14,12 @@ import javax.swing.JScrollPane;
 
 public class LinkModule extends Module implements ActionListener{
 	
-	protected ArrayList<String> text_list;
 	protected JLabel title_label;
 	protected JButton more_btn = new JButton("+");
 	protected JButton less_btn = new JButton("-");
 	protected TextListField text_list_field;
 	protected JScrollPane content_scroll;
+	protected ArrayList<String> text_list;
 	protected JList content_list;
 	
 	public LinkModule(String ptitre) {
@@ -37,15 +37,13 @@ public class LinkModule extends Module implements ActionListener{
 	    
 	    addElementLayout(gbc);
 	}
-	
+
 	public void createElement(String ptitre) {
 		title_label = new JLabel(ptitre);
 		this.more_btn = new JButton("+");
 		text_list_field = new TextListField();
 		content_scroll = new JScrollPane();
-		String[] data = {"item1", "item2", "item3"};
-		this.text_list = new ArrayList<String>(Arrays.asList(data));
-		this.content_list = new JList(data);
+		this.setData(new String[0]);
 		//System.out.println(text_list);
 	}
 	public void createEvent() {
@@ -82,6 +80,13 @@ public class LinkModule extends Module implements ActionListener{
 		gbc.gridwidth = GridBagConstraints.REMAINDER;
 		this.add(content_scroll, gbc);
 		content_scroll.setViewportView(content_list);
+	}
+	
+	
+	public void setData(String [] data) {
+		this.text_list = new ArrayList<String>(Arrays.asList(data));
+		this.content_list = new JList(data);
+		this.content_scroll.setViewportView(content_list);
 	}
 	
 	public void addTextListField() {
