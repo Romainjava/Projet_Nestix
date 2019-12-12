@@ -28,12 +28,16 @@ public class AsidePanel extends JPanel {
 	private JTable table_result;
 	private Object donnees[][] = { { null, null, null, null } };
 	private String entetes[] = { "Titre", "Genre", "Etat", "Date de sortie" };
-	DefaultTableModel tab_model = new DefaultTableModel(donnees, entetes) {
+	private DefaultTableModel tab_model = new DefaultTableModel(donnees, entetes) {
 		//empêche l'edition du tableau en surchargeant la class pendant la définition
 		public boolean isCellEditable(int row, int col) {
 			return false;
 		};
 	};
+
+	public DefaultTableModel getTab_model() {
+		return tab_model;
+	}
 
 	public AsidePanel(JPanel panel_container) {
 
