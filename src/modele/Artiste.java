@@ -2,6 +2,8 @@ package modele;
 
 import java.util.ArrayList;
 
+import controller.C_artiste;
+
 public class Artiste implements I_requeteSQL, I_recherche {
 
 	private int id_artiste;

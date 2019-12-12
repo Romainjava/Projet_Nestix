@@ -96,13 +96,27 @@ public abstract class Media implements I_requeteSQL,I_dataListable,I_recherche {
 	}
 	
 	/* setter with result*/
-
+	public void setUnivers(String nom) {
+		this.univers.setInfo(nom);
+	}
+	
+	public void setSaga(String nom) {
+		this.saga.setInfo(nom);
+	}
+	
+	public void setOeuvre(String nom) {
+		this.oeuvre.setInfo(nom);
+	}
+	
+	public void setEtat() {
+		//todo
+	}
+	
 	public void setUnivers(ResultSet result) {
 		try {
 			this.univers.setId(result.getInt("nestix_media.univers_id"));
 			this.univers.setNom(result.getString("nom_univers"));
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

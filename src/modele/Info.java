@@ -54,7 +54,6 @@ public abstract class Info implements I_requeteSQL, I_recherche {
 				}
 				query = "SELECT " + this.getIdName() + " FROM nestix_" + this.getTableName() + " WHERE "
 						+ this.getColumnName() + "=?";
-				System.out.println(query);
 				statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
 				statement.setString(1, this.nom);
 				result = statement.executeQuery();				
@@ -124,7 +123,8 @@ public abstract class Info implements I_requeteSQL, I_recherche {
 
 	public boolean creation() {
 		int id = 0;
-		String value = this.getNom();
+		String value = this.nom;
+		System.out.println("ici creation info"+value);
 		PreparedStatement statement;
 		ResultSet result;
 		String query;
@@ -136,6 +136,7 @@ public abstract class Info implements I_requeteSQL, I_recherche {
 			if (result.next()) {
 				id = result.getInt(1);
 				this.id = id;
+				System.out.println("création de "+this.nom+"dans la table "+this.getTableName());
 			}else {
 				this.fetchId();
 			}
@@ -147,6 +148,15 @@ public abstract class Info implements I_requeteSQL, I_recherche {
 		return (id > 0);
 	}
 
+	public void setInfo(String nom) {
+		this.nom=nom;
+		this.fetchId();
+		if(this.getId()==0 && !this.getNom().equals("")) {
+			this.creation();
+		}
+		System.out.println(this);
+	}
+	
 	public boolean lireUn(int id) {
 		PreparedStatement statement;
 		ResultSet result;

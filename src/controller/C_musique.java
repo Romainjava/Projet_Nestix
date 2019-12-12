@@ -1,5 +1,7 @@
 package controller;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -97,6 +99,17 @@ public class C_musique {
 		String textBouton[] = { "Creer", "Modifier", "Supprimer" };
 		double elmsSizeFooter[] = { 1.0, 1.0, 1.0 };
 		FooterPanel livre_footer_panel = new FooterPanel(this.musiques_panel, textBouton, elmsSizeFooter);
+		livre_footer_panel.getBoutonTab().get(0).addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				musique.setAlbum(musique_titre_textfield.get(2).getText());
+				musique.setUnivers(musique_titre_textfield.get(3).getText());
+				System.out.println(musique);
+				//musique.creation();
+				
+			}
+		});
 	}
 	
 	/**
