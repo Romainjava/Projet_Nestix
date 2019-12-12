@@ -151,6 +151,21 @@ public class Livre extends Media {
 				tArtiste.setSurnom_artiste(result.getString("surnom_artiste"));
 				this.artistes.add(tArtiste);
 			}
+			//Metier
+			for(Artiste artiste: artistes) {
+				artiste.getAllMetierById(this.id_media);
+//				artiste.getMetiers_artiste().clear();
+//				query = "SELECT id_metier, nom_metier FROM nestix_artiste_metier_media\n" + 
+//						"LEFT JOIN nestix_metier ON nestix_metier.id_metier = metier_id \n" +
+//						"WHERE artiste_id = ?";
+//				
+//				statement = (PreparedStatement) co.prepareStatement(query);
+//				statement.setInt(1, artiste.getId());
+//				result = statement.executeQuery();
+//				while (result.next()) {
+//					artiste.setMetiers_artiste(new Metier(result.getInt("id_artiste"), result.getString("surnom_artiste")));
+//				}
+			}
 			
 			//livre.concat_genre=result.getString("nom_genre");
 			//livre.concat_artistes=result.getString("surnom_artiste");

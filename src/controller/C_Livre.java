@@ -4,14 +4,11 @@ import java.awt.event.MouseAdapter;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import modele.I_recherche;
 import modele.Livre;
-import modele.Oeuvre;
-
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
@@ -24,16 +21,14 @@ import view.HeaderPanel;
 import view.ImageModule;
 import view.LinkModule;
 import view.MainPanel;
-import view.Module;
 import view.TextAreaScrollField;
-import view.TextListField;
 
 public class C_Livre {
 	private JPanel livres_panel;
 	
 	// Données
 	Livre livre = new Livre();
-	ArrayList<Livre> livres = new ArrayList<>();
+	ArrayList<I_recherche> livres = new ArrayList<>();
 	 
 	// Composants
 	JTable livre_results_table;
@@ -56,7 +51,6 @@ public class C_Livre {
 	public C_Livre(JPanel livres_panel) {
 		this.livres_panel = livres_panel;
 		
-		// Faire une requete qui va  remplir la liste de livre "livres"
 		
 		ajouteHeader();
 		ajouteTab();
@@ -64,8 +58,7 @@ public class C_Livre {
 		footerPanel();
 		
 		//!!!
-		livre.lireUn(3);
-		this.actualiseLivre();
+		//livre.lireUn(3);
 		//
 	}
 	
@@ -105,8 +98,9 @@ public class C_Livre {
 	public void ajouteTab() {
 		AsidePanel livres_aside_panel = new AsidePanel(this.livres_panel);
 		livres_aside_panel.setEntetes( new String[] { "Titre", "ISBN", "Genre", "Etat", "Annee" });
-		livres_aside_panel.setDonnees(new Object[][] { { "La boussole d'or", "toto en vacance", "valide", "2010" }, });// TODO il faut le mettre dans l'attribut "livres"
-		livres_aside_panel.ajouterLigne(new Object[] { "toto", "tata et toto", null, null });
+		
+		livres = livre.lectureTout(50);
+		livres_aside_panel.setDonnees(livres);// TODO il faut le mettre dans l'attribut "livres"
 
 		// Ajout d'un evenemment
 		this.livre_results_table = livres_aside_panel.getTable_result();
@@ -165,10 +159,11 @@ public class C_Livre {
 			// PERMET DE RECUP LA POSITION DANS LA MATRICE DU TABLEAU
 			int row = this.controller.getLivre_results_table().rowAtPoint(e.getPoint());
 			// int column = tableau.columnAtPoint(e.getPoint());
-			System.out.println("Test click" + row);
+			//System.out.println("Test click" + row);
 			// "getAtValue" : Permet de prendre la valeur de la case ( row , column )
 			String titre = (String)this.controller.getLivre_results_table().getValueAt(row, 0);
 			//this.controller.getLivre_titre_textfield().setText(titre);
+			livre.lireUn(livres.get(row).getId());
 			this.controller.actualiseLivre();
 			// Plus tard faire appelle à la méthode actualise livre qui actualise tous les champs
 		}

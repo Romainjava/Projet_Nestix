@@ -139,7 +139,7 @@ public class Artiste implements I_requeteSQL, I_recherche {
 	}
 
 	public void getAllMetierById(int id) {
-		// TODO Auto-generated method stub
+		M_artiste.getAllMetierById(this, id);
 		
 	}
 
