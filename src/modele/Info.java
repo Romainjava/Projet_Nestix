@@ -9,12 +9,9 @@ public abstract class Info implements I_requeteSQL, I_recherche {
 
 	protected int id;
 	protected String nom;
-	
-
 	abstract protected String getTableName();
 
-	protected String getColumnName() {
-		return "nom_" + this.getTableName();
+
 
 	public Info() {
 		
@@ -24,7 +21,9 @@ public abstract class Info implements I_requeteSQL, I_recherche {
 		this.nom = pNom;
 
 	}
-
+	protected String getColumnName() {
+		return "nom_" + this.getTableName();
+	}
 	protected String getIdName() {
 		return "id_" + this.getTableName();
 	}
@@ -188,15 +187,5 @@ public abstract class Info implements I_requeteSQL, I_recherche {
 		//TODO
 		return false;
 	}
-
-
-	protected String getColumnName() {
-		return "nom_" + this.getTableName();
-	}
-
-	protected String getIdName() {
-		return "id_" + this.getTableName();
-	}
-	
 
 }
