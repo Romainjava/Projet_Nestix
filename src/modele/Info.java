@@ -57,12 +57,12 @@ public abstract class Info implements I_requeteSQL, I_recherche {
 				System.out.println(query);
 				statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
 				statement.setString(1, this.nom);
-				result = statement.executeQuery();
-				if(result.getRow() == 0) {
-					System.out.println("id non trouvé class info ligne 32");
-				}
+				result = statement.executeQuery();				
 				if (result.next()) {
 					this.id = result.getInt(1);
+				}
+				if(result.getRow() == 0) {
+					System.out.println("id non trouvé class info ligne 62");
 				}
 				statement.close();
 			} catch (Exception e) {
@@ -132,6 +132,8 @@ public abstract class Info implements I_requeteSQL, I_recherche {
 			if (result.next()) {
 				id = result.getInt(1);
 				this.id = id;
+			}else {
+				this.fetchId();
 			}
 			statement.close();
 		} catch (Exception e) {
