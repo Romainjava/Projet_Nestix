@@ -76,8 +76,8 @@ public class Artiste implements I_requeteSQL, I_recherche {
 		return metiers_artiste;
 	}
 
-	public void setMetiers_artiste(ArrayList<Metier> metiers_artiste) {
-		this.metiers_artiste = metiers_artiste;
+	public void setMetiers_artiste(Metier metiers_artiste) {
+		this.metiers_artiste.add(metiers_artiste);
 	}
 
 	@Override

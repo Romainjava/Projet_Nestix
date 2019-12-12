@@ -12,7 +12,7 @@ public class M_artiste {
 		ArrayList<I_recherche> artistes = new ArrayList<>();
 		try {
 			Connection co = ConnexionBDD.getConnexion();
-			String query = "SELECT nom_artiste,prenom_artiste,surnom_artiste,nom_etat,dob_artiste FROM nestix_artiste JOIN nestix_etat "
+			String query = "SELECT id_artiste,nom_artiste,prenom_artiste,surnom_artiste,nom_etat,dob_artiste FROM nestix_artiste JOIN nestix_etat "
 					+ "ON nestix_etat.id_etat = nestix_artiste.etat_id LIMIT ?";
 			PreparedStatement statement = (PreparedStatement) co.prepareStatement(query);
 			statement.setInt(1, limite);
@@ -24,7 +24,7 @@ public class M_artiste {
 				artiste.setSurnom_artiste(result.getString("surnom_artiste"));
 				artiste.setEtat(result.getString("nom_etat"));
 				artiste.setDob_artiste(result.getString("dob_artiste"));
-				
+				artiste.setId_artiste(result.getInt("id_artiste"));
 				artistes.add(artiste);
 			}
 
@@ -34,7 +34,7 @@ public class M_artiste {
 		System.out.println(artistes);
 		return artistes;
 	}
-	
+
 	public static int creation(Artiste artiste) {
 		int id = 0;
 		try {
@@ -47,15 +47,61 @@ public class M_artiste {
 			statement.setString(3, artiste.getSurnom_artiste());
 			statement.setString(4, artiste.getDob_artiste());
 			ResultSet result = statement.executeQuery();
-			
-			while(result.next()) {
+
+			while (result.next()) {
 				id = result.getInt(1);
-				System.out.println("Creation de artiste numero "+ id);
+				artiste.setId_artiste(id);
+				System.out.println("Creation de artiste numero " + id);
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return id;
+	}
+
+	public static int modifier(Artiste artiste) {
+		int nb_row = 0;
+		try {
+			Connection co = ConnexionBDD.getConnexion();
+			String query = "UPDATE nestix_artiste SET nom_artiste = ?, prenom_artiste = ?, surnom_artiste = ?"
+					+ ", dob_artiste = ? WHERE id_artiste = ?";
+			PreparedStatement statement = (PreparedStatement) co.prepareStatement(query);
+			statement.setString(1, artiste.getNom_artiste());
+			statement.setString(2, artiste.getPrenom_artiste());
+			statement.setString(3, artiste.getSurnom_artiste());
+			statement.setString(4, artiste.getDob_artiste());
+			statement.setInt(5, artiste.getId_artiste());
+		    nb_row = statement.executeUpdate();
+
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return nb_row;
+	}
+
+	public static void getAllMetierById(Artiste artiste, int id) {
+
+		try {
+			Connection co = ConnexionBDD.getConnexion();
+			String query = "SELECT nom_metier, id_metier FROM nestix_artiste JOIN nestix_artiste_metier_media ON nestix_artiste_metier_media.artiste_id = nestix_artiste.id_artiste"
+					+ " JOIN nestix_metier ON nestix_metier.id_metier = nestix_artiste_metier_media.metier_id WHERE media_id= ?";
+			PreparedStatement statement = (PreparedStatement) co.prepareStatement(query);
+			statement.setInt(1, id);
+			ResultSet result = statement.executeQuery();
+
+			while (result.next()) {
+				Metier metier = new Metier();
+				metier.setId(result.getInt("id_metier"));
+				metier.setNom(result.getString("nom_metier"));
+				artiste.setMetiers_artiste(metier);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
 	}
 }
