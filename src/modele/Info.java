@@ -9,7 +9,9 @@ public abstract class Info implements I_requeteSQL, I_recherche {
 	public String toString() {
 		return this.getTableName() + " [id=" + id + ", nom=" + nom + "]";
 	}
-
+	public String toStringCustom() {
+		return nom ;
+	}
 	protected int id;
 	protected String nom;
 
@@ -141,7 +143,10 @@ public abstract class Info implements I_requeteSQL, I_recherche {
 		return (result > 0);
 
 	}
-
+	public boolean supression() {
+		//TODO
+		return false;
+	}
 	abstract protected String getTableName();
 
 	protected String getColumnName() {

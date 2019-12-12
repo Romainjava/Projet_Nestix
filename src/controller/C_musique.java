@@ -72,7 +72,7 @@ public class C_musique {
 	}
 	public void ajouteTab() {
 		AsidePanel musiques_aside = new AsidePanel(this.musiques_panel);
-		musiques_aside.setEntetes(header);
+		musiques_aside.setEntetes(musique.toHeaderData());
 		musiques_aside.setDonnees(musique.lectureTout(50));
 		// Ajout d'un evenemment
 		this.musique_results_table = musiques_aside.getTable_result();
