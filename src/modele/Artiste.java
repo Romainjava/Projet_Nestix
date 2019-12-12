@@ -2,6 +2,8 @@ package modele;
 
 import java.util.ArrayList;
 
+import controller.C_artiste;
+
 public class Artiste implements I_requeteSQL, I_recherche {
 
 	private int id_artiste;
@@ -139,7 +141,7 @@ public class Artiste implements I_requeteSQL, I_recherche {
 	}
 
 	public void getAllMetierById(int id) {
-		// TODO Auto-generated method stub
+		M_artiste.getAllMetierById(this, id);
 		
 	}
 
