@@ -21,7 +21,7 @@ public class Album extends Info {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
+	
 	@Override
 	protected String getTableName() {
 		return "album";
