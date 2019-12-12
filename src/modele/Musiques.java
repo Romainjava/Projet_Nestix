@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -35,28 +36,6 @@ public class Musiques extends Media {
 	public String[] toHeaderData() {
 		String[] data = { "Titre", "Genre", "Interprete", "Etat", "Date de sortie" };
 		return data;
-	}
-
-	@Override
-	public boolean creation() {
-		boolean success = false;
-		try {
-			String query = "INSERT INTO `nestix_media`( `annee_sortie_media`, `admin_id`, `univers_id`, `image_id`, `saga_id`, `etat_id`, `utilisateur_id`, `oeuvre_id`) VALUES (?,?,?,?,?,?,?,?)";
-			PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
-			statement.setString(1, this.annee_sortie_media);
-			statement.setInt(2, 4);
-			ConnexionBDD.prepareInt(statement, 3, this.univers.getId());
-			success = (statement.executeUpdate() > 1);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return success;
-	}
-
-	@Override
-	public boolean modification() {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 	private void fetchGenre(int id) {
@@ -92,6 +71,48 @@ public class Musiques extends Media {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public boolean creation() {
+		boolean success = false;
+		try {
+			String query = "INSERT INTO `nestix_media`( `annee_sortie_media`, `admin_id`, `univers_id`, `image_id`,`etat_id`, `oeuvre_id`) VALUES (?,?,?,?,?,?)";
+			PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query,
+					Statement.RETURN_GENERATED_KEYS);
+			statement.setString(1, this.annee_sortie_media);
+			statement.setInt(2, 4);
+			ConnexionBDD.prepareInt(statement, 3, this.univers.getId());
+			ConnexionBDD.prepareInt(statement, 4, this.image.getId());
+			statement.setInt(5, (this.etat.getId() == 0) ? 2 : this.etat.getId());
+			ConnexionBDD.prepareInt(statement, 6, this.oeuvre.getId());
+			success = (statement.executeUpdate() > 0);
+			ResultSet generatedKeys = statement.getGeneratedKeys();
+			if (generatedKeys.next()) {
+				success = true;
+				this.id_media = (int) generatedKeys.getLong(1);
+			} else {
+				throw new SQLException("Creating user failed, no ID obtained.");
+			}
+			if (success) {
+				query = "INSERT INTO `nestix_musique`(`media_id`, `duree_musique`, `album_id`) VALUES (?,?,?)";
+				statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
+				statement.setInt(1, this.id_media);
+				ConnexionBDD.prepareInt(statement, 2, this.duree_musique);
+				ConnexionBDD.prepareInt(statement, 3, this.album.getId());
+				success = (statement.executeUpdate() > 0);
+			}
+			statement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return success;
+	}
+
+	@Override
+	public boolean modification() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	@Override
@@ -168,31 +189,16 @@ public class Musiques extends Media {
 	public void setAlbum(String nom) {
 		this.album.setInfo(nom);
 	}
-	
+
 	@Override
 	public boolean recherchePar(int limit) {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
-	public static void main(String[] args) {
-		Musiques musique = new Musiques();
-//		musique.setoeuvre.getNom()("test");
-//		Genre genre = new Genre();
-//		genre.setNom("romann");
-//		genre.getId();
-//		System.out.println(genre);
-//		genre.setNom("Roman");
-//		genre.creation();
-//		genre.modification();
-//		System.out.println(genre);
-	}
-
 	@Override
 	public String toString() {
 		return "Musiques [duree_musique=" + duree_musique + ", nom_album=" + album.toString() + super.toString() + "]";
 	}
-
 
 	public String getTitreAlbum() {
 		return this.album.getNom();
@@ -203,7 +209,7 @@ public class Musiques extends Media {
 				this.annee_sortie_media };
 		return data;
 	}
-	
+
 	static class Query {
 
 		public static String queryLectureTout() {

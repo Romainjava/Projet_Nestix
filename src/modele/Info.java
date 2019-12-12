@@ -120,7 +120,6 @@ public abstract class Info implements I_requeteSQL, I_recherche {
 	public boolean creation() {
 		int id = 0;
 		String value = this.nom;
-		System.out.println("ici creation info"+value);
 		PreparedStatement statement;
 		ResultSet result;
 		String query;
@@ -132,7 +131,7 @@ public abstract class Info implements I_requeteSQL, I_recherche {
 			if (result.next()) {
 				id = result.getInt(1);
 				this.id = id;
-				System.out.println("création de "+this.nom+"dans la table "+this.getTableName());
+			//	System.out.println("création de "+this.nom+"dans la table "+this.getTableName());
 			}else {
 				this.fetchId();
 			}
@@ -150,7 +149,6 @@ public abstract class Info implements I_requeteSQL, I_recherche {
 		if(this.getId()==0 && !this.getNom().equals("")) {
 			this.creation();
 		}
-		System.out.println(this);
 	}
 	
 	public boolean lireUn(int id) {
