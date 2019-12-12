@@ -70,6 +70,7 @@ public class HeaderPanel extends JPanel {
 	
 	public void autoCompleteFormHeader(String[] tabString) {
 		for (int i = 0; i < tabString.length; i++) {
+			//52
 			jTextArray.get(i).setText(tabString[i]);
 		}
 	}
