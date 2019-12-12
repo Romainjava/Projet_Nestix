@@ -1,5 +1,7 @@
 package modele;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import view.I_dataListable;
@@ -24,6 +26,10 @@ public abstract class Media implements I_requeteSQL,I_dataListable,I_recherche {
 		return id_media;
 	}
 
+	public int getId() {
+		return id_media;
+	}
+	
 	private void setId_media(int id_media) {
 		this.id_media = id_media;
 	}
@@ -80,4 +86,60 @@ public abstract class Media implements I_requeteSQL,I_dataListable,I_recherche {
 	public void setOeuvre(Oeuvre oeuvre) {
 		this.oeuvre = oeuvre;
 	}
+	
+	/* setter with result*/
+
+	public void setUnivers(ResultSet result) {
+		try {
+			this.univers.setId(result.getInt("nestix_media.univers_id"));
+			this.univers.setNom(result.getString("nom_univers"));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+	public void setImage(ResultSet result) {
+		try {
+			this.image.setId(result.getInt("image_id"));
+			this.image.setNom(result.getString("nom_image"));
+			this.image.setPath_image(result.getString("path_image"));
+			this.image.setAlt_image(result.getString("alt_image"));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void setEtat(ResultSet result) {
+		try {
+			this.etat.setId(result.getInt("id_etat"));
+			this.etat.setNom(result.getString("nom_etat"));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void setSaga(ResultSet result) {
+		try {
+			this.saga.setId(result.getInt("saga_id"));
+			this.saga.setNom(result.getString("nom_saga"));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void setOeuvre(ResultSet result) {
+		try {
+			this.oeuvre.setId(result.getInt("oeuvre_id"));
+			this.oeuvre.setNom(result.getString("nom_oeuvre"));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 }

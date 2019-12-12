@@ -21,19 +21,7 @@ public class Metier extends Info{
 		// TODO Auto-generated method stub
 		return false;
 	}
-
-	@Override
-	public Object[] toRowData() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String[] toHeaderData() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
 	@Override
 	protected String getTableName() {
 		return "metier";

@@ -2,6 +2,7 @@ package modele;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public abstract class Info implements I_requeteSQL, I_recherche {
 
@@ -9,16 +10,42 @@ public abstract class Info implements I_requeteSQL, I_recherche {
 	protected int id;
 	protected String nom;
 	
+
+	abstract protected String getTableName();
+
+	protected String getColumnName() {
+		return "nom_" + this.getTableName();
+
 	public Info() {
 		
 	}
 	public Info(int pId, String pNom) {
 		this.id = pId;
 		this.nom = pNom;
+
 	}
 
+	protected String getIdName() {
+		return "id_" + this.getTableName();
+	}
 	public int getId() {
-		if (this.id == 0) {
+		return id;
+	}
+	public String getNom() {
+		return nom;
+	}
+	
+	public String[] toRowData() {
+		String[] data = { this.nom };
+		return data;
+	}
+
+	
+	public String[] toHeaderData() {
+		String[] data = { this.getTableName() };
+		return data;
+	}
+	public void fetchId() {
 			PreparedStatement statement;
 			ResultSet result;
 			String query;
@@ -42,17 +69,22 @@ public abstract class Info implements I_requeteSQL, I_recherche {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
-
-		return this.id;
 	}
 
 	public void setId(int id) {
 		this.id = id;
 	}
+	
+	public void setInfo(ResultSet result) {
+		try {
+			this.setId(result.getInt(this.getTableName()+"_id"));
+			this.setNom(result.getString("nom_" + this.getTableName()));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
-	public String getNom() {
-		if (this.nom == null) {
+	public void fetchNom() {
 			PreparedStatement statement;
 			ResultSet result;
 			String query;
@@ -72,8 +104,6 @@ public abstract class Info implements I_requeteSQL, I_recherche {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
-		return this.nom;
 	}
 
 	public void setNom(String nom) {
@@ -162,7 +192,7 @@ public abstract class Info implements I_requeteSQL, I_recherche {
 		//TODO
 		return false;
 	}
-	abstract protected String getTableName();
+
 
 	protected String getColumnName() {
 		return "nom_" + this.getTableName();
@@ -172,4 +202,5 @@ public abstract class Info implements I_requeteSQL, I_recherche {
 		return "id_" + this.getTableName();
 	}
 	
+
 }
