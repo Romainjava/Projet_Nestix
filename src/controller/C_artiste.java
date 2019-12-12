@@ -12,27 +12,33 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import modele.Artiste;
+import modele.I_recherche;
 import modele.M_artiste;
 import view.AsidePanel;
+import view.ComboListField;
+import view.DualLinkModule;
 import view.FooterPanel;
+import view.GridPanel;
 import view.HeaderPanel;
 import view.ImageModule;
 import view.LinkModule;
 import view.MainPanel;
 import view.Module;
+import view.TextListField;
 
 public class C_artiste {
 	private JPanel artiste_panel;
 
 	// DONNEES
 	Artiste artiste = new Artiste();
-	ArrayList<Artiste> artistes = new ArrayList<>();
+	ArrayList<I_recherche> artistes = new ArrayList<>();
 	// COMPOSANT
 	JTable artiste_result_table;
 	JTextField artiste_nom_textfield;
 	JTextField artiste_prenom_textfield;
 	JTextField artiste_surnom_textfield;
 	JTextField artiste_dob_textfield;
+	AsidePanel artiste_aside;
 
 	public C_artiste(JPanel artiste_panel) {
 		this.artiste_panel = artiste_panel;
@@ -57,19 +63,29 @@ public class C_artiste {
 	public void ajoutMainPanel() {
 		MainPanel artiste_main = new MainPanel(this.artiste_panel);
 		// ADD ELEMENT
-		artiste_main.addModule(new LinkModule("Personne"), 0, 0);
+		artiste_main.addModule(new DualLinkModule("Media"), 0, 0);
 		artiste_main.addModule(new Module(), 1, 0);
 		artiste_main.addModule(new ImageModule(), 2, 0);
 
-		artiste_main.addModule(new LinkModule("Genre"), 0, 1);
-		artiste_main.addModule(new Module(), 1, 1);
-		artiste_main.addModule(new Module(), 2, 1);
+		GridPanel relationComple = new GridPanel(new double[] { 1.0, 1.0 }, new double[] { 1.0, 1.0, 1.0 });
+		artiste_main.add(relationComple, artiste_main.addElement(1, 1));
+		relationComple.add(new ComboListField(new String[] { "etat1", "etat2", "etat3" }),
+				relationComple.addElement(0, 0));
+		relationComple.add(new TextListField(), relationComple.addElement(0, 1));
+		relationComple.add(new TextListField(), relationComple.addElement(1, 1));
+		relationComple.add(new TextListField(), relationComple.addElement(0, 2));
+
+		/*
+		 * artiste_main.addModule(new LinkModule("Genre"), 0, 1);
+		 * artiste_main.addModule(new Module(), 1, 1); artiste_main.addModule(new
+		 * Module(), 2, 1);
+		 */
 	}
 
 	public void ajouteTab() {
-		AsidePanel artiste_aside = new AsidePanel(this.artiste_panel);
+		artiste_aside = new AsidePanel(this.artiste_panel);
 		artiste_aside.setEntetes(new String[] { "Nom", "Prenom", "Surnom", "Etat", "Date de naissance" });
-		artiste_aside.setDonnees(M_artiste.lireTout(50));
+		actualiseTab();
 
 		// AJOUT EVENT
 		this.artiste_result_table = artiste_aside.getTable_result();
@@ -82,6 +98,10 @@ public class C_artiste {
 		FooterPanel artiste_footer = new FooterPanel(this.artiste_panel, textBouton, elmsSizeFooter);
 
 		ArrayList<JButton> btn = artiste_footer.getBoutonTab();
+
+		/**
+		 * Event btn creation un artiste avec requête creation dans M_artiste
+		 */
 		btn.get(0).addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -90,8 +110,26 @@ public class C_artiste {
 				artiste.setPrenom_artiste(getArtiste_prenom_textfield().getText());
 				artiste.setDob_artiste(getArtiste_dob_textfield().getText());
 				M_artiste.creation(artiste);
+				actualiseTab();
+
 			}
 		});
+
+		/**
+		 * Event btn Modifier un artiste avec requête modifier dans M_artiste
+		 */
+		btn.get(1).addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				artiste.setSurnom_artiste(getArtiste_surnom_textfield().getText());
+				artiste.setNom_artiste(getArtiste_nom_textfield().getText());
+				artiste.setPrenom_artiste(getArtiste_prenom_textfield().getText());
+				artiste.setDob_artiste(getArtiste_dob_textfield().getText());
+				M_artiste.modifier(artiste);
+				actualiseTab();
+			}
+		});
+
 	}
 
 	/**
@@ -122,6 +160,7 @@ public class C_artiste {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			int row = this.controller.getArtiste_result_table().rowAtPoint(e.getPoint());
+			controller.artiste = (Artiste) controller.artistes.get(row);
 			// int column =
 			// this.controller.getArtiste_result_table().columnAtPoint(e.getPoint());
 
@@ -136,6 +175,11 @@ public class C_artiste {
 			this.controller.getArtiste_surnom_textfield().setText(surnom);
 			this.controller.getArtiste_dob_textfield().setText(dob);
 		}
+	}
+
+	public void actualiseTab() {
+		artistes = M_artiste.lireTout(50);
+		artiste_aside.setDonnees(artistes);
 	}
 
 	// === ACCESSEUR ET MUTATEUR === //
