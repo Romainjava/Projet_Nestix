@@ -5,13 +5,16 @@ import java.sql.ResultSet;
 
 public abstract class Info implements I_requeteSQL, I_recherche {
 
-	@Override
-	public String toString() {
-		return this.getTableName() + " [id=" + id + ", nom=" + nom + "]";
-	}
-
 	protected int id;
 	protected String nom;
+	
+	public Info() {
+		
+	}
+	public Info(int pId, String pNom) {
+		this.id = pId;
+		this.nom = pNom;
+	}
 
 	public int getId() {
 		if (this.id == 0) {
@@ -74,6 +77,12 @@ public abstract class Info implements I_requeteSQL, I_recherche {
 
 	public void setNom(String nom) {
 		this.nom = nom;
+	}
+	
+	
+	@Override
+	public String toString() {
+		return this.getTableName() + " [id=" + id + ", nom=" + nom + "]";
 	}
 
 	public boolean creation() {
@@ -151,4 +160,5 @@ public abstract class Info implements I_requeteSQL, I_recherche {
 	protected String getIdName() {
 		return "id_" + this.getTableName();
 	}
+	
 }
