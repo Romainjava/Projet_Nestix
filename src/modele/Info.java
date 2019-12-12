@@ -6,20 +6,23 @@ import java.sql.SQLException;
 
 public abstract class Info implements I_requeteSQL, I_recherche {
 
-	@Override
-	public String toString() {
-		return this.getTableName() + " [id=" + id + ", nom=" + nom + "]";
-	}
-	public String toStringCustom() {
-		return nom ;
-	}
+
 	protected int id;
 	protected String nom;
 	
+
 	abstract protected String getTableName();
 
 	protected String getColumnName() {
 		return "nom_" + this.getTableName();
+
+	public Info() {
+		
+	}
+	public Info(int pId, String pNom) {
+		this.id = pId;
+		this.nom = pNom;
+
 	}
 
 	protected String getIdName() {
@@ -106,6 +109,15 @@ public abstract class Info implements I_requeteSQL, I_recherche {
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
+	
+	
+	@Override
+	public String toString() {
+		return this.getTableName() + " [id=" + id + ", nom=" + nom + "]";
+	}
+	public String toStringCustom() {
+		return nom ;
+	}
 
 	public boolean creation() {
 		int id = 0;
@@ -176,5 +188,15 @@ public abstract class Info implements I_requeteSQL, I_recherche {
 		//TODO
 		return false;
 	}
+
+
+	protected String getColumnName() {
+		return "nom_" + this.getTableName();
+	}
+
+	protected String getIdName() {
+		return "id_" + this.getTableName();
+	}
+	
 
 }
