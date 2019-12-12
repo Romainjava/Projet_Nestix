@@ -24,7 +24,7 @@ public class Livre extends Media {
 	}
 
 	public String[] toRowData() {
-		String[] data = {this.titre_media, this.ISBN + "", this.annee_sortie_media};
+		String[] data = {this.oeuvre.getNom(), this.ISBN + "", this.annee_sortie_media};
 		return data;
 	}
 	
