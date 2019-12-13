@@ -1,19 +1,30 @@
 package modele;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
 public class Livre extends Media {
-	private String resume_livre;
-	private int tome_livre;
-	private int ISBN;
 	
+	protected int ISBN;
+	protected String resume_livre;
+	protected int tome_livre;
+	protected Editeur editeur;
 	
+	public Editeur getEditeur() {
+		return editeur;
+	}
+
+	public void setEditeur(Editeur editeur) {
+		this.editeur = editeur;
+	}
+
 	public String[] toRowData() {
-		String[] data = {this.titre_media, this.ISBN + "", this.annee_sortie_media};
+		String[] data = {this.oeuvre.getNom(), this.ISBN + "", this.annee_sortie_media};
 		return data;
 	}
 	
@@ -46,10 +57,10 @@ public class Livre extends Media {
 		ISBN = iSBN;
 	}
 
+
 	@Override
 	public String toString() {
-		return "Livre [resume_livre=" + resume_livre + ", tome_livre=" + tome_livre + ", ISBN=" + ISBN + ", toString()="
-				+ super.toString() + "]";
+		return "Livre [ISBN=" + ISBN + ", resume_livre=" + resume_livre + ", tome_livre=" + tome_livre + ", toString()=" + super.toString() + "]";
 	}
 
 	@Override
@@ -117,8 +128,62 @@ public class Livre extends Media {
 
 	@Override
 	public ArrayList<I_recherche> lectureTout(int limit) {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<I_recherche> livreList = new ArrayList<>();
+		try {
+			Connection co = ConnexionBDD.getConnexion();
+			String query = "SELECT nom_oeuvre,\n" + 
+					"date_crea_media, annee_sortie_media, nom_admin, nom_univers, nom_saga, nom_img, pseudo_utilisateur,\n" + 
+					"livre_id, isbn, resume_livre, tome_livre, id_editeur, nom_editeur FROM nestix_livre\n" + 
+					"LEFT JOIN nestix_media ON nestix_media.id_media = livre_id\n" + 
+					"LEFT JOIN nestix_oeuvre ON nestix_oeuvre.id_oeuvre = nestix_media.oeuvre_id\n" + 
+					"LEFT JOIN nestix_admin ON nestix_admin.id_admin = nestix_media.admin_id\n" + 
+					"LEFT JOIN nestix_univers ON nestix_univers.id_univers = nestix_media.univers_id\n" + 
+					"LEFT JOIN nestix_saga ON nestix_saga.id_saga = nestix_media.saga_id\n" + 
+					"LEFT JOIN nestix_image ON nestix_image.id_image = nestix_media.image_id\n" + 
+					"LEFT JOIN nestix_utilisateur ON nestix_utilisateur.id_utilisateur = nestix_media.utilisateur_id\n"+
+					"LEFT JOIN nestix_editeur ON nestix_editeur.id_editeur = nestix_livre.editeur_id\n"+
+					"GROUP BY\n"+ 
+					"nestix_media.id_media LIMIT ?";
+			PreparedStatement statement = (PreparedStatement) co.prepareStatement(query);
+			statement.setInt(1, limit);
+			ResultSet result = statement.executeQuery();
+			while (result.next()) {
+				Livre livre = new Livre();
+				
+				livre.id_media = result.getInt("livre_id");
+				//livre.titre_media = result.getString("nom_oeuvre");
+				livre.date_crea_media = result.getString("date_crea_media");
+				livre.annee_sortie_media = result.getString("annee_sortie_media");
+				//livre.titre_image = result.getString("nom_img");
+				//livre.univers
+				//livre.saga
+				//livre.etat
+				//livre.artistes
+				//livre.genres
+				//livre.concat_artistes
+				//livre.concat_genre
+				
+				livre.ISBN = result.getInt("isbn");
+				livre.resume_livre = result.getString("resume_livre");
+				livre.tome_livre = result.getInt("tome_livre");
+				
+				livre.editeur = new Editeur(result.getInt("id_editeur"), result.getString("nom_editeur"));
+				
+				//livre.concat_genre=result.getString("nom_genre");
+				//livre.setTitre_media(result.getString("nom_oeuvre"));
+				//livre.concat_artistes=result.getString("surnom_artiste");
+				//livre.etat.setNom(result.getString("nom_etat"));
+				//livre.setAnnee_sortie_media(result.getString("annee_sortie_media"));
+				
+				livreList.add(livre);
+				
+				System.out.println(livre.toString());
+			}
+		//success = (statement.executeUpdate()>1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return livreList;
 	}
 
 	@Override
@@ -131,7 +196,10 @@ public class Livre extends Media {
 	public static void main(String[] args) {
 		Livre livre = new Livre();
 		
-		livre.lireUn(1);
+		livre.lireUn(3);
+		
+		livre.lectureTout(50);
+		//System.out.println(livre.lectureTout(50));
 		
 //		ConnexionBDD.startConnection();
 //		musique.setTitre_media("test");

@@ -2,8 +2,10 @@ package modele;
 
 import java.util.ArrayList;
 
-public class Album extends Info {
+public class Image extends Info {
 
+	private String path_image;
+	private String alt_image;
 	@Override
 	public boolean suppression(int id) {
 		// TODO Auto-generated method stub
@@ -21,10 +23,26 @@ public class Album extends Info {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
+
 	@Override
 	protected String getTableName() {
-		return "album";
+		return "image";
+	}
+
+	public String getPath_image() {
+		return path_image;
+	}
+
+	public void setPath_image(String path_image) {
+		this.path_image = path_image;
+	}
+
+	public String getAlt_image() {
+		return alt_image;
+	}
+
+	public void setAlt_image(String alt_image) {
+		this.alt_image = alt_image;
 	}
 
 }

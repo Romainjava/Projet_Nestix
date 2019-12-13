@@ -2,6 +2,8 @@ package modele;
 
 import java.util.ArrayList;
 
+import controller.C_artiste;
+
 public class Artiste implements I_requeteSQL, I_recherche {
 
 	private int id_artiste;
@@ -9,7 +11,7 @@ public class Artiste implements I_requeteSQL, I_recherche {
 	private String prenom_artiste;
 	private String surnom_artiste;
 	private String dob_artiste;
-	private ArrayList<Metier> metiers_artiste;
+	private ArrayList<Metier> metiers_artiste=new ArrayList<>();
 	private Metier metier;
 	private String etat;
 
@@ -17,6 +19,9 @@ public class Artiste implements I_requeteSQL, I_recherche {
 		return id_artiste;
 	}
 
+	public int getId() {
+		return id_artiste;
+	}
 	public void setId_artiste(int id_artiste) {
 		this.id_artiste = id_artiste;
 	}
@@ -133,6 +138,11 @@ public class Artiste implements I_requeteSQL, I_recherche {
 	public boolean rechercheParMetier() {
 //		à coder
 		return false;
+	}
+
+	public void getAllMetierById(int id) {
+		M_artiste.getAllMetierById(this, id);
+		
 	}
 
 }

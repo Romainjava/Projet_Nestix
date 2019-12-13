@@ -14,8 +14,6 @@ public class GridPanel extends JPanel {
 	public GridPanel(double[] pwidth, double[] pheight) {
 		super();
 		
-		this.setBackground(Color.MAGENTA);
-		
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.fill = GridBagConstraints.BOTH;
 		
