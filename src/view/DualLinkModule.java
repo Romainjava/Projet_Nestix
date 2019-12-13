@@ -74,9 +74,9 @@ public class DualLinkModule extends LinkModule{
 		content_scroll.setViewportView(content_list);
 	}
 	
-	public void setData(String[] data, String[] data2) {
+	public void setData(String[] data, String[] dataCombo) {
 		this.text_list = new ArrayList<String>(Arrays.asList(data));
-		this.combo_list = new ArrayList<String>(Arrays.asList(data2));
+		this.combo_list = new ArrayList<String>(Arrays.asList(dataCombo));
 		System.out.println(text_list.toString());
 		System.out.println(combo_list.toString());
 		String[] tData = new String[text_list.size()];
@@ -84,7 +84,7 @@ public class DualLinkModule extends LinkModule{
 			tData[i] = this.text_list.get(i) + " | " + this.combo_list.get(i);
 		}
 		
-		this.content_list = new JList(data);
+		this.content_list = new JList(tData);
 		this.content_scroll.setViewportView(content_list);
 	}
 	
@@ -107,7 +107,6 @@ public class DualLinkModule extends LinkModule{
 			}
 			
 			this.content_list = new JList(text_list_array);
-//			System.out.println(this.content_list.getModel().getSize());
 			
 			content_scroll.setViewportView(content_list);
 		}
@@ -123,15 +122,14 @@ public class DualLinkModule extends LinkModule{
 			this.combo_list.remove(index_list[i]);
 		}
 		
-//		System.out.println(text_list);
-//		System.out.println(combo_list);
+		System.out.println(text_list);
+		System.out.println(combo_list);
 		
 		String[] text_list_array = new String[text_list.size()];
 		for(int i = 0; i < text_list_array.length; i++){
 			text_list_array[i] = text_list.get(i) + " | " + combo_list.get(i);
 		}
 		this.content_list = new JList(text_list_array);
-		//System.out.println(this.content_list.getModel().getSize());
 		
 		content_scroll.setViewportView(content_list);
 
