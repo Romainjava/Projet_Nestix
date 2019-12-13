@@ -11,7 +11,10 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import modele.Artiste;
+import modele.Genre;
 import modele.I_recherche;
+import modele.Metier;
 import modele.Musiques;
 import view.AsidePanel;
 import view.ComboListField;
@@ -40,9 +43,10 @@ public class C_musique {
 	String[] header = { "Titre", "Duree(en secondes)", "Album", "Univers", "Annee de sortie" };
 	HeaderPanel musique_header;
 	AsidePanel musiques_aside;
-	ComboListField comboListField=new ComboListField(new String[] { "valide", "attente", "bloquer" });
-	DualLinkModule dualLinkModule=new DualLinkModule("Personne",new String[]{"interprete", "compositeur"});
+	ComboListField comboListField = new ComboListField(new String[] { "valide", "attente", "bloquer" });
+	DualLinkModule dualLinkModule = new DualLinkModule("Personne", new String[] { "interprete", "compositeur" });
 	LinkModule linkModule = new LinkModule("Genre");
+
 	public JTable getMusique_results_table() {
 		return musique_results_table;
 	}
@@ -117,17 +121,17 @@ public class C_musique {
 								JOptionPane.INFORMATION_MESSAGE);
 						actualiseTab();
 					} else {
-						JOptionPane.showMessageDialog(musiques_panel, "Erreur lors de l'insertion",
-								"Echec insertion", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(musiques_panel, "Erreur lors de l'insertion", "Echec insertion",
+								JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}
 		});
 		livre_footer_panel.getBoutonTab().get(1).addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				boolean success=verifChamp();
+				boolean success = verifChamp();
 				if (success) {
 					if (musique.modification()) {
 						JOptionPane.showMessageDialog(musiques_panel, "Modification faites", "Modifie",
@@ -137,31 +141,31 @@ public class C_musique {
 						JOptionPane.showMessageDialog(musiques_panel, "Erreur lors de la modification",
 								"Echec insertion", JOptionPane.ERROR_MESSAGE);
 					}
-				}			
+				}
 			}
 		});
 	}
+
 	public boolean verifChamp() {
-		boolean success=true;
+		boolean success = true;
 		if (musique_titre_textfield.get(0).getText().equals("")) {
-			success=false;
+			success = false;
 			JOptionPane.showMessageDialog(musiques_panel, "Veuillez saisir un titre");
 		} else {
 			musique.setOeuvre(musique_titre_textfield.get(0).getText().toLowerCase());
 			try {
-				if (musique_titre_textfield.get(1).getText().length()>0) {
+				if (musique_titre_textfield.get(1).getText().length() > 0) {
 					musique.setDuree_musique(Integer.parseInt(musique_titre_textfield.get(1).getText()));
-				}						
+				}
 			} catch (NumberFormatException e2) {
 				success = false;
 				JOptionPane.showMessageDialog(musiques_panel,
-						"la dure de la musique ne doit comporter que des chiffres", "Echec",
-						JOptionPane.ERROR_MESSAGE);
+						"la dure de la musique ne doit comporter que des chiffres", "Echec", JOptionPane.ERROR_MESSAGE);
 			}
 			try {
-				if (musique_titre_textfield.get(4).getText().toLowerCase().length() == 4 && Integer.parseInt(musique_titre_textfield.get(4).getText().toLowerCase())>1900) {
-					musique
-							.setAnnee_sortie_media(musique_titre_textfield.get(4).getText().toLowerCase());
+				if (musique_titre_textfield.get(4).getText().toLowerCase().length() == 4
+						&& Integer.parseInt(musique_titre_textfield.get(4).getText().toLowerCase()) > 1900) {
+					musique.setAnnee_sortie_media(musique_titre_textfield.get(4).getText().toLowerCase());
 				} else {
 					success = false;
 					JOptionPane.showMessageDialog(musiques_panel, "Annee non valide", "Echec",
@@ -169,13 +173,25 @@ public class C_musique {
 				}
 			} catch (Exception e2) {
 				success = false;
-				JOptionPane.showMessageDialog(musiques_panel,
-						"l'annee de sortie ne doit comporter que des chiffres", "Echec",
-						JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(musiques_panel, "l'annee de sortie ne doit comporter que des chiffres",
+						"Echec", JOptionPane.ERROR_MESSAGE);
 			}
 			musique.setAlbum(musique_titre_textfield.get(2).getText().toLowerCase());
 			musique.setUnivers(musique_titre_textfield.get(3).getText().toLowerCase());
-			musique.setEtat(comboListField.getSelectedIndex()+1);
+			musique.setEtat(comboListField.getSelectedIndex() + 1);
+			for (int i = 0; i < dualLinkModule.getText_list().size(); i++) {
+				Artiste artiste = new Artiste();
+				Metier metier = new Metier();
+				artiste.setSurnom_artiste(dualLinkModule.getText_list().get(i));
+				metier.setNom(dualLinkModule.getCombo_list().get(i));
+				artiste.setMetiers_artiste(metier);
+				musique.addArtiste(artiste);
+			}
+			for (int i = 0; i < linkModule.getText_list().size(); i++) {
+				Genre genre = new Genre();
+				genre.setInfo(linkModule.getText_list().get(i));
+				musique.addGenre(genre);
+			}
 		}
 		return success;
 	}
@@ -191,7 +207,7 @@ public class C_musique {
 	public void actualiseMusique() {
 		// Actualise le titre
 		musique_header.autoCompleteFormHeader(musique.toRowDataForm());
-		comboListField.setSelectedIndex(musique.getEtatId()-1);
+		comboListField.setSelectedIndex(musique.getEtatId() - 1);
 	}
 
 	/**
