@@ -6,11 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Date;
-
-import com.mysql.cj.protocol.ResultStreamer;
-import com.mysql.cj.xdevapi.Result;
-import com.sun.xml.internal.ws.wsdl.writer.document.Types;
 
 public class Musiques extends Media {
 
@@ -28,7 +23,7 @@ public class Musiques extends Media {
 	@Override
 	public String[] toRowData() {
 		String[] data = { this.oeuvre.getNom(), this.concat_genre, this.concat_artistes, this.etat.getNom(),
-				this.annee_sortie_media };
+				this.annee_sortie_media.substring(0,4) };
 		return data;
 	}
 
@@ -92,7 +87,7 @@ public class Musiques extends Media {
 				success = true;
 				this.id_media = (int) generatedKeys.getLong(1);
 			} else {
-				throw new SQLException("Creating user failed, no ID obtained.");
+				throw new SQLException("Creating music failed, no ID obtained.");
 			}
 			if (success) {
 				query = "INSERT INTO `nestix_musique`(`media_id`, `duree_musique`, `album_id`) VALUES (?,?,?)";
@@ -206,7 +201,7 @@ public class Musiques extends Media {
 
 	public String[] toRowDataForm() {
 		String[] data = { this.getTitre(), this.duree_musique + "", this.getTitreAlbum(), this.getNomunivers(),
-				this.annee_sortie_media };
+				this.annee_sortie_media.substring(0,4) };
 		return data;
 	}
 
@@ -254,4 +249,5 @@ public class Musiques extends Media {
 
 		}
 	}
+
 }
