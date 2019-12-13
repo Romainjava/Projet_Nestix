@@ -48,12 +48,7 @@ public class DualLinkModule extends LinkModule{
 		this.combo_list = new ArrayList<String>();
 		this.combo_list_field = new JComboBox(this.dataCombo);
 	}
-//	@Override
-//	public void createEvent() {
-//		super.createEvent();
-//		
-//		
-//	}
+
 	@Override
 	public void addElementLayout(GridBagConstraints gbc) {
 		GridBagLayout gbl = new GridBagLayout();

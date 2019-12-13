@@ -58,9 +58,6 @@ public class C_Livre {
 		ajoutMainPanel();
 		footerPanel();
 		
-		//!!!
-		//livre.lireUn(3);
-		//
 	}
 	
 	public void ajouteHeader() {

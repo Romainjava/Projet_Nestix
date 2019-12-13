@@ -111,7 +111,6 @@ public class LinkModule extends Module implements ActionListener{
 //			System.out.println(text_list);
 			
 			this.content_list = new JList(text_list.toArray());
-//			System.out.println(this.content_list.getModel().getSize());
 			
 			content_scroll.setViewportView(content_list);
 		}

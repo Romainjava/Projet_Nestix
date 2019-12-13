@@ -84,7 +84,7 @@ public class Livre extends Media {
 			String query = "SELECT nom_oeuvre, id_oeuvre\n" + 
 					"date_crea_media, annee_sortie_media, nom_admin, pseudo_utilisateur,\n" + 
 					"id_univers, nom_univers, " + "id_saga, nom_saga,\n" +
-					"id_image, nom_img, path_img, alt_img,\n" + 
+					"id_image, nom_image, path_image, alt_image,\n" + 
 					"livre_id, isbn, resume_livre, tome_livre, id_editeur, nom_editeur FROM nestix_livre\n" + 
 					
 					"LEFT JOIN nestix_media ON nestix_media.id_media = livre_id\n" + 
@@ -107,7 +107,7 @@ public class Livre extends Media {
 			this.oeuvre.setProp(result.getInt("id_oeuvre"), result.getString("nom_oeuvre"));
 			this.date_crea_media = result.getString("date_crea_media");
 			this.annee_sortie_media = result.getString("annee_sortie_media");
-			this.image.setProp(result.getInt("id_image"), result.getString("nom_img"), result.getString("path_img"), result.getString("alt_img"));
+			this.image.setProp(result.getInt("id_image"), result.getString("nom_image"), result.getString("path_image"), result.getString("alt_image"));
 			this.univers.setProp(result.getInt("id_univers"), result.getString("nom_univers"));
 			this.saga.setProp(result.getInt("id_saga"), result.getString("nom_saga"));
 			//this.etat
@@ -195,7 +195,7 @@ public class Livre extends Media {
 			String query = "SELECT nom_oeuvre, id_oeuvre\n" + 
 					"date_crea_media, annee_sortie_media, nom_admin, pseudo_utilisateur,\n" + 
 					"id_univers, nom_univers, " + "id_saga, nom_saga,\n" +
-					"id_image, nom_img, path_img, alt_img,\n" + 
+					"id_image, nom_image, path_image, alt_image,\n" + 
 					"livre_id, isbn, resume_livre, tome_livre, id_editeur, nom_editeur FROM nestix_livre\n" + 
 					
 					"LEFT JOIN nestix_media ON nestix_media.id_media = livre_id\n" + 
@@ -220,7 +220,7 @@ public class Livre extends Media {
 				livre.oeuvre.setProp(result.getInt("id_oeuvre"), result.getString("nom_oeuvre"));
 				livre.date_crea_media = result.getString("date_crea_media");
 				livre.annee_sortie_media = result.getString("annee_sortie_media");
-				livre.image.setProp(result.getInt("id_image"), result.getString("nom_img"), result.getString("path_img"), result.getString("alt_img"));
+				livre.image.setProp(result.getInt("id_image"), result.getString("nom_image"), result.getString("path_image"), result.getString("alt_image"));
 				livre.univers.setProp(result.getInt("id_univers"), result.getString("nom_univers"));
 				livre.saga.setProp(result.getInt("id_saga"), result.getString("nom_saga"));
 				//livre.etat
@@ -260,27 +260,27 @@ public class Livre extends Media {
 	}
 	
 	
-	public static void main(String[] args) {
-		Livre livre = new Livre();
-		
-		livre.lireUn(3);
-		
-		livre.lectureTout(50);
-		//System.out.println(livre.lectureTout(50));
-		
-//		ConnexionBDD.startConnection();
-//		musique.setTitre_media("test");
-//		Genre genre = new Genre();
-//		genre.setNom_genre("rock");
-//		Genre genre2 = new Genre();
-//		genre2.setNom_genre("pop");
-//		musique.addGenre(genre);
-//		musique.addGenre(genre2);
-//		ConnexionBDD.startConnection();
-//		musique.setAnnee_sortie_media("1060");
-//		for (String iterable_element : musique.toRowData()) {
-//			System.out.println(iterable_element);
-//		}
-	}
+//	public static void main(String[] args) {
+//		Livre livre = new Livre();
+//		
+//		livre.lireUn(3);
+//		
+//		livre.lectureTout(50);
+//		//System.out.println(livre.lectureTout(50));
+//		
+////		ConnexionBDD.startConnection();
+////		musique.setTitre_media("test");
+////		Genre genre = new Genre();
+////		genre.setNom_genre("rock");
+////		Genre genre2 = new Genre();
+////		genre2.setNom_genre("pop");
+////		musique.addGenre(genre);
+////		musique.addGenre(genre2);
+////		ConnexionBDD.startConnection();
+////		musique.setAnnee_sortie_media("1060");
+////		for (String iterable_element : musique.toRowData()) {
+////			System.out.println(iterable_element);
+////		}
+//	}
 
 }
