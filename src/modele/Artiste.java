@@ -142,7 +142,7 @@ public class Artiste implements I_requeteSQL, I_recherche {
 
 	public void getAllMetierById(int id) {
 		M_artiste.getAllMetierById(this, id);
-		
+
 	}
 
 }
