@@ -64,7 +64,7 @@ public class C_artiste {
 	public void ajoutMainPanel() {
 		MainPanel artiste_main = new MainPanel(this.artiste_panel);
 		// ADD ELEMENT
-		artiste_main.addModule(new DualLinkModule("Media"), 0, 0);
+		artiste_main.addModule(new DualLinkModule("Media", new String[]{"livre", "film", "musique"}), 0, 0);
 		artiste_main.addModule(new Module(), 1, 0);
 		artiste_main.addModule(new ImageModule(), 2, 0);
 

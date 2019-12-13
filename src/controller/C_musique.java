@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import modele.Etat;
 import modele.I_recherche;
 import modele.M_artiste;
 import modele.Musiques;
@@ -41,6 +42,11 @@ public class C_musique {
 	String[] header = { "Titre", "Duree(en secondes)", "Album", "Univers", "Annee de sortie" };
 	HeaderPanel musique_header;
 	AsidePanel musiques_aside;
+	
+	DualLinkModule musique_module_personne = new DualLinkModule("Personne", new String[]{"interprete", "compositeur"});
+	LinkModule musique_module_genre = new LinkModule("Genre");
+	ComboListField musique_module_etat;
+	
 
 	public JTable getMusique_results_table() {
 		return musique_results_table;
@@ -73,16 +79,16 @@ public class C_musique {
 		MainPanel musique_main = new MainPanel(this.musiques_panel);
 		// Add element
 		// ligne 1
-		musique_main.addModule(new DualLinkModule("Personne"), 0, 0, 2, 1);
+		musique_main.addModule(musique_module_personne, 0, 0, 2, 1);
 
 		musique_main.addModule(new ImageModule(), 2, 0);
 		// ligne 2
-		musique_main.addModule(new LinkModule("Genre"), 0, 1);
+		musique_main.addModule(musique_module_genre, 0, 1);
 
 		GridPanel relationComple = new GridPanel(new double[] { 1.0, 1.0 }, new double[] { 1.0, 1.0, 1.0 });
 		musique_main.add(relationComple, musique_main.addElement(1, 1));
-		relationComple.add(new ComboListField(new String[] { "etat1", "etat2", "etat3" }),
-				relationComple.addElement(0, 0));
+		musique_module_etat = new ComboListField(Etat.lectureTout());
+		relationComple.add(musique_module_etat, relationComple.addElement(0, 0));
 		relationComple.add(new TextListField(), relationComple.addElement(0, 1));
 		relationComple.add(new TextListField(), relationComple.addElement(1, 1));
 		relationComple.add(new TextListField(), relationComple.addElement(0, 2));
@@ -157,8 +163,27 @@ public class C_musique {
 	}
 
 	public void actualiseMusique() {
-		// Actualise le titre
+		// Actualise le header panel
 		musique_header.autoCompleteFormHeader(musique.toRowDataForm());
+		
+		//personne
+		ArrayList<String> tPersonneData = new ArrayList<>();
+		ArrayList<String> tPersonneDataMetier = new ArrayList<>();
+		for(int i = 0; i < musique.getArtistes().size(); i++) {
+			for(int j = 0; j < musique.getArtistes().get(i).getMetiers_artiste().size(); j++) {
+				tPersonneData.add(musique.getArtistes().get(i).getSurnom_artiste());
+				tPersonneDataMetier.add(musique.getArtistes().get(i).getMetiers_artiste().get(j).getNom());
+			}
+		}
+		this.musique_module_personne.setData(tPersonneData.toArray(new String[0]), tPersonneDataMetier.toArray(new String[0]));
+		//genre
+		String[] tGenreData = new String[musique.getGenres().size()];
+		for(int i = 0; i < tGenreData.length; i++) {
+			tGenreData[i] = musique.getGenres().get(i).getNom();
+		}
+		this.musique_module_genre.setData(tGenreData);
+		//etat
+				this.musique_module_etat.setSelectedIndex(musique.getEtat().getId()+1);
 	}
 
 	/**

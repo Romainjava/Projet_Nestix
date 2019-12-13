@@ -21,15 +21,12 @@ public class LinkModule extends Module implements ActionListener{
 	protected JScrollPane content_scroll;
 	protected ArrayList<String> text_list;
 	
-	public ArrayList<String> getText_list() {
-		return text_list;
-	}
-
-	public void setText_list(ArrayList<String> text_list) {
-		this.text_list = text_list;
-	}
 
 	protected JList content_list;
+	
+	protected LinkModule() {
+		super();
+	}
 	
 	public LinkModule(String ptitre) {
 		super();
@@ -45,6 +42,14 @@ public class LinkModule extends Module implements ActionListener{
 		gbc.fill = GridBagConstraints.BOTH;
 	    
 	    addElementLayout(gbc);
+	}
+	
+	public ArrayList<String> getText_list() {
+		return text_list;
+	}
+
+	public void setText_list(ArrayList<String> text_list) {
+		this.text_list = text_list;
 	}
 
 	public void createElement(String ptitre) {
@@ -106,7 +111,6 @@ public class LinkModule extends Module implements ActionListener{
 //			System.out.println(text_list);
 			
 			this.content_list = new JList(text_list.toArray());
-//			System.out.println(this.content_list.getModel().getSize());
 			
 			content_scroll.setViewportView(content_list);
 		}

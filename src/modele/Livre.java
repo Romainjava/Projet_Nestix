@@ -24,7 +24,12 @@ public class Livre extends Media {
 	}
 
 	public String[] toRowData() {
-		String[] data = {this.oeuvre.getNom(), this.ISBN + "", this.annee_sortie_media};
+		String[] data = {this.oeuvre.getNom(), this.ISBN + "", this.editeur.getNom(), this.etat.getNom(), this.annee_sortie_media};
+		return data;
+	}
+	
+	public String[] toRowDataForm() {
+		String[] data = { this.getTitre(), this.getISBN() + "", this.getAnnee_sortie_media(), this.saga.getNom(), this.getNomunivers()};
 		return data;
 	}
 	
@@ -84,7 +89,8 @@ public class Livre extends Media {
 			String query = "SELECT nom_oeuvre, id_oeuvre\n" + 
 					"date_crea_media, annee_sortie_media, nom_admin, pseudo_utilisateur,\n" + 
 					"id_univers, nom_univers, " + "id_saga, nom_saga,\n" +
-					"id_image, nom_img, path_img, alt_img,\n" + 
+					"id_image, nom_image, path_image, alt_image,\n" + 
+					"id_etat, nom_etat,\n" + 
 					"livre_id, isbn, resume_livre, tome_livre, id_editeur, nom_editeur FROM nestix_livre\n" + 
 					
 					"LEFT JOIN nestix_media ON nestix_media.id_media = livre_id\n" + 
@@ -95,6 +101,7 @@ public class Livre extends Media {
 					"LEFT JOIN nestix_image ON nestix_image.id_image = nestix_media.image_id\n" + 
 					"LEFT JOIN nestix_utilisateur ON nestix_utilisateur.id_utilisateur = nestix_media.utilisateur_id\n"+
 					"LEFT JOIN nestix_editeur ON nestix_editeur.id_editeur = nestix_livre.editeur_id\n"+
+					"LEFT JOIN nestix_etat ON nestix_etat.id_etat = nestix_media.etat_id\n"+
 					
 					"WHERE livre_id =  ?";
 			
@@ -107,11 +114,10 @@ public class Livre extends Media {
 			this.oeuvre.setProp(result.getInt("id_oeuvre"), result.getString("nom_oeuvre"));
 			this.date_crea_media = result.getString("date_crea_media");
 			this.annee_sortie_media = result.getString("annee_sortie_media");
-			this.image.setProp(result.getInt("id_image"), result.getString("nom_img"), result.getString("path_img"), result.getString("alt_img"));
+			this.image.setProp(result.getInt("id_image"), result.getString("nom_image"), result.getString("path_image"), result.getString("alt_image"));
 			this.univers.setProp(result.getInt("id_univers"), result.getString("nom_univers"));
 			this.saga.setProp(result.getInt("id_saga"), result.getString("nom_saga"));
-			//this.etat
-			//this.artistes
+			this.etat.setProp(result.getInt("id_etat"), result.getString("nom_etat") );
 			
 			//this.concat_artistes
 			//this.concat_genre
@@ -171,7 +177,7 @@ public class Livre extends Media {
 			//livre.concat_artistes=result.getString("surnom_artiste");
 			
 			
-			System.out.println(this.toString());
+			//System.out.println(this.toString());
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -195,7 +201,7 @@ public class Livre extends Media {
 			String query = "SELECT nom_oeuvre, id_oeuvre\n" + 
 					"date_crea_media, annee_sortie_media, nom_admin, pseudo_utilisateur,\n" + 
 					"id_univers, nom_univers, " + "id_saga, nom_saga,\n" +
-					"id_image, nom_img, path_img, alt_img,\n" + 
+					"id_image, nom_image, path_image, alt_image,\n" + 
 					"livre_id, isbn, resume_livre, tome_livre, id_editeur, nom_editeur FROM nestix_livre\n" + 
 					
 					"LEFT JOIN nestix_media ON nestix_media.id_media = livre_id\n" + 
@@ -220,7 +226,7 @@ public class Livre extends Media {
 				livre.oeuvre.setProp(result.getInt("id_oeuvre"), result.getString("nom_oeuvre"));
 				livre.date_crea_media = result.getString("date_crea_media");
 				livre.annee_sortie_media = result.getString("annee_sortie_media");
-				livre.image.setProp(result.getInt("id_image"), result.getString("nom_img"), result.getString("path_img"), result.getString("alt_img"));
+				livre.image.setProp(result.getInt("id_image"), result.getString("nom_image"), result.getString("path_image"), result.getString("alt_image"));
 				livre.univers.setProp(result.getInt("id_univers"), result.getString("nom_univers"));
 				livre.saga.setProp(result.getInt("id_saga"), result.getString("nom_saga"));
 				//livre.etat
@@ -260,27 +266,28 @@ public class Livre extends Media {
 	}
 	
 	
-	public static void main(String[] args) {
-		Livre livre = new Livre();
-		
-		livre.lireUn(3);
-		
-		livre.lectureTout(50);
-		//System.out.println(livre.lectureTout(50));
-		
-//		ConnexionBDD.startConnection();
-//		musique.setTitre_media("test");
-//		Genre genre = new Genre();
-//		genre.setNom_genre("rock");
-//		Genre genre2 = new Genre();
-//		genre2.setNom_genre("pop");
-//		musique.addGenre(genre);
-//		musique.addGenre(genre2);
-//		ConnexionBDD.startConnection();
-//		musique.setAnnee_sortie_media("1060");
-//		for (String iterable_element : musique.toRowData()) {
-//			System.out.println(iterable_element);
-//		}
-	}
+//	public static void main(String[] args) {
+//		Livre livre = new Livre();
+//		
+//		livre.lireUn(3);
+//		
+//		livre.lectureTout(50);
+//		//System.out.println(livre.lectureTout(50));
+//		
+////		ConnexionBDD.startConnection();
+////		musique.setTitre_media("test");
+////		Genre genre = new Genre();
+////		genre.setNom_genre("rock");
+////		Genre genre2 = new Genre();
+////		genre2.setNom_genre("pop");
+////		musique.addGenre(genre);
+////		musique.addGenre(genre2);
+////		ConnexionBDD.startConnection();
+////		musique.setAnnee_sortie_media("1060");
+////		for (String iterable_element : musique.toRowData()) {
+////			System.out.println(iterable_element);
+////		}
+//	}
 
 }
+
