@@ -82,6 +82,7 @@ public class C_musique {
 
 		GridPanel relationComple = new GridPanel(new double[] { 1.0, 1.0 }, new double[] { 1.0, 1.0, 1.0 });
 		musique_main.add(relationComple, musique_main.addElement(1, 1));
+		comboListField.setSelectedIndex(1);
 		relationComple.add(comboListField);
 		relationComple.addElement(0, 0);
 		relationComple.add(new TextListField(), relationComple.addElement(0, 1));
@@ -109,50 +110,15 @@ public class C_musique {
 		livre_footer_panel.getBoutonTab().get(0).addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Musiques musiqueCreated = new Musiques();
-				boolean success = true;
-				if (musique_titre_textfield.get(0).getText().equals("")) {
-					JOptionPane.showMessageDialog(musiques_panel, "Veuillez saisir un titre");
-				} else {
-					musiqueCreated.setOeuvre(musique_titre_textfield.get(0).getText().toLowerCase());
-					try {
-						if (musique_titre_textfield.get(1).getText().length()>0) {
-							musiqueCreated.setDuree_musique(Integer.parseInt(musique_titre_textfield.get(1).getText()));
-						}						
-					} catch (NumberFormatException e2) {
-						success = false;
-						JOptionPane.showMessageDialog(musiques_panel,
-								"la dure de la musique ne doit comporter que des chiffres", "Echec",
-								JOptionPane.ERROR_MESSAGE);
-					}
-					try {
-						Integer.parseInt(musique_titre_textfield.get(4).getText().toLowerCase());
-						if (musique_titre_textfield.get(4).getText().toLowerCase().length() == 4) {
-							musiqueCreated
-									.setAnnee_sortie_media(musique_titre_textfield.get(4).getText().toLowerCase());
-						} else {
-							success = false;
-							JOptionPane.showMessageDialog(musiques_panel, "Annee non valide", "Echec",
-									JOptionPane.ERROR_MESSAGE);
-						}
-					} catch (Exception e2) {
-						success = false;
-						JOptionPane.showMessageDialog(musiques_panel,
-								"l'annee de sortie ne doit comporter que des chiffres", "Echec",
-								JOptionPane.ERROR_MESSAGE);
-					}
-					musiqueCreated.setAlbum(musique_titre_textfield.get(2).getText().toLowerCase());
-					musiqueCreated.setUnivers(musique_titre_textfield.get(3).getText().toLowerCase());
-					musiqueCreated.setEtat(comboListField.getSelectedIndex()+1);
-					if (success) {
-						if (musiqueCreated.creation()) {
-							JOptionPane.showMessageDialog(musiques_panel, "Insertion faites", "Validation",
-									JOptionPane.INFORMATION_MESSAGE);
-							actualiseTab();
-						} else {
-							JOptionPane.showMessageDialog(musiques_panel, "Erreur lors de l'insertion",
-									"Echec insertion", JOptionPane.ERROR_MESSAGE);
-						}
+				boolean success = verifChamp();
+				if (success) {
+					if (musique.creation()) {
+						JOptionPane.showMessageDialog(musiques_panel, "Insertion faites", "Validation",
+								JOptionPane.INFORMATION_MESSAGE);
+						actualiseTab();
+					} else {
+						JOptionPane.showMessageDialog(musiques_panel, "Erreur lors de l'insertion",
+								"Echec insertion", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}
@@ -161,9 +127,57 @@ public class C_musique {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(comboListField.getSelectedIndex());
+				boolean success=verifChamp();
+				if (success) {
+					if (musique.modification()) {
+						JOptionPane.showMessageDialog(musiques_panel, "Modification faites", "Modifie",
+								JOptionPane.INFORMATION_MESSAGE);
+						actualiseTab();
+					} else {
+						JOptionPane.showMessageDialog(musiques_panel, "Erreur lors de la modification",
+								"Echec insertion", JOptionPane.ERROR_MESSAGE);
+					}
+				}			
 			}
 		});
+	}
+	public boolean verifChamp() {
+		boolean success=true;
+		if (musique_titre_textfield.get(0).getText().equals("")) {
+			success=false;
+			JOptionPane.showMessageDialog(musiques_panel, "Veuillez saisir un titre");
+		} else {
+			musique.setOeuvre(musique_titre_textfield.get(0).getText().toLowerCase());
+			try {
+				if (musique_titre_textfield.get(1).getText().length()>0) {
+					musique.setDuree_musique(Integer.parseInt(musique_titre_textfield.get(1).getText()));
+				}						
+			} catch (NumberFormatException e2) {
+				success = false;
+				JOptionPane.showMessageDialog(musiques_panel,
+						"la dure de la musique ne doit comporter que des chiffres", "Echec",
+						JOptionPane.ERROR_MESSAGE);
+			}
+			try {
+				if (musique_titre_textfield.get(4).getText().toLowerCase().length() == 4 && Integer.parseInt(musique_titre_textfield.get(4).getText().toLowerCase())>1900) {
+					musique
+							.setAnnee_sortie_media(musique_titre_textfield.get(4).getText().toLowerCase());
+				} else {
+					success = false;
+					JOptionPane.showMessageDialog(musiques_panel, "Annee non valide", "Echec",
+							JOptionPane.ERROR_MESSAGE);
+				}
+			} catch (Exception e2) {
+				success = false;
+				JOptionPane.showMessageDialog(musiques_panel,
+						"l'annee de sortie ne doit comporter que des chiffres", "Echec",
+						JOptionPane.ERROR_MESSAGE);
+			}
+			musique.setAlbum(musique_titre_textfield.get(2).getText().toLowerCase());
+			musique.setUnivers(musique_titre_textfield.get(3).getText().toLowerCase());
+			musique.setEtat(comboListField.getSelectedIndex()+1);
+		}
+		return success;
 	}
 
 	/**

@@ -106,8 +106,32 @@ public class Musiques extends Media {
 
 	@Override
 	public boolean modification() {
-		// TODO Auto-generated method stub
-		return false;
+		boolean success = false;
+		try {
+			String query = "UPDATE `nestix_media` SET `annee_sortie_media`=?,`admin_id`=?,`univers_id`=?,`image_id`=?,`etat_id`=?,`oeuvre_id`=?"
+					+ " WHERE id_media=?";
+			PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
+			statement.setString(1, this.annee_sortie_media);
+			statement.setInt(2, 4);
+			ConnexionBDD.prepareInt(statement, 3, this.univers.getId());
+			ConnexionBDD.prepareInt(statement, 4, this.image.getId());
+			statement.setInt(5, (this.etat.getId() == 0) ? 2 : this.etat.getId());
+			ConnexionBDD.prepareInt(statement, 6, this.oeuvre.getId());
+			statement.setInt(7, this.id_media);
+			success = (statement.executeUpdate() > 0);
+			if (success) {
+				query = "UPDATE `nestix_musique` SET `duree_musique`=?,`album_id`=? WHERE media_id=?";
+				statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
+				ConnexionBDD.prepareInt(statement, 1, this.duree_musique);
+				ConnexionBDD.prepareInt(statement, 2, this.album.getId());
+				statement.setInt(3, this.id_media);
+				success = (statement.executeUpdate() > 0);
+			}
+			statement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return success;
 	}
 
 	@Override
