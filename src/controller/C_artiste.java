@@ -7,6 +7,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -97,12 +98,19 @@ public class C_artiste {
 		 * Event btn creation un artiste avec requête creation dans M_artiste
 		 */
 		btn.get(0).addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				artiste.setSurnom_artiste(getArtiste_surnom_textfield().getText());
-				artiste.setNom_artiste(getArtiste_nom_textfield().getText());
-				artiste.setPrenom_artiste(getArtiste_prenom_textfield().getText());
-				artiste.setDob_artiste(getArtiste_dob_textfield().getText());
-				M_artiste.creation(artiste);
+			public void actionPerformed(ActionEvent e) {			 
+				recupDonneeArtiste();
+				if(artiste.getSurnom_artiste().equals("")) {
+					JOptionPane.showMessageDialog(artiste_panel, "Attention Surnom est obligatoire");
+				}else if(artiste.verifDateForm() == false) {
+					JOptionPane.showMessageDialog(artiste_panel, "Attention format date doit être : jj/mm/aaaa");
+				}
+				else {
+					if(artiste.creation() == false) {
+						JOptionPane.showMessageDialog(artiste_panel, "Creation de l'artiste échoué car il existe déjà ce surnom");
+					}
+					actualiseTab();
+				}
 				actualiseTab();
 			}
 		});
@@ -112,17 +120,39 @@ public class C_artiste {
 		 */
 		btn.get(1).addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				artiste.setSurnom_artiste(getArtiste_surnom_textfield().getText());
-				artiste.setNom_artiste(getArtiste_nom_textfield().getText());
-				artiste.setPrenom_artiste(getArtiste_prenom_textfield().getText());
-				artiste.setDob_artiste(getArtiste_dob_textfield().getText());
-				M_artiste.modifier(artiste);
+				recupDonneeArtiste();
+				if(artiste.getSurnom_artiste().equals("")) {
+					JOptionPane.showMessageDialog(artiste_panel, "Attention Surnom est obligatoire");
+				}else if(artiste.verifDateForm() == false) {
+					JOptionPane.showMessageDialog(artiste_panel, "Attention format date doit être : jj/mm/aaaa");
+				}
+				else {
+					if(artiste.modification() == false) {
+						JOptionPane.showMessageDialog(artiste_panel, "Modification de l'artiste échoué car il existe déjà ce surnom");
+					}
+					actualiseTab();
+				}	
+			}
+		});
+		
+		btn.get(2).addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				M_artiste.supprime(artiste);
 				actualiseTab();
 			}
 		});
 
 	}
-
+	
+	/**
+	 * Permet de récupérer les valeurs des textfield de l'instance d'artiste
+	 */
+	public void recupDonneeArtiste() {
+		artiste.setSurnom_artiste(getArtiste_surnom_textfield().getText());
+		artiste.setNom_artiste(getArtiste_nom_textfield().getText());
+		artiste.setPrenom_artiste(getArtiste_prenom_textfield().getText());
+		artiste.setDob_artiste(getArtiste_dob_textfield().getText());
+	}
 	/**
 	 * Actualise les infos grâce à la class Artiste
 	 */
@@ -164,7 +194,10 @@ public class C_artiste {
 			this.controller.getArtiste_dob_textfield().setText(dob);
 		}
 	}
-
+	
+	/**
+	 * actualise mon tableau et limite les entrée en param de lireTout()
+	 */
 	public void actualiseTab() {
 		artistes = M_artiste.lireTout(50);
 		artiste_aside.setDonnees(artistes);

@@ -28,7 +28,7 @@ import view.TextAreaScrollField;
 public class C_Livre {
 	private JPanel livres_panel;
 	
-	// Données
+	// DonnÃ©es
 	Livre livre = new Livre();
 	ArrayList<I_recherche> livres = new ArrayList<>();
 	 
@@ -91,13 +91,13 @@ public class C_Livre {
 		
 		GridPanel resume_panel = new GridPanel(new double[] {1.0}, new double[] {1.0, 5.0});
 		livre_main.add(resume_panel, livre_main.addElement(2, 1));
-		resume_panel.add(new JLabel("Resum�"), resume_panel.addElement(0, 0));
+		resume_panel.add(new JLabel("Resumé"), resume_panel.addElement(0, 0));
 		resume_panel.add(new TextAreaScrollField(5,10), resume_panel.addElement(0, 1));
 		
 	}
 	public void ajouteTab() {
 		AsidePanel livres_aside_panel = new AsidePanel(this.livres_panel);
-		livres_aside_panel.setEntetes( new String[] { "Titre", "ISBN", "Editeur", "Etat", "Ann�e de sortie" });
+		livres_aside_panel.setEntetes( new String[] { "Titre", "ISBN", "Editeur", "Etat", "Année de sortie" });
 		
 		livres = livre.lectureTout(50);
 		livres_aside_panel.setDonnees(livres);
@@ -168,7 +168,8 @@ public class C_Livre {
 			//this.controller.getLivre_titre_textfield().setText(titre);
 			livre.lireUn(livres.get(row).getId());
 			this.controller.actualiseLivre();
-			// Plus tard faire appelle à la méthode actualise livre qui actualise tous les champs
+			// Plus tard faire appelle Ã  la mÃ©thode actualise livre qui actualise tous les champs
 		}
 	}
 }
+
