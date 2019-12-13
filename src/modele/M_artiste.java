@@ -7,7 +7,31 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class M_artiste {
+	/**
+	 * Recupere un artiste via l'id
+	 * 
+	 * @param artiste
+	 */
+	public static void lireUn(Artiste artiste) {
+		try {
+			Connection co = ConnexionBDD.getConnexion();
+			String query = "SELECT * FROM nestix_artiste WHERE id = ?";
+			PreparedStatement statement = (PreparedStatement) co.prepareStatement(query);
+			statement.setInt(1, artiste.getId_artiste());
+			statement.execute();
 
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Récupere tout les artistes dans une limite donnée et les stock dans un
+	 * tableau d'artiste
+	 * 
+	 * @param limite
+	 * @return Tableau d'artiste de type I_recherche
+	 */
 	public static ArrayList<I_recherche> lireTout(int limite) {
 		ArrayList<I_recherche> artistes = new ArrayList<>();
 		try {
@@ -35,6 +59,13 @@ public class M_artiste {
 		return artistes;
 	}
 
+	/**
+	 * Crée un artiste via les valeurs des textfield et stock dans l'instance
+	 * artiste l'id par rapport à l'id crée en BDD
+	 * 
+	 * @param artiste
+	 * @return id d'un artiste crée.
+	 */
 	public static int creation(Artiste artiste) {
 		int id = 0;
 		try {
@@ -60,6 +91,12 @@ public class M_artiste {
 		return id;
 	}
 
+	/**
+	 * Modifie l'artiste par rapport à l'id de la ligne du tableau
+	 * 
+	 * @param artiste
+	 * @return nombre de lignes executé
+	 */
 	public static int modifier(Artiste artiste) {
 		int nb_row = 0;
 		try {
@@ -72,8 +109,7 @@ public class M_artiste {
 			statement.setString(3, artiste.getSurnom_artiste());
 			statement.setString(4, artiste.getDob_artiste());
 			statement.setInt(5, artiste.getId_artiste());
-		    nb_row = statement.executeUpdate();
-
+			nb_row = statement.executeUpdate();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -82,6 +118,13 @@ public class M_artiste {
 		return nb_row;
 	}
 
+	/**
+	 * Récupère les id des metiers de l'artiste et et le nom du métier et les
+	 * affecte dans l'instance Metier
+	 * 
+	 * @param artiste
+	 * @param id
+	 */
 	public static void getAllMetierById(Artiste artiste, int id) {
 
 		try {
@@ -102,6 +145,17 @@ public class M_artiste {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
 	}
+
+	public static void supprime(Artiste artiste) {
+		try {
+			Connection co = ConnexionBDD.getConnexion();
+			String query = "DELETE FROM nestix_artiste WHERE id = ?";
+			PreparedStatement statement = (PreparedStatement) co.prepareStatement(query);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
 }

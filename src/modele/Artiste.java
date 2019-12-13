@@ -11,7 +11,7 @@ public class Artiste implements I_requeteSQL, I_recherche {
 	private String prenom_artiste;
 	private String surnom_artiste;
 	private String dob_artiste;
-	private ArrayList<Metier> metiers_artiste=new ArrayList<>();
+	private ArrayList<Metier> metiers_artiste = new ArrayList<>();
 	private Metier metier;
 	private String etat;
 
@@ -142,7 +142,7 @@ public class Artiste implements I_requeteSQL, I_recherche {
 
 	public void getAllMetierById(int id) {
 		M_artiste.getAllMetierById(this, id);
-		
+
 	}
 
 }

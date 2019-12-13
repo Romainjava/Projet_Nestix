@@ -74,12 +74,6 @@ public class C_artiste {
 		relationComple.add(new TextListField(), relationComple.addElement(0, 1));
 		relationComple.add(new TextListField(), relationComple.addElement(1, 1));
 		relationComple.add(new TextListField(), relationComple.addElement(0, 2));
-
-		/*
-		 * artiste_main.addModule(new LinkModule("Genre"), 0, 1);
-		 * artiste_main.addModule(new Module(), 1, 1); artiste_main.addModule(new
-		 * Module(), 2, 1);
-		 */
 	}
 
 	public void ajouteTab() {
@@ -104,14 +98,12 @@ public class C_artiste {
 		 */
 		btn.get(0).addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
 				artiste.setSurnom_artiste(getArtiste_surnom_textfield().getText());
 				artiste.setNom_artiste(getArtiste_nom_textfield().getText());
 				artiste.setPrenom_artiste(getArtiste_prenom_textfield().getText());
 				artiste.setDob_artiste(getArtiste_dob_textfield().getText());
 				M_artiste.creation(artiste);
 				actualiseTab();
-
 			}
 		});
 
@@ -120,7 +112,6 @@ public class C_artiste {
 		 */
 		btn.get(1).addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
 				artiste.setSurnom_artiste(getArtiste_surnom_textfield().getText());
 				artiste.setNom_artiste(getArtiste_nom_textfield().getText());
 				artiste.setPrenom_artiste(getArtiste_prenom_textfield().getText());
@@ -136,7 +127,6 @@ public class C_artiste {
 	 * Actualise les infos grâce à la class Artiste
 	 */
 	public void actualiseArtiste() {
-		// ACTUALISE NOM
 		this.artiste_nom_textfield.setText(artiste.getNom_artiste());
 		this.artiste_prenom_textfield.setText(artiste.getPrenom_artiste());
 		this.artiste_surnom_textfield.setText(artiste.getSurnom_artiste());
@@ -161,9 +151,7 @@ public class C_artiste {
 		public void mouseClicked(MouseEvent e) {
 			int row = this.controller.getArtiste_result_table().rowAtPoint(e.getPoint());
 			controller.artiste = (Artiste) controller.artistes.get(row);
-			// int column =
-			// this.controller.getArtiste_result_table().columnAtPoint(e.getPoint());
-
+			
 			// "getAtValue" : Permet de prendre la valeur de la case ( row , column )
 			String nom = (String) this.controller.getArtiste_result_table().getValueAt(row, 0);
 			String prenom = (String) this.controller.getArtiste_result_table().getValueAt(row, 1);
