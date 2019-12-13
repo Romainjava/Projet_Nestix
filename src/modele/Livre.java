@@ -195,7 +195,7 @@ public class Livre extends Media {
 			String query = "SELECT nom_oeuvre, id_oeuvre\n" + 
 					"date_crea_media, annee_sortie_media, nom_admin, pseudo_utilisateur,\n" + 
 					"id_univers, nom_univers, " + "id_saga, nom_saga,\n" +
-					"id_image, nom_img, path_img, alt_img,\n" + 
+					"id_image, nom_image, path_image, alt_image,\n" + 
 					"livre_id, isbn, resume_livre, tome_livre, id_editeur, nom_editeur FROM nestix_livre\n" + 
 					
 					"LEFT JOIN nestix_media ON nestix_media.id_media = livre_id\n" + 

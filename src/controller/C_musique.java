@@ -41,7 +41,7 @@ public class C_musique {
 	HeaderPanel musique_header;
 	AsidePanel musiques_aside;
 	ComboListField comboListField=new ComboListField(new String[] { "valide", "attente", "bloquer" });
-	DualLinkModule dualLinkModule=new DualLinkModule("Personne");
+	DualLinkModule dualLinkModule=new DualLinkModule("Personne",new String[]{"interprete", "compositeur"});
 	LinkModule linkModule = new LinkModule("Genre");
 	public JTable getMusique_results_table() {
 		return musique_results_table;
