@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 import modele.Artiste;
 import modele.I_recherche;
 import modele.M_artiste;
+import modele.Musiques;
 import view.AsidePanel;
 import view.ComboListField;
 import view.DualLinkModule;
@@ -22,7 +23,6 @@ import view.FooterPanel;
 import view.GridPanel;
 import view.HeaderPanel;
 import view.ImageModule;
-import view.LinkModule;
 import view.MainPanel;
 import view.Module;
 import view.TextListField;
@@ -144,6 +144,8 @@ public class C_artiste {
 
 	}
 	
+	//TODO code à faire pour accedé a creation rapide sans passé par la classe M_artiste pour facilité l'acces à la methode
+	
 	/**
 	 * Permet de récupérer les valeurs des textfield de l'instance d'artiste
 	 */
@@ -162,6 +164,13 @@ public class C_artiste {
 		this.artiste_surnom_textfield.setText(artiste.getSurnom_artiste());
 		this.artiste_dob_textfield.setText(artiste.getDob_artiste());
 
+	}
+	/**
+	 * actualise mon tableau et limite les entrée en param de lireTout()
+	 */
+	public void actualiseTab() {
+		artistes = M_artiste.lireTout(50);
+		artiste_aside.setDonnees(artistes);
 	}
 
 	/**
@@ -195,13 +204,6 @@ public class C_artiste {
 		}
 	}
 	
-	/**
-	 * actualise mon tableau et limite les entrée en param de lireTout()
-	 */
-	public void actualiseTab() {
-		artistes = M_artiste.lireTout(50);
-		artiste_aside.setDonnees(artistes);
-	}
 
 	// === ACCESSEUR ET MUTATEUR === //
 	public JTable getArtiste_result_table() {
@@ -242,6 +244,20 @@ public class C_artiste {
 
 	public void setArtiste_dob_textfield(JTextField artiste_dob_textfield) {
 		this.artiste_dob_textfield = artiste_dob_textfield;
+	}
+	
+	/**
+	 * Ici code pour test, à disparaitre
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		Artiste artist = new Artiste();
+		artist.setSurnom_artiste("Celine Dion");
+		M_artiste.creationRapide(artist);
+		
+		System.out.println(artist);
+		
+		
 	}
 
 }

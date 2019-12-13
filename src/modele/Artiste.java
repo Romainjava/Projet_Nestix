@@ -18,6 +18,7 @@ public class Artiste implements I_requeteSQL, I_recherche {
 	private String etat;
 
 	
+	
 	/**
 	 * Fonction qui va verifier le format de la date avec une regex 
 	 * @return boolean

@@ -11,7 +11,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
-
 public class M_artiste {
 	/**
 	 * Recupere un artiste via l'id
@@ -93,7 +92,6 @@ public class M_artiste {
 			try (ResultSet last_insert_id = statement.getGeneratedKeys()) {
 				if (last_insert_id.next()) {
 					artiste.setId_artiste(last_insert_id.getInt(1));
-
 				} else {
 					throw new SQLException("Creation de l'artiste échoué, ID non trouvé");
 				}
@@ -103,6 +101,30 @@ public class M_artiste {
 			System.out.println("Erreur attrapé dans creation M_artiste : " + e.getMessage());
 		}
 		return (nb_row > 0);
+	}
+
+	/**
+	 * crée un artiste avec seulement son surnom et renvoie l'id, si il existe renvoie l'id.
+	 * 
+	 * @return boolean
+	 */
+	public static void creationRapide(Artiste artiste) {
+		try {
+			Connection co = ConnexionBDD.getConnexion();
+			String query = "SELECT id_artiste FROM nestix_artiste WHERE surnom_artiste = ?";
+			PreparedStatement statement = (PreparedStatement) co.prepareStatement(query);
+			statement.setString(1, artiste.getSurnom_artiste());
+			ResultSet result = statement.executeQuery();
+			if(result.next()) {
+				artiste.setId_artiste(result.getInt(1));
+			}
+			if(artiste.getId_artiste() == 0) {
+				creation(artiste);			
+			}
+
+		} catch (SQLException e) {
+			System.out.println("Erreur attrapé dans creationRapide M_artiste : " + e.getMessage());
+		}	
 	}
 
 	/**

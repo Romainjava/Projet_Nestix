@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
 public abstract class Info implements I_requeteSQL, I_recherche {
 
 	protected int id;
