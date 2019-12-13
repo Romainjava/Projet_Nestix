@@ -20,6 +20,15 @@ public class LinkModule extends Module implements ActionListener{
 	protected TextListField text_list_field;
 	protected JScrollPane content_scroll;
 	protected ArrayList<String> text_list;
+	
+	public ArrayList<String> getText_list() {
+		return text_list;
+	}
+
+	public void setText_list(ArrayList<String> text_list) {
+		this.text_list = text_list;
+	}
+
 	protected JList content_list;
 	
 	public LinkModule(String ptitre) {

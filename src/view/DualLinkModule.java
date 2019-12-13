@@ -14,6 +14,12 @@ public class DualLinkModule extends LinkModule{
 	protected ArrayList<String> combo_list;
 	protected JComboBox combo_list_field;
 
+	public ArrayList<String> getCombo_list() {
+		return combo_list;
+	}
+	public void setCombo_list(ArrayList<String> combo_list) {
+		this.combo_list = combo_list;
+	}
 	public DualLinkModule(String ptitre) {
 		super(ptitre);		
 		
@@ -71,7 +77,8 @@ public class DualLinkModule extends LinkModule{
 	public void setData(String[] data, String[] data2) {
 		this.text_list = new ArrayList<String>(Arrays.asList(data));
 		this.combo_list = new ArrayList<String>(Arrays.asList(data2));
-		
+		System.out.println(text_list.toString());
+		System.out.println(combo_list.toString());
 		String[] tData = new String[text_list.size()];
 		for(int i = 0; i < tData.length; i++){
 			tData[i] = this.text_list.get(i) + " | " + this.combo_list.get(i);
