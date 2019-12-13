@@ -73,7 +73,7 @@ public class C_musique {
 		MainPanel musique_main = new MainPanel(this.musiques_panel);
 		// Add element
 		// ligne 1
-		musique_main.addModule(new DualLinkModule("Personne"), 0, 0, 2, 1);
+		musique_main.addModule(new DualLinkModule("Personne", new String[]{"interprete", "compositeur"}), 0, 0, 2, 1);
 
 		musique_main.addModule(new ImageModule(), 2, 0);
 		// ligne 2

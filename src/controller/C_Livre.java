@@ -36,7 +36,7 @@ public class C_Livre {
 	JTextField livre_titre_textfield;
 	JTextField livre_isbn_textfield;
 	
-	DualLinkModule livre_module_personne = new DualLinkModule("Personne");
+	DualLinkModule livre_module_personne = new DualLinkModule("Personne", new String[]{"ecrivain"});
 	LinkModule livre_module_genre = new LinkModule("Genre");
 	
 	
