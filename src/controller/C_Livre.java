@@ -11,6 +11,7 @@ import modele.I_recherche;
 import modele.Livre;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import view.AsidePanel;
 import view.ComboListField;
@@ -124,13 +125,15 @@ public class C_Livre {
 		
 		// Actualise le main panel
 		//personne
-		String[] tPersonneData = new String[livre.getArtistes().size()];
-		String[] tPersonneDataMetier = new String[livre.getArtistes().size()];
-		for(int i = 0; i < tPersonneData.length; i++) {
-			tPersonneData[i] = livre.getArtistes().get(i).getSurnom_artiste();
-			tPersonneDataMetier[i] = livre.getArtistes().get(i).getSurnom_artiste();
+		ArrayList<String> tPersonneData = new ArrayList<>();
+		ArrayList<String> tPersonneDataMetier = new ArrayList<>();
+		for(int i = 0; i < livre.getArtistes().size(); i++) {
+			for(int j = 0; j < livre.getArtistes().get(i).getMetiers_artiste().size(); j++) {
+				tPersonneData.add(livre.getArtistes().get(i).getSurnom_artiste());
+				tPersonneDataMetier.add(livre.getArtistes().get(i).getMetiers_artiste().get(j).getNom());
+			}
 		}
-		this.livre_module_personne.setData(tPersonneData);
+		this.livre_module_personne.setData(tPersonneData.toArray(new String[0]), tPersonneDataMetier.toArray(new String[0]));
 		//genre
 		String[] tGenreData = new String[livre.getGenres().size()];
 		for(int i = 0; i < tGenreData.length; i++) {
