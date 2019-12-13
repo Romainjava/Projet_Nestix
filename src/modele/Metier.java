@@ -3,6 +3,14 @@ package modele;
 import java.util.ArrayList;
 
 public class Metier extends Info{
+	
+	public Metier() {
+		super();
+	}
+
+	public Metier(int pId, String pNom) {
+		super(pId, pNom);
+	}
 
 	@Override
 	public boolean suppression(int id) {

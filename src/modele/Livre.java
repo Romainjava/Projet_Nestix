@@ -78,43 +78,104 @@ public class Livre extends Media {
 	@Override
 	public boolean lireUn(int id) {
 		boolean success = true;
+		
 		try {
-			String query = "SELECT * FROM nestix_media JOIN nestix_livre ON id_media = livre_id WHERE id_media = " + id;
-			Statement state = ConnexionBDD.getConnexion().createStatement();
-			ResultSet result = state.executeQuery(query);
+			Connection co = ConnexionBDD.getConnexion();
+			String query = "SELECT nom_oeuvre, id_oeuvre\n" + 
+					"date_crea_media, annee_sortie_media, nom_admin, pseudo_utilisateur,\n" + 
+					"id_univers, nom_univers, " + "id_saga, nom_saga,\n" +
+					"id_image, nom_img, path_img, alt_img,\n" + 
+					"livre_id, isbn, resume_livre, tome_livre, id_editeur, nom_editeur FROM nestix_livre\n" + 
+					
+					"LEFT JOIN nestix_media ON nestix_media.id_media = livre_id\n" + 
+					"LEFT JOIN nestix_oeuvre ON nestix_oeuvre.id_oeuvre = nestix_media.oeuvre_id\n" + 
+					"LEFT JOIN nestix_admin ON nestix_admin.id_admin = nestix_media.admin_id\n" + 
+					"LEFT JOIN nestix_univers ON nestix_univers.id_univers = nestix_media.univers_id\n" + 
+					"LEFT JOIN nestix_saga ON nestix_saga.id_saga = nestix_media.saga_id\n" + 
+					"LEFT JOIN nestix_image ON nestix_image.id_image = nestix_media.image_id\n" + 
+					"LEFT JOIN nestix_utilisateur ON nestix_utilisateur.id_utilisateur = nestix_media.utilisateur_id\n"+
+					"LEFT JOIN nestix_editeur ON nestix_editeur.id_editeur = nestix_livre.editeur_id\n"+
+					
+					"WHERE livre_id =  ?";
 			
-			ResultSetMetaData resultMeta = result.getMetaData();
-		    System.out.println("\n**********************************");
-		    for(int i = 1; i <= resultMeta.getColumnCount(); i++) {
-		      System.out.print(resultMeta.getColumnName(i).toUpperCase() + " *");
-		    }
-		    System.out.println("\n**********************************");
-		    while(result.next()){         
-		      for(int i = 1; i <= resultMeta.getColumnCount(); i++) {
-		    	  if(result.getObject(i) != null) {
-		    		  System.out.print(result.getObject(i).toString() + "\t |");
-		    	  }else {
-		    		  System.out.print("NULL" + "\t |");
-		    	  }
-		      }
-		      System.out.println("\n---------------------------------");
-		    }
-		    result.absolute(1);
-		    if(result.getObject(12) != null) {
-		    	System.out.println(result.getObject(12).toString());
-		    	setISBN(result.getInt(12));
-		    }else {
-		    	System.out.println("NULL");
-		    	setISBN(result.getInt(12));
-		    }
-		    
-		    System.out.println(getISBN());
-	
-		    result.close();
-		    state.close();
+			PreparedStatement statement = (PreparedStatement) co.prepareStatement(query);
+			statement.setInt(1, id);
+			ResultSet result = statement.executeQuery();
+			result.next();
 			
-		} catch (Exception e) {
-			System.out.println("erreur");
+			this.id_media = result.getInt("livre_id");
+			this.oeuvre.setProp(result.getInt("id_oeuvre"), result.getString("nom_oeuvre"));
+			this.date_crea_media = result.getString("date_crea_media");
+			this.annee_sortie_media = result.getString("annee_sortie_media");
+			this.image.setProp(result.getInt("id_image"), result.getString("nom_img"), result.getString("path_img"), result.getString("alt_img"));
+			this.univers.setProp(result.getInt("id_univers"), result.getString("nom_univers"));
+			this.saga.setProp(result.getInt("id_saga"), result.getString("nom_saga"));
+			//this.etat
+			//this.artistes
+			
+			//this.concat_artistes
+			//this.concat_genre
+			
+			this.ISBN = result.getInt("isbn");
+			this.resume_livre = result.getString("resume_livre");
+			this.tome_livre = result.getInt("tome_livre");
+			
+			this.editeur = new Editeur(result.getInt("id_editeur"), result.getString("nom_editeur"));
+			
+			//Genre
+			this.genres.clear();
+			query = "SELECT id_genre, nom_genre FROM nestix_media_genre\n" + 
+					"LEFT JOIN nestix_genre ON nestix_genre.id_genre = genre_id \n" +
+					"WHERE media_id = ?";
+			
+			statement = (PreparedStatement) co.prepareStatement(query);
+			statement.setInt(1, id);
+			result = statement.executeQuery();
+			while (result.next()) {
+				Genre tGenre = new Genre();
+				tGenre.setProp(result.getInt("id_genre"), result.getString("nom_genre"));
+				this.genres.add(tGenre);
+			}
+			//Artiste
+			this.artistes.clear();
+			query = "SELECT DISTINCT id_artiste, surnom_artiste FROM nestix_artiste_metier_media\n" + 
+					"LEFT JOIN nestix_artiste ON nestix_artiste.id_artiste = artiste_id \n" +
+					"WHERE media_id = ?";
+			
+			statement = (PreparedStatement) co.prepareStatement(query);
+			statement.setInt(1, id);
+			result = statement.executeQuery();
+			while (result.next()) {
+				Artiste tArtiste = new Artiste();
+				tArtiste.setId_artiste(result.getInt("id_artiste"));
+				tArtiste.setSurnom_artiste(result.getString("surnom_artiste"));
+				this.artistes.add(tArtiste);
+			}
+			//Metier
+			for(Artiste artiste: artistes) {
+				artiste.getAllMetierById(this.id_media);
+//				artiste.getMetiers_artiste().clear();
+//				query = "SELECT id_metier, nom_metier FROM nestix_artiste_metier_media\n" + 
+//						"LEFT JOIN nestix_metier ON nestix_metier.id_metier = metier_id \n" +
+//						"WHERE artiste_id = ?";
+//				
+//				statement = (PreparedStatement) co.prepareStatement(query);
+//				statement.setInt(1, artiste.getId());
+//				result = statement.executeQuery();
+//				while (result.next()) {
+//					artiste.setMetiers_artiste(new Metier(result.getInt("id_artiste"), result.getString("surnom_artiste")));
+//				}
+			}
+			
+			//livre.concat_genre=result.getString("nom_genre");
+			//livre.concat_artistes=result.getString("surnom_artiste");
+			
+			
+			System.out.println(this.toString());
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("erreur lire un livre");
 			success = false;
 		}
 		return success;
@@ -131,9 +192,12 @@ public class Livre extends Media {
 		ArrayList<I_recherche> livreList = new ArrayList<>();
 		try {
 			Connection co = ConnexionBDD.getConnexion();
-			String query = "SELECT nom_oeuvre,\n" + 
-					"date_crea_media, annee_sortie_media, nom_admin, nom_univers, nom_saga, nom_img, pseudo_utilisateur,\n" + 
+			String query = "SELECT nom_oeuvre, id_oeuvre\n" + 
+					"date_crea_media, annee_sortie_media, nom_admin, pseudo_utilisateur,\n" + 
+					"id_univers, nom_univers, " + "id_saga, nom_saga,\n" +
+					"id_image, nom_img, path_img, alt_img,\n" + 
 					"livre_id, isbn, resume_livre, tome_livre, id_editeur, nom_editeur FROM nestix_livre\n" + 
+					
 					"LEFT JOIN nestix_media ON nestix_media.id_media = livre_id\n" + 
 					"LEFT JOIN nestix_oeuvre ON nestix_oeuvre.id_oeuvre = nestix_media.oeuvre_id\n" + 
 					"LEFT JOIN nestix_admin ON nestix_admin.id_admin = nestix_media.admin_id\n" + 
@@ -142,8 +206,10 @@ public class Livre extends Media {
 					"LEFT JOIN nestix_image ON nestix_image.id_image = nestix_media.image_id\n" + 
 					"LEFT JOIN nestix_utilisateur ON nestix_utilisateur.id_utilisateur = nestix_media.utilisateur_id\n"+
 					"LEFT JOIN nestix_editeur ON nestix_editeur.id_editeur = nestix_livre.editeur_id\n"+
+					
 					"GROUP BY\n"+ 
 					"nestix_media.id_media LIMIT ?";
+			
 			PreparedStatement statement = (PreparedStatement) co.prepareStatement(query);
 			statement.setInt(1, limit);
 			ResultSet result = statement.executeQuery();
@@ -151,12 +217,12 @@ public class Livre extends Media {
 				Livre livre = new Livre();
 				
 				livre.id_media = result.getInt("livre_id");
-				//livre.titre_media = result.getString("nom_oeuvre");
+				livre.oeuvre.setProp(result.getInt("id_oeuvre"), result.getString("nom_oeuvre"));
 				livre.date_crea_media = result.getString("date_crea_media");
 				livre.annee_sortie_media = result.getString("annee_sortie_media");
-				//livre.titre_image = result.getString("nom_img");
-				//livre.univers
-				//livre.saga
+				livre.image.setProp(result.getInt("id_image"), result.getString("nom_img"), result.getString("path_img"), result.getString("alt_img"));
+				livre.univers.setProp(result.getInt("id_univers"), result.getString("nom_univers"));
+				livre.saga.setProp(result.getInt("id_saga"), result.getString("nom_saga"));
 				//livre.etat
 				//livre.artistes
 				//livre.genres
@@ -177,11 +243,12 @@ public class Livre extends Media {
 				
 				livreList.add(livre);
 				
-				System.out.println(livre.toString());
+				//System.out.println(livre.toString());
 			}
 		//success = (statement.executeUpdate()>1);
 		} catch (SQLException e) {
 			e.printStackTrace();
+			System.out.println("erreur lire tout livre");
 		}
 		return livreList;
 	}

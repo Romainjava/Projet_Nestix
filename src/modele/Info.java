@@ -111,6 +111,12 @@ public abstract class Info implements I_requeteSQL, I_recherche {
 		this.nom = nom;
 	}
 
+	public void setProp(int pId, String pNom) {
+		this.id = pId;
+		this.nom = pNom;
+	}
+	
+
 	@Override
 	public String toString() {
 		return this.getTableName() + " [id=" + id + ", nom=" + nom + "]";
