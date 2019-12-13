@@ -44,6 +44,9 @@ public abstract class Info implements I_requeteSQL, I_recherche {
 		String[] data = { this.getTableName() };
 		return data;
 	}
+	/**
+	 * permet de recupere l'id par rapport au nom de l'instance
+	 */
 	public void fetchId() {
 			PreparedStatement statement;
 			ResultSet result;
@@ -68,7 +71,6 @@ public abstract class Info implements I_requeteSQL, I_recherche {
 				e.printStackTrace();
 			}
 	}
-
 	public void setId(int id) {
 		this.id = id;
 	}
