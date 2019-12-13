@@ -13,24 +13,40 @@ public class DualLinkModule extends LinkModule{
 	
 	protected ArrayList<String> combo_list;
 	protected JComboBox combo_list_field;
+	protected String[] dataCombo;
 
+	
+	public DualLinkModule(String ptitre, String[] pDataCombo) {
+		super();
+		
+		this.dataCombo = pDataCombo;
+		
+		//Element
+		createElement(ptitre);
+		
+		//Event
+		createEvent();
+				
+		//Layout
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.fill = GridBagConstraints.BOTH;
+	    
+	    addElementLayout(gbc);
+	}
+	
 	public ArrayList<String> getCombo_list() {
 		return combo_list;
 	}
 	public void setCombo_list(ArrayList<String> combo_list) {
 		this.combo_list = combo_list;
 	}
-	public DualLinkModule(String ptitre) {
-		super(ptitre);		
-		
-	}
+	
 	@Override
 	public void createElement(String ptitre) {
 		super.createElement(ptitre);
 		
-		String[] dataCombo = {"second_item1", "second_item2", "second_item3"};
-		this.combo_list = new ArrayList<String>(Arrays.asList(dataCombo));
-		combo_list_field = new JComboBox(dataCombo);
+		this.combo_list = new ArrayList<String>();
+		this.combo_list_field = new JComboBox(this.dataCombo);
 	}
 //	@Override
 //	public void createEvent() {
