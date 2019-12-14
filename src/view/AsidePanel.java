@@ -25,7 +25,7 @@ public class AsidePanel extends JPanel {
 	private Object donnees[][] = { { null, null, null, null } };
 	private String entetes[] = { "Titre", "Genre", "Etat", "Date de sortie" };
 	private DefaultTableModel tab_model = new DefaultTableModel(donnees, entetes) {
-		//empêche l'edition du tableau en surchargeant la class pendant la définition
+		//Empêche l'edition du tableau en surchargeant la class pendant la définition
 		public boolean isCellEditable(int row, int col) {
 			return false;
 		};
@@ -83,7 +83,10 @@ public class AsidePanel extends JPanel {
 	public String[] getEntetes() {
 		return entetes;
 	}
-
+	/**
+	 * Permet de définir les entêtes
+	 * @param entetes:String[]
+	 */
 	public void setEntetes(String[] entetes) {
 		this.entetes = entetes;
 		tab_model.setColumnCount(0);
@@ -92,10 +95,10 @@ public class AsidePanel extends JPanel {
 		}
 	}
 
-	public Object[][] getDonnees() {
-		return donnees;
-	}
-
+	/**
+	 * Permet d'envoyer les data dans le tableau à partir de la methode herité dans artiste
+	 * @param rowData:Object[]
+	 */
 	public void ajouterLigne(Object[] rowData) {
 		tab_model.addRow(rowData);
 	}
@@ -107,7 +110,10 @@ public class AsidePanel extends JPanel {
 			ajouterLigne(objects);
 		}
 	}
-	
+	/**
+	 * Permet de bouclé sur chaque artiste et d'afficher les lignes de données correspondant à chaque instance
+	 * @param donnees:Arraylist
+	 */
 	public void setDonnees(ArrayList<I_recherche> donnees) {
 		this.tab_model.setRowCount(0);
 		for (I_recherche i_recherche : donnees) {

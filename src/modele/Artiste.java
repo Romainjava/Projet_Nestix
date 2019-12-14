@@ -16,7 +16,7 @@ public class Artiste implements I_requeteSQL, I_recherche {
 	private ArrayList<Metier> metiers_artiste = new ArrayList<>();
 	private Metier metier;
 	private String etat;
-
+	private String group_concact;
 	
 	
 	/**
@@ -45,7 +45,23 @@ public class Artiste implements I_requeteSQL, I_recherche {
 	public boolean creation() {
 		return M_artiste.creation(this);
 	}
-
+	
+	/**
+	 * Permet de faire une creation rapide  par rapport à l'attribut surnom de l'objet
+	 */
+	public void creationRapide() {
+		M_artiste.creationRapide(this);
+	}
+	
+	/**
+	 * Permet de faire une creation rapide via le surnom en parametre
+	 * @param nom:String
+	 */
+	public void creationRapide(String surnom) {
+		this.setSurnom_artiste(surnom);
+		M_artiste.creationRapide(this);
+	}
+	
 	@Override
 	public boolean modification() {
 		return (M_artiste.modifier(this) > 0);
@@ -69,12 +85,18 @@ public class Artiste implements I_requeteSQL, I_recherche {
 	}
 
 	@Override
+	/**
+	 * Affiche dynamiquement les données de l'instance artiste ligne par ligne
+	 */
 	public Object[] toRowData() {
-		Object[] tab = { this.nom_artiste, this.prenom_artiste, this.surnom_artiste, this.etat, this.dob_artiste };
+		Object[] tab = { this.surnom_artiste,this.group_concact, this.etat, this.dob_artiste };
 		return tab;
 	}
 
 	@Override
+	/**
+	 * Affiche les entêtes des textfield
+	 */
 	public String[] toHeaderData() {
 		return new String[] { "Nom", "Prenom", "Surnom", "Etat", "Date de naissance" };
 	}
@@ -86,7 +108,7 @@ public class Artiste implements I_requeteSQL, I_recherche {
 	}
 
 	public boolean rechercheParMetier() {
-//		à coder
+		//TODO	à coder
 		return false;
 	}
 
@@ -164,6 +186,14 @@ public class Artiste implements I_requeteSQL, I_recherche {
 
 	public void setMetiers_artiste(Metier metiers_artiste) {
 		this.metiers_artiste.add(metiers_artiste);
+	}
+
+	public String getGroup_concact() {
+		return group_concact;
+	}
+
+	public void setGroup_concact(String group_concact) {
+		this.group_concact = group_concact;
 	}
 
 

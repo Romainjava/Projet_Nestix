@@ -43,8 +43,14 @@ public class M_artiste {
 		ArrayList<I_recherche> artistes = new ArrayList<>();
 		try {
 			Connection co = ConnexionBDD.getConnexion();
-			String query = "SELECT id_artiste,nom_artiste,prenom_artiste,surnom_artiste,nom_etat,dob_artiste FROM nestix_artiste JOIN nestix_etat "
-					+ "ON nestix_etat.id_etat = nestix_artiste.etat_id LIMIT ?";
+			String query = "SELECT id_artiste,nom_artiste,prenom_artiste,surnom_artiste,nom_etat,dob_artiste,"
+					+ " GROUP_CONCAT(DISTINCT nom_metier) as metiers "
+					+ " FROM nestix_artiste "
+					+ " LEFT JOIN nestix_etat ON nestix_etat.id_etat = nestix_artiste.etat_id"
+					+ " LEFT JOIN nestix_artiste_metier_media ON nestix_artiste_metier_media.artiste_id = nestix_artiste.id_artiste"
+					+ " LEFT JOIN nestix_metier ON nestix_metier.id_metier = nestix_artiste_metier_media.metier_id"
+					+ " LIMIT ?";
+				    
 			PreparedStatement statement = (PreparedStatement) co.prepareStatement(query);
 			statement.setInt(1, limite);
 			ResultSet result = statement.executeQuery();
@@ -56,6 +62,7 @@ public class M_artiste {
 				artiste.setEtat(result.getString("nom_etat"));
 				artiste.setDob_artiste(parseFormatDateFromSQL(result.getString("dob_artiste")));
 				artiste.setId_artiste(result.getInt("id_artiste"));
+				artiste.setGroup_concact(result.getString("metiers"));
 				artistes.add(artiste);
 			}
 
