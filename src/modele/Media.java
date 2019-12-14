@@ -112,6 +112,14 @@ public abstract class Media implements I_requeteSQL,I_dataListable,I_recherche {
 		this.oeuvre.setInfo(nom);
 	}
 	
+	public void setEtat(int id) {
+		this.etat.setId(id);
+	}
+	
+	public int getEtatId() {
+		
+		return this.etat.getId();
+	}
 	
 	public void setUnivers(ResultSet result) {
 		try {

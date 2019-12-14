@@ -6,11 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Date;
-
-import com.mysql.cj.protocol.ResultStreamer;
-import com.mysql.cj.xdevapi.Result;
-import com.sun.xml.internal.ws.wsdl.writer.document.Types;
 
 public class Musiques extends Media {
 
@@ -28,7 +23,7 @@ public class Musiques extends Media {
 	@Override
 	public String[] toRowData() {
 		String[] data = { this.oeuvre.getNom(), this.concat_genre, this.concat_artistes, this.etat.getNom(),
-				this.annee_sortie_media };
+				this.annee_sortie_media.substring(0,4) };
 		return data;
 	}
 
@@ -95,7 +90,7 @@ public class Musiques extends Media {
 				success = true;
 				this.id_media = (int) generatedKeys.getLong(1);
 			} else {
-				throw new SQLException("Creating user failed, no ID obtained.");
+				throw new SQLException("Creating music failed, no ID obtained.");
 			}
 			if (success) {
 				query = "INSERT INTO `nestix_musique`(`media_id`, `duree_musique`, `album_id`) VALUES (?,?,?)";
@@ -114,8 +109,32 @@ public class Musiques extends Media {
 
 	@Override
 	public boolean modification() {
-		// TODO Auto-generated method stub
-		return false;
+		boolean success = false;
+		try {
+			String query = "UPDATE `nestix_media` SET `annee_sortie_media`=?,`admin_id`=?,`univers_id`=?,`image_id`=?,`etat_id`=?,`oeuvre_id`=?"
+					+ " WHERE id_media=?";
+			PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
+			statement.setString(1, this.annee_sortie_media);
+			statement.setInt(2, 4);
+			ConnexionBDD.prepareInt(statement, 3, this.univers.getId());
+			ConnexionBDD.prepareInt(statement, 4, this.image.getId());
+			statement.setInt(5, (this.etat.getId() == 0) ? 2 : this.etat.getId());
+			ConnexionBDD.prepareInt(statement, 6, this.oeuvre.getId());
+			statement.setInt(7, this.id_media);
+			success = (statement.executeUpdate() > 0);
+			if (success) {
+				query = "UPDATE `nestix_musique` SET `duree_musique`=?,`album_id`=? WHERE media_id=?";
+				statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
+				ConnexionBDD.prepareInt(statement, 1, this.duree_musique);
+				ConnexionBDD.prepareInt(statement, 2, this.album.getId());
+				statement.setInt(3, this.id_media);
+				success = (statement.executeUpdate() > 0);
+			}
+			statement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return success;
 	}
 
 	@Override
@@ -209,7 +228,7 @@ public class Musiques extends Media {
 
 	public String[] toRowDataForm() {
 		String[] data = { this.getTitre(), this.duree_musique + "", this.getTitreAlbum(), this.getNomunivers(),
-				this.annee_sortie_media };
+				this.annee_sortie_media.substring(0,4) };
 		return data;
 	}
 
@@ -257,4 +276,5 @@ public class Musiques extends Media {
 
 		}
 	}
+
 }
