@@ -1,8 +1,10 @@
 package modele;
 
-import java.util.ArrayList;
 
-import controller.C_artiste;
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 public class Artiste implements I_requeteSQL, I_recherche {
 
@@ -15,6 +17,87 @@ public class Artiste implements I_requeteSQL, I_recherche {
 	private Metier metier;
 	private String etat;
 
+	
+	
+	/**
+	 * Fonction qui va verifier le format de la date avec une regex 
+	 * @return boolean
+	 */
+	public boolean verifDateForm() {
+		boolean reponse = false;
+		if(dob_artiste.equals("")) {
+			reponse = true;
+		}else {
+			Pattern pattern = Pattern.compile("^\\d{2}/\\d{2}/\\d{4}$");
+			Matcher matcher = pattern.matcher(dob_artiste);
+			reponse = matcher.matches();
+		}
+		return reponse;
+	}
+	
+	@Override
+	public String toString() {
+		return "Artiste [id_artiste=" + id_artiste + ", nom_artiste=" + nom_artiste + ", prenom_artiste="
+				+ prenom_artiste + ", surnom_artiste=" + surnom_artiste + ", dob_artiste=" + dob_artiste + "]";
+	}
+
+	@Override
+	public boolean creation() {
+		return M_artiste.creation(this);
+	}
+
+	@Override
+	public boolean modification() {
+		return (M_artiste.modifier(this) > 0);
+	}
+
+	@Override
+	public boolean lireUn(int id) {
+		return (M_artiste.lireUn(this));
+	}
+
+	@Override
+	public boolean suppression(int id) {
+
+		return (M_artiste.supprime(this));
+	}
+
+	@Override
+	public ArrayList<I_recherche> lectureTout(int limit) {
+
+		return M_artiste.lireTout(limit);
+	}
+
+	@Override
+	public Object[] toRowData() {
+		Object[] tab = { this.nom_artiste, this.prenom_artiste, this.surnom_artiste, this.etat, this.dob_artiste };
+		return tab;
+	}
+
+	@Override
+	public String[] toHeaderData() {
+		return new String[] { "Nom", "Prenom", "Surnom", "Etat", "Date de naissance" };
+	}
+
+	@Override
+	public boolean recherchePar(int limit) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean rechercheParMetier() {
+//		à coder
+		return false;
+	}
+
+	public void getAllMetierById(int id) {
+		M_artiste.getAllMetierById(this, id);
+
+	}
+
+	
+	// ==== MUTATEUR && ACCESSEURS ==== //
+	
 	public int getId_artiste() {
 		return id_artiste;
 	}
@@ -22,6 +105,7 @@ public class Artiste implements I_requeteSQL, I_recherche {
 	public int getId() {
 		return id_artiste;
 	}
+
 	public void setId_artiste(int id_artiste) {
 		this.id_artiste = id_artiste;
 	}
@@ -82,67 +166,5 @@ public class Artiste implements I_requeteSQL, I_recherche {
 		this.metiers_artiste.add(metiers_artiste);
 	}
 
-	@Override
-	public String toString() {
-		return "Artiste [id_artiste=" + id_artiste + ", nom_artiste=" + nom_artiste + ", prenom_artiste="
-				+ prenom_artiste + ", surnom_artiste=" + surnom_artiste + ", dob_artiste=" + dob_artiste + "]";
-	}
-
-	@Override
-	public boolean creation() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean modification() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean lireUn(int id) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean suppression(int id) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public ArrayList<I_recherche> lectureTout(int limit) {
-
-		return M_artiste.lireTout(limit);
-	}
-
-	@Override
-	public Object[] toRowData() {
-		Object[] tab = { this.nom_artiste, this.prenom_artiste, this.surnom_artiste, this.etat, this.dob_artiste };
-		return tab;
-	}
-
-	@Override
-	public String[] toHeaderData() {
-		return new String[] { "Nom", "Prenom", "Surnom", "Etat", "Date de naissance" };
-	}
-
-	@Override
-	public boolean recherchePar(int limit) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public boolean rechercheParMetier() {
-//		à coder
-		return false;
-	}
-
-	public void getAllMetierById(int id) {
-		M_artiste.getAllMetierById(this, id);
-
-	}
 
 }
