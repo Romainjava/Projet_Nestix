@@ -1,16 +1,23 @@
 package controller;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import modele.Artiste;
 import modele.Editeur;
 import modele.Etat;
+import modele.Genre;
 import modele.I_recherche;
 import modele.Livre;
+import modele.Metier;
+
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,6 +46,8 @@ public class C_Livre {
 	ArrayList<JTextField> livre_titre_textfield;
 	
 	HeaderPanel livre_header;
+	String[] header_title = { "Titre", "ISBN", "Annee de sortie", "Saga", "Univers", "Tome" };
+	AsidePanel livres_aside_panel;
 	
 	DualLinkModule livre_module_personne = new DualLinkModule("Personne", new String[]{"ecrivain"});
 	LinkModule livre_module_genre = new LinkModule("Genre");
@@ -68,10 +77,9 @@ public class C_Livre {
 	}
 	
 	public void ajouteHeader() {
-		String tabHeader[] = { "Titre", "ISBN", "Annee de sortie", "Saga", "Univers" };
 		double elmsSize[] = { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0 };
 		livre_header = new HeaderPanel(this.livres_panel, "Cet onglet permet de renseigner des livres",
-				tabHeader, elmsSize);
+				this.header_title, elmsSize);
 		ArrayList<JTextField> liste = livre_header.getJtextArrray();
 		this.livre_titre_textfield = liste;
 	}
@@ -104,11 +112,10 @@ public class C_Livre {
 		
 	}
 	public void ajouteTab() {
-		AsidePanel livres_aside_panel = new AsidePanel(this.livres_panel);
+		livres_aside_panel = new AsidePanel(this.livres_panel);
 		livres_aside_panel.setEntetes( new String[] { "Titre", "ISBN", "Editeur", "Etat", "Année de sortie" });
 
-		livres = livre.lectureTout(50);
-		livres_aside_panel.setDonnees(livres);
+		actualiseTab();
 
 		// Ajout d'un evenemment
 		this.livre_results_table = livres_aside_panel.getTable_result();
@@ -120,6 +127,132 @@ public class C_Livre {
 		String textBouton[] = {"Creer", "Modifier", "Supprimer"};
 		double elmsSizeFooter[] = { 1.0, 1.0, 1.0 };
 		FooterPanel livre_footer_panel = new FooterPanel(this.livres_panel, textBouton, elmsSizeFooter);
+		//Event
+		//Créer
+		livre_footer_panel.getBoutonTab().get(0).addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				boolean success = verifChamp();
+				if (success) {
+					if (livre.creation()) {
+						JOptionPane.showMessageDialog(livres_panel, "Insertion faites", "Validation",
+								JOptionPane.INFORMATION_MESSAGE);
+						actualiseTab();
+					} else {
+						JOptionPane.showMessageDialog(livres_panel, "Erreur lors de l'insertion", "Echec insertion",
+								JOptionPane.ERROR_MESSAGE);
+					}
+				}
+			}
+		});
+		//Modifier
+		livre_footer_panel.getBoutonTab().get(1).addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				boolean success = verifChamp();
+				if (success) {
+					if (livre.modification()) {
+						JOptionPane.showMessageDialog(livres_panel, "Modification faites", "Modifie",
+								JOptionPane.INFORMATION_MESSAGE);
+						actualiseTab();
+					} else {
+						JOptionPane.showMessageDialog(livres_panel, "Erreur lors de la modification",
+								"Echec insertion", JOptionPane.ERROR_MESSAGE);
+					}
+				}
+			}
+		});
+		//Supprimer
+	}
+	
+	public boolean verifChamp() {
+		boolean success = true;
+		if (livre_titre_textfield.get(0).getText().equals("")) {
+			success = false;
+			JOptionPane.showMessageDialog(livres_panel, "Veuillez saisir un titre");
+		} else {
+			//Oeuvre titre
+			livre.setOeuvre(livre_titre_textfield.get(0).getText().toLowerCase());
+			//Date sortie
+			try {
+				if (livre_titre_textfield.get(2).getText().toLowerCase().length() == 4
+						&& Integer.parseInt(livre_titre_textfield.get(2).getText().toLowerCase()) > 1900) {
+					livre.setAnnee_sortie_media(livre_titre_textfield.get(2).getText().toLowerCase());
+				} else {
+					success = false;
+					JOptionPane.showMessageDialog(livres_panel, "Annee non valide", "Echec",
+							JOptionPane.ERROR_MESSAGE);
+				}
+			} catch (Exception e2) {
+				success = false;
+				JOptionPane.showMessageDialog(livres_panel, "l'annee de sortie ne doit comporter que des chiffres",
+						"Echec", JOptionPane.ERROR_MESSAGE);
+			}
+			//Image
+			
+			//Univers
+			livre.setUnivers(livre_titre_textfield.get(4).getText().toLowerCase());
+			//Saga
+			livre.setSaga(livre_titre_textfield.get(3).getText().toLowerCase());
+			//Etat
+			livre.setEtat(livre_module_etat.getSelectedIndex() + 1);
+			
+			//ISBN
+			try {
+				if(Integer.parseInt(livre_titre_textfield.get(1).getText()) < 1000000000) {
+					livre.setISBN(Integer.parseInt(livre_titre_textfield.get(1).getText()));
+				}else {
+					success = false;
+					JOptionPane.showMessageDialog(livres_panel, "ISBN non valide", "Echec",
+							JOptionPane.ERROR_MESSAGE);
+				}
+			}catch (Exception e){
+				success = false;
+				JOptionPane.showMessageDialog(livres_panel, "l'ISBN ne doit comporter que des chiffres",
+						"Echec", JOptionPane.ERROR_MESSAGE);
+			}
+			//Resumé
+			livre.setResume_livre(livre_module_resume.getText_area().getText());
+			//Tome
+			try {
+				livre.setTome_livre(Integer.parseInt(livre_titre_textfield.get(5).getText()));
+			}catch(Exception e) {
+				success = false;
+				JOptionPane.showMessageDialog(livres_panel, "le numéro du tome ne doit comporter que des chiffres",
+						"Echec", JOptionPane.ERROR_MESSAGE);
+			}
+			//Editeur
+			livre.getEditeur().setId(livre_module_editeur.getSelectedIndex());
+			livre.getEditeur().setNom(livre_module_editeur.getSelectedItem().toString());
+			
+			//Personne
+			livre.getArtistes().clear();
+			for (int i = 0; i < livre_module_personne.getText_list().size(); i++) {
+				Artiste artiste = new Artiste();
+				Metier metier = new Metier();
+				artiste.setSurnom_artiste(livre_module_personne.getText_list().get(i));
+				metier.setNom(livre_module_personne.getCombo_list().get(i));
+				artiste.setMetiers_artiste(metier);
+				livre.addArtiste(artiste);
+			}
+			//genre
+			livre.getGenres().clear();
+			for (int i = 0; i < livre_module_genre.getText_list().size(); i++) {
+				Genre genre = new Genre();
+				genre.setInfo(livre_module_genre.getText_list().get(i));
+				livre.addGenre(genre);
+			}
+		}
+		
+		return success;
+	}
+	
+	/**
+	 * Actualise le tableau
+	 */
+	public void actualiseTab() {
+		livres = livre.lectureTout(50);
+		livres_aside_panel.setDonnees(livres);
 	}
 	
 	/**
