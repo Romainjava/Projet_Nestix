@@ -70,7 +70,7 @@ public class C_Livre {
 	public void ajouteHeader() {
 		String tabHeader[] = { "Titre", "ISBN", "Annee de sortie", "Saga", "Univers" };
 		double elmsSize[] = { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0 };
-		HeaderPanel livre_header = new HeaderPanel(this.livres_panel, "Cet onglet permet de renseigner des livres",
+		livre_header = new HeaderPanel(this.livres_panel, "Cet onglet permet de renseigner des livres",
 				tabHeader, elmsSize);
 		ArrayList<JTextField> liste = livre_header.getJtextArrray();
 		this.livre_titre_textfield = liste;
