@@ -5,27 +5,23 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-
 import modele.Artiste;
 import modele.I_recherche;
 import modele.M_artiste;
-import modele.Musiques;
 import view.AsidePanel;
 import view.ComboListField;
-import view.DualLinkModule;
 import view.FooterPanel;
 import view.GridPanel;
 import view.HeaderPanel;
 import view.ImageModule;
 import view.MainPanel;
-import view.Module;
-import view.TextListField;
+import view.MetiersPanel;
+
 
 public class C_artiste {
 	private JPanel artiste_panel;
@@ -63,23 +59,26 @@ public class C_artiste {
 
 	public void ajoutMainPanel() {
 		MainPanel artiste_main = new MainPanel(this.artiste_panel);
-		// ADD ELEMENT
-		artiste_main.addModule(new DualLinkModule("Media", new String[]{"livre", "film", "musique"}), 0, 0);
-		artiste_main.addModule(new Module(), 1, 0);
+		
+		MetiersPanel metier_panel = new MetiersPanel();
+		artiste_main.add(metier_panel);
+		
+		//TODO faire une requête qui renvoie une ArrayList de String
+		ArrayList<String> data = new ArrayList<>();
+		data.add("test");
+		metier_panel.setArtiste_metiers_list(data);
+		
 		artiste_main.addModule(new ImageModule(), 2, 0);
 
 		GridPanel relationComple = new GridPanel(new double[] { 1.0, 1.0 }, new double[] { 1.0, 1.0, 1.0 });
-		artiste_main.add(relationComple, artiste_main.addElement(1, 1));
+		artiste_main.add(relationComple, artiste_main.addElement(2, 1));
 		relationComple.add(new ComboListField(new String[] { "etat1", "etat2", "etat3" }),
 				relationComple.addElement(0, 0));
-		relationComple.add(new TextListField(), relationComple.addElement(0, 1));
-		relationComple.add(new TextListField(), relationComple.addElement(1, 1));
-		relationComple.add(new TextListField(), relationComple.addElement(0, 2));
 	}
 
 	public void ajouteTab() {
 		artiste_aside = new AsidePanel(this.artiste_panel);
-		artiste_aside.setEntetes(new String[] { "Nom", "Prenom", "Surnom", "Etat", "Date de naissance" });
+		artiste_aside.setEntetes(new String[] { "Surnom", "Metiers", "Etat", "Date de naissance" });
 		actualiseTab();
 
 		// AJOUT EVENT
@@ -143,8 +142,6 @@ public class C_artiste {
 		});
 
 	}
-	
-	//TODO code à faire pour accedé a creation rapide sans passé par la classe M_artiste pour facilité l'acces à la methode
 	
 	/**
 	 * Permet de récupérer les valeurs des textfield de l'instance d'artiste
@@ -246,18 +243,5 @@ public class C_artiste {
 		this.artiste_dob_textfield = artiste_dob_textfield;
 	}
 	
-	/**
-	 * Ici code pour test, à disparaitre
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		Artiste artist = new Artiste();
-		artist.setSurnom_artiste("Celine Dion");
-		M_artiste.creationRapide(artist);
-		
-		System.out.println(artist);
-		
-		
-	}
 
 }
