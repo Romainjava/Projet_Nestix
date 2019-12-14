@@ -61,6 +61,10 @@ public abstract class Media implements I_requeteSQL,I_dataListable,I_recherche {
 	public ArrayList<Genre> getGenres() {
 		return genres;
 	}
+	
+	public Etat getEtat() {
+		return this.etat;
+	}
 
 	public void setGenres(ArrayList<Genre> genres) {
 		this.genres = genres;

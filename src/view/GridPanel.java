@@ -35,6 +35,17 @@ public class GridPanel extends JPanel {
 		
 		return gbc;
 	}
+	public GridBagConstraints addElement(int x, int y, int width, int height) {
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.fill = GridBagConstraints.BOTH;
+		
+		gbc.gridx = x;
+		gbc.gridy = y;
+		gbc.gridwidth = width;
+		gbc.gridheight = height;
+		
+		return gbc;
+	}
 	public void addModule(Module pModule, int x, int y) {
 		//this.moduleList.add(pModule);
 		

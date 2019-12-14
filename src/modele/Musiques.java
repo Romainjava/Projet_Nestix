@@ -40,10 +40,11 @@ public class Musiques extends Media {
 			PreparedStatement statement = (PreparedStatement) co.prepareStatement(query);
 			statement.setInt(1, id);
 			ResultSet result = statement.executeQuery();
+			this.getGenres().clear();
 			while (result.next()) {
 				Genre genre = new Genre();
 				genre.setInfo(result);
-
+				this.addGenre(genre);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -57,11 +58,13 @@ public class Musiques extends Media {
 			PreparedStatement statement = (PreparedStatement) co.prepareStatement(query);
 			statement.setInt(1, id);
 			ResultSet result = statement.executeQuery();
+			this.getArtistes().clear();
 			while (result.next()) {
 				Artiste artiste = new Artiste();
 				artiste.setSurnom_artiste(result.getString("surnom_artiste"));
 				artiste.setId_artiste(result.getInt("artiste_id"));
 				artiste.getAllMetierById(id);
+				this.addArtiste(artiste);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

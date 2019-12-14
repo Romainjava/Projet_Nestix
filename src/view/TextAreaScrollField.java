@@ -5,11 +5,21 @@ import javax.swing.JTextArea;
 
 public class TextAreaScrollField extends JScrollPane{
 	
-	public TextAreaScrollField(int prow, int pcolumn){
+	protected JTextArea text_area;
+
+	public TextAreaScrollField(int pRow, int pColumn){
 		
-		JTextArea text_area = new JTextArea(prow, pcolumn);
+		text_area = new JTextArea(pRow, pColumn);
 		
 		this.setViewportView(text_area);
+	}
+	
+	public JTextArea getText_area() {
+		return text_area;
+	}
+
+	public void setText_area(JTextArea text_area) {
+		this.text_area = text_area;
 	}
 
 }

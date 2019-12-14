@@ -48,12 +48,7 @@ public class DualLinkModule extends LinkModule{
 		this.combo_list = new ArrayList<String>();
 		this.combo_list_field = new JComboBox(this.dataCombo);
 	}
-//	@Override
-//	public void createEvent() {
-//		super.createEvent();
-//		
-//		
-//	}
+
 	@Override
 	public void addElementLayout(GridBagConstraints gbc) {
 		GridBagLayout gbl = new GridBagLayout();
@@ -93,8 +88,8 @@ public class DualLinkModule extends LinkModule{
 	public void setData(String[] data, String[] dataCombo) {
 		this.text_list = new ArrayList<String>(Arrays.asList(data));
 		this.combo_list = new ArrayList<String>(Arrays.asList(dataCombo));
-		System.out.println(text_list.toString());
-		System.out.println(combo_list.toString());
+//		System.out.println(text_list.toString());
+//		System.out.println(combo_list.toString());
 		String[] tData = new String[text_list.size()];
 		for(int i = 0; i < tData.length; i++){
 			tData[i] = this.text_list.get(i) + " | " + this.combo_list.get(i);
@@ -162,3 +157,4 @@ public class DualLinkModule extends LinkModule{
 	}
 
 }
+
