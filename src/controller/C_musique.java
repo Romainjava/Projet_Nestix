@@ -31,7 +31,7 @@ public class C_musique {
 
 	private JPanel musiques_panel;
 
-	// Données
+	// Donn�es
 	Musiques musique = new Musiques();
 	ArrayList<I_recherche> musiques = new ArrayList<>();
 	int row;
@@ -183,7 +183,7 @@ public class C_musique {
 		}
 		this.musique_module_genre.setData(tGenreData);
 		//etat
-				this.musique_module_etat.setSelectedIndex(musique.getEtat().getId()+1);
+		this.musique_module_etat.setSelectedIndex(musique.getEtat().getId()-1);
 	}
 
 	/**
@@ -207,6 +207,7 @@ public class C_musique {
 			// int column = tableau.columnAtPoint(e.getPoint());
 			// "getAtValue" : Permet de prendre la valeur de la case ( row , column )
 			musique.lireUn(musiques.get(row).getId());
+			System.out.println(musique.getGenres().size());
 			this.controller.actualiseMusique();
 			// Plus tard faire appelle à la méthode actualise livre qui actualise tous les
 			// champs

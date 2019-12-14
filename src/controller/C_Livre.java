@@ -7,13 +7,12 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import modele.Editeur;
 import modele.Etat;
 import modele.I_recherche;
 import modele.Livre;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.Arrays;
-
 import view.AsidePanel;
 import view.ComboListField;
 import view.DualLinkModule;
@@ -23,12 +22,13 @@ import view.HeaderPanel;
 import view.ImageModule;
 import view.LinkModule;
 import view.MainPanel;
+import view.Module;
 import view.TextAreaScrollField;
 
 public class C_Livre {
 	private JPanel livres_panel;
 	
-	// DonnÃ©es
+	// Données
 	Livre livre = new Livre();
 	ArrayList<I_recherche> livres = new ArrayList<>();
 	 
@@ -41,15 +41,8 @@ public class C_Livre {
 	DualLinkModule livre_module_personne = new DualLinkModule("Personne", new String[]{"ecrivain"});
 	LinkModule livre_module_genre = new LinkModule("Genre");
 	ComboListField livre_module_etat;
-	
-	
-	public JTable getLivre_results_table() {
-		return livre_results_table;
-	}
-	
-	public ArrayList<JTextField> getLivre_titre_textfield() {
-		return livre_titre_textfield;
-	}
+	ComboListField livre_module_editeur;
+	TextAreaScrollField livre_module_resume;
 	
 
 	public C_Livre(JPanel livres_panel) {
@@ -60,6 +53,14 @@ public class C_Livre {
 		ajoutMainPanel();
 		footerPanel();
 		
+	}
+	
+	public JTable getLivre_results_table() {
+		return livre_results_table;
+	}
+	
+	public ArrayList<JTextField> getLivre_titre_textfield() {
+		return livre_titre_textfield;
 	}
 	
 	public void ajouteHeader() {
@@ -87,12 +88,15 @@ public class C_Livre {
 		livre_module_etat = new ComboListField(Etat.lectureTout());
 		relation_panel.add(livre_module_etat, relation_panel.addElement(0, 1));
 		relation_panel.add(new JLabel("Editeur"), relation_panel.addElement(1, 0));
-		relation_panel.add(new ComboListField(new String[] {"editeur1", "editeur2", "editeur3"}), relation_panel.addElement(1, 1));
+		livre_module_editeur = new ComboListField(Editeur.lectureTout());
+		relation_panel.add(livre_module_editeur, relation_panel.addElement(1, 1));
+		relation_panel.add(new Module(), relation_panel.addElement(0, 2, 2, 2));
 		
 		GridPanel resume_panel = new GridPanel(new double[] {1.0}, new double[] {1.0, 5.0});
 		livre_main.add(resume_panel, livre_main.addElement(2, 1));
 		resume_panel.add(new JLabel("Resumé"), resume_panel.addElement(0, 0));
-		resume_panel.add(new TextAreaScrollField(5,10), resume_panel.addElement(0, 1));
+		livre_module_resume = new TextAreaScrollField(5,10);
+		resume_panel.add(livre_module_resume, resume_panel.addElement(0, 1));
 		
 	}
 	public void ajouteTab() {
@@ -139,7 +143,11 @@ public class C_Livre {
 		}
 		this.livre_module_genre.setData(tGenreData);
 		//etat
-		this.livre_module_etat.setSelectedIndex(livre.getEtat().getId()+1);
+		this.livre_module_etat.setSelectedIndex(livre.getEtat().getId()-1);
+		//editeur
+		this.livre_module_editeur.setSelectedIndex(livre.getEditeur().getId());
+		//resume
+		this.livre_module_resume.getText_area().setText(livre.getResume_livre());
 	}
 	
 	
@@ -168,7 +176,7 @@ public class C_Livre {
 			//this.controller.getLivre_titre_textfield().setText(titre);
 			livre.lireUn(livres.get(row).getId());
 			this.controller.actualiseLivre();
-			// Plus tard faire appelle Ã  la mÃ©thode actualise livre qui actualise tous les champs
+			// Plus tard faire appelle Ã  la méthode actualise livre qui actualise tous les champs
 		}
 	}
 }
