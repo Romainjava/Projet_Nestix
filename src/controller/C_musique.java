@@ -216,7 +216,7 @@ public class C_musique {
 	 * @author Romain
 	 *
 	 */
-	class MouseAdapterTableau extends MouseAdapter {
+	class MouseAdapterTableau extends MouseAdapter {	
 
 		C_musique controller;
 
