@@ -5,26 +5,23 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-
 import modele.Artiste;
 import modele.I_recherche;
 import modele.M_artiste;
 import view.AsidePanel;
 import view.ComboListField;
-import view.DualLinkModule;
 import view.FooterPanel;
 import view.GridPanel;
 import view.HeaderPanel;
 import view.ImageModule;
-import view.LinkModule;
 import view.MainPanel;
-import view.Module;
-import view.TextListField;
+import view.MetiersPanel;
+
 
 public class C_artiste {
 	private JPanel artiste_panel;
@@ -62,29 +59,26 @@ public class C_artiste {
 
 	public void ajoutMainPanel() {
 		MainPanel artiste_main = new MainPanel(this.artiste_panel);
-		// ADD ELEMENT
-		artiste_main.addModule(new DualLinkModule("Media"), 0, 0);
-		artiste_main.addModule(new Module(), 1, 0);
+		
+		MetiersPanel metier_panel = new MetiersPanel();
+		artiste_main.add(metier_panel);
+		
+		//TODO faire une requête qui renvoie une ArrayList de String
+		ArrayList<String> data = new ArrayList<>();
+		data.add("test");
+		metier_panel.setArtiste_metiers_list(data);
+		
 		artiste_main.addModule(new ImageModule(), 2, 0);
 
 		GridPanel relationComple = new GridPanel(new double[] { 1.0, 1.0 }, new double[] { 1.0, 1.0, 1.0 });
-		artiste_main.add(relationComple, artiste_main.addElement(1, 1));
+		artiste_main.add(relationComple, artiste_main.addElement(2, 1));
 		relationComple.add(new ComboListField(new String[] { "etat1", "etat2", "etat3" }),
 				relationComple.addElement(0, 0));
-		relationComple.add(new TextListField(), relationComple.addElement(0, 1));
-		relationComple.add(new TextListField(), relationComple.addElement(1, 1));
-		relationComple.add(new TextListField(), relationComple.addElement(0, 2));
-
-		/*
-		 * artiste_main.addModule(new LinkModule("Genre"), 0, 1);
-		 * artiste_main.addModule(new Module(), 1, 1); artiste_main.addModule(new
-		 * Module(), 2, 1);
-		 */
 	}
 
 	public void ajouteTab() {
 		artiste_aside = new AsidePanel(this.artiste_panel);
-		artiste_aside.setEntetes(new String[] { "Nom", "Prenom", "Surnom", "Etat", "Date de naissance" });
+		artiste_aside.setEntetes(new String[] { "Surnom", "Metiers", "Etat", "Date de naissance" });
 		actualiseTab();
 
 		// AJOUT EVENT
@@ -103,15 +97,20 @@ public class C_artiste {
 		 * Event btn creation un artiste avec requête creation dans M_artiste
 		 */
 		btn.get(0).addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				artiste.setSurnom_artiste(getArtiste_surnom_textfield().getText());
-				artiste.setNom_artiste(getArtiste_nom_textfield().getText());
-				artiste.setPrenom_artiste(getArtiste_prenom_textfield().getText());
-				artiste.setDob_artiste(getArtiste_dob_textfield().getText());
-				M_artiste.creation(artiste);
+			public void actionPerformed(ActionEvent e) {			 
+				recupDonneeArtiste();
+				if(artiste.getSurnom_artiste().equals("")) {
+					JOptionPane.showMessageDialog(artiste_panel, "Attention Surnom est obligatoire");
+				}else if(artiste.verifDateForm() == false) {
+					JOptionPane.showMessageDialog(artiste_panel, "Attention format date doit être : jj/mm/aaaa");
+				}
+				else {
+					if(artiste.creation() == false) {
+						JOptionPane.showMessageDialog(artiste_panel, "Creation de l'artiste échoué car il existe déjà ce surnom");
+					}
+					actualiseTab();
+				}
 				actualiseTab();
-
 			}
 		});
 
@@ -120,28 +119,55 @@ public class C_artiste {
 		 */
 		btn.get(1).addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
-				artiste.setSurnom_artiste(getArtiste_surnom_textfield().getText());
-				artiste.setNom_artiste(getArtiste_nom_textfield().getText());
-				artiste.setPrenom_artiste(getArtiste_prenom_textfield().getText());
-				artiste.setDob_artiste(getArtiste_dob_textfield().getText());
-				M_artiste.modifier(artiste);
+				recupDonneeArtiste();
+				if(artiste.getSurnom_artiste().equals("")) {
+					JOptionPane.showMessageDialog(artiste_panel, "Attention Surnom est obligatoire");
+				}else if(artiste.verifDateForm() == false) {
+					JOptionPane.showMessageDialog(artiste_panel, "Attention format date doit être : jj/mm/aaaa");
+				}
+				else {
+					if(artiste.modification() == false) {
+						JOptionPane.showMessageDialog(artiste_panel, "Modification de l'artiste échoué car il existe déjà ce surnom");
+					}
+					actualiseTab();
+				}	
+			}
+		});
+		
+		btn.get(2).addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				M_artiste.supprime(artiste);
 				actualiseTab();
 			}
 		});
 
 	}
-
+	
+	/**
+	 * Permet de récupérer les valeurs des textfield de l'instance d'artiste
+	 */
+	public void recupDonneeArtiste() {
+		artiste.setSurnom_artiste(getArtiste_surnom_textfield().getText());
+		artiste.setNom_artiste(getArtiste_nom_textfield().getText());
+		artiste.setPrenom_artiste(getArtiste_prenom_textfield().getText());
+		artiste.setDob_artiste(getArtiste_dob_textfield().getText());
+	}
 	/**
 	 * Actualise les infos grâce à la class Artiste
 	 */
 	public void actualiseArtiste() {
-		// ACTUALISE NOM
 		this.artiste_nom_textfield.setText(artiste.getNom_artiste());
 		this.artiste_prenom_textfield.setText(artiste.getPrenom_artiste());
 		this.artiste_surnom_textfield.setText(artiste.getSurnom_artiste());
 		this.artiste_dob_textfield.setText(artiste.getDob_artiste());
 
+	}
+	/**
+	 * actualise mon tableau et limite les entrée en param de lireTout()
+	 */
+	public void actualiseTab() {
+		artistes = M_artiste.lireTout(50);
+		artiste_aside.setDonnees(artistes);
 	}
 
 	/**
@@ -161,9 +187,7 @@ public class C_artiste {
 		public void mouseClicked(MouseEvent e) {
 			int row = this.controller.getArtiste_result_table().rowAtPoint(e.getPoint());
 			controller.artiste = (Artiste) controller.artistes.get(row);
-			// int column =
-			// this.controller.getArtiste_result_table().columnAtPoint(e.getPoint());
-
+			
 			// "getAtValue" : Permet de prendre la valeur de la case ( row , column )
 			String nom = (String) this.controller.getArtiste_result_table().getValueAt(row, 0);
 			String prenom = (String) this.controller.getArtiste_result_table().getValueAt(row, 1);
@@ -176,11 +200,7 @@ public class C_artiste {
 			this.controller.getArtiste_dob_textfield().setText(dob);
 		}
 	}
-
-	public void actualiseTab() {
-		artistes = M_artiste.lireTout(50);
-		artiste_aside.setDonnees(artistes);
-	}
+	
 
 	// === ACCESSEUR ET MUTATEUR === //
 	public JTable getArtiste_result_table() {
@@ -222,5 +242,6 @@ public class C_artiste {
 	public void setArtiste_dob_textfield(JTextField artiste_dob_textfield) {
 		this.artiste_dob_textfield = artiste_dob_textfield;
 	}
+	
 
 }

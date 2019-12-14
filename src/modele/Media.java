@@ -16,7 +16,7 @@ public abstract class Media implements I_requeteSQL,I_dataListable,I_recherche {
 	protected Saga saga=new Saga();
 	protected Image image=new Image();
 	protected Etat etat=new Etat();
-	protected ArrayList<Artiste> artistes;
+	protected ArrayList<Artiste> artistes=new ArrayList<>();
 	protected ArrayList<Genre> genres=new ArrayList<>();
 //	donné à utiliser pour le tableau
 	protected String concat_artistes;
@@ -60,6 +60,10 @@ public abstract class Media implements I_requeteSQL,I_dataListable,I_recherche {
 
 	public ArrayList<Genre> getGenres() {
 		return genres;
+	}
+	
+	public Etat getEtat() {
+		return this.etat;
 	}
 
 	public void setGenres(ArrayList<Genre> genres) {
@@ -108,8 +112,13 @@ public abstract class Media implements I_requeteSQL,I_dataListable,I_recherche {
 		this.oeuvre.setInfo(nom);
 	}
 	
-	public void setEtat() {
-		//todo
+	public void setEtat(int id) {
+		this.etat.setId(id);
+	}
+	
+	public int getEtatId() {
+		
+		return this.etat.getId();
 	}
 	
 	public void setUnivers(ResultSet result) {

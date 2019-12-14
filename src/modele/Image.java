@@ -6,6 +6,14 @@ public class Image extends Info {
 
 	private String path_image;
 	private String alt_image;
+	
+	public void setProp(int pId, String pNom, String pPath_image, String pAlt_image) {
+		this.id = pId;
+		this.nom = pNom;
+		this.path_image = pPath_image;
+		this.alt_image = pAlt_image;
+	}
+	
 	@Override
 	public boolean suppression(int id) {
 		// TODO Auto-generated method stub

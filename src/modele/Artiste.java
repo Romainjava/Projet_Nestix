@@ -1,8 +1,10 @@
 package modele;
 
-import java.util.ArrayList;
 
-import controller.C_artiste;
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 public class Artiste implements I_requeteSQL, I_recherche {
 
@@ -11,10 +13,113 @@ public class Artiste implements I_requeteSQL, I_recherche {
 	private String prenom_artiste;
 	private String surnom_artiste;
 	private String dob_artiste;
-	private ArrayList<Metier> metiers_artiste=new ArrayList<>();
+	private ArrayList<Metier> metiers_artiste = new ArrayList<>();
 	private Metier metier;
 	private String etat;
+	private String group_concact;
+	
+	
+	/**
+	 * Fonction qui va verifier le format de la date avec une regex 
+	 * @return boolean
+	 */
+	public boolean verifDateForm() {
+		boolean reponse = false;
+		if(dob_artiste.equals("")) {
+			reponse = true;
+		}else {
+			Pattern pattern = Pattern.compile("^\\d{2}/\\d{2}/\\d{4}$");
+			Matcher matcher = pattern.matcher(dob_artiste);
+			reponse = matcher.matches();
+		}
+		return reponse;
+	}
+	
+	@Override
+	public String toString() {
+		return "Artiste [id_artiste=" + id_artiste + ", nom_artiste=" + nom_artiste + ", prenom_artiste="
+				+ prenom_artiste + ", surnom_artiste=" + surnom_artiste + ", dob_artiste=" + dob_artiste + "]";
+	}
 
+	@Override
+	public boolean creation() {
+		return M_artiste.creation(this);
+	}
+	
+	/**
+	 * Permet de faire une creation rapide  par rapport à l'attribut surnom de l'objet
+	 */
+	public void creationRapide() {
+		M_artiste.creationRapide(this);
+	}
+	
+	/**
+	 * Permet de faire une creation rapide via le surnom en parametre
+	 * @param nom:String
+	 */
+	public void creationRapide(String surnom) {
+		this.setSurnom_artiste(surnom);
+		M_artiste.creationRapide(this);
+	}
+	
+	@Override
+	public boolean modification() {
+		return (M_artiste.modifier(this) > 0);
+	}
+
+	@Override
+	public boolean lireUn(int id) {
+		return (M_artiste.lireUn(this));
+	}
+
+	@Override
+	public boolean suppression(int id) {
+
+		return (M_artiste.supprime(this));
+	}
+
+	@Override
+	public ArrayList<I_recherche> lectureTout(int limit) {
+
+		return M_artiste.lireTout(limit);
+	}
+
+	@Override
+	/**
+	 * Affiche dynamiquement les données de l'instance artiste ligne par ligne
+	 */
+	public Object[] toRowData() {
+		Object[] tab = { this.surnom_artiste,this.group_concact, this.etat, this.dob_artiste };
+		return tab;
+	}
+
+	@Override
+	/**
+	 * Affiche les entêtes des textfield
+	 */
+	public String[] toHeaderData() {
+		return new String[] { "Nom", "Prenom", "Surnom", "Etat", "Date de naissance" };
+	}
+
+	@Override
+	public boolean recherchePar(int limit) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean rechercheParMetier() {
+		//TODO	à coder
+		return false;
+	}
+
+	public void getAllMetierById(int id) {
+		M_artiste.getAllMetierById(this, id);
+
+	}
+
+	
+	// ==== MUTATEUR && ACCESSEURS ==== //
+	
 	public int getId_artiste() {
 		return id_artiste;
 	}
@@ -22,6 +127,7 @@ public class Artiste implements I_requeteSQL, I_recherche {
 	public int getId() {
 		return id_artiste;
 	}
+
 	public void setId_artiste(int id_artiste) {
 		this.id_artiste = id_artiste;
 	}
@@ -82,67 +188,13 @@ public class Artiste implements I_requeteSQL, I_recherche {
 		this.metiers_artiste.add(metiers_artiste);
 	}
 
-	@Override
-	public String toString() {
-		return "Artiste [id_artiste=" + id_artiste + ", nom_artiste=" + nom_artiste + ", prenom_artiste="
-				+ prenom_artiste + ", surnom_artiste=" + surnom_artiste + ", dob_artiste=" + dob_artiste + "]";
+	public String getGroup_concact() {
+		return group_concact;
 	}
 
-	@Override
-	public boolean creation() {
-		// TODO Auto-generated method stub
-		return false;
+	public void setGroup_concact(String group_concact) {
+		this.group_concact = group_concact;
 	}
 
-	@Override
-	public boolean modification() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean lireUn(int id) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean suppression(int id) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public ArrayList<I_recherche> lectureTout(int limit) {
-
-		return M_artiste.lireTout(limit);
-	}
-
-	@Override
-	public Object[] toRowData() {
-		Object[] tab = { this.nom_artiste, this.prenom_artiste, this.surnom_artiste, this.etat, this.dob_artiste };
-		return tab;
-	}
-
-	@Override
-	public String[] toHeaderData() {
-		return new String[] { "Nom", "Prenom", "Surnom", "Etat", "Date de naissance" };
-	}
-
-	@Override
-	public boolean recherchePar(int limit) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public boolean rechercheParMetier() {
-//		à coder
-		return false;
-	}
-
-	public void getAllMetierById(int id) {
-		M_artiste.getAllMetierById(this, id);
-		
-	}
 
 }

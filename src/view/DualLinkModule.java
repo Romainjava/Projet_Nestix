@@ -13,25 +13,42 @@ public class DualLinkModule extends LinkModule{
 	
 	protected ArrayList<String> combo_list;
 	protected JComboBox combo_list_field;
+	protected String[] dataCombo;
 
-	public DualLinkModule(String ptitre) {
-		super(ptitre);		
+	
+	public DualLinkModule(String ptitre, String[] pDataCombo) {
+		super();
 		
+		this.dataCombo = pDataCombo;
+		
+		//Element
+		createElement(ptitre);
+		
+		//Event
+		createEvent();
+				
+		//Layout
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.fill = GridBagConstraints.BOTH;
+	    
+	    addElementLayout(gbc);
 	}
+	
+	public ArrayList<String> getCombo_list() {
+		return combo_list;
+	}
+	public void setCombo_list(ArrayList<String> combo_list) {
+		this.combo_list = combo_list;
+	}
+	
 	@Override
 	public void createElement(String ptitre) {
 		super.createElement(ptitre);
 		
-		String[] dataCombo = {"second_item1", "second_item2", "second_item3"};
-		this.combo_list = new ArrayList<String>(Arrays.asList(dataCombo));
-		combo_list_field = new JComboBox(dataCombo);
+		this.combo_list = new ArrayList<String>();
+		this.combo_list_field = new JComboBox(this.dataCombo);
 	}
-//	@Override
-//	public void createEvent() {
-//		super.createEvent();
-//		
-//		
-//	}
+
 	@Override
 	public void addElementLayout(GridBagConstraints gbc) {
 		GridBagLayout gbl = new GridBagLayout();
@@ -67,6 +84,21 @@ public class DualLinkModule extends LinkModule{
 		this.add(content_scroll, gbc);
 		content_scroll.setViewportView(content_list);
 	}
+	
+	public void setData(String[] data, String[] dataCombo) {
+		this.text_list = new ArrayList<String>(Arrays.asList(data));
+		this.combo_list = new ArrayList<String>(Arrays.asList(dataCombo));
+//		System.out.println(text_list.toString());
+//		System.out.println(combo_list.toString());
+		String[] tData = new String[text_list.size()];
+		for(int i = 0; i < tData.length; i++){
+			tData[i] = this.text_list.get(i) + " | " + this.combo_list.get(i);
+		}
+		
+		this.content_list = new JList(tData);
+		this.content_scroll.setViewportView(content_list);
+	}
+	
 	@Override
 	public void addTextListField() {
 
@@ -86,7 +118,6 @@ public class DualLinkModule extends LinkModule{
 			}
 			
 			this.content_list = new JList(text_list_array);
-//			System.out.println(this.content_list.getModel().getSize());
 			
 			content_scroll.setViewportView(content_list);
 		}
@@ -102,15 +133,14 @@ public class DualLinkModule extends LinkModule{
 			this.combo_list.remove(index_list[i]);
 		}
 		
-//		System.out.println(text_list);
-//		System.out.println(combo_list);
+		System.out.println(text_list);
+		System.out.println(combo_list);
 		
 		String[] text_list_array = new String[text_list.size()];
 		for(int i = 0; i < text_list_array.length; i++){
 			text_list_array[i] = text_list.get(i) + " | " + combo_list.get(i);
 		}
 		this.content_list = new JList(text_list_array);
-		//System.out.println(this.content_list.getModel().getSize());
 		
 		content_scroll.setViewportView(content_list);
 
@@ -127,3 +157,4 @@ public class DualLinkModule extends LinkModule{
 	}
 
 }
+
