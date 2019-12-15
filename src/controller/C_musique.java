@@ -45,11 +45,7 @@ public class C_musique {
 	HeaderPanel musique_header;
 	AsidePanel musiques_aside;
 	ComboListField comboListField = new ComboListField(new String[] { "valide", "attente", "bloquer" });
-	DualLinkModule dualLinkModule = new DualLinkModule("Personne", new String[] { "interprete", "compositeur" });
-	LinkModule linkModule = new LinkModule("Genre");
-
-	DualLinkModule musique_module_personne = new DualLinkModule("Personne",
-			new String[] { "interprete", "compositeur" });
+	DualLinkModule musique_module_personne = new DualLinkModule("Personne", new String[] { "interprete", "compositeur" });
 	LinkModule musique_module_genre = new LinkModule("Genre");
 	ComboListField musique_module_etat;
 
@@ -154,7 +150,7 @@ public class C_musique {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				musique.suppression(musique.getId());
-				System.out.println(dualLinkModule.getText_list().size());
+				System.out.println(musique_module_personne.getText_list().size());
 
 			}
 		});
@@ -193,17 +189,17 @@ public class C_musique {
 			musique.setAlbum(musique_titre_textfield.get(2).getText().toLowerCase());
 			musique.setUnivers(musique_titre_textfield.get(3).getText().toLowerCase());
 			musique.setEtat(comboListField.getSelectedIndex() + 1);
-			for (int i = 0; i < dualLinkModule.getText_list().size(); i++) {
+			for (int i = 0; i < musique_module_personne.getText_list().size(); i++) {
 				Artiste artiste = new Artiste();
 				Metier metier = new Metier();
-				artiste.creationRapide(dualLinkModule.getText_list().get(i));
-				metier.setNom(dualLinkModule.getCombo_list().get(i));
+				artiste.creationRapide(musique_module_personne.getText_list().get(i));
+				metier.setInfo(musique_module_personne.getCombo_list().get(i));
 				artiste.setMetiers_artiste(metier);
 				musique.addArtiste(artiste);
 			}
-			for (int i = 0; i < linkModule.getText_list().size(); i++) {
+			for (int i = 0; i < musique_module_genre.getText_list().size(); i++) {
 				Genre genre = new Genre();
-				genre.setInfo(linkModule.getText_list().get(i));
+				genre.setInfo(musique_module_genre.getText_list().get(i));
 				musique.addGenre(genre);
 			}
 		}

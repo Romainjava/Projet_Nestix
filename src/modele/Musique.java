@@ -104,7 +104,14 @@ public class Musique extends Media {
 					statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
 					statement.setInt(1, this.artistes.get(i).getId());
 					statement.setInt(2, this.id_media);
-					statement.setInt(3, this.artistes.get(i).getMetiers_artiste().get(i).getId());
+					statement.setInt(3, this.artistes.get(i).getMetiers_artiste().get(0).getId());
+					success = (statement.executeUpdate() > 0);
+				}
+				for (int i = 0; i < this.genres.size(); i++) {
+					query="INSERT INTO `nestix_media_genre` (`media_id`, `genre_id`) VALUES(?,?)";
+					statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
+					statement.setInt(1, this.id_media);
+					statement.setInt(2, this.genres.get(i).getId());
 					success = (statement.executeUpdate() > 0);
 				}
 			}
