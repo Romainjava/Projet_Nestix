@@ -173,9 +173,10 @@ public class M_artiste {
 		try {
 			Connection co = ConnexionBDD.getConnexion();
 			String query = "SELECT nom_metier, id_metier FROM nestix_artiste JOIN nestix_artiste_metier_media ON nestix_artiste_metier_media.artiste_id = nestix_artiste.id_artiste"
-					+ " JOIN nestix_metier ON nestix_metier.id_metier = nestix_artiste_metier_media.metier_id WHERE media_id= ?";
+					+ " JOIN nestix_metier ON nestix_metier.id_metier = nestix_artiste_metier_media.metier_id WHERE media_id= ? AND id_artiste = ?";
 			PreparedStatement statement = (PreparedStatement) co.prepareStatement(query);
 			statement.setInt(1, id);
+			statement.setInt(2, artiste.getId());
 			ResultSet result = statement.executeQuery();
 
 			while (result.next()) {
