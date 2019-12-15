@@ -199,7 +199,7 @@ public class Musique extends Media {
 			ResultSet result = statement.executeQuery();
 			while (result.next()) {
 				Musique musique = new Musique();
-				musique.id_media = result.getInt("id_media");
+				musique.id_media = result.getInt("musique_id");
 				musique.concat_genre = result.getString("nom_genre");
 				musique.oeuvre.setNom(result.getString("nom_oeuvre"));
 				musique.concat_artistes = result.getString("surnom_artiste");
@@ -250,10 +250,10 @@ public class Musique extends Media {
 	static class Query {
 
 		public static String queryLectureTout() {
-			return "SELECT	duree_musique,  annee_sortie_media,  " + "		id_media, 	nom_oeuvre, "
+			return "SELECT	duree_musique,  annee_sortie_media,  " + "		musique_id, 	nom_oeuvre, "
 					+ "		GROUP_CONCAT(DISTINCT surnom_artiste)AS surnom_artiste,  "
 					+ "		GROUP_CONCAT(nom_genre)AS nom_genre, 		id_genre, 	nom_genre, " + "		nom_etat "
-					+ "FROM  `nestix_musique`  " + "LEFT JOIN nestix_media ON nestix_media.id_media = media_id  "
+					+ "FROM  `nestix_musique`  " + "LEFT JOIN nestix_media ON nestix_media.id_media = musique_id  "
 					+ "LEFT JOIN nestix_oeuvre ON nestix_oeuvre.id_oeuvre = nestix_media.oeuvre_id "
 					+ "LEFT JOIN nestix_artiste_metier_media ON nestix_artiste_metier_media.media_id = nestix_media.id_media "
 					+ "LEFT JOIN nestix_artiste ON nestix_artiste.id_artiste = nestix_artiste_metier_media.artiste_id  "
@@ -290,6 +290,11 @@ public class Musique extends Media {
 					+ " WHERE   id_media = ?";
 
 		}
+	}
+
+	@Override
+	protected String getType() {
+		return "Musique";
 	}
 
 }

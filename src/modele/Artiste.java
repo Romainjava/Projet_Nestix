@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import requete.M_artiste;
+
 
 public class Artiste implements I_requeteSQL, I_recherche {
 

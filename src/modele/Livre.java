@@ -264,6 +264,12 @@ public class Livre extends Media {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	@Override
+	protected String getType() {
+	
+		return "Livre";
+	}
 	
 	
 //	public static void main(String[] args) {
