@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-public class Musiques extends Media {
+public class Musique extends Media {
 
 	private int duree_musique;
 	private Album album = new Album();
@@ -99,6 +99,14 @@ public class Musiques extends Media {
 				ConnexionBDD.prepareInt(statement, 2, this.duree_musique);
 				ConnexionBDD.prepareInt(statement, 3, this.album.getId());
 				success = (statement.executeUpdate() > 0);
+				for (int i = 0; i < this.artistes.size(); i++) {
+					query="INSERT INTO `nestix_artiste_metier_media`(`artiste_id`, `media_id`, `metier_id`) VALUES(?,?,?)";
+					statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
+					statement.setInt(1, this.artistes.get(i).getId());
+					statement.setInt(2, this.id_media);
+					statement.setInt(3, this.artistes.get(i).getMetiers_artiste().get(i).getId());
+					success = (statement.executeUpdate() > 0);
+				}
 			}
 			statement.close();
 		} catch (SQLException e) {
@@ -169,7 +177,7 @@ public class Musiques extends Media {
 
 	@Override
 	public boolean suppression(int id) {
-		// TODO Auto-generated method stub
+		System.out.println(this.artistes.toString());
 		return false;
 	}
 
@@ -183,7 +191,7 @@ public class Musiques extends Media {
 			statement.setInt(1, limit);
 			ResultSet result = statement.executeQuery();
 			while (result.next()) {
-				Musiques musique = new Musiques();
+				Musique musique = new Musique();
 				musique.id_media = result.getInt("id_media");
 				musique.concat_genre = result.getString("nom_genre");
 				musique.oeuvre.setNom(result.getString("nom_oeuvre"));
