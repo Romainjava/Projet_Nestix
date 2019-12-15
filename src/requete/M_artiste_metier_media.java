@@ -10,7 +10,6 @@ import modele.Artiste;
 import modele.ConnexionBDD;
 import modele.Metier;
 
-
 public class M_artiste_metier_media {
 
 	public static ArrayList<Metier> readAllJobsForOneArtiste(Artiste artiste) {
@@ -36,18 +35,28 @@ public class M_artiste_metier_media {
 
 			System.out.println("Erreur dans M_artiste_metier_media lireUn :" + e.getMessage());
 		}
-		
+
 		return metiers;
 
 	}
 
-	public static void creation() {
+	public static boolean creation(Metier metier) {
+		int nb_row = 0;
 		try {
 			Connection co = ConnexionBDD.getConnexion();
-			String query = "INSERT INTO ";
+			String query = "INSERT INTO nestix_artiste_metier_media(artiste_id, metier_id, media_id) VALUES(?,?,?) ";
+			PreparedStatement statement = (PreparedStatement) co.prepareStatement(query);
+			statement.setInt(1, metier.getArtiste().getId());
+			statement.setInt(2, metier.getId());
+			System.out.println(metier.getMedia());
+			
+			statement.setInt(3, metier.getMedia().getId_media());
+			nb_row = statement.executeUpdate();
 
 		} catch (Exception e) {
 			System.out.println("Erreurdans M_artiste_metier_media creation : " + e.getMessage());
+			e.printStackTrace();
 		}
+		return (nb_row > 0);
 	}
 }

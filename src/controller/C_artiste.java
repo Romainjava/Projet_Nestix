@@ -10,7 +10,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.ListModel;
 
 import modele.Artiste;
 import modele.I_recherche;
@@ -66,16 +65,47 @@ public class C_artiste {
 		MainPanel artiste_main = new MainPanel(this.artiste_panel);
 		
 		metier_panel = new MetiersPanel();
-		artiste_main.add(metier_panel);
 		
-		actualiseListe();
-		
-		artiste_main.addModule(new ImageModule(), 2, 0);
+		/**
+		 * Evenement pour ajouter un Meteir + Artiste + media
+		 */
+		JButton btn = metier_panel.metier_add_button;
+		btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				metier_panel.getInfoMetier();
+				metier_panel.getInfoMedia();
+								
+				// Artiste
+				if(artiste.getId() == 0) {
+					System.out.print("Creation rapide d'un artiste");
+					artiste.creationRapide(artiste_surnom_textfield.getText()); // recuperer le surnom dans le jtextfield
+					System.out.println(" id = " + artiste.getId());
+					if(artiste.getId()>0) {
+						actualiseTab(); // Mise à jour du tableau
+					}
+				}
+				metier_panel.metier.setArtiste(artiste);
 
+
+				// Creation dans la table jointure entre artiste media metier
+				if (M_artiste_metier_media.creation(metier_panel.getMetier())) {
+					actualiseListe();
+				} else {
+					JOptionPane.showMessageDialog(metier_panel, "Erreur lors de la creation d'un metier");
+				}
+
+			}
+		});
+		
+		artiste_main.add(metier_panel);
+		artiste_main.addModule(new ImageModule(), 2, 0);
 		GridPanel relationComple = new GridPanel(new double[] { 1.0, 1.0 }, new double[] { 1.0, 1.0, 1.0 });
 		artiste_main.add(relationComple, artiste_main.addElement(2, 1));
 		relationComple.add(new ComboListField(new String[] { "etat1", "etat2", "etat3" }),
 				relationComple.addElement(0, 0));
+		
+		
+		actualiseListe();
 	}
 
 	public void ajouteTab() {
@@ -174,6 +204,8 @@ public class C_artiste {
 	
 	
 	public void actualiseListe() {
+
+		
 		ArrayList<Metier> metiers = M_artiste_metier_media.readAllJobsForOneArtiste(artiste);
 		metier_panel.setArtiste_metiers_list(metiers);
 	}

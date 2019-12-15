@@ -54,6 +54,7 @@ public class M_artiste {
 					+ " LEFT JOIN nestix_etat ON nestix_etat.id_etat = nestix_artiste.etat_id"
 					+ " LEFT JOIN nestix_artiste_metier_media ON nestix_artiste_metier_media.artiste_id = nestix_artiste.id_artiste"
 					+ " LEFT JOIN nestix_metier ON nestix_metier.id_metier = nestix_artiste_metier_media.metier_id"
+					+ " GROUP BY nestix_artiste.id_artiste"
 					+ " LIMIT ?";
 				    
 			PreparedStatement statement = (PreparedStatement) co.prepareStatement(query);
