@@ -69,6 +69,7 @@ public class C_artiste {
 		artiste_main.add(metier_panel);
 		
 		actualiseListe();
+		
 		artiste_main.addModule(new ImageModule(), 2, 0);
 
 		GridPanel relationComple = new GridPanel(new double[] { 1.0, 1.0 }, new double[] { 1.0, 1.0, 1.0 });
@@ -193,18 +194,9 @@ public class C_artiste {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			int row = this.controller.getArtiste_result_table().rowAtPoint(e.getPoint());
+			//Recupere la valeur de l'index de l'ArrayList.
 			controller.artiste = (Artiste) controller.artistes.get(row);
-			
-			// "getAtValue" : Permet de prendre la valeur de la case ( row , column )
-//			String nom = (String) this.controller.getArtiste_result_table().getValueAt(row, 0);
-//			String prenom = (String) this.controller.getArtiste_result_table().getValueAt(row, 1);
-//			String surnom = (String) this.controller.getArtiste_result_table().getValueAt(row, 2);
-//			String dob = (String) this.controller.getArtiste_result_table().getValueAt(row, 3);
 			actualiseArtiste();
-//			this.controller.getArtiste_nom_textfield().setText(nom);
-//			this.controller.getArtiste_prenom_textfield().setText(prenom);
-//			this.controller.getArtiste_surnom_textfield().setText(surnom);
-//			this.controller.getArtiste_dob_textfield().setText(dob);
 			actualiseListe();
 		}
 	}
