@@ -115,8 +115,8 @@ public class C_musique {
 	public void footerPanel() {
 		String textBouton[] = { "Creer", "Modifier", "Supprimer" };
 		double elmsSizeFooter[] = { 1.0, 1.0, 1.0 };
-		FooterPanel livre_footer_panel = new FooterPanel(this.musiques_panel, textBouton, elmsSizeFooter);
-		livre_footer_panel.getBoutonTab().get(0).addActionListener(new ActionListener() {
+		FooterPanel musique_footer_panel = new FooterPanel(this.musiques_panel, textBouton, elmsSizeFooter);
+		musique_footer_panel.getBoutonTab().get(0).addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				boolean success = verifChamp();
@@ -132,7 +132,7 @@ public class C_musique {
 				}
 			}
 		});
-		livre_footer_panel.getBoutonTab().get(1).addActionListener(new ActionListener() {
+		musique_footer_panel.getBoutonTab().get(1).addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -149,7 +149,7 @@ public class C_musique {
 				}
 			}
 		});
-		livre_footer_panel.getBoutonTab().get(2).addActionListener(new ActionListener() {
+		musique_footer_panel.getBoutonTab().get(2).addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
