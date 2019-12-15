@@ -292,4 +292,9 @@ public class Musique extends Media {
 		}
 	}
 
+	@Override
+	protected String getType() {
+		return "Musique";
+	}
+
 }

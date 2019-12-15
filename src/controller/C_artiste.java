@@ -10,9 +10,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListModel;
+
 import modele.Artiste;
 import modele.I_recherche;
-import modele.M_artiste;
+import modele.Metier;
+import requete.M_artiste;
+import requete.M_artiste_metier_media;
 import view.AsidePanel;
 import view.ComboListField;
 import view.FooterPanel;
@@ -36,7 +40,8 @@ public class C_artiste {
 	JTextField artiste_surnom_textfield;
 	JTextField artiste_dob_textfield;
 	AsidePanel artiste_aside;
-
+	MetiersPanel metier_panel;
+	
 	public C_artiste(JPanel artiste_panel) {
 		this.artiste_panel = artiste_panel;
 		ajouteHeader();
@@ -60,14 +65,10 @@ public class C_artiste {
 	public void ajoutMainPanel() {
 		MainPanel artiste_main = new MainPanel(this.artiste_panel);
 		
-		MetiersPanel metier_panel = new MetiersPanel();
+		metier_panel = new MetiersPanel();
 		artiste_main.add(metier_panel);
 		
-		//TODO faire une requête qui renvoie une ArrayList de String
-		ArrayList<String> data = new ArrayList<>();
-		data.add("test");
-		metier_panel.setArtiste_metiers_list(data);
-		
+		actualiseListe();
 		artiste_main.addModule(new ImageModule(), 2, 0);
 
 		GridPanel relationComple = new GridPanel(new double[] { 1.0, 1.0 }, new double[] { 1.0, 1.0, 1.0 });
@@ -160,7 +161,7 @@ public class C_artiste {
 		this.artiste_prenom_textfield.setText(artiste.getPrenom_artiste());
 		this.artiste_surnom_textfield.setText(artiste.getSurnom_artiste());
 		this.artiste_dob_textfield.setText(artiste.getDob_artiste());
-
+		
 	}
 	/**
 	 * actualise mon tableau et limite les entrée en param de lireTout()
@@ -168,6 +169,12 @@ public class C_artiste {
 	public void actualiseTab() {
 		artistes = M_artiste.lireTout(50);
 		artiste_aside.setDonnees(artistes);
+	}
+	
+	
+	public void actualiseListe() {
+		ArrayList<Metier> metiers = M_artiste_metier_media.readAllJobsForOneArtiste(artiste);
+		metier_panel.setArtiste_metiers_list(metiers);
 	}
 
 	/**
@@ -189,15 +196,16 @@ public class C_artiste {
 			controller.artiste = (Artiste) controller.artistes.get(row);
 			
 			// "getAtValue" : Permet de prendre la valeur de la case ( row , column )
-			String nom = (String) this.controller.getArtiste_result_table().getValueAt(row, 0);
-			String prenom = (String) this.controller.getArtiste_result_table().getValueAt(row, 1);
-			String surnom = (String) this.controller.getArtiste_result_table().getValueAt(row, 2);
-			String dob = (String) this.controller.getArtiste_result_table().getValueAt(row, 4);
-
-			this.controller.getArtiste_nom_textfield().setText(nom);
-			this.controller.getArtiste_prenom_textfield().setText(prenom);
-			this.controller.getArtiste_surnom_textfield().setText(surnom);
-			this.controller.getArtiste_dob_textfield().setText(dob);
+//			String nom = (String) this.controller.getArtiste_result_table().getValueAt(row, 0);
+//			String prenom = (String) this.controller.getArtiste_result_table().getValueAt(row, 1);
+//			String surnom = (String) this.controller.getArtiste_result_table().getValueAt(row, 2);
+//			String dob = (String) this.controller.getArtiste_result_table().getValueAt(row, 3);
+			actualiseArtiste();
+//			this.controller.getArtiste_nom_textfield().setText(nom);
+//			this.controller.getArtiste_prenom_textfield().setText(prenom);
+//			this.controller.getArtiste_surnom_textfield().setText(surnom);
+//			this.controller.getArtiste_dob_textfield().setText(dob);
+			actualiseListe();
 		}
 	}
 	

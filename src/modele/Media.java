@@ -172,5 +172,10 @@ public abstract class Media implements I_requeteSQL,I_dataListable,I_recherche {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * permet de generer le type par rapport à la spécificité des enfants
+	 * @return String
+	 */
+	protected abstract String getType();
 
 }

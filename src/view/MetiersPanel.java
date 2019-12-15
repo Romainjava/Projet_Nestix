@@ -9,6 +9,9 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
+
+import modele.Metier;
+
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
@@ -19,7 +22,7 @@ import net.miginfocom.swing.MigLayout;
 @SuppressWarnings("serial")
 public class MetiersPanel extends JPanel {
 	private JTextField media_titre_textField;
-	private DefaultListModel<String> modelList;
+	private DefaultListModel<Metier> modelList;
 
 	/**
 	 * Create the panel.
@@ -41,7 +44,7 @@ public class MetiersPanel extends JPanel {
 		JComboBox type_comboBox = new JComboBox();
 		type_comboBox.setModel(new DefaultComboBoxModel(E_TypesMedia.values()));
 		metier_ajouter_panel.add(type_comboBox);
-		
+
 		JComboBox metier_comboBox = new JComboBox();
 		metier_comboBox.setModel(new DefaultComboBoxModel(E_Metiers.values()));
 		metier_ajouter_panel.add(metier_comboBox);
@@ -50,10 +53,13 @@ public class MetiersPanel extends JPanel {
 		metier_ajouter_panel.add(metier_add_button);
 		metier_add_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			String data_textfield = media_titre_textField.getText();
-			data_textfield += " - " + type_comboBox.getModel().getSelectedItem();
-			data_textfield += " - " + metier_comboBox.getModel().getSelectedItem();
-			addRow(data_textfield);
+				Metier metier = new Metier();
+				E_Metiers M = (E_Metiers) metier_comboBox.getModel().getSelectedItem();
+				metier.setNom(M.label);
+				E_TypesMedia T =  (E_TypesMedia) type_comboBox.getModel().getSelectedItem();
+				metier.addMedia(media_titre_textField.getText(), T.label);
+
+				addRow(metier);
 			}
 		});
 
@@ -69,42 +75,42 @@ public class MetiersPanel extends JPanel {
 
 		JList artiste_metiers_list = new JList();
 		artiste_metiers_list.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		
+
 		modelList = new DefaultListModel();
 		artiste_metiers_list.setModel(modelList);
-		
-		
+
 		scrollPane.setViewportView(artiste_metiers_list);
 
 		JButton btnSupprimer = new JButton("Supprimer");
 		add(btnSupprimer, "cell 0 2,alignx center");
 		btnSupprimer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 			}
 		});
 
 	}
 
-	
 	// === MUTATEUR ET ACCESSEUR === //
 
 	/**
 	 * Update le model puis insert des données
-	 * @param liste_metier_media:ArrayList<String>
+	 * 
+	 * @param liste_metier_media:ArrayList<Metier>
 	 */
-	public void setArtiste_metiers_list(ArrayList<String> liste_metier_media) {
+	public void setArtiste_metiers_list(ArrayList<Metier> liste_metier_media) {
 		modelList.clear();
-		for (String string : liste_metier_media) {
-			modelList.addElement(string);
+		for (Metier metier : liste_metier_media) {
+			modelList.addElement(metier);
 		}
 	}
-	
+
 	/**
 	 * Ajoute une ligne à la Jlist
+	 * 
 	 * @param row:String
 	 */
-	public void addRow(String row) {
+	public void addRow(Metier row) {
 		modelList.addElement(row);
 	}
 
