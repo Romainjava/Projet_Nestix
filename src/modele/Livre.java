@@ -13,13 +13,22 @@ public class Livre extends Media {
 	protected String resume_livre;
 	protected int tome_livre;
 	protected Editeur editeur;
+	
+	protected static ArrayList<Editeur> liste_editeur = new ArrayList<>();
+
 
 	public Editeur getEditeur() {
 		return editeur;
 	}
-
 	public void setEditeur(Editeur editeur) {
 		this.editeur = editeur;
+	}
+	
+	public static ArrayList<Editeur> getListe_editeur() {
+		return liste_editeur;
+	}
+	public static void setListe_editeur(ArrayList<Editeur> liste_editeur) {
+		Livre.liste_editeur = liste_editeur;
 	}
 
 	public String[] toRowData() {
@@ -75,24 +84,21 @@ public class Livre extends Media {
 			String query;
 			PreparedStatement statement;
 			ResultSet generatedKeys;
-			//creation oeuvre
-			query = "";
+			
+			//creation media, univers, saga, image, oeuvre
+			query = "INSERT INTO nestix_media(annee_sortie_media, admin_id, univers_id, saga_id, image_id, etat_id, oeuvre_id, type_media) \n" + 
+					"VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 			statement = (PreparedStatement) co.prepareStatement(query,
 					Statement.RETURN_GENERATED_KEYS);
-//			statement.setInt(1, this.id_media);
-			success = (statement.executeUpdate() > 0);
-			generatedKeys = statement.getGeneratedKeys();
-			if(generatedKeys.next()) {
-				success = true;
-				this.oeuvre.setId((int) generatedKeys.getLong(1));
-			}else {
-				throw new SQLException("Erreur création oeuvre pour livre");
-			}
-			//creation media
-			query = "";
-			statement = (PreparedStatement) co.prepareStatement(query,
-					Statement.RETURN_GENERATED_KEYS);
-//			statement.setInt(1, this.id_media);
+			statement.setString(1, this.annee_sortie_media);
+			statement.setInt(2, 3);
+			ConnexionBDD.prepareInt(statement, 3, this.univers.getId());
+			ConnexionBDD.prepareInt(statement, 4, this.saga.getId());
+			ConnexionBDD.prepareInt(statement, 5, this.image.getId());
+			statement.setInt(6, (this.etat.getId() == 0) ? 2 : this.etat.getId());
+			ConnexionBDD.prepareInt(statement, 7, this.oeuvre.getId());
+			statement.setString(8, this.getType());
+			
 			success = (statement.executeUpdate() > 0);
 			generatedKeys = statement.getGeneratedKeys();
 			if(generatedKeys.next()) {
@@ -101,8 +107,6 @@ public class Livre extends Media {
 			}else {
 				throw new SQLException("Erreur création media pour livre");
 			}
-			//creation livre
-
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -306,7 +310,7 @@ public class Livre extends Media {
 	@Override
 	protected String getType() {
 
-		return "Livre";
+		return "livre";
 	}
 
 //	public static void main(String[] args) {

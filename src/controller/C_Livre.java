@@ -100,7 +100,8 @@ public class C_Livre {
 		livre_module_etat = new ComboListField(Etat.lectureTout());
 		relation_panel.add(livre_module_etat, relation_panel.addElement(0, 1));
 		relation_panel.add(new JLabel("Editeur"), relation_panel.addElement(1, 0));
-		livre_module_editeur = new ComboListField(Editeur.lectureTout());
+		Livre.setListe_editeur(Editeur.lectureToutListe());
+		livre_module_editeur = new ComboListField(Editeur.getAllNom());
 		relation_panel.add(livre_module_editeur, relation_panel.addElement(1, 1));
 		relation_panel.add(new Module(), relation_panel.addElement(0, 2, 2, 2));
 
@@ -180,9 +181,9 @@ public class C_Livre {
 			success = false;
 			JOptionPane.showMessageDialog(livres_panel, "Veuillez saisir un titre");
 		} else {
-			//Oeuvre titre
+			//Oeuvre
 			livre.setOeuvre(livre_titre_textfield.get(0).getText().toLowerCase());
-			//Date sortie
+			//Annee sortie
 			try {
 				if (livre_titre_textfield.get(2).getText().toLowerCase().length() == 4
 						&& Integer.parseInt(livre_titre_textfield.get(2).getText().toLowerCase()) > 1900) {
@@ -197,14 +198,14 @@ public class C_Livre {
 				JOptionPane.showMessageDialog(livres_panel, "l'annee de sortie ne doit comporter que des chiffres",
 						"Echec", JOptionPane.ERROR_MESSAGE);
 			}
-			//Image
-
 			//Univers
 			livre.setUnivers(livre_titre_textfield.get(4).getText().toLowerCase());
 			//Saga
 			livre.setSaga(livre_titre_textfield.get(3).getText().toLowerCase());
 			//Etat
 			livre.setEtat(livre_module_etat.getSelectedIndex() + 1);
+			//Image
+			
 
 			//ISBN
 			try {
@@ -231,7 +232,7 @@ public class C_Livre {
 						"Echec", JOptionPane.ERROR_MESSAGE);
 			}
 			//Editeur
-			livre.getEditeur().setId(livre_module_editeur.getSelectedIndex());
+			livre.getEditeur().setId(Editeur.getIdInList(livre_module_editeur.getSelectedItem().toString()));
 			livre.getEditeur().setNom(livre_module_editeur.getSelectedItem().toString());
 
 			//Personne
@@ -291,7 +292,10 @@ public class C_Livre {
 		//etat
 		this.livre_module_etat.setSelectedIndex(livre.getEtat().getId()-1);
 		//editeur
-		this.livre_module_editeur.setSelectedIndex(livre.getEditeur().getId());
+		this.livre_module_editeur.setSelectedItem(livre.getEditeur().getNom());
+		
+		livre.getEditeur().setId(Editeur.getIdInList(livre_module_editeur.getSelectedItem().toString()));
+		livre.getEditeur().setNom(livre_module_editeur.getSelectedItem().toString());
 		//resume
 		this.livre_module_resume.getText_area().setText(livre.getResume_livre());
 
