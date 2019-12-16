@@ -75,7 +75,7 @@ public class Musique extends Media {
 	public boolean creation() {
 		boolean success = false;
 		try {
-			String query = "INSERT IGNORE INTO `nestix_media`( `annee_sortie_media`, `admin_id`, `univers_id`, `image_id`,`etat_id`, `oeuvre_id`) VALUES (?,?,?,?,?,?)";
+			String query = "INSERT INTO `nestix_media`( `annee_sortie_media`, `admin_id`, `univers_id`, `image_id`,`etat_id`, `oeuvre_id`,type_media) VALUES (?,?,?,?,?,?,?)";
 			PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query,
 					Statement.RETURN_GENERATED_KEYS);
 			statement.setString(1, this.annee_sortie_media);
@@ -84,6 +84,7 @@ public class Musique extends Media {
 			ConnexionBDD.prepareInt(statement, 4, this.image.getId());
 			statement.setInt(5, (this.etat.getId() == 0) ? 2 : this.etat.getId());
 			ConnexionBDD.prepareInt(statement, 6, this.oeuvre.getId());
+			statement.setString(7, this.getType());
 			success = (statement.executeUpdate() > 0);
 			ResultSet generatedKeys = statement.getGeneratedKeys();
 			if (generatedKeys.next()) {
@@ -93,12 +94,6 @@ public class Musique extends Media {
 				throw new SQLException("Creating music failed, no ID obtained.");
 			}
 			if (success) {
-				query = "INSERT INTO `nestix_musique`(`media_id`, `duree_musique`, `album_id`) VALUES (?,?,?)";
-				statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
-				statement.setInt(1, this.id_media);
-				ConnexionBDD.prepareInt(statement, 2, this.duree_musique);
-				ConnexionBDD.prepareInt(statement, 3, this.album.getId());
-				success = (statement.executeUpdate() > 0);
 				for (int i = 0; i < this.artistes.size(); i++) {
 					query="INSERT INTO `nestix_artiste_metier_media`(`artiste_id`, `media_id`, `metier_id`) VALUES(?,?,?)";
 					statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
@@ -138,7 +133,7 @@ public class Musique extends Media {
 			statement.setInt(7, this.id_media);
 			success = (statement.executeUpdate() > 0);
 			if (success) {
-				query = "UPDATE `nestix_musique` SET `duree_musique`=?,`album_id`=? WHERE media_id=?";
+				query = "UPDATE `nestix_musique` SET `duree_musique`=?,`album_id`=? WHERE musique_id=?";
 				statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
 				ConnexionBDD.prepareInt(statement, 1, this.duree_musique);
 				ConnexionBDD.prepareInt(statement, 2, this.album.getId());
@@ -250,10 +245,11 @@ public class Musique extends Media {
 	static class Query {
 
 		public static String queryLectureTout() {
-			return "SELECT	duree_musique,  annee_sortie_media,  " + "		musique_id, 	nom_oeuvre, "
+			return "SELECT	duree_musique,  annee_sortie_media,  musique_id, 	nom_oeuvre, "
 					+ "		GROUP_CONCAT(DISTINCT surnom_artiste)AS surnom_artiste,  "
-					+ "		GROUP_CONCAT(nom_genre)AS nom_genre, 		id_genre, 	nom_genre, " + "		nom_etat "
-					+ "FROM  `nestix_musique`  " + "LEFT JOIN nestix_media ON nestix_media.id_media = musique_id  "
+					+ "		GROUP_CONCAT(DISTINCT nom_genre)AS nom_genre, id_genre, 	nom_etat "
+					+ "FROM  `nestix_musique`  " 
+					+ "LEFT JOIN nestix_media ON nestix_media.id_media = musique_id  "
 					+ "LEFT JOIN nestix_oeuvre ON nestix_oeuvre.id_oeuvre = nestix_media.oeuvre_id "
 					+ "LEFT JOIN nestix_artiste_metier_media ON nestix_artiste_metier_media.media_id = nestix_media.id_media "
 					+ "LEFT JOIN nestix_artiste ON nestix_artiste.id_artiste = nestix_artiste_metier_media.artiste_id  "
@@ -281,7 +277,7 @@ public class Musique extends Media {
 					+ "    alt_image,  id_album, nom_album,  utilisateur_id,    nom_oeuvre,    id_etat, "
 					+ "    nom_etat,    oeuvre_id FROM    `nestix_media` "
 					+ "LEFT JOIN nestix_oeuvre ON nestix_oeuvre.id_oeuvre = nestix_media.oeuvre_id "
-					+ "LEFT JOIN nestix_musique ON nestix_musique.media_id = nestix_media.id_media "
+					+ "LEFT JOIN nestix_musique ON nestix_musique.musique_id = nestix_media.id_media "
 					+ "LEFT JOIN nestix_album ON nestix_album.id_album = nestix_musique.album_id  "
 					+ "LEFT JOIN nestix_etat ON nestix_media.etat_id = nestix_etat.id_etat "
 					+ "LEFT JOIN nestix_univers ON nestix_univers.id_univers = nestix_media.id_media "
