@@ -28,6 +28,7 @@ public class HeaderPanel extends JPanel {
 		jTextArray=new ArrayList<>();
 		JPanel header_panel = new JPanel();
 		header_panel.setBackground(Color.GRAY);
+
 		GridBagConstraints gbc_header_panel = new GridBagConstraints();
 		gbc_header_panel.fill = GridBagConstraints.BOTH;
 		gbc_header_panel.gridx = 0;

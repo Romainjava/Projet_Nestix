@@ -11,6 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
 
 public class LinkModule extends Module implements ActionListener{
 	
@@ -69,7 +70,7 @@ public class LinkModule extends Module implements ActionListener{
 	}
 
 	public void createElement(String ptitre) {
-		title_label = new JLabel(ptitre);
+		title_label = new JLabel(ptitre,SwingConstants.CENTER);
 		this.more_btn = new JButton("+");
 		text_list_field = new TextListField();
 		content_scroll = new JScrollPane();

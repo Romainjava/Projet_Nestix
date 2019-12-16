@@ -100,7 +100,8 @@ public class C_Livre {
 		livre_module_etat = new ComboListField(Etat.lectureTout());
 		relation_panel.add(livre_module_etat, relation_panel.addElement(0, 1));
 		relation_panel.add(new JLabel("Editeur"), relation_panel.addElement(1, 0));
-		livre_module_editeur = new ComboListField(Editeur.lectureTout());
+		Livre.setListe_editeur(Editeur.lectureToutListe());
+		livre_module_editeur = new ComboListField(Editeur.getAllNom());
 		relation_panel.add(livre_module_editeur, relation_panel.addElement(1, 1));
 		relation_panel.add(new Module(), relation_panel.addElement(0, 2, 2, 2));
 
@@ -109,7 +110,77 @@ public class C_Livre {
 		resume_panel.add(new JLabel("Resumé"), resume_panel.addElement(0, 0));
 		livre_module_resume = new TextAreaScrollField(5,10);
 		resume_panel.add(livre_module_resume, resume_panel.addElement(0, 1));
-
+		
+		/**
+		 * lie un artiste et un livre lors de l'appui sur +
+		 */
+		livre_module_personne.getMore_btn().addActionListener(new ActionListener() {		
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(livre.getId()!=0) {
+					livre_module_personne.addTextListField();
+					Artiste artiste = new Artiste();
+					Metier metier = new Metier();
+//					System.out.println(livre_module_personne.getText_list().get(livre_module_personne.getText_list().size()-1));
+					artiste.creationRapide(livre_module_personne.getText_list().get(livre_module_personne.getText_list().size()-1));
+					metier.setInfo(livre_module_personne.getCombo_list().get(livre_module_personne.getCombo_list().size()-1));
+					artiste.setMetiers_artiste(metier);
+					livre.addArtiste(artiste);
+					livre.ajoutLiaisonArtisteMetierMedia();
+					actualiseTab();
+				}else {
+					JOptionPane.showMessageDialog(livre_main, "Livre pas encore cree, veuillez cree le livre avant d'ajouter ou supprimer\n un artiste");
+				}				
+			}
+		});
+		/**
+		 * delie un artiste et un livre lors de l'appui sur -
+		 */
+		livre_module_personne.getLess_btn().addActionListener(new ActionListener() {		
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(livre.getId()!=0) {
+					livre.supprimeLiaisonArtisteMetierMedia();
+					actualiseTab();
+				}else {
+					JOptionPane.showMessageDialog(livre_main, "Livre pas encore cree, veuillez cree le livre avant d'ajouter ou supprimer\n un artiste");
+				}
+			}
+		});
+		/**
+		 * lie un genre et un livre lors de l'appuie sur +
+		 */
+		livre_module_genre.getMore_btn().addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (livre.getId()!=0) {
+					livre_module_genre.addTextListField();
+					Genre genre = new Genre();
+//					System.out.println(livre_module_genre.getText_list().get(livre_module_genre.getText_list().size()-1));
+					genre.setInfo(livre_module_genre.getText_list().get(livre_module_genre.getText_list().size()-1));
+					livre.addGenre(genre);
+					livre.ajoutLiasonMediaGenre();
+					actualiseTab();
+				}else {
+					JOptionPane.showMessageDialog(livre_main, "Livre pas encore cree, veuillez cree le livre avant d'ajouter ou supprimer\n un genre");
+				}
+			}
+		});
+		/**
+		 * delie un genre et un livre lors de l'appuie sur -
+		 */
+		livre_module_genre.getLess_btn().addActionListener(new ActionListener() {		
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(livre.getId()!=0) {
+					livre.supprimeLiasonMediaGenre();
+					actualiseTab();
+				}else {
+					JOptionPane.showMessageDialog(livre_main, "Livre pas encore cree, veuillez cree le livre avant d'ajouter ou supprimer\n un genre");
+				}
+			}
+		});
 	}
 	public void ajouteTab() {
 		livres_aside_panel = new AsidePanel(this.livres_panel);
@@ -132,8 +203,7 @@ public class C_Livre {
 		livre_footer_panel.getBoutonTab().get(0).addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				boolean success = verifChamp();
-				if (success) {
+				if (verifChamp()) {
 					if (livre.creation()) {
 						JOptionPane.showMessageDialog(livres_panel, "Insertion faites", "Validation",
 								JOptionPane.INFORMATION_MESSAGE);
@@ -149,27 +219,35 @@ public class C_Livre {
 		livre_footer_panel.getBoutonTab().get(1).addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				boolean success = verifChamp();
-				if (success) {
+				if (verifChamp()) {
 					if (livre.modification()) {
 						JOptionPane.showMessageDialog(livres_panel, "Modification faites", "Modifie",
 								JOptionPane.INFORMATION_MESSAGE);
 						actualiseTab();
 					} else {
 						JOptionPane.showMessageDialog(livres_panel, "Erreur lors de la modification",
-								"Echec insertion", JOptionPane.ERROR_MESSAGE);
+								"Echec update", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}
 		});
 		//Supprimer
 		livre_footer_panel.getBoutonTab().get(2).addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				livre.suppression(livre.getId());
-//				System.out.println(livre_module_personne.getText_list().size());
-
+				if(livre.getId() != 0) {
+					if(livre.suppression(livre.getId())) {
+						JOptionPane.showMessageDialog(livres_panel, "Suppression faites", "Supprime",
+								JOptionPane.INFORMATION_MESSAGE);
+						actualiseTab();
+					}else {
+						JOptionPane.showMessageDialog(livres_panel, "Erreur lors de la suppression",
+								"Echec delete", JOptionPane.ERROR_MESSAGE);
+					}
+				}else {
+					JOptionPane.showMessageDialog(livres_panel, "Erreur id media inexistant",
+							"Echec delete", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 	}
@@ -180,9 +258,9 @@ public class C_Livre {
 			success = false;
 			JOptionPane.showMessageDialog(livres_panel, "Veuillez saisir un titre");
 		} else {
-			//Oeuvre titre
+			//Oeuvre
 			livre.setOeuvre(livre_titre_textfield.get(0).getText().toLowerCase());
-			//Date sortie
+			//Annee sortie
 			try {
 				if (livre_titre_textfield.get(2).getText().toLowerCase().length() == 4
 						&& Integer.parseInt(livre_titre_textfield.get(2).getText().toLowerCase()) > 1900) {
@@ -197,14 +275,14 @@ public class C_Livre {
 				JOptionPane.showMessageDialog(livres_panel, "l'annee de sortie ne doit comporter que des chiffres",
 						"Echec", JOptionPane.ERROR_MESSAGE);
 			}
-			//Image
-
 			//Univers
 			livre.setUnivers(livre_titre_textfield.get(4).getText().toLowerCase());
 			//Saga
 			livre.setSaga(livre_titre_textfield.get(3).getText().toLowerCase());
 			//Etat
 			livre.setEtat(livre_module_etat.getSelectedIndex() + 1);
+			//Image
+
 
 			//ISBN
 			try {
@@ -231,7 +309,7 @@ public class C_Livre {
 						"Echec", JOptionPane.ERROR_MESSAGE);
 			}
 			//Editeur
-			livre.getEditeur().setId(livre_module_editeur.getSelectedIndex());
+			livre.getEditeur().setId(Editeur.getIdInList(livre_module_editeur.getSelectedItem().toString()));
 			livre.getEditeur().setNom(livre_module_editeur.getSelectedItem().toString());
 
 			//Personne
@@ -291,7 +369,10 @@ public class C_Livre {
 		//etat
 		this.livre_module_etat.setSelectedIndex(livre.getEtat().getId()-1);
 		//editeur
-		this.livre_module_editeur.setSelectedIndex(livre.getEditeur().getId());
+		this.livre_module_editeur.setSelectedItem(livre.getEditeur().getNom());
+
+		livre.getEditeur().setId(Editeur.getIdInList(livre_module_editeur.getSelectedItem().toString()));
+		livre.getEditeur().setNom(livre_module_editeur.getSelectedItem().toString());
 		//resume
 		this.livre_module_resume.getText_area().setText(livre.getResume_livre());
 
