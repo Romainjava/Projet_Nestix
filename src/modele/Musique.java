@@ -184,6 +184,7 @@ public class Musique extends Media {
 
 	@Override
 	public boolean suppression(int id) {
+		boolean success=false;
 		if (this.artistes.size()>0) {
 			this.supprimeLiaisonArtisteMetierMedia();
 		}
@@ -195,10 +196,11 @@ public class Musique extends Media {
 			String query="DELETE FROM `nestix_media` WHERE id_media=?";
 			PreparedStatement statement=(PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
 			statement.setInt(1, this.id_media);
+			success=(statement.executeUpdate()>0);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return false;
+		return success;
 	}
 
 	@Override
