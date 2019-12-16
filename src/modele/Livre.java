@@ -13,7 +13,7 @@ public class Livre extends Media {
 	protected String resume_livre;
 	protected int tome_livre;
 	protected Editeur editeur;
-	
+
 	protected static ArrayList<Editeur> liste_editeur = new ArrayList<>();
 
 
@@ -23,7 +23,7 @@ public class Livre extends Media {
 	public void setEditeur(Editeur editeur) {
 		this.editeur = editeur;
 	}
-	
+
 	public static ArrayList<Editeur> getListe_editeur() {
 		return liste_editeur;
 	}
@@ -84,9 +84,9 @@ public class Livre extends Media {
 			String query;
 			PreparedStatement statement;
 			ResultSet generatedKeys;
-			
+
 			//creation media, univers, saga, image, oeuvre
-			query = "INSERT INTO nestix_media(annee_sortie_media, admin_id, univers_id, saga_id, image_id, etat_id, oeuvre_id, type_media) \n" + 
+			query = "INSERT INTO nestix_media(annee_sortie_media, admin_id, univers_id, saga_id, image_id, etat_id, oeuvre_id, type_media) \n" +
 					"VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 			statement = (PreparedStatement) co.prepareStatement(query,
 					Statement.RETURN_GENERATED_KEYS);
@@ -98,7 +98,7 @@ public class Livre extends Media {
 			statement.setInt(6, (this.etat.getId() == 0) ? 2 : this.etat.getId());
 			ConnexionBDD.prepareInt(statement, 7, this.oeuvre.getId());
 			statement.setString(8, this.getType());
-			
+
 			success = (statement.executeUpdate() > 0);
 			generatedKeys = statement.getGeneratedKeys();
 			if(generatedKeys.next()) {

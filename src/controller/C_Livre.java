@@ -205,7 +205,7 @@ public class C_Livre {
 			//Etat
 			livre.setEtat(livre_module_etat.getSelectedIndex() + 1);
 			//Image
-			
+
 
 			//ISBN
 			try {
@@ -293,7 +293,7 @@ public class C_Livre {
 		this.livre_module_etat.setSelectedIndex(livre.getEtat().getId()-1);
 		//editeur
 		this.livre_module_editeur.setSelectedItem(livre.getEditeur().getNom());
-		
+
 		livre.getEditeur().setId(Editeur.getIdInList(livre_module_editeur.getSelectedItem().toString()));
 		livre.getEditeur().setNom(livre_module_editeur.getSelectedItem().toString());
 		//resume
