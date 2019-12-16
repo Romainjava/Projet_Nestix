@@ -185,12 +185,15 @@ public class C_musique {
 		String textBouton[] = { "Creer", "Modifier", "Supprimer" };
 		double elmsSizeFooter[] = { 1.0, 1.0, 1.0 };
 		FooterPanel musique_footer_panel = new FooterPanel(this.musiques_panel, textBouton, elmsSizeFooter);
+		/**
+		 * bouton cree
+		 */
 		musique_footer_panel.getBoutonTab().get(0).addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (verifChamp()) {
 					System.out.println(musique.getOeuvre().getId());
-					if (musique.creation()) {
+					if (musique.creation() && musique.updateDureeAlbum()) {
 						JOptionPane.showMessageDialog(musiques_panel, "Insertion faites", "Validation",
 								JOptionPane.INFORMATION_MESSAGE);
 						actualiseTab();
@@ -201,12 +204,15 @@ public class C_musique {
 				}
 			}
 		});
+		/**
+		 * bouton modifier
+		 */
 		musique_footer_panel.getBoutonTab().get(1).addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (verifChamp()) {
-					if (musique.modification()) {
+					if (musique.modification()&& musique.updateDureeAlbum()) {
 						JOptionPane.showMessageDialog(musiques_panel, "Modification faites", "Modifie",
 								JOptionPane.INFORMATION_MESSAGE);
 						actualiseTab();
@@ -217,12 +223,14 @@ public class C_musique {
 				}
 			}
 		});
+		/**
+		 * bouton supprimer
+		 */
 		musique_footer_panel.getBoutonTab().get(2).addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				musique.suppression(musique.getId());
-				System.out.println(musique_module_personne.getText_list().size());
 			}
 		});
 	}
@@ -257,6 +265,7 @@ public class C_musique {
 				JOptionPane.showMessageDialog(musiques_panel, "l'annee de sortie ne doit comporter que des chiffres",
 						"Echec", JOptionPane.ERROR_MESSAGE);
 			}
+			System.out.println(musique_titre_textfield.get(2).getText().toLowerCase());
 			musique.setAlbum(musique_titre_textfield.get(2).getText().toLowerCase());
 			musique.setUnivers(musique_titre_textfield.get(3).getText().toLowerCase());
 			musique.setEtat(comboListField.getSelectedIndex() + 1);

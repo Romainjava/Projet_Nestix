@@ -71,10 +71,14 @@ public class Musique extends Media {
 		}
 	}
 
-	public boolean ajoutLiasonAlbumMusique() {
+	/**
+	 * update la table nestix_musique aprés la creation d'une musique pour set la duree et l'album si il y'en a un
+	 * @return boolean
+	 */
+	public boolean updateDureeAlbum() {
 		boolean success = false;
 		try {
-			String query="UPDATE `nestix_musique` SET,`duree_musique`=?,`album_id`=? WHERE musique_id=?";
+			String query="UPDATE `nestix_musique` SET `duree_musique`=?,`album_id`=? WHERE musique_id=?";
 			PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
 			ConnexionBDD.prepareInt(statement, 1, this.duree_musique);
 			ConnexionBDD.prepareInt(statement, 2, this.album.getId());
