@@ -23,7 +23,7 @@ public class Musique extends Media {
 	@Override
 	public String[] toRowData() {
 		String[] data = { this.oeuvre.getNom(), this.concat_genre, this.concat_artistes, this.etat.getNom(),
-				this.annee_sortie_media.substring(0,4) };
+				this.annee_sortie_media.substring(0, 4) };
 		return data;
 	}
 
@@ -92,23 +92,6 @@ public class Musique extends Media {
 				this.id_media = (int) generatedKeys.getLong(1);
 			} else {
 				throw new SQLException("Creating music failed, no ID obtained.");
-			}
-			if (success) {
-				for (int i = 0; i < this.artistes.size(); i++) {
-					query="INSERT INTO `nestix_artiste_metier_media`(`artiste_id`, `media_id`, `metier_id`) VALUES(?,?,?)";
-					statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
-					statement.setInt(1, this.artistes.get(i).getId());
-					statement.setInt(2, this.id_media);
-					statement.setInt(3, this.artistes.get(i).getMetiers_artiste().get(0).getId());
-					success = (statement.executeUpdate() > 0);
-				}
-				for (int i = 0; i < this.genres.size(); i++) {
-					query="INSERT INTO `nestix_media_genre` (`media_id`, `genre_id`) VALUES(?,?)";
-					statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
-					statement.setInt(1, this.id_media);
-					statement.setInt(2, this.genres.get(i).getId());
-					success = (statement.executeUpdate() > 0);
-				}
 			}
 			statement.close();
 		} catch (SQLException e) {
@@ -202,7 +185,6 @@ public class Musique extends Media {
 				musique.setAnnee_sortie_media(result.getString("annee_sortie_media"));
 				musiqueList.add(musique);
 			}
-			// success = (statement.executeUpdate()>1);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -227,6 +209,7 @@ public class Musique extends Media {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
 	@Override
 	public String toString() {
 		return "Musiques [duree_musique=" + duree_musique + ", nom_album=" + album.toString() + super.toString() + "]";
@@ -238,7 +221,7 @@ public class Musique extends Media {
 
 	public String[] toRowDataForm() {
 		String[] data = { this.getTitre(), this.duree_musique + "", this.getTitreAlbum(), this.getNomunivers(),
-				this.annee_sortie_media.substring(0,4) };
+				this.annee_sortie_media.substring(0, 4) };
 		return data;
 	}
 
@@ -248,8 +231,7 @@ public class Musique extends Media {
 			return "SELECT	duree_musique,  annee_sortie_media,  musique_id, 	nom_oeuvre, "
 					+ "		GROUP_CONCAT(DISTINCT surnom_artiste)AS surnom_artiste,  "
 					+ "		GROUP_CONCAT(DISTINCT nom_genre)AS nom_genre, id_genre, 	nom_etat "
-					+ "FROM  `nestix_musique`  " 
-					+ "LEFT JOIN nestix_media ON nestix_media.id_media = musique_id  "
+					+ "FROM  `nestix_musique`  " + "LEFT JOIN nestix_media ON nestix_media.id_media = musique_id  "
 					+ "LEFT JOIN nestix_oeuvre ON nestix_oeuvre.id_oeuvre = nestix_media.oeuvre_id "
 					+ "LEFT JOIN nestix_artiste_metier_media ON nestix_artiste_metier_media.media_id = nestix_media.id_media "
 					+ "LEFT JOIN nestix_artiste ON nestix_artiste.id_artiste = nestix_artiste_metier_media.artiste_id  "

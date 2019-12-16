@@ -94,8 +94,67 @@ public class C_musique {
 		relationComple.add(new TextListField(), relationComple.addElement(0, 1));
 		relationComple.add(new TextListField(), relationComple.addElement(1, 1));
 		relationComple.add(new TextListField(), relationComple.addElement(0, 2));
-
 		musique_main.addModule(new Module(), 2, 1);
+		
+		musique_module_personne.getMore_btn().addActionListener(new ActionListener() {		
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(musique.getId()!=0) {
+					musique_module_personne.addTextListField();
+					Artiste artiste = new Artiste();
+					Metier metier = new Metier();
+					System.out.println(musique_module_personne.getText_list().get(musique_module_personne.getText_list().size()-1));
+					artiste.creationRapide(musique_module_personne.getText_list().get(musique_module_personne.getText_list().size()-1));
+					metier.setInfo(musique_module_personne.getCombo_list().get(musique_module_personne.getCombo_list().size()-1));
+					artiste.setMetiers_artiste(metier);
+					musique.addArtiste(artiste);
+					musique.ajoutLiaisonArtisteMetierMedia();
+					actualiseTab();
+				}else {
+					JOptionPane.showMessageDialog(musique_main, "Musique pas encore cree, veuillez cree la musique avant d'ajouter ou supprimer\n un artiste");
+				}				
+			}
+		});
+		musique_module_personne.getLess_btn().addActionListener(new ActionListener() {		
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(musique.getId()!=0) {
+					musique.supprimeLiaisonArtisteMetierMedia();
+					actualiseTab();
+				}else {
+					JOptionPane.showMessageDialog(musique_main, "Musique pas encore cree, veuillez cree la musique avant d'ajouter ou supprimer\n un artiste");
+				}
+				
+			}
+		});
+		musique_module_genre.getMore_btn().addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (musique.getId()!=0) {
+					musique_module_genre.addTextListField();
+					Genre genre = new Genre();
+					System.out.println(musique_module_genre.getText_list().get(musique_module_genre.getText_list().size()-1));
+					genre.setInfo(musique_module_genre.getText_list().get(musique_module_genre.getText_list().size()-1));
+					musique.addGenre(genre);
+					musique.ajoutLiasonMediaGenre();
+					actualiseTab();
+				}else {
+					JOptionPane.showMessageDialog(musique_main, "Musique pas encore cree, veuillez cree la musique avant d'ajouter ou supprimer\n un genre");
+				}
+			}
+		});
+		musique_module_genre.getLess_btn().addActionListener(new ActionListener() {		
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(musique.getId()!=0) {
+					musique.supprimeLiasonMediaGenre();
+					actualiseTab();
+				}else {
+					JOptionPane.showMessageDialog(musique_main, "Musique pas encore cree, veuillez cree la musique avant d'ajouter ou supprimer\n un genre");
+				}
+			}
+		});
 	}
 
 	public void ajouteTab() {
@@ -151,7 +210,6 @@ public class C_musique {
 			public void actionPerformed(ActionEvent e) {
 				musique.suppression(musique.getId());
 				System.out.println(musique_module_personne.getText_list().size());
-
 			}
 		});
 	}
@@ -189,14 +247,6 @@ public class C_musique {
 			musique.setAlbum(musique_titre_textfield.get(2).getText().toLowerCase());
 			musique.setUnivers(musique_titre_textfield.get(3).getText().toLowerCase());
 			musique.setEtat(comboListField.getSelectedIndex() + 1);
-			for (int i = 0; i < musique_module_personne.getText_list().size(); i++) {
-				Artiste artiste = new Artiste();
-				Metier metier = new Metier();
-				artiste.creationRapide(musique_module_personne.getText_list().get(i));
-				metier.setInfo(musique_module_personne.getCombo_list().get(i));
-				artiste.setMetiers_artiste(metier);
-				musique.addArtiste(artiste);
-			}
 			for (int i = 0; i < musique_module_genre.getText_list().size(); i++) {
 				Genre genre = new Genre();
 				genre.setInfo(musique_module_genre.getText_list().get(i));
@@ -205,7 +255,6 @@ public class C_musique {
 		}
 		return success;
 	}
-
 	/**
 	 * Actualise le formulaire de musique
 	 */
