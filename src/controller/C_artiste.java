@@ -85,6 +85,7 @@ public class C_artiste {
 					System.out.println(" id = " + artiste.getId());
 					if (artiste.getId() > 0) {
 						actualiseTab(); // Mise à jour du tableau
+						actualiseListe();
 					}
 				}
 				metier_panel.metier.setArtiste(artiste);
@@ -92,6 +93,7 @@ public class C_artiste {
 				// Creation dans la table jointure entre artiste media metier
 				if (M_artiste_metier_media.creation(metier_panel.getMetier())) {
 					actualiseListe();
+					actualiseTab();
 				} else {
 					JOptionPane.showMessageDialog(metier_panel, "Erreur lors de la creation d'un metier");
 				}
