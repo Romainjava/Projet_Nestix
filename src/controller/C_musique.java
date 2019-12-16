@@ -17,6 +17,7 @@ import modele.Genre;
 import modele.I_recherche;
 import modele.Metier;
 import modele.Musique;
+import modele.Oeuvre;
 import view.AsidePanel;
 import view.ComboListField;
 import view.DualLinkModule;
@@ -115,8 +116,8 @@ public class C_musique {
 		musique_footer_panel.getBoutonTab().get(0).addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				boolean success = verifChamp();
-				if (success) {
+				if (verifChamp()) {
+					System.out.println(musique.getOeuvre().getId());
 					if (musique.creation()) {
 						JOptionPane.showMessageDialog(musiques_panel, "Insertion faites", "Validation",
 								JOptionPane.INFORMATION_MESSAGE);
@@ -132,8 +133,7 @@ public class C_musique {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				boolean success = verifChamp();
-				if (success) {
+				if (verifChamp()) {
 					if (musique.modification()) {
 						JOptionPane.showMessageDialog(musiques_panel, "Modification faites", "Modifie",
 								JOptionPane.INFORMATION_MESSAGE);

@@ -109,6 +109,7 @@ public abstract class Media implements I_requeteSQL,I_dataListable,I_recherche {
 	}
 	
 	public void setOeuvre(String nom) {
+		this.oeuvre.setId(0);
 		this.oeuvre.setInfo(nom);
 	}
 	

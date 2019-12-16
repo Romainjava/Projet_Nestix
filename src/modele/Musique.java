@@ -75,7 +75,7 @@ public class Musique extends Media {
 	public boolean creation() {
 		boolean success = false;
 		try {
-			String query = "INSERT IGNORE INTO `nestix_media`( `annee_sortie_media`, `admin_id`, `univers_id`, `image_id`,`etat_id`, `oeuvre_id`,type_media) VALUES (?,?,?,?,?,?,?)";
+			String query = "INSERT INTO `nestix_media`( `annee_sortie_media`, `admin_id`, `univers_id`, `image_id`,`etat_id`, `oeuvre_id`,type_media) VALUES (?,?,?,?,?,?,?)";
 			PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query,
 					Statement.RETURN_GENERATED_KEYS);
 			statement.setString(1, this.annee_sortie_media);
