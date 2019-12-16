@@ -235,4 +235,17 @@ public abstract class Media implements I_requeteSQL,I_dataListable,I_recherche {
 		return success;
 	}
 	
+	public boolean supprimerLiaisonMediaType() {
+		boolean success=false;
+		try {
+			String query="DELETE FROM `nestix_"+this.getType()+"` WHERE "+this.getType()+"_id=?";
+			PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
+			statement.setInt(1, this.id_media);
+			success=(statement.executeUpdate()>0);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return success;
+	}
+	
 }

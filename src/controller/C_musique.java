@@ -45,10 +45,9 @@ public class C_musique {
 	String[] header = { "Titre", "Duree(en secondes)", "Album", "Univers", "Annee de sortie" };
 	HeaderPanel musique_header;
 	AsidePanel musiques_aside;
-	ComboListField comboListField = new ComboListField(new String[] { "valide", "attente", "bloquer" });
+	ComboListField musique_module_etat;
 	DualLinkModule musique_module_personne = new DualLinkModule("Personne", new String[] { "interprete", "compositeur" });
 	LinkModule musique_module_genre = new LinkModule("Genre");
-	ComboListField musique_module_etat;
 
 	public JTable getMusique_results_table() {
 		return musique_results_table;
@@ -212,7 +211,7 @@ public class C_musique {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (verifChamp()) {
-					if (musique.modification()&& musique.updateDureeAlbum()) {
+					if (musique.modification() && musique.updateDureeAlbum()) {
 						JOptionPane.showMessageDialog(musiques_panel, "Modification faites", "Modifie",
 								JOptionPane.INFORMATION_MESSAGE);
 						actualiseTab();
@@ -230,11 +229,19 @@ public class C_musique {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				musique.suppression(musique.getId());
+				if(musique.getId()!=0 && verifChamp()) {
+					musique.suppression(musique.getId());
+					actualiseTab();
+				}	
 			}
 		});
 	}
 
+	/**
+	 * permet de verifier les champ si ils sont valide enclenche la creation rapide et récupération des id ou la récupération des id simple si
+	 * deja cree
+	 * @return boolean
+	 */	
 	public boolean verifChamp() {
 		boolean success = true;
 		if (musique_titre_textfield.get(0).getText().equals("")) {
@@ -268,7 +275,7 @@ public class C_musique {
 			System.out.println(musique_titre_textfield.get(2).getText().toLowerCase());
 			musique.setAlbum(musique_titre_textfield.get(2).getText().toLowerCase());
 			musique.setUnivers(musique_titre_textfield.get(3).getText().toLowerCase());
-			musique.setEtat(comboListField.getSelectedIndex() + 1);
+			musique.setEtat(musique_module_etat.getSelectedIndex() + 1);
 			for (int i = 0; i < musique_module_genre.getText_list().size(); i++) {
 				Genre genre = new Genre();
 				genre.setInfo(musique_module_genre.getText_list().get(i));
@@ -288,7 +295,7 @@ public class C_musique {
 	public void actualiseMusique() {
 		// Actualise le header panel
 		musique_header.autoCompleteFormHeader(musique.toRowDataForm());
-		comboListField.setSelectedIndex(musique.getEtatId() - 1);
+		musique_module_etat.setSelectedIndex(musique.getEtatId() - 1);
 
 		// personne
 		ArrayList<String> tPersonneData = new ArrayList<>();
