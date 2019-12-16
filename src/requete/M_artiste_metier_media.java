@@ -49,7 +49,7 @@ public class M_artiste_metier_media {
 			statement.setInt(1, metier.getArtiste().getId());
 			statement.setInt(2, metier.getId());
 			System.out.println(metier.getMedia());
-			
+
 			statement.setInt(3, metier.getMedia().getId_media());
 			nb_row = statement.executeUpdate();
 

@@ -87,13 +87,17 @@ public class MetiersPanel extends JPanel {
 	}
 
 	// === MUTATEUR ET ACCESSEUR === //
-
+	/**
+	 * 
+	 */
 	public void getInfoMetier() {
 		E_Metiers M = (E_Metiers) metier_comboBox.getModel().getSelectedItem();
 		metier.setNom(M.label);
 		metier.setId(M.id);
 	}
-
+	/**
+	 * ajoute le titre et le type du media par rapport au jtextfield du panel
+	 */
 	public void getInfoMedia() {
 		E_TypesMedia T = (E_TypesMedia) type_comboBox.getModel().getSelectedItem();
 		metier.addMedia(media_titre_textField.getText(), T.label);

@@ -67,7 +67,7 @@ public class C_artiste {
 		metier_panel = new MetiersPanel();
 		
 		/**
-		 * Evenement pour ajouter un Meteir + Artiste + media
+		 * Evenement pour ajouter un Metier + Artiste + media
 		 */
 		JButton btn = metier_panel.metier_add_button;
 		btn.addActionListener(new ActionListener() {
