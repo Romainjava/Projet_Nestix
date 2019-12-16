@@ -119,4 +119,10 @@ public class Film extends Media {
 		return false;
 	}
 
+	@Override
+	protected String getType() {
+		
+		return "Film";
+	}
+
 }

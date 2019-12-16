@@ -30,7 +30,7 @@ public abstract class Media implements I_requeteSQL,I_dataListable,I_recherche {
 		return id_media;
 	}
 	
-	private void setId_media(int id_media) {
+	public void setId_media(int id_media) {
 		this.id_media = id_media;
 	}
 
@@ -109,6 +109,7 @@ public abstract class Media implements I_requeteSQL,I_dataListable,I_recherche {
 	}
 	
 	public void setOeuvre(String nom) {
+		this.oeuvre.setId(0);
 		this.oeuvre.setInfo(nom);
 	}
 	
@@ -172,5 +173,12 @@ public abstract class Media implements I_requeteSQL,I_dataListable,I_recherche {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * permet de generer le type par rapport à la spécificité des enfants
+	 * @return String
+	 */
+	protected abstract String getType();
+	
+	
 
 }
