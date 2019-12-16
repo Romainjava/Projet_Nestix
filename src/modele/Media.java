@@ -1,5 +1,6 @@
 package modele;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -179,6 +180,59 @@ public abstract class Media implements I_requeteSQL,I_dataListable,I_recherche {
 	 */
 	protected abstract String getType();
 	
+	public boolean ajoutLiaisonArtisteMetierMedia() {
+		boolean success = false;
+		String query = "INSERT INTO `nestix_artiste_metier_media`(`artiste_id`, `media_id`, `metier_id`) VALUES(?,?,?)";
+		try {
+			PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
+			statement.setInt(1, this.artistes.get(this.artistes.size() - 1).getId());
+			statement.setInt(2, this.id_media);
+			statement.setInt(3, this.artistes.get(this.artistes.size() - 1).getMetiers_artiste().get(0).getId());
+			success = (statement.executeUpdate() > 0);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return success;
+	}
 	
-
+	public boolean supprimeLiaisonArtisteMetierMedia() {
+		boolean success = false;
+		String query = "DELETE FROM `nestix_artiste_metier_media` WHERE artiste_id=?";
+		try {
+			PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
+			statement.setInt(1, this.artistes.get(this.artistes.size()-1).getId());
+			success = (statement.executeUpdate() > 0);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return success;
+	}
+	
+	public boolean ajoutLiasonMediaGenre() {
+		boolean success= false;
+		try {
+		String query = "INSERT INTO `nestix_media_genre` (`media_id`, `genre_id`) VALUES(?,?)";
+		PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
+		statement.setInt(1, this.id_media);
+		statement.setInt(2, this.genres.get(this.genres.size()-1).getId());
+		success = (statement.executeUpdate() > 0);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return success;
+	}
+	
+	public boolean supprimeLiasonMediaGenre() {
+		boolean success= false;
+		try {
+		String query = "DELETE FROM `nestix_media_genre` WHERE genre_id=?";
+		PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
+		statement.setInt(1, this.genres.get(this.genres.size()-1).getId());
+		success = (statement.executeUpdate() > 0);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return success;
+	}
+	
 }

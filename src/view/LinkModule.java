@@ -16,11 +16,27 @@ public class LinkModule extends Module implements ActionListener{
 	
 	protected JLabel title_label;
 	protected JButton more_btn = new JButton("+");
+	
 	protected JButton less_btn = new JButton("-");
 	protected TextListField text_list_field;
 	protected JScrollPane content_scroll;
 	protected ArrayList<String> text_list;
 	
+	public JButton getMore_btn() {
+		return more_btn;
+	}
+
+	public void setMore_btn(JButton more_btn) {
+		this.more_btn = more_btn;
+	}
+
+	public JButton getLess_btn() {
+		return less_btn;
+	}
+
+	public void setLess_btn(JButton less_btn) {
+		this.less_btn = less_btn;
+	}
 
 	protected JList content_list;
 	
