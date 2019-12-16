@@ -1,6 +1,12 @@
 package modele;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+
+import modele.Musiques.Query;
 
 public class Film extends Media {
 	
@@ -30,14 +36,53 @@ public class Film extends Media {
 
 	@Override
 	public String[] toRowData() {
-		// TODO Auto-generated method stub
-		return null;
+		String[] data = { this.oeuvre.getNom(), this.concat_genre, this.concat_artistes, this.etat.getNom(),
+				this.annee_sortie_media.substring(0,4) };
+		return data;
 	}
 
 	@Override
 	public String[] toHeaderData() {
-		// TODO Auto-generated method stub
-		return null;
+		String[] data = { "Titre", "Genre", "realisateur", "Date de sortie", "Etat" };
+		return data;
+	}
+	
+	private void fetchGenre(int id) {
+		try {
+			Connection co = ConnexionBDD.getConnexion();
+			String query = Query.queryFetchGenre();
+			PreparedStatement statement = (PreparedStatement) co.prepareStatement(query);
+			statement.setInt(1, id);
+			ResultSet result = statement.executeQuery();
+			this.getGenres().clear();
+			while (result.next()) {
+				Genre genre = new Genre();
+				genre.setInfo(result);
+				this.addGenre(genre);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void fetchArtiste(int id) {
+		try {
+			Connection co = ConnexionBDD.getConnexion();
+			String query = Query.queryFetchArtiste();
+			PreparedStatement statement = (PreparedStatement) co.prepareStatement(query);
+			statement.setInt(1, id);
+			ResultSet result = statement.executeQuery();
+			this.getArtistes().clear();
+			while (result.next()) {
+				Artiste artiste = new Artiste();
+				artiste.setSurnom_artiste(result.getString("surnom_artiste"));
+				artiste.setId_artiste(result.getInt("artiste_id"));
+				artiste.getAllMetierById(id);
+				this.addArtiste(artiste);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
