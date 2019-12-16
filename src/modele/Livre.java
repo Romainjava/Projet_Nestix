@@ -107,6 +107,21 @@ public class Livre extends Media {
 			}else {
 				throw new SQLException("Erreur création media pour livre");
 			}
+			//modification livre
+			if(success) {
+				query = "UPDATE nestix_livre \n" + 
+						"SET isbn = ?, resume_livre = ?, tome_livre = ?, editeur_id = ? \n" + 
+						"WHERE livre_id = ?";
+				statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
+				statement.setInt(1, this.ISBN);
+				statement.setString(2, this.resume_livre);
+				statement.setInt(3, this.tome_livre);
+				statement.setInt(4, this.editeur.getId());
+				statement.setInt(5, this.id_media);
+				success = (statement.executeUpdate() > 0);
+			}else {
+				System.out.println("Erreur récupération id du media créé");
+			}
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -116,8 +131,45 @@ public class Livre extends Media {
 
 	@Override
 	public boolean modification() {
-		// TODO Auto-generated method stub
-		return false;
+		boolean success = false;
+		try {
+			Connection co = ConnexionBDD.getConnexion();
+			String query;
+			PreparedStatement statement;
+			//modification media
+			query = "UPDATE nestix_media \n" +
+					"SET annee_sortie_media = ?, admin_id = ?, univers_id = ?, saga_id = ?, image_id = ?, etat_id = ?, oeuvre_id = ? \n" + 
+					"WHERE id_media=?";
+			statement = (PreparedStatement) co.prepareStatement(query);
+			statement.setString(1, this.annee_sortie_media);
+			statement.setInt(2, 3);
+			ConnexionBDD.prepareInt(statement, 3, this.univers.getId());
+			ConnexionBDD.prepareInt(statement, 4, this.saga.getId());
+			ConnexionBDD.prepareInt(statement, 5, this.image.getId());
+			statement.setInt(6, (this.etat.getId() == 0) ? 2 : this.etat.getId());
+			ConnexionBDD.prepareInt(statement, 7, this.oeuvre.getId());
+			statement.setInt(8, this.id_media);
+			
+			success = (statement.executeUpdate() > 0);
+			
+			if(success) {
+				query = "UPDATE nestix_livre \n" +
+						"SET isbn = ?, resume_livre = ?, tome_livre = ?, editeur_id = ? \n" +
+						"WHERE livre_id = ?";
+				statement = (PreparedStatement) co.prepareStatement(query);
+				statement.setInt(1, this.ISBN);
+				statement.setString(2, this.resume_livre);
+				statement.setInt(3, this.tome_livre);
+				statement.setInt(4, this.editeur.getId());
+				statement.setInt(5, this.id_media);
+				
+				success = (statement.executeUpdate() > 0);
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return success;
 	}
 
 	@Override
@@ -229,8 +281,23 @@ public class Livre extends Media {
 
 	@Override
 	public boolean suppression(int id) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean success=false;
+		if (this.artistes.size()>0) {
+			this.supprimeLiaisonArtisteMetierMedia();
+		}
+		if (this.genres.size()>0) {
+			this.supprimeLiasonMediaGenre();
+		}	
+		this.supprimerLiaisonMediaType();
+		try {
+			String query="DELETE FROM `nestix_media` WHERE id_media=?";
+			PreparedStatement statement=(PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
+			statement.setInt(1, this.id_media);
+			success=(statement.executeUpdate()>0);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return success;
 	}
 
 	@Override

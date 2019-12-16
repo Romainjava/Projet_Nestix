@@ -110,7 +110,77 @@ public class C_Livre {
 		resume_panel.add(new JLabel("Resumé"), resume_panel.addElement(0, 0));
 		livre_module_resume = new TextAreaScrollField(5,10);
 		resume_panel.add(livre_module_resume, resume_panel.addElement(0, 1));
-
+		
+		/**
+		 * lie un artiste et un livre lors de l'appui sur +
+		 */
+		livre_module_personne.getMore_btn().addActionListener(new ActionListener() {		
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(livre.getId()!=0) {
+					livre_module_personne.addTextListField();
+					Artiste artiste = new Artiste();
+					Metier metier = new Metier();
+//					System.out.println(livre_module_personne.getText_list().get(livre_module_personne.getText_list().size()-1));
+					artiste.creationRapide(livre_module_personne.getText_list().get(livre_module_personne.getText_list().size()-1));
+					metier.setInfo(livre_module_personne.getCombo_list().get(livre_module_personne.getCombo_list().size()-1));
+					artiste.setMetiers_artiste(metier);
+					livre.addArtiste(artiste);
+					livre.ajoutLiaisonArtisteMetierMedia();
+					actualiseTab();
+				}else {
+					JOptionPane.showMessageDialog(livre_main, "Livre pas encore cree, veuillez cree le livre avant d'ajouter ou supprimer\n un artiste");
+				}				
+			}
+		});
+		/**
+		 * delie un artiste et un livre lors de l'appui sur -
+		 */
+		livre_module_personne.getLess_btn().addActionListener(new ActionListener() {		
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(livre.getId()!=0) {
+					livre.supprimeLiaisonArtisteMetierMedia();
+					actualiseTab();
+				}else {
+					JOptionPane.showMessageDialog(livre_main, "Livre pas encore cree, veuillez cree le livre avant d'ajouter ou supprimer\n un artiste");
+				}
+			}
+		});
+		/**
+		 * lie un genre et un livre lors de l'appuie sur +
+		 */
+		livre_module_genre.getMore_btn().addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (livre.getId()!=0) {
+					livre_module_genre.addTextListField();
+					Genre genre = new Genre();
+//					System.out.println(livre_module_genre.getText_list().get(livre_module_genre.getText_list().size()-1));
+					genre.setInfo(livre_module_genre.getText_list().get(livre_module_genre.getText_list().size()-1));
+					livre.addGenre(genre);
+					livre.ajoutLiasonMediaGenre();
+					actualiseTab();
+				}else {
+					JOptionPane.showMessageDialog(livre_main, "Livre pas encore cree, veuillez cree le livre avant d'ajouter ou supprimer\n un genre");
+				}
+			}
+		});
+		/**
+		 * delie un genre et un livre lors de l'appuie sur -
+		 */
+		livre_module_genre.getLess_btn().addActionListener(new ActionListener() {		
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(livre.getId()!=0) {
+					livre.supprimeLiasonMediaGenre();
+					actualiseTab();
+				}else {
+					JOptionPane.showMessageDialog(livre_main, "Livre pas encore cree, veuillez cree le livre avant d'ajouter ou supprimer\n un genre");
+				}
+			}
+		});
 	}
 	public void ajouteTab() {
 		livres_aside_panel = new AsidePanel(this.livres_panel);
@@ -133,8 +203,7 @@ public class C_Livre {
 		livre_footer_panel.getBoutonTab().get(0).addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				boolean success = verifChamp();
-				if (success) {
+				if (verifChamp()) {
 					if (livre.creation()) {
 						JOptionPane.showMessageDialog(livres_panel, "Insertion faites", "Validation",
 								JOptionPane.INFORMATION_MESSAGE);
@@ -150,27 +219,35 @@ public class C_Livre {
 		livre_footer_panel.getBoutonTab().get(1).addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				boolean success = verifChamp();
-				if (success) {
+				if (verifChamp()) {
 					if (livre.modification()) {
 						JOptionPane.showMessageDialog(livres_panel, "Modification faites", "Modifie",
 								JOptionPane.INFORMATION_MESSAGE);
 						actualiseTab();
 					} else {
 						JOptionPane.showMessageDialog(livres_panel, "Erreur lors de la modification",
-								"Echec insertion", JOptionPane.ERROR_MESSAGE);
+								"Echec update", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}
 		});
 		//Supprimer
 		livre_footer_panel.getBoutonTab().get(2).addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				livre.suppression(livre.getId());
-//				System.out.println(livre_module_personne.getText_list().size());
-
+				if(livre.getId() != 0) {
+					if(livre.suppression(livre.getId())) {
+						JOptionPane.showMessageDialog(livres_panel, "Suppression faites", "Supprime",
+								JOptionPane.INFORMATION_MESSAGE);
+						actualiseTab();
+					}else {
+						JOptionPane.showMessageDialog(livres_panel, "Erreur lors de la suppression",
+								"Echec delete", JOptionPane.ERROR_MESSAGE);
+					}
+				}else {
+					JOptionPane.showMessageDialog(livres_panel, "Erreur id media inexistant",
+							"Echec delete", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 	}
