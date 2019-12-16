@@ -20,6 +20,9 @@ public class Musique extends Media {
 		this.duree_musique = duree_musique;
 	}
 
+	/**
+	 * permet set les lignes de tableau
+	 */
 	@Override
 	public String[] toRowData() {
 		String[] data = { this.oeuvre.getNom(), this.concat_genre, this.concat_artistes, this.etat.getNom(),
@@ -27,6 +30,9 @@ public class Musique extends Media {
 		return data;
 	}
 
+	/**
+	 * permet de set l'en-tête du tableau
+	 */
 	@Override
 	public String[] toHeaderData() {
 		String[] data = { "Titre", "Genre", "Interprete", "Etat", "Date de sortie" };
@@ -152,6 +158,9 @@ public class Musique extends Media {
 		return success;
 	}
 
+	/**
+	 * pertmer de lire un media, est utilisee lors du clique sur un items du tableau sur l'interface graphique
+	 */
 	@Override
 	public boolean lireUn(int id) {
 		boolean sucess = false;
@@ -203,6 +212,9 @@ public class Musique extends Media {
 		return success;
 	}
 
+	/**
+	 * pertmet de lire toute les musiques dans la BDD
+	 */
 	@Override
 	public ArrayList<I_recherche> lectureTout(int limit) {
 		ArrayList<I_recherche> musiqueList = new ArrayList<>();
@@ -262,7 +274,11 @@ public class Musique extends Media {
 				this.annee_sortie_media.substring(0, 4) };
 		return data;
 	}
-
+	
+	@Override
+	protected String getType() {
+		return "musique";
+	}
 	static class Query {
 
 		public static String queryLectureTout() {
@@ -307,10 +323,4 @@ public class Musique extends Media {
 
 		}
 	}
-
-	@Override
-	protected String getType() {
-		return "musique";
-	}
-
 }
