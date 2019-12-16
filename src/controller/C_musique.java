@@ -6,10 +6,12 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import modele.Artiste;
 import modele.Etat;
@@ -91,9 +93,9 @@ public class C_musique {
 		musique_module_etat = new ComboListField(Etat.lectureTout());
 		musique_module_etat.setSelectedIndex(1);
 		relationComple.add(musique_module_etat, relationComple.addElement(0, 0));
-		relationComple.add(new TextListField(), relationComple.addElement(0, 1));
-		relationComple.add(new TextListField(), relationComple.addElement(1, 1));
-		relationComple.add(new TextListField(), relationComple.addElement(0, 2));
+		relationComple.add(new Module(), relationComple.addElement(0, 1));
+		relationComple.add(new Module(), relationComple.addElement(1, 1));
+		relationComple.add(new Module(), relationComple.addElement(0, 2));
 		musique_main.addModule(new Module(), 2, 1);
 		
 		/**
@@ -207,7 +209,6 @@ public class C_musique {
 		 * bouton modifier
 		 */
 		musique_footer_panel.getBoutonTab().get(1).addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (verifChamp()) {
