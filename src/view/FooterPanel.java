@@ -24,7 +24,7 @@ public class FooterPanel extends JPanel{
 		super();
 		boutonTab = new ArrayList<JButton>();
 		JPanel footer_panel = new JPanel();
-		footer_panel.setBackground(Color.BLUE);
+		footer_panel.setBackground(Color.GRAY);
 		GridBagConstraints gbc_footer_panel = new GridBagConstraints();
 		gbc_footer_panel.fill = GridBagConstraints.BOTH;
 		gbc_footer_panel.gridx = 0;
