@@ -27,6 +27,8 @@ public class MetiersPanel extends JPanel {
 	public JButton metier_add_button;
 	public JComboBox metier_comboBox;
 	public JComboBox type_comboBox;
+	public JButton btnSupprimer;
+	public JList artiste_metiers_list;
 	public Metier metier = new Metier();
 
 	/**
@@ -68,7 +70,7 @@ public class MetiersPanel extends JPanel {
 		JScrollPane scrollPane = new JScrollPane();
 		metiers_liste_panel.add(scrollPane, "cell 0 1,grow");
 
-		JList artiste_metiers_list = new JList();
+		artiste_metiers_list = new JList();
 		artiste_metiers_list.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 
 		modelList = new DefaultListModel();
@@ -76,7 +78,7 @@ public class MetiersPanel extends JPanel {
 
 		scrollPane.setViewportView(artiste_metiers_list);
 
-		JButton btnSupprimer = new JButton("Supprimer");
+		btnSupprimer = new JButton("Supprimer");
 		add(btnSupprimer, "cell 0 2,alignx center");
 		btnSupprimer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
