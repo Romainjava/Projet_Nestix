@@ -10,9 +10,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+
 import modele.Artiste;
 import modele.I_recherche;
-import modele.M_artiste;
+import modele.Metier;
+import requete.M_artiste;
+import requete.M_artiste_metier_media;
 import view.AsidePanel;
 import view.ComboListField;
 import view.FooterPanel;
@@ -36,7 +39,8 @@ public class C_artiste {
 	JTextField artiste_surnom_textfield;
 	JTextField artiste_dob_textfield;
 	AsidePanel artiste_aside;
-
+	MetiersPanel metier_panel;
+	
 	public C_artiste(JPanel artiste_panel) {
 		this.artiste_panel = artiste_panel;
 		ajouteHeader();
@@ -60,20 +64,48 @@ public class C_artiste {
 	public void ajoutMainPanel() {
 		MainPanel artiste_main = new MainPanel(this.artiste_panel);
 		
-		MetiersPanel metier_panel = new MetiersPanel();
-		artiste_main.add(metier_panel);
+		metier_panel = new MetiersPanel();
 		
-		//TODO faire une requête qui renvoie une ArrayList de String
-		ArrayList<String> data = new ArrayList<>();
-		data.add("test");
-		metier_panel.setArtiste_metiers_list(data);
-		
-		artiste_main.addModule(new ImageModule(), 2, 0);
+		/**
+		 * Evenement pour ajouter un Meteir + Artiste + media
+		 */
+		JButton btn = metier_panel.metier_add_button;
+		btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				metier_panel.getInfoMetier();
+				metier_panel.getInfoMedia();
+								
+				// Artiste
+				if(artiste.getId() == 0) {
+					System.out.print("Creation rapide d'un artiste");
+					artiste.creationRapide(artiste_surnom_textfield.getText()); // recuperer le surnom dans le jtextfield
+					System.out.println(" id = " + artiste.getId());
+					if(artiste.getId()>0) {
+						actualiseTab(); // Mise à jour du tableau
+					}
+				}
+				metier_panel.metier.setArtiste(artiste);
 
+
+				// Creation dans la table jointure entre artiste media metier
+				if (M_artiste_metier_media.creation(metier_panel.getMetier())) {
+					actualiseListe();
+				} else {
+					JOptionPane.showMessageDialog(metier_panel, "Erreur lors de la creation d'un metier");
+				}
+
+			}
+		});
+		
+		artiste_main.add(metier_panel);
+		artiste_main.addModule(new ImageModule(), 2, 0);
 		GridPanel relationComple = new GridPanel(new double[] { 1.0, 1.0 }, new double[] { 1.0, 1.0, 1.0 });
 		artiste_main.add(relationComple, artiste_main.addElement(2, 1));
 		relationComple.add(new ComboListField(new String[] { "etat1", "etat2", "etat3" }),
 				relationComple.addElement(0, 0));
+		
+		
+		actualiseListe();
 	}
 
 	public void ajouteTab() {
@@ -160,7 +192,7 @@ public class C_artiste {
 		this.artiste_prenom_textfield.setText(artiste.getPrenom_artiste());
 		this.artiste_surnom_textfield.setText(artiste.getSurnom_artiste());
 		this.artiste_dob_textfield.setText(artiste.getDob_artiste());
-
+		
 	}
 	/**
 	 * actualise mon tableau et limite les entrée en param de lireTout()
@@ -168,6 +200,14 @@ public class C_artiste {
 	public void actualiseTab() {
 		artistes = M_artiste.lireTout(50);
 		artiste_aside.setDonnees(artistes);
+	}
+	
+	
+	public void actualiseListe() {
+
+		
+		ArrayList<Metier> metiers = M_artiste_metier_media.readAllJobsForOneArtiste(artiste);
+		metier_panel.setArtiste_metiers_list(metiers);
 	}
 
 	/**
@@ -186,18 +226,10 @@ public class C_artiste {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			int row = this.controller.getArtiste_result_table().rowAtPoint(e.getPoint());
+			//Recupere la valeur de l'index de l'ArrayList.
 			controller.artiste = (Artiste) controller.artistes.get(row);
-			
-			// "getAtValue" : Permet de prendre la valeur de la case ( row , column )
-			String nom = (String) this.controller.getArtiste_result_table().getValueAt(row, 0);
-			String prenom = (String) this.controller.getArtiste_result_table().getValueAt(row, 1);
-			String surnom = (String) this.controller.getArtiste_result_table().getValueAt(row, 2);
-			String dob = (String) this.controller.getArtiste_result_table().getValueAt(row, 4);
-
-			this.controller.getArtiste_nom_textfield().setText(nom);
-			this.controller.getArtiste_prenom_textfield().setText(prenom);
-			this.controller.getArtiste_surnom_textfield().setText(surnom);
-			this.controller.getArtiste_dob_textfield().setText(dob);
+			actualiseArtiste();
+			actualiseListe();
 		}
 	}
 	

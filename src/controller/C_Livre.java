@@ -36,46 +36,46 @@ import view.TextAreaScrollField;
 
 public class C_Livre {
 	private JPanel livres_panel;
-	
+
 	// Données
 	Livre livre = new Livre();
 	ArrayList<I_recherche> livres = new ArrayList<>();
-	 
+
 	// Composants
 	JTable livre_results_table;
 	ArrayList<JTextField> livre_titre_textfield;
-	
+
 	HeaderPanel livre_header;
 	String[] header_title = { "Titre", "ISBN", "Annee de sortie", "Saga", "Univers", "Tome" };
 	AsidePanel livres_aside_panel;
-	
+
 	DualLinkModule livre_module_personne = new DualLinkModule("Personne", new String[]{"ecrivain"});
 	LinkModule livre_module_genre = new LinkModule("Genre");
 	ComboListField livre_module_etat;
 	ComboListField livre_module_editeur;
 	TextAreaScrollField livre_module_resume;
-	
+
 
 	public C_Livre(JPanel livres_panel) {
 		this.livres_panel = livres_panel;
-		
-		
+
+
 		ajouteHeader();
 		ajouteTab();
 		ajoutMainPanel();
 		footerPanel();
-		
-		
+
+
 	}
-	
+
 	public JTable getLivre_results_table() {
 		return livre_results_table;
 	}
-	
+
 	public ArrayList<JTextField> getLivre_titre_textfield() {
 		return livre_titre_textfield;
 	}
-	
+
 	public void ajouteHeader() {
 		double elmsSize[] = { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0 };
 		livre_header = new HeaderPanel(this.livres_panel, "Cet onglet permet de renseigner des livres",
@@ -89,11 +89,11 @@ public class C_Livre {
 		// Add element
 		//ligne 1
 		livre_main.addModule(livre_module_personne, 0, 0, 2, 1);
-		
+
 		livre_main.addModule(new ImageModule(), 2, 0);
 		//ligne 2
 		livre_main.addModule(livre_module_genre, 0, 1);
-		
+
 		GridPanel relation_panel = new GridPanel(new double[] {1.0, 1.0}, new double[] {1.0, 1.0, 1.0, 1.0});
 		livre_main.add(relation_panel, livre_main.addElement(1, 1));
 		relation_panel.add(new JLabel("Etat"), relation_panel.addElement(0, 0));
@@ -103,13 +103,13 @@ public class C_Livre {
 		livre_module_editeur = new ComboListField(Editeur.lectureTout());
 		relation_panel.add(livre_module_editeur, relation_panel.addElement(1, 1));
 		relation_panel.add(new Module(), relation_panel.addElement(0, 2, 2, 2));
-		
+
 		GridPanel resume_panel = new GridPanel(new double[] {1.0}, new double[] {1.0, 5.0});
 		livre_main.add(resume_panel, livre_main.addElement(2, 1));
 		resume_panel.add(new JLabel("Resumé"), resume_panel.addElement(0, 0));
 		livre_module_resume = new TextAreaScrollField(5,10);
 		resume_panel.add(livre_module_resume, resume_panel.addElement(0, 1));
-		
+
 	}
 	public void ajouteTab() {
 		livres_aside_panel = new AsidePanel(this.livres_panel);
@@ -173,7 +173,7 @@ public class C_Livre {
 			}
 		});
 	}
-	
+
 	public boolean verifChamp() {
 		boolean success = true;
 		if (livre_titre_textfield.get(0).getText().equals("")) {
@@ -198,14 +198,14 @@ public class C_Livre {
 						"Echec", JOptionPane.ERROR_MESSAGE);
 			}
 			//Image
-			
+
 			//Univers
 			livre.setUnivers(livre_titre_textfield.get(4).getText().toLowerCase());
 			//Saga
 			livre.setSaga(livre_titre_textfield.get(3).getText().toLowerCase());
 			//Etat
 			livre.setEtat(livre_module_etat.getSelectedIndex() + 1);
-			
+
 			//ISBN
 			try {
 				if(Integer.parseInt(livre_titre_textfield.get(1).getText()) < 1000000000) {
@@ -233,7 +233,7 @@ public class C_Livre {
 			//Editeur
 			livre.getEditeur().setId(livre_module_editeur.getSelectedIndex());
 			livre.getEditeur().setNom(livre_module_editeur.getSelectedItem().toString());
-			
+
 			//Personne
 			livre.getArtistes().clear();
 			for (int i = 0; i < livre_module_personne.getText_list().size(); i++) {
@@ -252,10 +252,10 @@ public class C_Livre {
 				livre.addGenre(genre);
 			}
 		}
-		
+
 		return success;
 	}
-	
+
 	/**
 	 * Actualise le tableau
 	 */
@@ -263,7 +263,7 @@ public class C_Livre {
 		livres = livre.lectureTout(50);
 		livres_aside_panel.setDonnees(livres);
 	}
-	
+
 	/**
 	 * Actualise le formulaire du livre
 	 */
@@ -294,24 +294,24 @@ public class C_Livre {
 		this.livre_module_editeur.setSelectedIndex(livre.getEditeur().getId());
 		//resume
 		this.livre_module_resume.getText_area().setText(livre.getResume_livre());
-		
+
 	}
-	
-	
+
+
 	/**
 	 * Classe interne
 	 * @author Romain
 	 *
 	 */
 	class MouseAdapterTableau extends MouseAdapter{
-		
+
 		C_Livre controller;
-		
+
 		public MouseAdapterTableau(C_Livre controller) {
 			this.controller = controller;
 		}
-		
-		
+
+
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			// PERMET DE RECUP LA POSITION DANS LA MATRICE DU TABLEAU
