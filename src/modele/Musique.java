@@ -71,6 +71,21 @@ public class Musique extends Media {
 		}
 	}
 
+	public boolean ajoutLiasonAlbumMusique() {
+		boolean success = false;
+		try {
+			String query="UPDATE `nestix_musique` SET,`duree_musique`=?,`album_id`=? WHERE musique_id=?";
+			PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
+			ConnexionBDD.prepareInt(statement, 1, this.duree_musique);
+			ConnexionBDD.prepareInt(statement, 2, this.album.getId());
+			statement.setInt(3, this.id_media);
+			success=(statement.executeUpdate()>0);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}	
+		return success;
+	}
+	
 	@Override
 	public boolean creation() {
 		boolean success = false;
@@ -92,6 +107,9 @@ public class Musique extends Media {
 				this.id_media = (int) generatedKeys.getLong(1);
 			} else {
 				throw new SQLException("Creating music failed, no ID obtained.");
+			}
+			if (success) {
+				query="INSERT INTO `nestix_musique`(`musique_id`, `duree_musique`, `album_id`) VALUES(?,?,?)";
 			}
 			statement.close();
 		} catch (SQLException e) {

@@ -90,12 +90,16 @@ public class C_musique {
 		GridPanel relationComple = new GridPanel(new double[] { 1.0, 1.0 }, new double[] { 1.0, 1.0, 1.0 });
 		musique_main.add(relationComple, musique_main.addElement(1, 1));
 		musique_module_etat = new ComboListField(Etat.lectureTout());
+		musique_module_etat.setSelectedIndex(1);
 		relationComple.add(musique_module_etat, relationComple.addElement(0, 0));
 		relationComple.add(new TextListField(), relationComple.addElement(0, 1));
 		relationComple.add(new TextListField(), relationComple.addElement(1, 1));
 		relationComple.add(new TextListField(), relationComple.addElement(0, 2));
 		musique_main.addModule(new Module(), 2, 1);
 		
+		/**
+		 * lie un artiste et une musique lors de l'appui sur +
+		 */
 		musique_module_personne.getMore_btn().addActionListener(new ActionListener() {		
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -115,6 +119,9 @@ public class C_musique {
 				}				
 			}
 		});
+		/**
+		 * delie un artiste et une musique lors de l'appui sur -
+		 */
 		musique_module_personne.getLess_btn().addActionListener(new ActionListener() {		
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -127,6 +134,9 @@ public class C_musique {
 				
 			}
 		});
+		/**
+		 * lie un genre et une musique lors de l'appuie sur +
+		 */
 		musique_module_genre.getMore_btn().addActionListener(new ActionListener() {
 			
 			@Override
@@ -144,6 +154,9 @@ public class C_musique {
 				}
 			}
 		});
+		/**
+		 * delie un genre et une musique lors de l'appuie sur -
+		 */
 		musique_module_genre.getLess_btn().addActionListener(new ActionListener() {		
 			@Override
 			public void actionPerformed(ActionEvent e) {
