@@ -20,13 +20,19 @@ public class Musique extends Media {
 		this.duree_musique = duree_musique;
 	}
 
+	/**
+	 * permet set les lignes de tableau
+	 */
 	@Override
 	public String[] toRowData() {
 		String[] data = { this.oeuvre.getNom(), this.concat_genre, this.concat_artistes, this.etat.getNom(),
-				this.annee_sortie_media.substring(0,4) };
+				this.annee_sortie_media.substring(0, 4) };
 		return data;
 	}
 
+	/**
+	 * permet de set l'en-tête du tableau
+	 */
 	@Override
 	public String[] toHeaderData() {
 		String[] data = { "Titre", "Genre", "Interprete", "Etat", "Date de sortie" };
@@ -71,6 +77,25 @@ public class Musique extends Media {
 		}
 	}
 
+	/**
+	 * update la table nestix_musique aprés la creation d'une musique pour set la duree et l'album si il y'en a un
+	 * @return boolean
+	 */
+	public boolean updateDureeAlbum() {
+		boolean success = false;
+		try {
+			String query="UPDATE `nestix_musique` SET `duree_musique`=?,`album_id`=? WHERE musique_id=?";
+			PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
+			ConnexionBDD.prepareInt(statement, 1, this.duree_musique);
+			ConnexionBDD.prepareInt(statement, 2, this.album.getId());
+			statement.setInt(3, this.id_media);
+			success=(statement.executeUpdate()>0);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}	
+		return success;
+	}
+	
 	@Override
 	public boolean creation() {
 		boolean success = false;
@@ -94,21 +119,7 @@ public class Musique extends Media {
 				throw new SQLException("Creating music failed, no ID obtained.");
 			}
 			if (success) {
-				for (int i = 0; i < this.artistes.size(); i++) {
-					query="INSERT INTO `nestix_artiste_metier_media`(`artiste_id`, `media_id`, `metier_id`) VALUES(?,?,?)";
-					statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
-					statement.setInt(1, this.artistes.get(i).getId());
-					statement.setInt(2, this.id_media);
-					statement.setInt(3, this.artistes.get(i).getMetiers_artiste().get(0).getId());
-					success = (statement.executeUpdate() > 0);
-				}
-				for (int i = 0; i < this.genres.size(); i++) {
-					query="INSERT INTO `nestix_media_genre` (`media_id`, `genre_id`) VALUES(?,?)";
-					statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
-					statement.setInt(1, this.id_media);
-					statement.setInt(2, this.genres.get(i).getId());
-					success = (statement.executeUpdate() > 0);
-				}
+				query="INSERT INTO `nestix_musique`(`musique_id`, `duree_musique`, `album_id`) VALUES(?,?,?)";
 			}
 			statement.close();
 		} catch (SQLException e) {
@@ -147,6 +158,9 @@ public class Musique extends Media {
 		return success;
 	}
 
+	/**
+	 * pertmer de lire un media, est utilisee lors du clique sur un items du tableau sur l'interface graphique
+	 */
 	@Override
 	public boolean lireUn(int id) {
 		boolean sucess = false;
@@ -179,10 +193,28 @@ public class Musique extends Media {
 
 	@Override
 	public boolean suppression(int id) {
-		System.out.println(this.artistes.toString());
-		return false;
+		boolean success=false;
+		if (this.artistes.size()>0) {
+			this.supprimeLiaisonArtisteMetierMedia();
+		}
+		if (this.genres.size()>0) {
+			this.supprimeLiasonMediaGenre();
+		}	
+		this.supprimerLiaisonMediaType();
+		try {
+			String query="DELETE FROM `nestix_media` WHERE id_media=?";
+			PreparedStatement statement=(PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
+			statement.setInt(1, this.id_media);
+			success=(statement.executeUpdate()>0);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return success;
 	}
 
+	/**
+	 * pertmet de lire toute les musiques dans la BDD
+	 */
 	@Override
 	public ArrayList<I_recherche> lectureTout(int limit) {
 		ArrayList<I_recherche> musiqueList = new ArrayList<>();
@@ -202,7 +234,6 @@ public class Musique extends Media {
 				musique.setAnnee_sortie_media(result.getString("annee_sortie_media"));
 				musiqueList.add(musique);
 			}
-			// success = (statement.executeUpdate()>1);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -219,6 +250,7 @@ public class Musique extends Media {
 	}
 
 	public void setAlbum(String nom) {
+		this.album.setId(0);
 		this.album.setInfo(nom);
 	}
 
@@ -227,6 +259,7 @@ public class Musique extends Media {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
 	@Override
 	public String toString() {
 		return "Musiques [duree_musique=" + duree_musique + ", nom_album=" + album.toString() + super.toString() + "]";
@@ -238,18 +271,21 @@ public class Musique extends Media {
 
 	public String[] toRowDataForm() {
 		String[] data = { this.getTitre(), this.duree_musique + "", this.getTitreAlbum(), this.getNomunivers(),
-				this.annee_sortie_media.substring(0,4) };
+				this.annee_sortie_media.substring(0, 4) };
 		return data;
 	}
-
+	
+	@Override
+	protected String getType() {
+		return "musique";
+	}
 	static class Query {
 
 		public static String queryLectureTout() {
 			return "SELECT	duree_musique,  annee_sortie_media,  musique_id, 	nom_oeuvre, "
 					+ "		GROUP_CONCAT(DISTINCT surnom_artiste)AS surnom_artiste,  "
 					+ "		GROUP_CONCAT(DISTINCT nom_genre)AS nom_genre, id_genre, 	nom_etat "
-					+ "FROM  `nestix_musique`  " 
-					+ "LEFT JOIN nestix_media ON nestix_media.id_media = musique_id  "
+					+ "FROM  `nestix_musique`  " + "LEFT JOIN nestix_media ON nestix_media.id_media = musique_id  "
 					+ "LEFT JOIN nestix_oeuvre ON nestix_oeuvre.id_oeuvre = nestix_media.oeuvre_id "
 					+ "LEFT JOIN nestix_artiste_metier_media ON nestix_artiste_metier_media.media_id = nestix_media.id_media "
 					+ "LEFT JOIN nestix_artiste ON nestix_artiste.id_artiste = nestix_artiste_metier_media.artiste_id  "
@@ -287,10 +323,4 @@ public class Musique extends Media {
 
 		}
 	}
-
-	@Override
-	protected String getType() {
-		return "Musique";
-	}
-
 }

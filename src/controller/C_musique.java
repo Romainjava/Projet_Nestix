@@ -6,10 +6,12 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import modele.Artiste;
 import modele.Etat;
@@ -45,10 +47,9 @@ public class C_musique {
 	String[] header = { "Titre", "Duree(en secondes)", "Album", "Univers", "Annee de sortie" };
 	HeaderPanel musique_header;
 	AsidePanel musiques_aside;
-	ComboListField comboListField = new ComboListField(new String[] { "valide", "attente", "bloquer" });
+	ComboListField musique_module_etat;
 	DualLinkModule musique_module_personne = new DualLinkModule("Personne", new String[] { "interprete", "compositeur" });
 	LinkModule musique_module_genre = new LinkModule("Genre");
-	ComboListField musique_module_etat;
 
 	public JTable getMusique_results_table() {
 		return musique_results_table;
@@ -90,12 +91,84 @@ public class C_musique {
 		GridPanel relationComple = new GridPanel(new double[] { 1.0, 1.0 }, new double[] { 1.0, 1.0, 1.0 });
 		musique_main.add(relationComple, musique_main.addElement(1, 1));
 		musique_module_etat = new ComboListField(Etat.lectureTout());
+		musique_module_etat.setSelectedIndex(1);
 		relationComple.add(musique_module_etat, relationComple.addElement(0, 0));
-		relationComple.add(new TextListField(), relationComple.addElement(0, 1));
-		relationComple.add(new TextListField(), relationComple.addElement(1, 1));
-		relationComple.add(new TextListField(), relationComple.addElement(0, 2));
-
+		relationComple.add(new Module(), relationComple.addElement(0, 1));
+		relationComple.add(new Module(), relationComple.addElement(1, 1));
+		relationComple.add(new Module(), relationComple.addElement(0, 2));
 		musique_main.addModule(new Module(), 2, 1);
+		
+		/**
+		 * lie un artiste et une musique lors de l'appui sur +
+		 */
+		musique_module_personne.getMore_btn().addActionListener(new ActionListener() {		
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(musique.getId()!=0) {
+					musique_module_personne.addTextListField();
+					Artiste artiste = new Artiste();
+					Metier metier = new Metier();
+					System.out.println(musique_module_personne.getText_list().get(musique_module_personne.getText_list().size()-1));
+					artiste.creationRapide(musique_module_personne.getText_list().get(musique_module_personne.getText_list().size()-1));
+					metier.setInfo(musique_module_personne.getCombo_list().get(musique_module_personne.getCombo_list().size()-1));
+					artiste.setMetiers_artiste(metier);
+					musique.addArtiste(artiste);
+					musique.ajoutLiaisonArtisteMetierMedia();
+					actualiseTab();
+				}else {
+					JOptionPane.showMessageDialog(musique_main, "Musique pas encore cree, veuillez cree la musique avant d'ajouter ou supprimer\n un artiste");
+				}				
+			}
+		});
+		/**
+		 * delie un artiste et une musique lors de l'appui sur -
+		 */
+		musique_module_personne.getLess_btn().addActionListener(new ActionListener() {		
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(musique.getId()!=0) {
+					musique.supprimeLiaisonArtisteMetierMedia();
+					actualiseTab();
+				}else {
+					JOptionPane.showMessageDialog(musique_main, "Musique pas encore cree, veuillez cree la musique avant d'ajouter ou supprimer\n un artiste");
+				}
+				
+			}
+		});
+		/**
+		 * lie un genre et une musique lors de l'appuie sur +
+		 */
+		musique_module_genre.getMore_btn().addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (musique.getId()!=0) {
+					musique_module_genre.addTextListField();
+					Genre genre = new Genre();
+					System.out.println(musique_module_genre.getText_list().get(musique_module_genre.getText_list().size()-1));
+					genre.setInfo(musique_module_genre.getText_list().get(musique_module_genre.getText_list().size()-1));
+					musique.addGenre(genre);
+					musique.ajoutLiasonMediaGenre();
+					actualiseTab();
+				}else {
+					JOptionPane.showMessageDialog(musique_main, "Musique pas encore cree, veuillez cree la musique avant d'ajouter ou supprimer\n un genre");
+				}
+			}
+		});
+		/**
+		 * delie un genre et une musique lors de l'appuie sur -
+		 */
+		musique_module_genre.getLess_btn().addActionListener(new ActionListener() {		
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(musique.getId()!=0) {
+					musique.supprimeLiasonMediaGenre();
+					actualiseTab();
+				}else {
+					JOptionPane.showMessageDialog(musique_main, "Musique pas encore cree, veuillez cree la musique avant d'ajouter ou supprimer\n un genre");
+				}
+			}
+		});
 	}
 
 	public void ajouteTab() {
@@ -113,12 +186,15 @@ public class C_musique {
 		String textBouton[] = { "Creer", "Modifier", "Supprimer" };
 		double elmsSizeFooter[] = { 1.0, 1.0, 1.0 };
 		FooterPanel musique_footer_panel = new FooterPanel(this.musiques_panel, textBouton, elmsSizeFooter);
+		/**
+		 * bouton cree
+		 */
 		musique_footer_panel.getBoutonTab().get(0).addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (verifChamp()) {
 					System.out.println(musique.getOeuvre().getId());
-					if (musique.creation()) {
+					if (musique.creation() && musique.updateDureeAlbum()) {
 						JOptionPane.showMessageDialog(musiques_panel, "Insertion faites", "Validation",
 								JOptionPane.INFORMATION_MESSAGE);
 						actualiseTab();
@@ -129,12 +205,14 @@ public class C_musique {
 				}
 			}
 		});
+		/**
+		 * bouton modifier
+		 */
 		musique_footer_panel.getBoutonTab().get(1).addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (verifChamp()) {
-					if (musique.modification()) {
+					if (musique.modification() && musique.updateDureeAlbum()) {
 						JOptionPane.showMessageDialog(musiques_panel, "Modification faites", "Modifie",
 								JOptionPane.INFORMATION_MESSAGE);
 						actualiseTab();
@@ -145,17 +223,26 @@ public class C_musique {
 				}
 			}
 		});
+		/**
+		 * bouton supprimer
+		 */
 		musique_footer_panel.getBoutonTab().get(2).addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				musique.suppression(musique.getId());
-				System.out.println(musique_module_personne.getText_list().size());
-
+				if(musique.getId()!=0 && verifChamp()) {
+					musique.suppression(musique.getId());
+					actualiseTab();
+				}	
 			}
 		});
 	}
 
+	/**
+	 * permet de verifier les champ si ils sont valide enclenche la creation rapide et récupération des id ou la récupération des id simple si
+	 * deja cree
+	 * @return boolean
+	 */	
 	public boolean verifChamp() {
 		boolean success = true;
 		if (musique_titre_textfield.get(0).getText().equals("")) {
@@ -186,17 +273,10 @@ public class C_musique {
 				JOptionPane.showMessageDialog(musiques_panel, "l'annee de sortie ne doit comporter que des chiffres",
 						"Echec", JOptionPane.ERROR_MESSAGE);
 			}
+			System.out.println(musique_titre_textfield.get(2).getText().toLowerCase());
 			musique.setAlbum(musique_titre_textfield.get(2).getText().toLowerCase());
 			musique.setUnivers(musique_titre_textfield.get(3).getText().toLowerCase());
-			musique.setEtat(comboListField.getSelectedIndex() + 1);
-			for (int i = 0; i < musique_module_personne.getText_list().size(); i++) {
-				Artiste artiste = new Artiste();
-				Metier metier = new Metier();
-				artiste.creationRapide(musique_module_personne.getText_list().get(i));
-				metier.setInfo(musique_module_personne.getCombo_list().get(i));
-				artiste.setMetiers_artiste(metier);
-				musique.addArtiste(artiste);
-			}
+			musique.setEtat(musique_module_etat.getSelectedIndex() + 1);
 			for (int i = 0; i < musique_module_genre.getText_list().size(); i++) {
 				Genre genre = new Genre();
 				genre.setInfo(musique_module_genre.getText_list().get(i));
@@ -205,7 +285,6 @@ public class C_musique {
 		}
 		return success;
 	}
-
 	/**
 	 * Actualise le formulaire de musique
 	 */
@@ -217,7 +296,7 @@ public class C_musique {
 	public void actualiseMusique() {
 		// Actualise le header panel
 		musique_header.autoCompleteFormHeader(musique.toRowDataForm());
-		comboListField.setSelectedIndex(musique.getEtatId() - 1);
+		musique_module_etat.setSelectedIndex(musique.getEtatId() - 1);
 
 		// personne
 		ArrayList<String> tPersonneData = new ArrayList<>();
