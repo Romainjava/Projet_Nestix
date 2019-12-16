@@ -163,6 +163,15 @@ public class C_Livre {
 			}
 		});
 		//Supprimer
+		livre_footer_panel.getBoutonTab().get(2).addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				livre.suppression(livre.getId());
+//				System.out.println(livre_module_personne.getText_list().size());
+
+			}
+		});
 	}
 	
 	public boolean verifChamp() {

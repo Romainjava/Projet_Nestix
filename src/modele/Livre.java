@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 public class Livre extends Media {
@@ -68,8 +69,45 @@ public class Livre extends Media {
 
 	@Override
 	public boolean creation() {
-		// TODO Auto-generated method stub
-		return false;
+		boolean success = false;
+		try {
+			Connection co = ConnexionBDD.getConnexion();
+			String query;
+			PreparedStatement statement;
+			ResultSet generatedKeys;
+			//creation oeuvre
+			query = "";
+			statement = (PreparedStatement) co.prepareStatement(query,
+					Statement.RETURN_GENERATED_KEYS);
+//			statement.setInt(1, this.id_media);
+			success = (statement.executeUpdate() > 0);
+			generatedKeys = statement.getGeneratedKeys();
+			if(generatedKeys.next()) {
+				success = true;
+				this.oeuvre.setId((int) generatedKeys.getLong(1));
+			}else {
+				throw new SQLException("Erreur création oeuvre pour livre");
+			}
+			//creation media
+			query = "";
+			statement = (PreparedStatement) co.prepareStatement(query,
+					Statement.RETURN_GENERATED_KEYS);
+//			statement.setInt(1, this.id_media);
+			success = (statement.executeUpdate() > 0);
+			generatedKeys = statement.getGeneratedKeys();
+			if(generatedKeys.next()) {
+				success = true;
+				this.id_media = (int) generatedKeys.getLong(1);
+			}else {
+				throw new SQLException("Erreur création media pour livre");
+			}
+			//creation livre
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return success;
 	}
 
 	@Override
@@ -111,7 +149,7 @@ public class Livre extends Media {
 			this.id_media = result.getInt("livre_id");
 			this.oeuvre.setProp(result.getInt("id_oeuvre"), result.getString("nom_oeuvre"));
 			this.date_crea_media = result.getString("date_crea_media");
-			this.annee_sortie_media = result.getString("annee_sortie_media");
+			this.annee_sortie_media = result.getString("annee_sortie_media").substring(0,4);
 			this.image.setProp(result.getInt("id_image"), result.getString("nom_image"), result.getString("path_image"), result.getString("alt_image"));
 			this.univers.setProp(result.getInt("id_univers"), result.getString("nom_univers"));
 			this.saga.setProp(result.getInt("id_saga"), result.getString("nom_saga"));
@@ -224,11 +262,11 @@ public class Livre extends Media {
 				
 				livre.id_media = result.getInt("livre_id");
 				livre.oeuvre.setProp(result.getInt("id_oeuvre"), result.getString("nom_oeuvre"));
-				livre.date_crea_media = result.getString("date_crea_media");
-				livre.annee_sortie_media = result.getString("annee_sortie_media");
-				livre.image.setProp(result.getInt("id_image"), result.getString("nom_image"), result.getString("path_image"), result.getString("alt_image"));
-				livre.univers.setProp(result.getInt("id_univers"), result.getString("nom_univers"));
-				livre.saga.setProp(result.getInt("id_saga"), result.getString("nom_saga"));
+				//livre.date_crea_media = result.getString("date_crea_media");
+				livre.annee_sortie_media = result.getString("annee_sortie_media").substring(0,4);
+				//livre.image.setProp(result.getInt("id_image"), result.getString("nom_image"), result.getString("path_image"), result.getString("alt_image"));
+				//livre.univers.setProp(result.getInt("id_univers"), result.getString("nom_univers"));
+				//livre.saga.setProp(result.getInt("id_saga"), result.getString("nom_saga"));
 				livre.etat.setProp(result.getInt("id_etat"), result.getString("nom_etat") );
 				//livre.artistes
 				//livre.genres
@@ -236,8 +274,8 @@ public class Livre extends Media {
 				//livre.concat_genre
 				
 				livre.ISBN = result.getInt("isbn");
-				livre.resume_livre = result.getString("resume_livre");
-				livre.tome_livre = result.getInt("tome_livre");
+				//livre.resume_livre = result.getString("resume_livre");
+				//livre.tome_livre = result.getInt("tome_livre");
 				
 				livre.editeur = new Editeur(result.getInt("id_editeur"), result.getString("nom_editeur"));
 				
