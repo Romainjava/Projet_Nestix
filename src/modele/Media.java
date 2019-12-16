@@ -7,18 +7,18 @@ import java.util.ArrayList;
 
 import view.I_dataListable;
 
-public abstract class Media implements I_requeteSQL,I_dataListable,I_recherche {
-	
+public abstract class Media implements I_requeteSQL, I_dataListable, I_recherche {
+
 	protected int id_media;
-	protected Oeuvre oeuvre=new Oeuvre();
+	protected Oeuvre oeuvre = new Oeuvre();
 	protected String date_crea_media;
 	protected String annee_sortie_media;
-	protected Univers univers=new Univers();
-	protected Saga saga=new Saga();
-	protected Image image=new Image();
-	protected Etat etat=new Etat();
-	protected ArrayList<Artiste> artistes=new ArrayList<>();
-	protected ArrayList<Genre> genres=new ArrayList<>();
+	protected Univers univers = new Univers();
+	protected Saga saga = new Saga();
+	protected Image image = new Image();
+	protected Etat etat = new Etat();
+	protected ArrayList<Artiste> artistes = new ArrayList<>();
+	protected ArrayList<Genre> genres = new ArrayList<>();
 //	donné à utiliser pour le tableau
 	protected String concat_artistes;
 	protected String concat_genre;
@@ -30,7 +30,7 @@ public abstract class Media implements I_requeteSQL,I_dataListable,I_recherche {
 	public int getId() {
 		return id_media;
 	}
-	
+
 	public void setId_media(int id_media) {
 		this.id_media = id_media;
 	}
@@ -62,7 +62,7 @@ public abstract class Media implements I_requeteSQL,I_dataListable,I_recherche {
 	public ArrayList<Genre> getGenres() {
 		return genres;
 	}
-	
+
 	public Etat getEtat() {
 		return this.etat;
 	}
@@ -73,13 +73,15 @@ public abstract class Media implements I_requeteSQL,I_dataListable,I_recherche {
 
 	@Override
 	public String toString() {
-		return "Media [id_media=" + id_media + ", titre_media=" + oeuvre.getNom() + ", date_crea_media=" + date_crea_media
-				+ ", annee_sortie_media=" + annee_sortie_media + ", artistes=" + artistes + ", genres=" + genres + "]";
+		return "Media [id_media=" + id_media + ", titre_media=" + oeuvre.getNom() + ", date_crea_media="
+				+ date_crea_media + ", annee_sortie_media=" + annee_sortie_media + ", artistes=" + artistes
+				+ ", genres=" + genres + "]";
 	}
-	
+
 	public void addGenre(Genre genre) {
 		this.genres.add(genre);
 	}
+
 	public void addArtiste(Artiste artiste) {
 		this.artistes.add(artiste);
 	}
@@ -91,38 +93,38 @@ public abstract class Media implements I_requeteSQL,I_dataListable,I_recherche {
 	public void setOeuvre(Oeuvre oeuvre) {
 		this.oeuvre = oeuvre;
 	}
-	
+
 	public String getTitre() {
 		return this.oeuvre.getNom();
 	}
-	
+
 	public String getNomunivers() {
 		return this.univers.getNom();
 	}
-	
-	/* setter with result*/
+
+	/* setter with result */
 	public void setUnivers(String nom) {
 		this.univers.setInfo(nom);
 	}
-	
+
 	public void setSaga(String nom) {
 		this.saga.setInfo(nom);
 	}
-	
+
 	public void setOeuvre(String nom) {
 		this.oeuvre.setId(0);
 		this.oeuvre.setInfo(nom);
 	}
-	
+
 	public void setEtat(int id) {
 		this.etat.setId(id);
 	}
-	
+
 	public int getEtatId() {
-		
+
 		return this.etat.getId();
 	}
-	
+
 	public void setUnivers(ResultSet result) {
 		try {
 			this.univers.setId(result.getInt("nestix_media.univers_id"));
@@ -130,7 +132,7 @@ public abstract class Media implements I_requeteSQL,I_dataListable,I_recherche {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	public void setImage(ResultSet result) {
@@ -144,7 +146,7 @@ public abstract class Media implements I_requeteSQL,I_dataListable,I_recherche {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void setEtat(ResultSet result) {
 		try {
 			this.etat.setId(result.getInt("id_etat"));
@@ -174,12 +176,14 @@ public abstract class Media implements I_requeteSQL,I_dataListable,I_recherche {
 			e.printStackTrace();
 		}
 	}
+
 	/**
 	 * permet de generer le type par rapport à la spécificité des enfants
+	 * 
 	 * @return String
 	 */
 	protected abstract String getType();
-	
+
 	public boolean ajoutLiaisonArtisteMetierMedia() {
 		boolean success = false;
 		String query = "INSERT INTO `nestix_artiste_metier_media`(`artiste_id`, `media_id`, `metier_id`) VALUES(?,?,?)";
@@ -194,58 +198,58 @@ public abstract class Media implements I_requeteSQL,I_dataListable,I_recherche {
 		}
 		return success;
 	}
-	
+
 	public boolean supprimeLiaisonArtisteMetierMedia() {
 		boolean success = false;
 		String query = "DELETE FROM `nestix_artiste_metier_media` WHERE artiste_id=?";
 		try {
 			PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
-			statement.setInt(1, this.artistes.get(this.artistes.size()-1).getId());
+			statement.setInt(1, this.artistes.get(this.artistes.size() - 1).getId());
 			success = (statement.executeUpdate() > 0);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return success;
 	}
-	
+
 	public boolean ajoutLiasonMediaGenre() {
-		boolean success= false;
+		boolean success = false;
 		try {
-		String query = "INSERT INTO `nestix_media_genre` (`media_id`, `genre_id`) VALUES(?,?)";
-		PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
-		statement.setInt(1, this.id_media);
-		statement.setInt(2, this.genres.get(this.genres.size()-1).getId());
-		success = (statement.executeUpdate() > 0);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return success;
-	}
-	
-	public boolean supprimeLiasonMediaGenre() {
-		boolean success= false;
-		try {
-		String query = "DELETE FROM `nestix_media_genre` WHERE genre_id=?";
-		PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
-		statement.setInt(1, this.genres.get(this.genres.size()-1).getId());
-		success = (statement.executeUpdate() > 0);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return success;
-	}
-	
-	public boolean supprimerLiaisonMediaType() {
-		boolean success=false;
-		try {
-			String query="DELETE FROM `nestix_"+this.getType()+"` WHERE "+this.getType()+"_id=?";
+			String query = "INSERT INTO `nestix_media_genre` (`media_id`, `genre_id`) VALUES(?,?)";
 			PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
 			statement.setInt(1, this.id_media);
-			success=(statement.executeUpdate()>0);
+			statement.setInt(2, this.genres.get(this.genres.size() - 1).getId());
+			success = (statement.executeUpdate() > 0);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return success;
 	}
-	
+
+	public boolean supprimeLiasonMediaGenre() {
+		boolean success = false;
+		try {
+			String query = "DELETE FROM `nestix_media_genre` WHERE genre_id=?";
+			PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
+			statement.setInt(1, this.genres.get(this.genres.size() - 1).getId());
+			success = (statement.executeUpdate() > 0);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return success;
+	}
+
+	public boolean supprimerLiaisonMediaType() {
+		boolean success = false;
+		try {
+			String query = "DELETE FROM `nestix_" + this.getType() + "` WHERE " + this.getType() + "_id=?";
+			PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
+			statement.setInt(1, this.id_media);
+			success = (statement.executeUpdate() > 0);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return success;
+	}
+
 }
