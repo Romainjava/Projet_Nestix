@@ -16,7 +16,7 @@ public class M_artiste_metier_media {
 		ArrayList<Metier> metiers = new ArrayList<>();
 		try {
 			Connection co = ConnexionBDD.getConnexion();
-			String query = "SELECT nom_oeuvre, nom_metier,type_media FROM nestix_artiste_metier_media "
+			String query = "SELECT nom_oeuvre, nom_metier,type_media, artiste_id, media_id, metier_id FROM nestix_artiste_metier_media "
 					+ "JOIN nestix_media ON nestix_artiste_metier_media.media_id = nestix_media.id_media "
 					+ "JOIN nestix_oeuvre ON nestix_media.oeuvre_id = nestix_oeuvre.id_oeuvre "
 					+ "JOIN nestix_metier ON nestix_metier.id_metier = nestix_artiste_metier_media.metier_id "
@@ -28,6 +28,8 @@ public class M_artiste_metier_media {
 				Metier metier = new Metier();
 				metier.setNom(result.getString("nom_metier"));
 				metier.addMedia(result.getString("nom_oeuvre"), result.getString("type_media"));
+				metier.getArtiste().setId_artiste(result.getInt("artiste_id"));
+				metier.setId(result.getInt("metier_id"));
 				metiers.add(metier);
 			}
 
@@ -49,12 +51,29 @@ public class M_artiste_metier_media {
 			statement.setInt(1, metier.getArtiste().getId());
 			statement.setInt(2, metier.getId());
 			System.out.println(metier.getMedia());
-			
+
 			statement.setInt(3, metier.getMedia().getId_media());
 			nb_row = statement.executeUpdate();
 
 		} catch (Exception e) {
-			System.out.println("Erreurdans M_artiste_metier_media creation : " + e.getMessage());
+			System.out.println("Erreur dans M_artiste_metier_media creation : " + e.getMessage());
+			e.printStackTrace();
+		}
+		return (nb_row > 0);
+	}
+
+	public static boolean suppression(Metier metier) {
+		int nb_row = 0;
+		try {
+			Connection co = ConnexionBDD.getConnexion();
+			String query = "DELETE FROM nestix_artiste_metier_media WHERE artiste_id = ? AND media_id = ? AND metier_id = ?";
+			PreparedStatement statement = (PreparedStatement) co.prepareStatement(query);
+			statement.setInt(1, metier.getArtiste().getId());
+			statement.setInt(2, metier.getMedia().getId());
+			statement.setInt(3, metier.getId());
+			nb_row = statement.executeUpdate();
+		} catch (Exception e) {
+			System.out.println("Erreur dans M_artiste_metier_media suppression : " + e.getMessage());
 			e.printStackTrace();
 		}
 		return (nb_row > 0);
