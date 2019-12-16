@@ -211,7 +211,7 @@ public class C_musique {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (verifChamp()) {
-					if (musique.modification()&& musique.updateDureeAlbum()) {
+					if (musique.modification() && musique.updateDureeAlbum()) {
 						JOptionPane.showMessageDialog(musiques_panel, "Modification faites", "Modifie",
 								JOptionPane.INFORMATION_MESSAGE);
 						actualiseTab();
@@ -229,11 +229,19 @@ public class C_musique {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				musique.suppression(musique.getId());
+				if(musique.getId()!=0 && verifChamp()) {
+					musique.suppression(musique.getId());
+					actualiseTab();
+				}	
 			}
 		});
 	}
 
+	/**
+	 * permet de verifier les champ si ils sont valide enclenche la creation rapide et récupération des id ou la récupération des id simple si
+	 * deja cree
+	 * @return boolean
+	 */	
 	public boolean verifChamp() {
 		boolean success = true;
 		if (musique_titre_textfield.get(0).getText().equals("")) {

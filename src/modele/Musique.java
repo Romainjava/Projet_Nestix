@@ -77,7 +77,6 @@ public class Musique extends Media {
 	 */
 	public boolean updateDureeAlbum() {
 		boolean success = false;
-		System.out.println(this.album.getId());
 		try {
 			String query="UPDATE `nestix_musique` SET `duree_musique`=?,`album_id`=? WHERE musique_id=?";
 			PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
@@ -185,7 +184,20 @@ public class Musique extends Media {
 
 	@Override
 	public boolean suppression(int id) {
-		System.out.println(this.artistes.toString());
+		if (this.artistes.size()>0) {
+			this.supprimeLiaisonArtisteMetierMedia();
+		}
+		if (this.genres.size()>0) {
+			this.supprimeLiasonMediaGenre();
+		}	
+		this.supprimerLiaisonMediaType();
+		try {
+			String query="DELETE FROM `nestix_media` WHERE id_media=?";
+			PreparedStatement statement=(PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
+			statement.setInt(1, this.id_media);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return false;
 	}
 
@@ -296,7 +308,7 @@ public class Musique extends Media {
 
 	@Override
 	protected String getType() {
-		return "Musique";
+		return "musique";
 	}
 
 }
