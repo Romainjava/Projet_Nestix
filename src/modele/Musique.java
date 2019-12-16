@@ -77,6 +77,7 @@ public class Musique extends Media {
 	 */
 	public boolean updateDureeAlbum() {
 		boolean success = false;
+		System.out.println(this.album.getId());
 		try {
 			String query="UPDATE `nestix_musique` SET `duree_musique`=?,`album_id`=? WHERE musique_id=?";
 			PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
@@ -223,6 +224,7 @@ public class Musique extends Media {
 	}
 
 	public void setAlbum(String nom) {
+		this.album.setId(0);
 		this.album.setInfo(nom);
 	}
 

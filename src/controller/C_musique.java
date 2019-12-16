@@ -45,10 +45,9 @@ public class C_musique {
 	String[] header = { "Titre", "Duree(en secondes)", "Album", "Univers", "Annee de sortie" };
 	HeaderPanel musique_header;
 	AsidePanel musiques_aside;
-	ComboListField comboListField = new ComboListField(new String[] { "valide", "attente", "bloquer" });
+	ComboListField musique_module_etat;
 	DualLinkModule musique_module_personne = new DualLinkModule("Personne", new String[] { "interprete", "compositeur" });
 	LinkModule musique_module_genre = new LinkModule("Genre");
-	ComboListField musique_module_etat;
 
 	public JTable getMusique_results_table() {
 		return musique_results_table;
@@ -268,7 +267,7 @@ public class C_musique {
 			System.out.println(musique_titre_textfield.get(2).getText().toLowerCase());
 			musique.setAlbum(musique_titre_textfield.get(2).getText().toLowerCase());
 			musique.setUnivers(musique_titre_textfield.get(3).getText().toLowerCase());
-			musique.setEtat(comboListField.getSelectedIndex() + 1);
+			musique.setEtat(musique_module_etat.getSelectedIndex() + 1);
 			for (int i = 0; i < musique_module_genre.getText_list().size(); i++) {
 				Genre genre = new Genre();
 				genre.setInfo(musique_module_genre.getText_list().get(i));
@@ -288,7 +287,7 @@ public class C_musique {
 	public void actualiseMusique() {
 		// Actualise le header panel
 		musique_header.autoCompleteFormHeader(musique.toRowDataForm());
-		comboListField.setSelectedIndex(musique.getEtatId() - 1);
+		musique_module_etat.setSelectedIndex(musique.getEtatId() - 1);
 
 		// personne
 		ArrayList<String> tPersonneData = new ArrayList<>();
