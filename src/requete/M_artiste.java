@@ -1,4 +1,4 @@
-package modele;
+package requete;
 
 import java.sql.Connection;
 import java.util.Date;
@@ -10,6 +10,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
+
+import modele.Artiste;
+import modele.ConnexionBDD;
+import modele.I_recherche;
+import modele.Metier;
 
 public class M_artiste {
 	/**
@@ -49,6 +54,7 @@ public class M_artiste {
 					+ " LEFT JOIN nestix_etat ON nestix_etat.id_etat = nestix_artiste.etat_id"
 					+ " LEFT JOIN nestix_artiste_metier_media ON nestix_artiste_metier_media.artiste_id = nestix_artiste.id_artiste"
 					+ " LEFT JOIN nestix_metier ON nestix_metier.id_metier = nestix_artiste_metier_media.metier_id"
+					+ " GROUP BY nestix_artiste.id_artiste"
 					+ " LIMIT ?";
 				    
 			PreparedStatement statement = (PreparedStatement) co.prepareStatement(query);
@@ -173,9 +179,10 @@ public class M_artiste {
 		try {
 			Connection co = ConnexionBDD.getConnexion();
 			String query = "SELECT nom_metier, id_metier FROM nestix_artiste JOIN nestix_artiste_metier_media ON nestix_artiste_metier_media.artiste_id = nestix_artiste.id_artiste"
-					+ " JOIN nestix_metier ON nestix_metier.id_metier = nestix_artiste_metier_media.metier_id WHERE media_id= ?";
+					+ " JOIN nestix_metier ON nestix_metier.id_metier = nestix_artiste_metier_media.metier_id WHERE media_id= ? AND id_artiste = ?";
 			PreparedStatement statement = (PreparedStatement) co.prepareStatement(query);
 			statement.setInt(1, id);
+			statement.setInt(2, artiste.getId());
 			ResultSet result = statement.executeQuery();
 
 			while (result.next()) {

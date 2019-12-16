@@ -16,7 +16,8 @@ import modele.Etat;
 import modele.Genre;
 import modele.I_recherche;
 import modele.Metier;
-import modele.Musiques;
+import modele.Musique;
+import modele.Oeuvre;
 import view.AsidePanel;
 import view.ComboListField;
 import view.DualLinkModule;
@@ -34,7 +35,7 @@ public class C_musique {
 	private JPanel musiques_panel;
 
 	// Donn�es
-	Musiques musique = new Musiques();
+	Musique musique = new Musique();
 	ArrayList<I_recherche> musiques = new ArrayList<>();
 	int row;
 
@@ -45,13 +46,9 @@ public class C_musique {
 	HeaderPanel musique_header;
 	AsidePanel musiques_aside;
 	ComboListField comboListField = new ComboListField(new String[] { "valide", "attente", "bloquer" });
-	DualLinkModule dualLinkModule = new DualLinkModule("Personne", new String[] { "interprete", "compositeur" });
-	LinkModule linkModule = new LinkModule("Genre");
-	
-	DualLinkModule musique_module_personne = new DualLinkModule("Personne", new String[]{"interprete", "compositeur"});
+	DualLinkModule musique_module_personne = new DualLinkModule("Personne", new String[] { "interprete", "compositeur" });
 	LinkModule musique_module_genre = new LinkModule("Genre");
 	ComboListField musique_module_etat;
-	
 
 	public JTable getMusique_results_table() {
 		return musique_results_table;
@@ -115,12 +112,12 @@ public class C_musique {
 	public void footerPanel() {
 		String textBouton[] = { "Creer", "Modifier", "Supprimer" };
 		double elmsSizeFooter[] = { 1.0, 1.0, 1.0 };
-		FooterPanel livre_footer_panel = new FooterPanel(this.musiques_panel, textBouton, elmsSizeFooter);
-		livre_footer_panel.getBoutonTab().get(0).addActionListener(new ActionListener() {
+		FooterPanel musique_footer_panel = new FooterPanel(this.musiques_panel, textBouton, elmsSizeFooter);
+		musique_footer_panel.getBoutonTab().get(0).addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				boolean success = verifChamp();
-				if (success) {
+				if (verifChamp()) {
+					System.out.println(musique.getOeuvre().getId());
 					if (musique.creation()) {
 						JOptionPane.showMessageDialog(musiques_panel, "Insertion faites", "Validation",
 								JOptionPane.INFORMATION_MESSAGE);
@@ -132,12 +129,11 @@ public class C_musique {
 				}
 			}
 		});
-		livre_footer_panel.getBoutonTab().get(1).addActionListener(new ActionListener() {
+		musique_footer_panel.getBoutonTab().get(1).addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				boolean success = verifChamp();
-				if (success) {
+				if (verifChamp()) {
 					if (musique.modification()) {
 						JOptionPane.showMessageDialog(musiques_panel, "Modification faites", "Modifie",
 								JOptionPane.INFORMATION_MESSAGE);
@@ -147,6 +143,15 @@ public class C_musique {
 								"Echec insertion", JOptionPane.ERROR_MESSAGE);
 					}
 				}
+			}
+		});
+		musique_footer_panel.getBoutonTab().get(2).addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				musique.suppression(musique.getId());
+				System.out.println(musique_module_personne.getText_list().size());
+
 			}
 		});
 	}
@@ -184,17 +189,17 @@ public class C_musique {
 			musique.setAlbum(musique_titre_textfield.get(2).getText().toLowerCase());
 			musique.setUnivers(musique_titre_textfield.get(3).getText().toLowerCase());
 			musique.setEtat(comboListField.getSelectedIndex() + 1);
-			for (int i = 0; i < dualLinkModule.getText_list().size(); i++) {
+			for (int i = 0; i < musique_module_personne.getText_list().size(); i++) {
 				Artiste artiste = new Artiste();
 				Metier metier = new Metier();
-				artiste.setSurnom_artiste(dualLinkModule.getText_list().get(i));
-				metier.setNom(dualLinkModule.getCombo_list().get(i));
+				artiste.creationRapide(musique_module_personne.getText_list().get(i));
+				metier.setInfo(musique_module_personne.getCombo_list().get(i));
 				artiste.setMetiers_artiste(metier);
 				musique.addArtiste(artiste);
 			}
-			for (int i = 0; i < linkModule.getText_list().size(); i++) {
+			for (int i = 0; i < musique_module_genre.getText_list().size(); i++) {
 				Genre genre = new Genre();
-				genre.setInfo(linkModule.getText_list().get(i));
+				genre.setInfo(musique_module_genre.getText_list().get(i));
 				musique.addGenre(genre);
 			}
 		}
@@ -213,25 +218,26 @@ public class C_musique {
 		// Actualise le header panel
 		musique_header.autoCompleteFormHeader(musique.toRowDataForm());
 		comboListField.setSelectedIndex(musique.getEtatId() - 1);
-		
-		//personne
+
+		// personne
 		ArrayList<String> tPersonneData = new ArrayList<>();
 		ArrayList<String> tPersonneDataMetier = new ArrayList<>();
-		for(int i = 0; i < musique.getArtistes().size(); i++) {
-			for(int j = 0; j < musique.getArtistes().get(i).getMetiers_artiste().size(); j++) {
+		for (int i = 0; i < musique.getArtistes().size(); i++) {
+			for (int j = 0; j < musique.getArtistes().get(i).getMetiers_artiste().size(); j++) {
 				tPersonneData.add(musique.getArtistes().get(i).getSurnom_artiste());
 				tPersonneDataMetier.add(musique.getArtistes().get(i).getMetiers_artiste().get(j).getNom());
 			}
 		}
-		this.musique_module_personne.setData(tPersonneData.toArray(new String[0]), tPersonneDataMetier.toArray(new String[0]));
-		//genre
+		this.musique_module_personne.setData(tPersonneData.toArray(new String[0]),
+				tPersonneDataMetier.toArray(new String[0]));
+		// genre
 		String[] tGenreData = new String[musique.getGenres().size()];
-		for(int i = 0; i < tGenreData.length; i++) {
+		for (int i = 0; i < tGenreData.length; i++) {
 			tGenreData[i] = musique.getGenres().get(i).getNom();
 		}
 		this.musique_module_genre.setData(tGenreData);
-		//etat
-		this.musique_module_etat.setSelectedIndex(musique.getEtat().getId()-1);
+		// etat
+		this.musique_module_etat.setSelectedIndex(musique.getEtat().getId() - 1);
 	}
 
 	/**
@@ -240,7 +246,7 @@ public class C_musique {
 	 * @author Romain
 	 *
 	 */
-	class MouseAdapterTableau extends MouseAdapter {	
+	class MouseAdapterTableau extends MouseAdapter {
 
 		C_musique controller;
 
@@ -255,7 +261,6 @@ public class C_musique {
 			// int column = tableau.columnAtPoint(e.getPoint());
 			// "getAtValue" : Permet de prendre la valeur de la case ( row , column )
 			musique.lireUn(musiques.get(row).getId());
-			System.out.println(musique.getGenres().size());
 			this.controller.actualiseMusique();
 			// Plus tard faire appelle à la méthode actualise livre qui actualise tous les
 			// champs

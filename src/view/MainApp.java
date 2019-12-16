@@ -9,7 +9,7 @@ import controller.C_artiste;
 import controller.C_film;
 import controller.C_musique;
 import modele.ConnexionBDD;
-import modele.Musiques;
+import modele.Musique;
 
 import javax.swing.JPanel;
 import java.awt.GridLayout;
