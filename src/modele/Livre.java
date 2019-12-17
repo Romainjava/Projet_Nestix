@@ -178,7 +178,7 @@ public class Livre extends Media {
 
 		try {
 			Connection co = ConnexionBDD.getConnexion();
-			String query = "SELECT nom_oeuvre, id_oeuvre\n" +
+			String query = "SELECT nom_oeuvre, id_oeuvre,\n" +
 					"date_crea_media, annee_sortie_media, nom_admin, pseudo_utilisateur,\n" +
 					"id_univers, nom_univers, " + "id_saga, nom_saga,\n" +
 					"id_image, nom_image, path_image, alt_image,\n" +
@@ -305,7 +305,7 @@ public class Livre extends Media {
 		ArrayList<I_recherche> livreList = new ArrayList<>();
 		try {
 			Connection co = ConnexionBDD.getConnexion();
-			String query = "SELECT nom_oeuvre, id_oeuvre\n" +
+			String query = "SELECT nom_oeuvre, id_oeuvre,\n" +
 					"date_crea_media, annee_sortie_media, nom_admin, pseudo_utilisateur,\n" +
 					"id_univers, nom_univers, " + "id_saga, nom_saga,\n" +
 					"id_image, nom_image, path_image, alt_image,\n" +
