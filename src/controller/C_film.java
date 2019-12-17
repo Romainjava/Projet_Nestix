@@ -39,7 +39,7 @@ public class C_film {
 	
 	JTable film_results_table;
 	ArrayList<JTextField> film_titre_textfield;
-	String header[] = { "Titre", "Durée", "Année de sortie", "Saga" };
+	String header[] = { "Titre", "DurÃ©e", "AnnÃ©e de sortie", "Saga" };
 	ComboListField comboListField = new ComboListField(new String[] { "valide", "attente", "bloquer" });
 	DualLinkModule dualLinkModule = new DualLinkModule("Personne", new String[] { "acteur", "realisateur", "scenariste" });
 	LinkModule linkModule = new LinkModule("Genre");
