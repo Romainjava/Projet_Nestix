@@ -201,10 +201,11 @@ public abstract class Media implements I_requeteSQL, I_dataListable, I_recherche
 
 	public boolean supprimeLiaisonArtisteMetierMedia() {
 		boolean success = false;
-		String query = "DELETE FROM `nestix_artiste_metier_media` WHERE artiste_id=?";
+		String query = "DELETE FROM `nestix_artiste_metier_media` WHERE artiste_id=? &&media_id=?";
 		try {
 			PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
 			statement.setInt(1, this.artistes.get(this.artistes.size() - 1).getId());
+			statement.setInt(2, this.id_media);
 			success = (statement.executeUpdate() > 0);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -229,9 +230,10 @@ public abstract class Media implements I_requeteSQL, I_dataListable, I_recherche
 	public boolean supprimeLiasonMediaGenre() {
 		boolean success = false;
 		try {
-			String query = "DELETE FROM `nestix_media_genre` WHERE genre_id=?";
+			String query = "DELETE FROM `nestix_media_genre` WHERE genre_id=? && media_id=?";
 			PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
 			statement.setInt(1, this.genres.get(this.genres.size() - 1).getId());
+			statement.setInt(2, this.id_media);
 			success = (statement.executeUpdate() > 0);
 		} catch (SQLException e) {
 			e.printStackTrace();
