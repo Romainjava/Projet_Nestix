@@ -12,7 +12,7 @@ public class Livre extends Media {
 	protected int ISBN;
 	protected String resume_livre;
 	protected int tome_livre;
-	protected Editeur editeur;
+	protected Editeur editeur=new Editeur();
 
 	protected static ArrayList<Editeur> liste_editeur = new ArrayList<>();
 

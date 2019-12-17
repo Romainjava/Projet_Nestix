@@ -309,6 +309,7 @@ public class C_Livre {
 						"Echec", JOptionPane.ERROR_MESSAGE);
 			}
 			//Editeur
+			System.out.println(livre_module_editeur.getSelectedItem().toString());
 			livre.getEditeur().setId(Editeur.getIdInList(livre_module_editeur.getSelectedItem().toString()));
 			livre.getEditeur().setNom(livre_module_editeur.getSelectedItem().toString());
 
