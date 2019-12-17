@@ -6,12 +6,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 
 import modele.Artiste;
 import modele.Etat;
@@ -19,7 +17,6 @@ import modele.Genre;
 import modele.I_recherche;
 import modele.Metier;
 import modele.Musique;
-import modele.Oeuvre;
 import view.AsidePanel;
 import view.ComboListField;
 import view.DualLinkModule;
@@ -30,7 +27,6 @@ import view.ImageModule;
 import view.LinkModule;
 import view.MainPanel;
 import view.Module;
-import view.TextListField;
 
 public class C_musique {
 
