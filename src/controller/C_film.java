@@ -167,9 +167,9 @@ public class C_film {
 						"la dure du film ne doit comporter que des chiffres", "Echec", JOptionPane.ERROR_MESSAGE);
 			}
 			try {
-				if (film_titre_textfield.get(4).getText().toLowerCase().length() == 4
-						&& Integer.parseInt(film_titre_textfield.get(4).getText().toLowerCase()) > 1900) {
-					film.setAnnee_sortie_media(film_titre_textfield.get(4).getText().toLowerCase());
+				if (film_titre_textfield.get(2).getText().toLowerCase().length() == 4
+						&& Integer.parseInt(film_titre_textfield.get(2).getText().toLowerCase()) > 1900) {
+					film.setAnnee_sortie_media(film_titre_textfield.get(2).getText().toLowerCase());
 				} else {
 					success = false;
 					JOptionPane.showMessageDialog(films_panel, "Annee non valide", "Echec",
@@ -181,7 +181,7 @@ public class C_film {
 						"Echec", JOptionPane.ERROR_MESSAGE);
 			}
 			//film.setAlbum(film_titre_textfield.get(2).getText().toLowerCase());
-			film.setUnivers(film_titre_textfield.get(3).getText().toLowerCase());
+			//film.setUnivers(film_titre_textfield.get(3).getText().toLowerCase());
 			film.setEtat(comboListField.getSelectedIndex() + 1);
 			for (int i = 0; i < film_module_personne.getText_list().size(); i++) {
 				Artiste artiste = new Artiste();
