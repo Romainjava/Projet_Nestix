@@ -12,7 +12,9 @@ public class Livre extends Media {
 	protected int ISBN;
 	protected String resume_livre;
 	protected int tome_livre;
+
 	protected Editeur editeur=new Editeur();
+
 
 	protected static ArrayList<Editeur> liste_editeur = new ArrayList<>();
 
@@ -113,10 +115,10 @@ public class Livre extends Media {
 						"SET isbn = ?, resume_livre = ?, tome_livre = ?, editeur_id = ? \n" + 
 						"WHERE livre_id = ?";
 				statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
-				statement.setInt(1, this.ISBN);
+				ConnexionBDD.prepareInt(statement, 1, this.ISBN);
 				statement.setString(2, this.resume_livre);
-				statement.setInt(3, this.tome_livre);
-				statement.setInt(4, this.editeur.getId());
+				ConnexionBDD.prepareInt(statement, 3, this.tome_livre);
+				ConnexionBDD.prepareInt(statement, 4, this.editeur.getId());
 				statement.setInt(5, this.id_media);
 				success = (statement.executeUpdate() > 0);
 			}else {

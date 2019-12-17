@@ -81,6 +81,7 @@ public class Editeur extends Info{
 				id = editeur.getId();
 			}
 		}
+		
 		return id;
 	}
 

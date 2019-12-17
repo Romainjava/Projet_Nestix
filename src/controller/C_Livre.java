@@ -262,13 +262,17 @@ public class C_Livre {
 			livre.setOeuvre(livre_titre_textfield.get(0).getText().toLowerCase());
 			//Annee sortie
 			try {
-				if (livre_titre_textfield.get(2).getText().toLowerCase().length() == 4
-						&& Integer.parseInt(livre_titre_textfield.get(2).getText().toLowerCase()) > 1900) {
-					livre.setAnnee_sortie_media(livre_titre_textfield.get(2).getText().toLowerCase());
-				} else {
-					success = false;
-					JOptionPane.showMessageDialog(livres_panel, "Annee non valide", "Echec",
-							JOptionPane.ERROR_MESSAGE);
+				if(!livre_titre_textfield.get(1).getText().equals("")) {
+					if (livre_titre_textfield.get(2).getText().toLowerCase().length() == 4
+							&& Integer.parseInt(livre_titre_textfield.get(2).getText().toLowerCase()) > 1900) {
+						livre.setAnnee_sortie_media(livre_titre_textfield.get(2).getText().toLowerCase());
+					} else {
+						success = false;
+						JOptionPane.showMessageDialog(livres_panel, "Annee non valide", "Echec",
+								JOptionPane.ERROR_MESSAGE);
+					}
+				}else {
+					livre.setAnnee_sortie_media("0000");
 				}
 			} catch (Exception e2) {
 				success = false;
@@ -286,12 +290,16 @@ public class C_Livre {
 
 			//ISBN
 			try {
-				if(Integer.parseInt(livre_titre_textfield.get(1).getText()) < 1000000000) {
-					livre.setISBN(Integer.parseInt(livre_titre_textfield.get(1).getText()));
+				if(!livre_titre_textfield.get(1).getText().equals("")) {
+					if(Integer.parseInt(livre_titre_textfield.get(1).getText()) < 1000000000) {
+						livre.setISBN(Integer.parseInt(livre_titre_textfield.get(1).getText()));
+					}else {
+						success = false;
+						JOptionPane.showMessageDialog(livres_panel, "ISBN non valide", "Echec",
+								JOptionPane.ERROR_MESSAGE);
+					}
 				}else {
-					success = false;
-					JOptionPane.showMessageDialog(livres_panel, "ISBN non valide", "Echec",
-							JOptionPane.ERROR_MESSAGE);
+					livre.setISBN(0);
 				}
 			}catch (Exception e){
 				success = false;
@@ -302,7 +310,11 @@ public class C_Livre {
 			livre.setResume_livre(livre_module_resume.getText_area().getText());
 			//Tome
 			try {
-				livre.setTome_livre(Integer.parseInt(livre_titre_textfield.get(5).getText()));
+				if(!livre_titre_textfield.get(1).getText().equals("")) {
+					livre.setTome_livre(Integer.parseInt(livre_titre_textfield.get(5).getText()));
+				}else {
+					livre.setTome_livre(0);
+				}
 			}catch(Exception e) {
 				success = false;
 				JOptionPane.showMessageDialog(livres_panel, "le numéro du tome ne doit comporter que des chiffres",
