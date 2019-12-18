@@ -100,23 +100,25 @@ public class C_musique {
 		musique_module_personne.getMore_btn().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (musique.getId() != 0 && !musique_module_personne.empty()) {
-					musique_module_personne.addTextListField();
-					Artiste artiste = new Artiste();
-					Metier metier = new Metier();
-					System.out.println(musique_module_personne.getText_list()
-							.get(musique_module_personne.getText_list().size() - 1));
-					artiste.creationRapide(musique_module_personne.getText_list()
-							.get(musique_module_personne.getText_list().size() - 1));
-					metier.setInfo(musique_module_personne.getCombo_list()
-							.get(musique_module_personne.getCombo_list().size() - 1));
-					artiste.setMetiers_artiste(metier);
-					musique.addArtiste(artiste);
-					musique.ajoutLiaisonArtisteMetierMedia();
-					actualiseTab();
-				} else {
-					JOptionPane.showMessageDialog(musique_main,
-							"Musique pas encore cree, veuillez cree la musique avant d'ajouter ou supprimer\n un artiste");
+				if (!musique_module_personne.empty()) {
+					if (musique.getId() != 0) {
+						musique_module_personne.addTextListField();
+						Artiste artiste = new Artiste();
+						Metier metier = new Metier();
+						System.out.println(musique_module_personne.getText_list()
+								.get(musique_module_personne.getText_list().size() - 1));
+						artiste.creationRapide(musique_module_personne.getText_list()
+								.get(musique_module_personne.getText_list().size() - 1));
+						metier.setInfo(musique_module_personne.getCombo_list()
+								.get(musique_module_personne.getCombo_list().size() - 1));
+						artiste.setMetiers_artiste(metier);
+						musique.addArtiste(artiste);
+						musique.ajoutLiaisonArtisteMetierMedia();
+						actualiseTab();
+					} else {
+						JOptionPane.showMessageDialog(musique_main,
+								"Musique pas encore cree, veuillez cree la musique avant d'ajouter ou supprimer\n un artiste");
+					}
 				}
 			}
 		});
@@ -126,14 +128,15 @@ public class C_musique {
 		musique_module_personne.getLess_btn().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (musique.getId() != 0 && !musique_module_personne.empty()) {
-					musique.supprimeLiaisonArtisteMetierMedia();
-					actualiseTab();
-				} else {
-					JOptionPane.showMessageDialog(musique_main,
-							"Musique pas encore cree, veuillez cree la musique avant d'ajouter ou supprimer\n un artiste");
+				if (!musique_module_personne.empty()) {
+					if (musique.getId() != 0) {
+						musique.supprimeLiaisonArtisteMetierMedia();
+						actualiseTab();
+					} else {
+						JOptionPane.showMessageDialog(musique_main,
+								"Musique pas encore cree, veuillez cree la musique avant d'ajouter ou supprimer\n un artiste");
+					}
 				}
-
 			}
 		});
 		/**
@@ -143,19 +146,21 @@ public class C_musique {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (musique.getId() != 0 && !musique_module_genre.empty()) {
-					musique_module_genre.addTextListField();
-					Genre genre = new Genre();
-					System.out.println(
-							musique_module_genre.getText_list().get(musique_module_genre.getText_list().size() - 1));
-					genre.setInfo(
-							musique_module_genre.getText_list().get(musique_module_genre.getText_list().size() - 1));
-					musique.addGenre(genre);
-					musique.ajoutLiasonMediaGenre();
-					actualiseTab();
-				} else {
-					JOptionPane.showMessageDialog(musique_main,
-							"Musique pas encore cree, veuillez cree la musique avant d'ajouter ou supprimer\n un genre");
+				if (!musique_module_genre.empty()) {
+					if (musique.getId() != 0) {
+						musique_module_genre.addTextListField();
+						Genre genre = new Genre();
+						System.out.println(musique_module_genre.getText_list()
+								.get(musique_module_genre.getText_list().size() - 1));
+						genre.setInfo(musique_module_genre.getText_list()
+								.get(musique_module_genre.getText_list().size() - 1));
+						musique.addGenre(genre);
+						musique.ajoutLiasonMediaGenre();
+						actualiseTab();
+					} else {
+						JOptionPane.showMessageDialog(musique_main,
+								"Musique pas encore cree, veuillez cree la musique avant d'ajouter ou supprimer\n un genre");
+					}
 				}
 			}
 		});
@@ -165,15 +170,16 @@ public class C_musique {
 		musique_module_genre.getLess_btn().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (musique.getId() != 0 && !musique_module_genre.empty()) {
-					musique.supprimeLiasonMediaGenre();
-					actualiseTab();
-				} else {
-					JOptionPane.showMessageDialog(musique_main,
-							"Musique pas encore cree, veuillez cree la musique avant d'ajouter ou supprimer\n un genre");
+				if (!musique_module_genre.empty()) {
+					if (musique.getId() != 0) {
+						musique.supprimeLiasonMediaGenre();
+						actualiseTab();
+					} else {
+						JOptionPane.showMessageDialog(musique_main,
+								"Musique pas encore cree, veuillez cree la musique avant d'ajouter ou supprimer\n un genre");
+					}
 				}
 			}
-
 		});
 	}
 
