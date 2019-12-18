@@ -117,7 +117,7 @@ public class C_Livre {
 		livre_module_personne.getMore_btn().addActionListener(new ActionListener() {		
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(livre.getId()!=0) {
+				if(livre.getId()!=0 && !livre_module_personne.empty()) {
 					livre_module_personne.addTextListField();
 					Artiste artiste = new Artiste();
 					Metier metier = new Metier();
@@ -139,7 +139,7 @@ public class C_Livre {
 		livre_module_personne.getLess_btn().addActionListener(new ActionListener() {		
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(livre.getId()!=0) {
+				if(livre.getId()!=0 && !livre_module_personne.empty()) {
 					livre.supprimeLiaisonArtisteMetierMedia();
 					actualiseTab();
 				}else {
@@ -154,7 +154,7 @@ public class C_Livre {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (livre.getId()!=0) {
+				if (livre.getId()!=0 && !livre_module_genre.empty()) {
 					livre_module_genre.addTextListField();
 					Genre genre = new Genre();
 //					System.out.println(livre_module_genre.getText_list().get(livre_module_genre.getText_list().size()-1));
@@ -173,7 +173,7 @@ public class C_Livre {
 		livre_module_genre.getLess_btn().addActionListener(new ActionListener() {		
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(livre.getId()!=0) {
+				if(livre.getId()!=0 && !livre_module_genre.empty()) {
 					livre.supprimeLiasonMediaGenre();
 					actualiseTab();
 				}else {
