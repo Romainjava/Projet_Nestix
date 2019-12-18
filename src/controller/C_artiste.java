@@ -1,5 +1,7 @@
 package controller;
 
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -26,6 +28,7 @@ import view.HeaderPanel;
 import view.ImageModule;
 import view.MainPanel;
 import view.MetiersPanel;
+import view.PlaceholderTextField;
 
 public class C_artiste {
 	private JPanel artiste_panel;
@@ -35,10 +38,10 @@ public class C_artiste {
 	ArrayList<I_recherche> artistes = new ArrayList<>();
 	// COMPOSANT
 	JTable artiste_result_table;
-	JTextField artiste_nom_textfield;
-	JTextField artiste_prenom_textfield;
-	JTextField artiste_surnom_textfield;
-	JTextField artiste_dob_textfield;
+	PlaceholderTextField artiste_nom_textfield;
+	PlaceholderTextField artiste_prenom_textfield;
+	PlaceholderTextField artiste_surnom_textfield;
+	PlaceholderTextField artiste_dob_textfield;
 	AsidePanel artiste_aside;
 	MetiersPanel metier_panel;
 
@@ -51,17 +54,19 @@ public class C_artiste {
 	}
 
 	public void ajouteHeader() {
-		String[] tabHeader = { "Nom", "Prenom", "Date de naissance", "Surnom" };
+		String[] tabHeader = { "Nom", "Prenom","Date de naissance", "Surnom" };
 		double[] elmSize = { 1.0, 1.0, 1.0, 1.0 };
 		HeaderPanel artiste_header = new HeaderPanel(this.artiste_panel, "Cet onglet permet de renseigner des livres",
 				tabHeader, elmSize);
-		ArrayList<JTextField> liste = artiste_header.getJtextArrray();
+		ArrayList<PlaceholderTextField> liste = artiste_header.getJtextArrray();
 		this.artiste_nom_textfield = liste.get(0);
 		this.artiste_prenom_textfield = liste.get(1);
-		this.artiste_surnom_textfield = liste.get(3);
 		this.artiste_dob_textfield = liste.get(2);
+		this.artiste_dob_textfield.setPlaceholder("Format : jj/mm/aaaa");
+		this.artiste_surnom_textfield = liste.get(3);
+		
 		// affiche le text en hover
-		this.artiste_dob_textfield.setToolTipText("(Format jj/mm/aaaa");
+		//this.artiste_dob_textfield.setToolTipText("(Format jj/mm/aaaa");
 	}
 
 	public void ajoutMainPanel() {
@@ -313,7 +318,7 @@ public class C_artiste {
 		return artiste_nom_textfield;
 	}
 
-	public void setArtiste_nom_textfield(JTextField artiste_nom_textfield) {
+	public void setArtiste_nom_textfield(PlaceholderTextField artiste_nom_textfield) {
 		this.artiste_nom_textfield = artiste_nom_textfield;
 	}
 
@@ -321,7 +326,7 @@ public class C_artiste {
 		return artiste_prenom_textfield;
 	}
 
-	public void setArtiste_prenom_textfield(JTextField artiste_prenom_textfield) {
+	public void setArtiste_prenom_textfield(PlaceholderTextField artiste_prenom_textfield) {
 		this.artiste_prenom_textfield = artiste_prenom_textfield;
 	}
 
@@ -329,7 +334,7 @@ public class C_artiste {
 		return artiste_surnom_textfield;
 	}
 
-	public void setArtiste_surnom_textfield(JTextField artiste_surnom_textfield) {
+	public void setArtiste_surnom_textfield(PlaceholderTextField artiste_surnom_textfield) {
 		this.artiste_surnom_textfield = artiste_surnom_textfield;
 	}
 
@@ -337,7 +342,7 @@ public class C_artiste {
 		return artiste_dob_textfield;
 	}
 
-	public void setArtiste_dob_textfield(JTextField artiste_dob_textfield) {
+	public void setArtiste_dob_textfield(PlaceholderTextField artiste_dob_textfield) {
 		this.artiste_dob_textfield = artiste_dob_textfield;
 	}
 

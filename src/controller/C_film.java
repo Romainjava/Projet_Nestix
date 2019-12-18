@@ -27,6 +27,7 @@ import view.ImageModule;
 import view.LinkModule;
 import view.MainPanel;
 import view.Module;
+import view.PlaceholderTextField;
 import view.TextListField;
 
 public class C_film {
@@ -38,8 +39,8 @@ public class C_film {
 	int row;
 	
 	JTable film_results_table;
-	ArrayList<JTextField> film_titre_textfield;
-	String header[] = { "Titre", "Durée", "Année de sortie", "Saga" };
+	ArrayList<PlaceholderTextField> film_titre_textfield;
+	String header[] = { "Titre", "Durï¿½e", "Annï¿½e de sortie", "Saga" };
 	ComboListField comboListField = new ComboListField(new String[] { "valide", "attente", "bloquer" });
 	DualLinkModule dualLinkModule = new DualLinkModule("Personne", new String[] { "acteur", "realisateur", "scenariste" });
 	LinkModule linkModule = new LinkModule("Genre");
@@ -56,7 +57,7 @@ public class C_film {
 		return film_results_table;
 	}
 	
-	public ArrayList<JTextField> getFilm_titre_textfield() {
+	public ArrayList<PlaceholderTextField> getFilm_titre_textfield() {
 		return film_titre_textfield;
 	}
 	
@@ -73,7 +74,7 @@ public class C_film {
 		double elmsSize[] = { 1.0, 1.0, 1.0, 1.0 };
 		films_header = new HeaderPanel(this.films_panel, "Cet onglet permet de renseigner des films",
 				header, elmsSize);
-		ArrayList<JTextField> liste = films_header.getJtextArrray();
+		ArrayList<PlaceholderTextField> liste = films_header.getJtextArrray();
 		this.film_titre_textfield = liste;
 	}
 

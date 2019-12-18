@@ -32,6 +32,7 @@ import view.ImageModule;
 import view.LinkModule;
 import view.MainPanel;
 import view.Module;
+import view.PlaceholderTextField;
 import view.TextAreaScrollField;
 
 public class C_Livre {
@@ -43,7 +44,7 @@ public class C_Livre {
 
 	// Composants
 	JTable livre_results_table;
-	ArrayList<JTextField> livre_titre_textfield;
+	ArrayList<PlaceholderTextField> livre_titre_textfield;
 
 	HeaderPanel livre_header;
 	String[] header_title = { "Titre", "ISBN", "Annee de sortie", "Saga", "Univers", "Tome" };
@@ -72,7 +73,7 @@ public class C_Livre {
 		return livre_results_table;
 	}
 
-	public ArrayList<JTextField> getLivre_titre_textfield() {
+	public ArrayList<PlaceholderTextField> getLivre_titre_textfield() {
 		return livre_titre_textfield;
 	}
 
@@ -80,7 +81,7 @@ public class C_Livre {
 		double elmsSize[] = { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0 };
 		livre_header = new HeaderPanel(this.livres_panel, "Cet onglet permet de renseigner des livres",
 				this.header_title, elmsSize);
-		ArrayList<JTextField> liste = livre_header.getJtextArrray();
+		ArrayList<PlaceholderTextField> liste = livre_header.getJtextArrray();
 		this.livre_titre_textfield = liste;
 	}
 
