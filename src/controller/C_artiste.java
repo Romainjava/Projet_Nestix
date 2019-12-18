@@ -60,6 +60,8 @@ public class C_artiste {
 		this.artiste_prenom_textfield = liste.get(1);
 		this.artiste_surnom_textfield = liste.get(3);
 		this.artiste_dob_textfield = liste.get(2);
+		// affiche le text en hover
+		this.artiste_dob_textfield.setToolTipText("(Format jj/mm/aaaa");
 	}
 
 	public void ajoutMainPanel() {
@@ -73,33 +75,44 @@ public class C_artiste {
 		JButton btn = metier_panel.metier_add_button;
 		btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// recupere les valeurs des combobox et les ajoutes en bdd
-				metier_panel.getInfoMetier();
-				metier_panel.getInfoMedia();
+				//EMPECHE LA CREATION DU BTN + SI SURNOM EST VIDE
+				if (!artiste.getSurnom_artiste().equals("")) {
+					// recupere les valeurs des combobox et les ajoutes en bdd
+					metier_panel.getInfoMetier();
+					metier_panel.getInfoMedia();
 
-				// Artiste
-				if (artiste.getId() == 0) {
-					System.out.print("Creation rapide d'un artiste");
-					artiste.creationRapide(artiste_surnom_textfield.getText()); // recuperer le surnom dans le
-																				// jtextfield
-					System.out.println(" id = " + artiste.getId());
-					if (artiste.getId() > 0) {
-						actualiseTab(); // Mise à jour du tableau
-						actualiseListe();
+					// Artiste
+					if (artiste.getId() == 0) {
+						System.out.print("Creation rapide d'un artiste");
+						artiste.creationRapide(artiste_surnom_textfield.getText()); // recuperer le surnom dans le
+																					// jtextfield
+						System.out.println(" id = " + artiste.getId());
+						if (artiste.getId() > 0) {
+							actualiseTab(); // Mise à jour du tableau
+							actualiseListe();
+						}
 					}
-				}
-				metier_panel.metier.setArtiste(artiste);
+					metier_panel.metier.setArtiste(artiste);
 
-				// Creation dans la table jointure entre artiste media metier
-				if (M_artiste_metier_media.creation(metier_panel.getMetier())) {
-					actualiseListe();
-					actualiseTab();
-				} else {
-					JOptionPane.showMessageDialog(metier_panel, "Erreur lors de la creation d'un metier");
-				}
+					// Creation dans la table jointure entre artiste media metier
+					if (M_artiste_metier_media.creation(metier_panel.getMetier())) {
+						actualiseListe();
+						actualiseTab();
+					} else {
+						JOptionPane.showMessageDialog(metier_panel, "Erreur lors de la creation d'un metier");
+					}
 
+				}
 			}
 		});
+
+		JButton btn_reset = metier_panel.metier_reset_button;
+		btn_reset.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				resetAllDataTextfield();
+			}
+		});
+
 		JButton btn_supprimer = metier_panel.btnSupprimer;
 		btn_supprimer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -108,7 +121,7 @@ public class C_artiste {
 				if (metier_panel.artiste_metiers_list.getLastVisibleIndex() != -1) {
 					ArrayList<Metier> selectedValuesList = new ArrayList<Metier>();
 					List<?> list = metier_panel.artiste_metiers_list.getSelectedValuesList();
-					//permet d'éviter de casté les elements si la liste est vide
+					// permet d'éviter de casté les elements si la liste est vide
 					for (Object object : list) {
 						selectedValuesList.add((Metier) object);
 					}
@@ -133,6 +146,7 @@ public class C_artiste {
 					}
 				}
 			}
+
 		});
 		artiste_main.add(metier_panel);
 		artiste_main.addModule(new ImageModule(), 2, 0);
@@ -179,6 +193,7 @@ public class C_artiste {
 					actualiseTab();
 				}
 				actualiseTab();
+				actualiseListe();
 			}
 		});
 
@@ -198,17 +213,34 @@ public class C_artiste {
 								"Modification de l'artiste échoué car il existe déjà ce surnom");
 					}
 					actualiseTab();
+					actualiseListe();
 				}
 			}
 		});
 
+		
+		/**
+		 * suppression d'un artiste
+		 */
 		btn.get(2).addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				M_artiste.supprime(artiste);
 				actualiseTab();
+				actualiseListe();
 			}
 		});
 
+	}
+
+	/**
+	 * Reset tout les champs de textfield
+	 */
+	public void resetAllDataTextfield() {
+		this.artiste_nom_textfield.setText("");
+		this.artiste_prenom_textfield.setText("");
+		this.artiste_surnom_textfield.setText("");
+		this.artiste_dob_textfield.setText("");
+		this.metier_panel.media_titre_textField.setText("");
 	}
 
 	/**
