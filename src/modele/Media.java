@@ -5,6 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import view.I_dataListable;
 
 public abstract class Media implements I_requeteSQL, I_dataListable, I_recherche {

@@ -205,14 +205,10 @@ public class C_musique {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (verifChamp()) {
-					System.out.println(musique.getOeuvre().getId());
-					if (musique.creation() && musique.updateDureeAlbum()) {
-						JOptionPane.showMessageDialog(musiques_panel, "Insertion faites", "Validation",
+					if (musique.creation()&& musique.updateDureeAlbum()) {
+						JOptionPane.showMessageDialog(null, "Insertion faites", "Validation",
 								JOptionPane.INFORMATION_MESSAGE);
 						actualiseTab();
-					} else {
-						JOptionPane.showMessageDialog(musiques_panel, "Erreur lors de l'insertion", "Echec insertion",
-								JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}
