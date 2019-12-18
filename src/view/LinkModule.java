@@ -23,7 +23,11 @@ public class LinkModule extends Module implements ActionListener{
 
 	protected JScrollPane content_scroll;
 	protected ArrayList<String> text_list;
+	protected JList content_list;
 	
+	public JList getContent_list() {
+		return content_list;
+	}
 	public TextListField getText_list_field() {
 		return text_list_field;
 	}
@@ -46,7 +50,7 @@ public class LinkModule extends Module implements ActionListener{
 		this.less_btn = less_btn;
 	}
 
-	protected JList content_list;
+
 	
 	protected LinkModule() {
 		super();

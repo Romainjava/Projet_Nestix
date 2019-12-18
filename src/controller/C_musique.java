@@ -47,7 +47,7 @@ public class C_musique {
 	private DualLinkModule musique_module_personne = new DualLinkModule("Personne",
 			new String[] { "interprete", "compositeur" });
 	private LinkModule musique_module_genre = new LinkModule("Genre");
-
+	double elmsSize[] = { 1.0, 1.0, 1.0, 1.0, 1.0 };
 	public JTable getMusique_results_table() {
 		return musique_results_table;
 	}
@@ -128,7 +128,7 @@ public class C_musique {
 		musique_module_personne.getLess_btn().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (!musique_module_personne.empty()) {
+				if(musique_module_personne.getContent_list().getSelectedIndices().length>0) {
 					if (musique.getId() != 0) {
 						musique.supprimeLiaisonArtisteMetierMedia();
 						actualiseTab();
@@ -136,6 +136,8 @@ public class C_musique {
 						JOptionPane.showMessageDialog(musique_main,
 								"Musique pas encore cree, veuillez cree la musique avant d'ajouter ou supprimer\n un artiste");
 					}
+				}else {
+					JOptionPane.showMessageDialog(musique_main,"Veuillez selectionner un element dans la liste ");
 				}
 			}
 		});
@@ -170,7 +172,7 @@ public class C_musique {
 		musique_module_genre.getLess_btn().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (!musique_module_genre.empty()) {
+				if(musique_module_genre.getContent_list().getSelectedIndices().length>0) {
 					if (musique.getId() != 0) {
 						musique.supprimeLiasonMediaGenre();
 						actualiseTab();
@@ -178,6 +180,8 @@ public class C_musique {
 						JOptionPane.showMessageDialog(musique_main,
 								"Musique pas encore cree, veuillez cree la musique avant d'ajouter ou supprimer\n un genre");
 					}
+				}else {
+					JOptionPane.showMessageDialog(musique_main,"Veuillez selectionner un element dans la liste ");
 				}
 			}
 		});
@@ -206,7 +210,7 @@ public class C_musique {
 			public void actionPerformed(ActionEvent e) {
 				if (verifChamp()) {
 					if (musique.creation()&& musique.updateDureeAlbum()) {
-						JOptionPane.showMessageDialog(null, "Insertion faites", "Validation",
+						JOptionPane.showMessageDialog(musiques_panel, "Insertion faites", "Validation",
 								JOptionPane.INFORMATION_MESSAGE);
 						actualiseTab();
 					}

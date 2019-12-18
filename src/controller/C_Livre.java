@@ -141,7 +141,7 @@ public class C_Livre {
 		livre_module_personne.getLess_btn().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (!livre_module_personne.empty()) {
+				if(livre_module_personne.getContent_list().getSelectedIndices().length>0) {
 					if (livre.getId() != 0) {
 						livre.supprimeLiaisonArtisteMetierMedia();
 						actualiseTab();
@@ -149,6 +149,8 @@ public class C_Livre {
 						JOptionPane.showMessageDialog(livre_main,
 								"Livre pas encore cree, veuillez cree le livre avant d'ajouter ou supprimer\n un artiste");
 					}
+				}else {
+					JOptionPane.showMessageDialog(livre_main,"Veuillez selectionner un element dans la liste ");
 				}
 			}
 		});
@@ -182,7 +184,7 @@ public class C_Livre {
 		livre_module_genre.getLess_btn().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (!livre_module_genre.empty()) {
+				if(livre_module_genre.getContent_list().getSelectedIndices().length>0) {
 					if (livre.getId() != 0) {
 						livre.supprimeLiasonMediaGenre();
 						actualiseTab();
@@ -190,6 +192,8 @@ public class C_Livre {
 						JOptionPane.showMessageDialog(livre_main,
 								"Livre pas encore cree, veuillez cree le livre avant d'ajouter ou supprimer\n un genre");
 					}
+				}else {
+					JOptionPane.showMessageDialog(livre_main,"Veuillez selectionner un element dans la liste ");
 				}
 			}
 		});

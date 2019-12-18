@@ -3,6 +3,10 @@ package view;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
+import com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel;
 
 import controller.C_Livre;
 import controller.C_artiste;
@@ -45,14 +49,22 @@ public class MainApp {
 	/**
 	 * Initialize the contents of the frame.
 	 */
+	@SuppressWarnings("deprecation")
 	private void initialize() {
 		frame = new JFrame();
+		try {
+			UIManager.setLookAndFeel(new NimbusLookAndFeel());
+		} catch (UnsupportedLookAndFeelException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		frame.setBounds(100, 0, 1200, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new GridLayout(1, 0, 0, 0));
 		// AJOUT DU JTabbedPane
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		frame.getContentPane().add(tabbedPane);
+		frame.setLocationRelativeTo(null);
 
 		// ====== DEBUT LIVRE PANEL ====== //
 
