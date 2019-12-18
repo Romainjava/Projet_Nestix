@@ -28,31 +28,36 @@ import view.LinkModule;
 import view.MainPanel;
 import view.Module;
 
+import view.PlaceholderTextField;
+import view.TextListField;
+
+
 public class C_musique {
 
 	private JPanel musiques_panel;
-
+	PlaceholderTextField musique_duree_textfield;
 	// Donn�es
 	private Musique musique = new Musique();
 	private ArrayList<I_recherche> musiques = new ArrayList<>();
 	private int row;
 
 	// Composants
-	private JTable musique_results_table;
-	private ArrayList<JTextField> musique_titre_textfield;
-	private String[] header = { "Titre", "Duree(en secondes)", "Album", "Univers", "Annee de sortie" };
-	private HeaderPanel musique_header;
-	private AsidePanel musiques_aside;
-	private ComboListField musique_module_etat;
-	private DualLinkModule musique_module_personne = new DualLinkModule("Personne",
-			new String[] { "interprete", "compositeur" });
-	private LinkModule musique_module_genre = new LinkModule("Genre");
+
+	JTable musique_results_table;
+	ArrayList<PlaceholderTextField> musique_titre_textfield;
+	String[] header = { "Titre", "Duree", "Album", "Univers", "Annee de sortie" };
+	HeaderPanel musique_header;
+	AsidePanel musiques_aside;
+	ComboListField musique_module_etat;
+	DualLinkModule musique_module_personne = new DualLinkModule("Personne", new String[] { "interprete", "compositeur" });
+	LinkModule musique_module_genre = new LinkModule("Genre");
+
 
 	public JTable getMusique_results_table() {
 		return musique_results_table;
 	}
 
-	public ArrayList<JTextField> getMusique_titre_textfield() {
+	public ArrayList<PlaceholderTextField> getMusique_titre_textfield() {
 		return musique_titre_textfield;
 	}
 
@@ -71,7 +76,12 @@ public class C_musique {
 		double elmsSize[] = { 1.0, 1.0, 1.0, 1.0, 1.0 };
 		musique_header = new HeaderPanel(this.musiques_panel, "Cet onglet permet de renseigner des musiques", header,
 				elmsSize);
-		this.musique_titre_textfield = musique_header.getJtextArrray();
+
+		ArrayList<PlaceholderTextField> liste = musique_header.getJtextArrray();
+		this.musique_titre_textfield = liste;
+		this.musique_duree_textfield = liste.get(1);
+		this.musique_duree_textfield.setPlaceholder("Durée en seconde");
+
 	}
 
 	public void ajoutMainPanel() {

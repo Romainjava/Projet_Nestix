@@ -22,9 +22,10 @@ import net.miginfocom.swing.MigLayout;
 
 @SuppressWarnings("serial")
 public class MetiersPanel extends JPanel {
-	private JTextField media_titre_textField;
+	public JTextField media_titre_textField;
 	private DefaultListModel<Metier> modelList;
 	public JButton metier_add_button;
+	public JButton metier_reset_button;
 	public JComboBox metier_comboBox;
 	public JComboBox type_comboBox;
 	public JButton btnSupprimer;
@@ -37,7 +38,7 @@ public class MetiersPanel extends JPanel {
 	@SuppressWarnings({ "rawtypes", "serial", "unchecked" })
 	public MetiersPanel() {
 
-		setLayout(new MigLayout("", "[498px]", "[39px][44px][]"));
+		setLayout(new MigLayout("", "[600px]", "[39px][44px][]"));
 
 		JPanel metier_ajouter_panel = new JPanel();
 		add(metier_ajouter_panel, "cell 0 0,alignx left,aligny top");
@@ -59,7 +60,10 @@ public class MetiersPanel extends JPanel {
 
 		metier_add_button = new JButton("+");
 		metier_ajouter_panel.add(metier_add_button);
-	
+		
+		metier_reset_button = new JButton("RESET CHAMPS");
+		metier_ajouter_panel.add(metier_reset_button);
+		
 		JPanel metiers_liste_panel = new JPanel();
 		add(metiers_liste_panel, "cell 0 1,alignx center,aligny top");
 		metiers_liste_panel.setLayout(new MigLayout("", "[300px]", "[][200px:n]"));
@@ -128,6 +132,16 @@ public class MetiersPanel extends JPanel {
 	 */
 	public void addRow(Metier row) {
 		modelList.addElement(row);
+	}
+	
+	// ==== MUTATEUR && ACCESSEUR ==== //
+	
+	public JTextField getMedia_titre_textField() {
+		return media_titre_textField;
+	}
+
+	public void setMedia_titre_textField(JTextField media_titre_textField) {
+		this.media_titre_textField = media_titre_textField;
 	}
 
 }
