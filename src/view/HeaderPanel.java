@@ -39,13 +39,13 @@ public class HeaderPanel extends JPanel {
 		gbl_header_panel.rowWeights = new double[]{1.0, 1.0, 1.0};
 		header_panel.setLayout(gbl_header_panel);
 		
-		JLabel livre_header_info_label = new JLabel(infoOnglet);
+		JLabel header_info_label = new JLabel(infoOnglet);
 		GridBagConstraints gbc_header_info_label = new GridBagConstraints();
 		gbc_header_info_label.gridwidth = 3;
 		gbc_header_info_label.anchor = GridBagConstraints.WEST;
 		gbc_header_info_label.gridx = 0;
 		gbc_header_info_label.gridy = 0;
-		header_panel.add(livre_header_info_label, gbc_header_info_label);
+		header_panel.add(header_info_label, gbc_header_info_label);
 		int i = 0;
 		
 		for (String entete : tab) {

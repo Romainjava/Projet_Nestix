@@ -16,6 +16,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import modele.Artiste;
+import modele.Etat;
 import modele.I_recherche;
 import modele.Metier;
 import requete.M_artiste;
@@ -38,10 +39,12 @@ public class C_artiste {
 	ArrayList<I_recherche> artistes = new ArrayList<>();
 	// COMPOSANT
 	JTable artiste_result_table;
+
 	PlaceholderTextField artiste_nom_textfield;
 	PlaceholderTextField artiste_prenom_textfield;
 	PlaceholderTextField artiste_surnom_textfield;
 	PlaceholderTextField artiste_dob_textfield;
+
 	AsidePanel artiste_aside;
 	MetiersPanel metier_panel;
 
@@ -157,8 +160,9 @@ public class C_artiste {
 		artiste_main.addModule(new ImageModule(), 2, 0);
 		GridPanel relationComple = new GridPanel(new double[] { 1.0, 1.0 }, new double[] { 1.0, 1.0, 1.0 });
 		artiste_main.add(relationComple, artiste_main.addElement(2, 1));
-		relationComple.add(new ComboListField(new String[] { "valide", "en attente", "suggerer", "bloqué" }),
-				relationComple.addElement(0, 0));
+		artiste_etat_combolistfield = new ComboListField(Etat.getAllNom());
+		artiste_etat_combolistfield.setSelectedIndex(1);
+		relationComple.add(artiste_etat_combolistfield, relationComple.addElement(0, 0));
 
 		actualiseListe();
 	}

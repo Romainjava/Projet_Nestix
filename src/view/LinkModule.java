@@ -20,9 +20,16 @@ public class LinkModule extends Module implements ActionListener{
 	
 	protected JButton less_btn = new JButton("-");
 	protected TextListField text_list_field;
+
 	protected JScrollPane content_scroll;
 	protected ArrayList<String> text_list;
 	
+	public TextListField getText_list_field() {
+		return text_list_field;
+	}
+	public boolean empty() {
+		return text_list_field.getText().length()==0;
+	}
 	public JButton getMore_btn() {
 		return more_btn;
 	}

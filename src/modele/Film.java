@@ -36,8 +36,8 @@ public class Film extends Media {
 
 	@Override
 	public String[] toRowData() {
-		String[] data = { this.oeuvre.getNom(), this.concat_genre, this.concat_artistes, this.etat.getNom(),
-				this.annee_sortie_media.substring(0,4) };
+		String[] data = { this.oeuvre.getNom(), this.concat_genre, this.concat_artistes, this.annee_sortie_media.substring(0,4),
+				 this.etat.getNom()};
 		return data;
 	}
 

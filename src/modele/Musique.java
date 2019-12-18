@@ -308,7 +308,7 @@ public class Musique extends Media {
 		}
 
 		public static String queryLectureUn() {
-			return "SELECT  id_media, annee_sortie_media, admin_id, nestix_media.univers_id,  nom_univers, saga_id, duree_musique"
+			return "SELECT  id_media, annee_sortie_media, admin_id, nestix_media.univers_id,  nom_univers, saga_id, duree_musique,"
 					+ "    nom_saga,    image_id,    path_image,    nom_image, "
 					+ "    alt_image,  id_album, nom_album,  utilisateur_id,    nom_oeuvre,    id_etat, "
 					+ "    nom_etat,    oeuvre_id FROM    `nestix_media` "

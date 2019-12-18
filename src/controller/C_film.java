@@ -39,8 +39,10 @@ public class C_film {
 	int row;
 	
 	JTable film_results_table;
+
 	ArrayList<PlaceholderTextField> film_titre_textfield;
 	String header[] = { "Titre", "Dur�e", "Ann�e de sortie", "Saga" };
+
 	ComboListField comboListField = new ComboListField(new String[] { "valide", "attente", "bloquer" });
 	DualLinkModule dualLinkModule = new DualLinkModule("Personne", new String[] { "acteur", "realisateur", "scenariste" });
 	LinkModule linkModule = new LinkModule("Genre");
@@ -88,7 +90,8 @@ public class C_film {
 
 		GridPanel relationComple = new GridPanel(new double[] { 1.0, 1.0 }, new double[] { 1.0, 1.0, 1.0 });
 		film_main.add(relationComple, film_main.addElement(1, 1));
-		film_module_etat = new ComboListField(Etat.lectureTout());
+		film_module_etat = new ComboListField(Etat.getAllNom());
+		film_module_etat.setSelectedIndex(1);
 		relationComple.add(film_module_etat, relationComple.addElement(0, 0));
 		relationComple.add(new TextListField(), relationComple.addElement(0, 1));
 		relationComple.add(new TextListField(), relationComple.addElement(1, 1));
@@ -168,9 +171,9 @@ public class C_film {
 						"la dure du film ne doit comporter que des chiffres", "Echec", JOptionPane.ERROR_MESSAGE);
 			}
 			try {
-				if (film_titre_textfield.get(4).getText().toLowerCase().length() == 4
-						&& Integer.parseInt(film_titre_textfield.get(4).getText().toLowerCase()) > 1900) {
-					film.setAnnee_sortie_media(film_titre_textfield.get(4).getText().toLowerCase());
+				if (film_titre_textfield.get(2).getText().toLowerCase().length() == 4
+						&& Integer.parseInt(film_titre_textfield.get(2).getText().toLowerCase()) > 1900) {
+					film.setAnnee_sortie_media(film_titre_textfield.get(2).getText().toLowerCase());
 				} else {
 					success = false;
 					JOptionPane.showMessageDialog(films_panel, "Annee non valide", "Echec",
@@ -182,7 +185,7 @@ public class C_film {
 						"Echec", JOptionPane.ERROR_MESSAGE);
 			}
 			//film.setAlbum(film_titre_textfield.get(2).getText().toLowerCase());
-			film.setUnivers(film_titre_textfield.get(3).getText().toLowerCase());
+			//film.setUnivers(film_titre_textfield.get(3).getText().toLowerCase());
 			film.setEtat(comboListField.getSelectedIndex() + 1);
 			for (int i = 0; i < film_module_personne.getText_list().size(); i++) {
 				Artiste artiste = new Artiste();
