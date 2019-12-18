@@ -59,7 +59,7 @@ public class C_musique {
 	public ArrayList<PlaceholderTextField> getMusique_titre_textfield() {
 		return musique_titre_textfield;
 	}
-
+//test
 	public C_musique(JPanel musiques_panel) {
 		this.musiques_panel = musiques_panel;
 
