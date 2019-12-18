@@ -36,15 +36,13 @@ public class Film extends Media {
 
 	@Override
 	public String[] toRowData() {
-		String[] data = { this.oeuvre.getNom(), this.concat_genre, this.concat_artistes, this.annee_sortie_media.substring(0,4),
+		return new String[]{ this.oeuvre.getNom(), this.concat_genre, this.concat_artistes, this.annee_sortie_media.substring(0,4),
 				 this.etat.getNom()};
-		return data;
 	}
 
 	@Override
 	public String[] toHeaderData() {
-		String[] data = { "Titre", "Genre", "realisateur", "Date de sortie", "Etat" };
-		return data;
+		return new String[]{ "Titre", "Genre", "realisateur", "Date de sortie", "Etat" };
 	}
 	
 	private void fetchGenre(int id) {
@@ -107,22 +105,20 @@ public class Film extends Media {
 			} else {
 				throw new SQLException("Creating film failed, no ID obtained.");
 			}
-			if (success) {
-				for (int i = 0; i < this.artistes.size(); i++) {
-					query="INSERT INTO `nestix_artiste_metier_media`(`artiste_id`, `media_id`, `metier_id`) VALUES(?,?,?)";
-					statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
-					statement.setInt(1, this.artistes.get(i).getId());
-					statement.setInt(2, this.id_media);
-					statement.setInt(3, this.artistes.get(i).getMetiers_artiste().get(0).getId());
-					success = (statement.executeUpdate() > 0);
-				}
-				for (int i = 0; i < this.genres.size(); i++) {
-					query="INSERT INTO `nestix_media_genre` (`media_id`, `genre_id`) VALUES(?,?)";
-					statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
-					statement.setInt(1, this.id_media);
-					statement.setInt(2, this.genres.get(i).getId());
-					success = (statement.executeUpdate() > 0);
-				}
+			for (Artiste artiste : this.artistes) {
+				query = "INSERT INTO `nestix_artiste_metier_media`(`artiste_id`, `media_id`, `metier_id`) VALUES(?,?,?)";
+				statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
+				statement.setInt(1, artiste.getId());
+				statement.setInt(2, this.id_media);
+				statement.setInt(3, artiste.getMetiers_artiste().get(0).getId());
+				success = (statement.executeUpdate() > 0);
+			}
+			for (Genre genre : this.genres) {
+				query = "INSERT INTO `nestix_media_genre` (`media_id`, `genre_id`) VALUES(?,?)";
+				statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
+				statement.setInt(1, this.id_media);
+				statement.setInt(2, genre.getId());
+				success = (statement.executeUpdate() > 0);
 			}
 			statement.close();
 		} catch (SQLException e) {
@@ -230,14 +226,13 @@ public class Film extends Media {
 	}
 	
 	public String[] toRowDataForm() {
-		String[] data = { this.getTitre(), this.duree_film + "", this.resume_film, this.getNomunivers(),
+		return new String[]{ this.getTitre(), this.duree_film + "", this.resume_film, this.getNomunivers(),
 				this.annee_sortie_media.substring(0,4) };
-		return data;
 	}
 
 	static class Query {
 
-		public static String queryLectureTout() {
+		static String queryLectureTout() {
 			return "SELECT	duree_film, resume_film,  annee_sortie_media,  film_id, 	nom_oeuvre, "
 					+ "		GROUP_CONCAT(DISTINCT surnom_artiste)AS surnom_artiste,  "
 					+ "		GROUP_CONCAT(DISTINCT nom_genre)AS nom_genre, id_genre, 	nom_etat "
@@ -252,19 +247,19 @@ public class Film extends Media {
 					+ "GROUP BY  nestix_media.id_media LIMIT ?";
 		}
 
-		public static String queryFetchGenre() {
+		static String queryFetchGenre() {
 			return "SELECT    genre_id,nom_genre FROM    nestix_media_genre "
 					+ "JOIN nestix_genre ON nestix_media_genre.genre_id = nestix_genre.id_genre WHERE "
 					+ "    media_id = ?";
 		}
 
-		public static String queryFetchArtiste() {
+		static String queryFetchArtiste() {
 			return "SELECT    artiste_id, surnom_artiste " + "FROM    nestix_artiste "
 					+ "JOIN nestix_artiste_metier_media ON nestix_artiste_metier_media.artiste_id = nestix_artiste.id_artiste "
 					+ "WHERE   media_id = ?";
 		}
 
-		public static String queryLectureUn() {
+		static String queryLectureUn() {
 			return "SELECT  id_media, annee_sortie_media, admin_id, nestix_media.univers_id,  nom_univers, saga_id, duree_film, resume_film,"
 					+ "    nom_saga,    image_id,    path_image,    nom_image, "
 					+ "    alt_image,  utilisateur_id,    nom_oeuvre,    id_etat, "

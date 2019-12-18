@@ -33,30 +33,28 @@ public class C_film {
 	
 	private JPanel films_panel;
 	
-	Film film = new Film();
-	ArrayList<I_recherche> films = new ArrayList<>();
+	private Film film = new Film();
+	private ArrayList<I_recherche> films = new ArrayList<>();
 	int row;
-	
-	JTable film_results_table;
-	ArrayList<JTextField> film_titre_textfield;
-	String header[] = { "Titre", "Durée", "Année de sortie", "Saga" };
-	ComboListField comboListField = new ComboListField(new String[] { "valide", "attente", "bloquer" });
+
+	private JTable film_results_table;
+	private ArrayList<JTextField> film_titre_textfield;
+	private String[] header = {"Titre", "Durée", "Année de sortie", "Saga"};
+	private ComboListField comboListField = new ComboListField(new String[] { "valide", "attente", "bloquer" });
 	DualLinkModule dualLinkModule = new DualLinkModule("Personne", new String[] { "acteur", "realisateur", "scenariste" });
 	LinkModule linkModule = new LinkModule("Genre");
-	HeaderPanel films_header;
-	MainPanel film_main;
-	AsidePanel films_aside_panel;
-	FooterPanel film_footer_panel;
+	private HeaderPanel films_header;
+	private AsidePanel films_aside_panel;
+
+	private DualLinkModule film_module_personne = new DualLinkModule("Personne", new String[]{"acteur", "realisateur", "scenariste"});
+	private LinkModule film_module_genre = new LinkModule("Genre");
+	private ComboListField film_module_etat;
 	
-	DualLinkModule film_module_personne = new DualLinkModule("Personne", new String[]{"acteur", "realisateur", "scenariste"});
-	LinkModule film_module_genre = new LinkModule("Genre");
-	ComboListField film_module_etat;
-	
-	public JTable getFilm_results_table() {
+	private JTable getFilm_results_table() {
 		return film_results_table;
 	}
-	
-	public ArrayList<JTextField> getFilm_titre_textfield() {
+
+	private ArrayList<JTextField> getFilm_titre_textfield() {
 		return film_titre_textfield;
 	}
 	
@@ -68,17 +66,16 @@ public class C_film {
 		ajoutMainPanel();
 		footerPanel();
 	}
-	
-	public void ajouteHeader() {
-		double elmsSize[] = { 1.0, 1.0, 1.0, 1.0 };
+
+	private void ajouteHeader() {
+		double[] elmsSize = {1.0, 1.0, 1.0, 1.0};
 		films_header = new HeaderPanel(this.films_panel, "Cet onglet permet de renseigner des films",
 				header, elmsSize);
-		ArrayList<JTextField> liste = films_header.getJtextArrray();
-		this.film_titre_textfield = liste;
+		this.film_titre_textfield = films_header.getJtextArrray();
 	}
 
-	public void ajoutMainPanel() {
-		film_main = new MainPanel(this.films_panel);
+	private void ajoutMainPanel() {
+		MainPanel film_main = new MainPanel(this.films_panel);
 		//ligne 1
 		film_main.addModule(film_module_personne, 0, 0, 2, 1);
 		film_main.addModule(new ImageModule(), 2, 0);
@@ -95,7 +92,7 @@ public class C_film {
 
 		film_main.addModule(new Module(), 2, 1);
 	}
-	public void ajouteTab() {
+	private void ajouteTab() {
 		films_aside_panel = new AsidePanel(this.films_panel);
 		films_aside_panel.setEntetes(film.toHeaderData());
 		films = film.lectureTout(50);
@@ -106,10 +103,10 @@ public class C_film {
 
 	}
 
-	public void footerPanel() {
-		String textBouton[] = { "Creer", "Modifier", "Supprimer" };
-		double elmsSizeFooter[] = { 1.0, 1.0, 1.0 };
-		film_footer_panel = new FooterPanel(this.films_panel, textBouton, elmsSizeFooter);
+	private void footerPanel() {
+		String[] textBouton = {"Creer", "Modifier", "Supprimer"};
+		double[] elmsSizeFooter = {1.0, 1.0, 1.0};
+		FooterPanel film_footer_panel = new FooterPanel(this.films_panel, textBouton, elmsSizeFooter);
 		film_footer_panel.getBoutonTab().get(0).addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -149,8 +146,8 @@ public class C_film {
 			}
 		});
 	}
-	
-	public boolean verifChamp() {
+
+	private boolean verifChamp() {
 		boolean success = true;
 		if (film_titre_textfield.get(0).getText().equals("")) {
 			success = false;
@@ -199,8 +196,8 @@ public class C_film {
 		}
 		return success;
 	}
-	
-	public void actualiseTab() {
+
+	private void actualiseTab() {
 		films = film.lectureTout(50);
 		films_aside_panel.setDonnees(films);
 	}
@@ -234,7 +231,7 @@ public class C_film {
 	/**
 	 * Actualise le formulaire de film
 	 */
-	public void actualiseFilm(String titre) {
+	private void actualiseFilm(String titre) {
 		// Actualise le titre
 		this.getFilm_titre_textfield().get(0).setText(titre);
 	}
@@ -248,8 +245,8 @@ public class C_film {
 	class MouseAdapterTableau extends MouseAdapter{
 		
 		C_film controller;
-		
-		public MouseAdapterTableau(C_film controller) {
+
+		private MouseAdapterTableau(C_film controller) {
 			this.controller = controller;
 		}
 		
