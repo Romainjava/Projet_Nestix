@@ -44,9 +44,8 @@ public class C_musique {
 	private HeaderPanel musique_header;
 	private AsidePanel musiques_aside;
 	private ComboListField musique_module_etat;
-	private DualLinkModule musique_module_personne = new DualLinkModule("Personne",
-			new String[] { "interprete", "compositeur" });
-	private LinkModule musique_module_genre = new LinkModule("Genre");
+	private DualLinkModule musique_module_personne;
+	private LinkModule musique_module_genre;
 	double elmsSize[] = { 1.0, 1.0, 1.0, 1.0, 1.0 };
 	public JTable getMusique_results_table() {
 		return musique_results_table;
@@ -76,23 +75,16 @@ public class C_musique {
 
 	public void ajoutMainPanel() {
 		MainPanel musique_main = new MainPanel(this.musiques_panel);
+		this.musique_module_personne=musique_main.addPanelPersonne(new String[] { "interprete", "compositeur" });
+		
 		// Add element
 		// ligne 1
-		musique_main.addModule(musique_module_personne, 0, 0, 2, 1);
 
-		musique_main.addModule(new ImageModule(), 2, 0);
+		musique_main.addPanelImage();
 		// ligne 2
-		musique_main.addModule(musique_module_genre, 0, 1);
+		musique_module_genre=musique_main.addPanelGenre();
 
-		GridPanel relationComple = new GridPanel(new double[] { 1.0, 1.0 }, new double[] { 1.0, 1.0, 1.0 });
-		musique_main.add(relationComple, musique_main.addElement(1, 1));
-		musique_module_etat = new ComboListField(Etat.lectureTout());
-		musique_module_etat.setSelectedIndex(1);
-		relationComple.add(musique_module_etat, relationComple.addElement(0, 0));
-		relationComple.add(new Module(), relationComple.addElement(0, 1));
-		relationComple.add(new Module(), relationComple.addElement(1, 1));
-		relationComple.add(new Module(), relationComple.addElement(0, 2));
-		musique_main.addModule(new Module(), 2, 1);
+		musique_module_etat = musique_main.addPanelEtat();
 
 		/**
 		 * lie un artiste et une musique lors de l'appui sur +

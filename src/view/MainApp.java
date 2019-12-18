@@ -1,6 +1,8 @@
 package view;
 
 import java.awt.EventQueue;
+import java.awt.Font;
+
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
@@ -59,10 +61,12 @@ public class MainApp {
 			e.printStackTrace();
 		}
 		frame.setBounds(100, 0, 1200, 600);
+		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new GridLayout(1, 0, 0, 0));
 		// AJOUT DU JTabbedPane
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 20));
 		frame.getContentPane().add(tabbedPane);
 		frame.setLocationRelativeTo(null);
 
@@ -96,8 +100,8 @@ public class MainApp {
 
 		JPanel musiques_panel = new JPanel();
 		GridBagLayout gbl_musique_panel = new GridBagLayout();
-		gbl_musique_panel.columnWeights = new double[] { 3.0 };
-		gbl_musique_panel.rowWeights = new double[] { 1.0, 3.5 };
+		gbl_musique_panel.columnWeights = new double[] { 3.0,1.0 };
+		gbl_musique_panel.rowWeights = new double[] { 1.0, 3.5,0.5 };
 		musiques_panel.setLayout(gbl_musique_panel);
 		tabbedPane.addTab("Musique", null, musiques_panel, null);
 		// === Construction du livre panel === //

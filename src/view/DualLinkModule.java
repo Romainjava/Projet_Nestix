@@ -8,6 +8,9 @@ import java.util.Arrays;
 
 import javax.swing.JComboBox;
 import javax.swing.JList;
+import javax.swing.JPanel;
+
+import net.miginfocom.swing.MigLayout;
 
 public class DualLinkModule extends LinkModule{
 	
@@ -28,10 +31,11 @@ public class DualLinkModule extends LinkModule{
 		createEvent();
 				
 		//Layout
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.fill = GridBagConstraints.BOTH;
+		//GridBagConstraints gbc = new GridBagConstraints();
+		//gbc.fill = GridBagConstraints.BOTH;
 	    
-	    addElementLayout(gbc);
+	    //addElementLayout(gbc);
+		this.addElementLayout();
 	}
 	
 	public ArrayList<String> getCombo_list() {
@@ -47,42 +51,6 @@ public class DualLinkModule extends LinkModule{
 		
 		this.combo_list = new ArrayList<String>();
 		this.combo_list_field = new JComboBox(this.dataCombo);
-	}
-
-	@Override
-	public void addElementLayout(GridBagConstraints gbc) {
-		GridBagLayout gbl = new GridBagLayout();
-		
-		gbl.columnWeights = new double[] {1.0, 1.0, 1.0, 1.0, 1.0, 5.0};
-	    gbl.rowWeights = new double[] {1.0,
-										0.5,
-										1.0,
-										3.5};
-	    this.setLayout(gbl);
-	    
-		gbc.gridx = 1;
-		gbc.gridy = 0;
-		gbc.gridwidth = 3;
-		gbc.gridheight = 1;
-		this.add(this.title_label, gbc);
-		gbc.gridx = 1;
-		gbc.gridy = 1;
-		gbc.gridwidth = 1;
-		this.add(this.more_btn, gbc);
-		gbc.gridx = 3;
-		this.add(this.less_btn, gbc);
-		gbc.gridx = 0;
-		gbc.gridy = 2;
-		gbc.gridwidth = 4;
-		this.add(this.text_list_field, gbc);
-		gbc.gridx = 5;
-		gbc.gridwidth = GridBagConstraints.REMAINDER;
-		this.add(this.combo_list_field, gbc);
-		gbc.gridx = 0;
-		gbc.gridy = 3;
-		gbc.gridwidth = GridBagConstraints.REMAINDER;
-		this.add(content_scroll, gbc);
-		content_scroll.setViewportView(content_list);
 	}
 	
 	public void setData(String[] data, String[] dataCombo) {
@@ -156,5 +124,25 @@ public class DualLinkModule extends LinkModule{
 		}
 	}
 
+	public void addElementLayout() {
+		MigLayout gbl = new MigLayout("", "[grow][grow 50]", "[][][][grow]");
+		
+	    this.setLayout(gbl);
+	    
+		this.add(this.title_label, "cell 0 0 2 1,alignx center");
+		
+		JPanel panel_btn = new JPanel();
+		this.add(panel_btn, "cell 0 1 2 1,grow");
+		panel_btn.add(this.more_btn);
+		panel_btn.add(this.less_btn);
+
+		this.add(this.text_list_field, "cell 0 2,growx");
+		this.text_list_field.setColumns(10);
+		this.add(this.combo_list_field, "cell 1 2,growx");
+
+		this.add(content_scroll, "cell 0 3 2 1,grow");
+		content_scroll.setViewportView(content_list);
+	}
+	
 }
 
