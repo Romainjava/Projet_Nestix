@@ -95,6 +95,7 @@ public class C_Livre {
 		livre_main.add(relation_panel, livre_main.addElement(1, 1));
 		relation_panel.add(new JLabel("Etat"), relation_panel.addElement(0, 0));
 		livre_module_etat = new ComboListField(Etat.lectureTout());
+		livre_module_etat.setSelectedIndex(1);
 		relation_panel.add(livre_module_etat, relation_panel.addElement(0, 1));
 		relation_panel.add(new JLabel("Editeur"), relation_panel.addElement(1, 0));
 		Livre.setListe_editeur(Editeur.lectureToutListe());

@@ -88,6 +88,7 @@ public class C_film {
 		GridPanel relationComple = new GridPanel(new double[] { 1.0, 1.0 }, new double[] { 1.0, 1.0, 1.0 });
 		film_main.add(relationComple, film_main.addElement(1, 1));
 		film_module_etat = new ComboListField(Etat.lectureTout());
+		film_module_etat.setSelectedIndex(1);
 		relationComple.add(film_module_etat, relationComple.addElement(0, 0));
 		relationComple.add(new TextListField(), relationComple.addElement(0, 1));
 		relationComple.add(new TextListField(), relationComple.addElement(1, 1));
