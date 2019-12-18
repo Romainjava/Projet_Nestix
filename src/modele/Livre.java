@@ -180,7 +180,7 @@ public class Livre extends Media {
 
 		try {
 			Connection co = ConnexionBDD.getConnexion();
-			String query = "SELECT * FROM nestix_view_livre WHERE livre_id = ?";
+			String query = "SELECT * FROM nestix_vue_media_livre WHERE livre_id = ?";
 
 			PreparedStatement statement = (PreparedStatement) co.prepareStatement(query);
 			statement.setInt(1, id);
@@ -290,7 +290,7 @@ public class Livre extends Media {
 		ArrayList<I_recherche> livreList = new ArrayList<>();
 		try {
 			Connection co = ConnexionBDD.getConnexion();
-			String query = "SELECT * FROM nestix_view_livre \n" +
+			String query = "SELECT * FROM nestix_vue_media_livre \n" +
 							"GROUP BY\n"+
 							"livre_id LIMIT ?";
 
