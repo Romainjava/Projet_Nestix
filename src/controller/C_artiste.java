@@ -140,7 +140,7 @@ public class C_artiste {
 		artiste_main.addModule(new ImageModule(), 2, 0);
 		GridPanel relationComple = new GridPanel(new double[] { 1.0, 1.0 }, new double[] { 1.0, 1.0, 1.0 });
 		artiste_main.add(relationComple, artiste_main.addElement(2, 1));
-		artiste_etat_combolistfield = new ComboListField(Etat.lectureTout());
+		artiste_etat_combolistfield = new ComboListField(Etat.getAllNom());
 		artiste_etat_combolistfield.setSelectedIndex(1);
 		relationComple.add(artiste_etat_combolistfield, relationComple.addElement(0, 0));
 

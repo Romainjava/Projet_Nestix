@@ -86,7 +86,7 @@ public class C_musique {
 
 		GridPanel relationComple = new GridPanel(new double[] { 1.0, 1.0 }, new double[] { 1.0, 1.0, 1.0 });
 		musique_main.add(relationComple, musique_main.addElement(1, 1));
-		musique_module_etat = new ComboListField(Etat.lectureTout());
+		musique_module_etat = new ComboListField(Etat.getAllNom());
 		musique_module_etat.setSelectedIndex(1);
 		relationComple.add(musique_module_etat, relationComple.addElement(0, 0));
 		relationComple.add(new Module(), relationComple.addElement(0, 1));
