@@ -19,6 +19,7 @@ import modele.Metier;
 import requete.M_artiste;
 import requete.M_artiste_metier_media;
 import view.AsidePanel;
+import view.ButtonCustom;
 import view.ComboListField;
 import view.FooterPanel;
 import view.GridPanel;
@@ -159,7 +160,7 @@ public class C_artiste {
 		double elmsSizeFooter[] = { 1.0, 1.0, 1.0 };
 		FooterPanel artiste_footer = new FooterPanel(this.artiste_panel, textBouton, elmsSizeFooter);
 
-		ArrayList<JButton> btn = artiste_footer.getBoutonTab();
+		ArrayList<ButtonCustom> btn = artiste_footer.getBoutonTab();
 
 		/**
 		 * Event btn creation un artiste avec requête creation dans M_artiste
