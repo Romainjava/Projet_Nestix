@@ -16,11 +16,13 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import modele.Artiste;
+import modele.Etat;
 import modele.I_recherche;
 import modele.Metier;
 import requete.M_artiste;
 import requete.M_artiste_metier_media;
 import view.AsidePanel;
+import view.ButtonCustom;
 import view.ComboListField;
 import view.FooterPanel;
 import view.GridPanel;
@@ -38,10 +40,12 @@ public class C_artiste {
 	ArrayList<I_recherche> artistes = new ArrayList<>();
 	// COMPOSANT
 	JTable artiste_result_table;
+
 	PlaceholderTextField artiste_nom_textfield;
 	PlaceholderTextField artiste_prenom_textfield;
 	PlaceholderTextField artiste_surnom_textfield;
 	PlaceholderTextField artiste_dob_textfield;
+
 	AsidePanel artiste_aside;
 	MetiersPanel metier_panel;
 
@@ -154,11 +158,8 @@ public class C_artiste {
 
 		});
 		artiste_main.add(metier_panel);
-		artiste_main.addModule(new ImageModule(), 2, 0);
-		GridPanel relationComple = new GridPanel(new double[] { 1.0, 1.0 }, new double[] { 1.0, 1.0, 1.0 });
-		artiste_main.add(relationComple, artiste_main.addElement(2, 1));
-		relationComple.add(new ComboListField(new String[] { "valide", "en attente", "suggerer", "bloqué" }),
-				relationComple.addElement(0, 0));
+		artiste_main.addPanelImage();
+		artiste_main.addPanelEtat();
 
 		actualiseListe();
 	}
@@ -178,7 +179,7 @@ public class C_artiste {
 		double elmsSizeFooter[] = { 1.0, 1.0, 1.0 };
 		FooterPanel artiste_footer = new FooterPanel(this.artiste_panel, textBouton, elmsSizeFooter);
 
-		ArrayList<JButton> btn = artiste_footer.getBoutonTab();
+		ArrayList<ButtonCustom> btn = artiste_footer.getBoutonTab();
 
 		/**
 		 * Event btn creation un artiste avec requête creation dans M_artiste

@@ -11,6 +11,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import javax.swing.JOptionPane;
+
 import modele.Artiste;
 import modele.ConnexionBDD;
 import modele.I_recherche;
@@ -110,7 +112,9 @@ public class M_artiste {
 				}
 			}
 
-		} catch (SQLException e) {;
+
+		} catch (SQLException e) {
+			MessageSqlState.message(e.getErrorCode());
 			System.out.println("Erreur attrapé dans creation M_artiste : " + e.getMessage());
 		}
 		return (nb_row > 0);
@@ -261,5 +265,5 @@ public class M_artiste {
 		}
 		return date_string;
 	}
-
+	
 }
