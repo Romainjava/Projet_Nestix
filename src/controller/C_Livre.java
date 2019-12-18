@@ -49,22 +49,19 @@ public class C_Livre {
 	String[] header_title = { "Titre", "ISBN", "Annee de sortie", "Saga", "Univers", "Tome" };
 	AsidePanel livres_aside_panel;
 
-	DualLinkModule livre_module_personne = new DualLinkModule("Personne", new String[]{"ecrivain"});
+	DualLinkModule livre_module_personne = new DualLinkModule("Personne", new String[] { "ecrivain" });
 	LinkModule livre_module_genre = new LinkModule("Genre");
 	ComboListField livre_module_etat;
 	ComboListField livre_module_editeur;
 	TextAreaScrollField livre_module_resume;
 
-
 	public C_Livre(JPanel livres_panel) {
 		this.livres_panel = livres_panel;
-
 
 		ajouteHeader();
 		ajouteTab();
 		ajoutMainPanel();
 		footerPanel();
-
 
 	}
 
@@ -87,17 +84,18 @@ public class C_Livre {
 	public void ajoutMainPanel() {
 		MainPanel livre_main = new MainPanel(this.livres_panel);
 		// Add element
-		//ligne 1
+		// ligne 1
 		livre_main.addModule(livre_module_personne, 0, 0, 2, 1);
 
 		livre_main.addModule(new ImageModule(), 2, 0);
-		//ligne 2
+		// ligne 2
 		livre_main.addModule(livre_module_genre, 0, 1);
 
-		GridPanel relation_panel = new GridPanel(new double[] {1.0, 1.0}, new double[] {1.0, 1.0, 1.0, 1.0});
+		GridPanel relation_panel = new GridPanel(new double[] { 1.0, 1.0 }, new double[] { 1.0, 1.0, 1.0, 1.0 });
 		livre_main.add(relation_panel, livre_main.addElement(1, 1));
 		relation_panel.add(new JLabel("Etat"), relation_panel.addElement(0, 0));
-		livre_module_etat = new ComboListField(Etat.lectureTout());
+		livre_module_etat = new ComboListField(Etat.getAllNom());
+		livre_module_etat.setSelectedIndex(1);
 		relation_panel.add(livre_module_etat, relation_panel.addElement(0, 1));
 		relation_panel.add(new JLabel("Editeur"), relation_panel.addElement(1, 0));
 		Livre.setListe_editeur(Editeur.lectureToutListe());
@@ -105,45 +103,53 @@ public class C_Livre {
 		relation_panel.add(livre_module_editeur, relation_panel.addElement(1, 1));
 		relation_panel.add(new Module(), relation_panel.addElement(0, 2, 2, 2));
 
-		GridPanel resume_panel = new GridPanel(new double[] {1.0}, new double[] {1.0, 5.0});
+		GridPanel resume_panel = new GridPanel(new double[] { 1.0 }, new double[] { 1.0, 5.0 });
 		livre_main.add(resume_panel, livre_main.addElement(2, 1));
 		resume_panel.add(new JLabel("Resumé"), resume_panel.addElement(0, 0));
-		livre_module_resume = new TextAreaScrollField(5,10);
+		livre_module_resume = new TextAreaScrollField(5, 10);
 		resume_panel.add(livre_module_resume, resume_panel.addElement(0, 1));
-		
+
 		/**
 		 * lie un artiste et un livre lors de l'appui sur +
 		 */
-		livre_module_personne.getMore_btn().addActionListener(new ActionListener() {		
+		livre_module_personne.getMore_btn().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(livre.getId()!=0) {
-					livre_module_personne.addTextListField();
-					Artiste artiste = new Artiste();
-					Metier metier = new Metier();
+				if (!livre_module_personne.empty()) {
+					if (livre.getId() != 0) {
+						livre_module_personne.addTextListField();
+						Artiste artiste = new Artiste();
+						Metier metier = new Metier();
 //					System.out.println(livre_module_personne.getText_list().get(livre_module_personne.getText_list().size()-1));
-					artiste.creationRapide(livre_module_personne.getText_list().get(livre_module_personne.getText_list().size()-1));
-					metier.setInfo(livre_module_personne.getCombo_list().get(livre_module_personne.getCombo_list().size()-1));
-					artiste.setMetiers_artiste(metier);
-					livre.addArtiste(artiste);
-					livre.ajoutLiaisonArtisteMetierMedia();
-					actualiseTab();
-				}else {
-					JOptionPane.showMessageDialog(livre_main, "Livre pas encore cree, veuillez cree le livre avant d'ajouter ou supprimer\n un artiste");
-				}				
+						artiste.creationRapide(livre_module_personne.getText_list()
+								.get(livre_module_personne.getText_list().size() - 1));
+						metier.setInfo(livre_module_personne.getCombo_list()
+								.get(livre_module_personne.getCombo_list().size() - 1));
+						artiste.setMetiers_artiste(metier);
+						livre.addArtiste(artiste);
+						livre.ajoutLiaisonArtisteMetierMedia();
+						actualiseTab();
+					} else {
+						JOptionPane.showMessageDialog(livre_main,
+								"Livre pas encore cree, veuillez cree le livre avant d'ajouter ou supprimer\n un artiste");
+					}
+				}
 			}
 		});
 		/**
 		 * delie un artiste et un livre lors de l'appui sur -
 		 */
-		livre_module_personne.getLess_btn().addActionListener(new ActionListener() {		
+		livre_module_personne.getLess_btn().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(livre.getId()!=0) {
-					livre.supprimeLiaisonArtisteMetierMedia();
-					actualiseTab();
-				}else {
-					JOptionPane.showMessageDialog(livre_main, "Livre pas encore cree, veuillez cree le livre avant d'ajouter ou supprimer\n un artiste");
+				if (!livre_module_personne.empty()) {
+					if (livre.getId() != 0) {
+						livre.supprimeLiaisonArtisteMetierMedia();
+						actualiseTab();
+					} else {
+						JOptionPane.showMessageDialog(livre_main,
+								"Livre pas encore cree, veuillez cree le livre avant d'ajouter ou supprimer\n un artiste");
+					}
 				}
 			}
 		});
@@ -151,40 +157,48 @@ public class C_Livre {
 		 * lie un genre et un livre lors de l'appuie sur +
 		 */
 		livre_module_genre.getMore_btn().addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (livre.getId()!=0) {
-					livre_module_genre.addTextListField();
-					Genre genre = new Genre();
+				if (!livre_module_genre.empty()) {
+					if (livre.getId() != 0) {
+						livre_module_genre.addTextListField();
+						Genre genre = new Genre();
 //					System.out.println(livre_module_genre.getText_list().get(livre_module_genre.getText_list().size()-1));
-					genre.setInfo(livre_module_genre.getText_list().get(livre_module_genre.getText_list().size()-1));
-					livre.addGenre(genre);
-					livre.ajoutLiasonMediaGenre();
-					actualiseTab();
-				}else {
-					JOptionPane.showMessageDialog(livre_main, "Livre pas encore cree, veuillez cree le livre avant d'ajouter ou supprimer\n un genre");
+						genre.setInfo(
+								livre_module_genre.getText_list().get(livre_module_genre.getText_list().size() - 1));
+						livre.addGenre(genre);
+						livre.ajoutLiasonMediaGenre();
+						actualiseTab();
+					} else {
+						JOptionPane.showMessageDialog(livre_main,
+								"Livre pas encore cree, veuillez cree le livre avant d'ajouter ou supprimer\n un genre");
+					}
 				}
 			}
 		});
 		/**
 		 * delie un genre et un livre lors de l'appuie sur -
 		 */
-		livre_module_genre.getLess_btn().addActionListener(new ActionListener() {		
+		livre_module_genre.getLess_btn().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(livre.getId()!=0) {
-					livre.supprimeLiasonMediaGenre();
-					actualiseTab();
-				}else {
-					JOptionPane.showMessageDialog(livre_main, "Livre pas encore cree, veuillez cree le livre avant d'ajouter ou supprimer\n un genre");
+				if (!livre_module_genre.empty()) {
+					if (livre.getId() != 0) {
+						livre.supprimeLiasonMediaGenre();
+						actualiseTab();
+					} else {
+						JOptionPane.showMessageDialog(livre_main,
+								"Livre pas encore cree, veuillez cree le livre avant d'ajouter ou supprimer\n un genre");
+					}
 				}
 			}
 		});
 	}
+
 	public void ajouteTab() {
 		livres_aside_panel = new AsidePanel(this.livres_panel);
-		livres_aside_panel.setEntetes( new String[] { "Titre", "ISBN", "Editeur", "Etat", "Année de sortie" });
+		livres_aside_panel.setEntetes(new String[] { "Titre", "ISBN", "Editeur", "Etat", "Année de sortie" });
 
 		actualiseTab();
 
@@ -195,11 +209,11 @@ public class C_Livre {
 	}
 
 	public void footerPanel() {
-		String textBouton[] = {"Creer", "Modifier", "Supprimer"};
+		String textBouton[] = { "Creer", "Modifier", "Supprimer" };
 		double elmsSizeFooter[] = { 1.0, 1.0, 1.0 };
 		FooterPanel livre_footer_panel = new FooterPanel(this.livres_panel, textBouton, elmsSizeFooter);
-		//Event
-		//Créer
+		// Event
+		// Créer
 		livre_footer_panel.getBoutonTab().get(0).addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -215,7 +229,7 @@ public class C_Livre {
 				}
 			}
 		});
-		//Modifier
+		// Modifier
 		livre_footer_panel.getBoutonTab().get(1).addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -225,28 +239,28 @@ public class C_Livre {
 								JOptionPane.INFORMATION_MESSAGE);
 						actualiseTab();
 					} else {
-						JOptionPane.showMessageDialog(livres_panel, "Erreur lors de la modification",
-								"Echec update", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(livres_panel, "Erreur lors de la modification", "Echec update",
+								JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}
 		});
-		//Supprimer
+		// Supprimer
 		livre_footer_panel.getBoutonTab().get(2).addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(livre.getId() != 0) {
-					if(livre.suppression(livre.getId())) {
+				if (livre.getId() != 0) {
+					if (livre.suppression(livre.getId())) {
 						JOptionPane.showMessageDialog(livres_panel, "Suppression faites", "Supprime",
 								JOptionPane.INFORMATION_MESSAGE);
 						actualiseTab();
-					}else {
-						JOptionPane.showMessageDialog(livres_panel, "Erreur lors de la suppression",
-								"Echec delete", JOptionPane.ERROR_MESSAGE);
+					} else {
+						JOptionPane.showMessageDialog(livres_panel, "Erreur lors de la suppression", "Echec delete",
+								JOptionPane.ERROR_MESSAGE);
 					}
-				}else {
-					JOptionPane.showMessageDialog(livres_panel, "Erreur id media inexistant",
-							"Echec delete", JOptionPane.ERROR_MESSAGE);
+				} else {
+					JOptionPane.showMessageDialog(livres_panel, "Erreur id media inexistant", "Echec delete",
+							JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -258,11 +272,11 @@ public class C_Livre {
 			success = false;
 			JOptionPane.showMessageDialog(livres_panel, "Veuillez saisir un titre");
 		} else {
-			//Oeuvre
+			// Oeuvre
 			livre.setOeuvre(livre_titre_textfield.get(0).getText().toLowerCase());
-			//Annee sortie
+			// Annee sortie
 			try {
-				if(!livre_titre_textfield.get(1).getText().equals("")) {
+				if (!livre_titre_textfield.get(1).getText().equals("")) {
 					if (livre_titre_textfield.get(2).getText().toLowerCase().length() == 4
 							&& Integer.parseInt(livre_titre_textfield.get(2).getText().toLowerCase()) > 1900) {
 						livre.setAnnee_sortie_media(livre_titre_textfield.get(2).getText().toLowerCase());
@@ -271,7 +285,7 @@ public class C_Livre {
 						JOptionPane.showMessageDialog(livres_panel, "Annee non valide", "Echec",
 								JOptionPane.ERROR_MESSAGE);
 					}
-				}else {
+				} else {
 					livre.setAnnee_sortie_media("0000");
 				}
 			} catch (Exception e2) {
@@ -279,52 +293,52 @@ public class C_Livre {
 				JOptionPane.showMessageDialog(livres_panel, "l'annee de sortie ne doit comporter que des chiffres",
 						"Echec", JOptionPane.ERROR_MESSAGE);
 			}
-			//Univers
+			// Univers
 			livre.setUnivers(livre_titre_textfield.get(4).getText().toLowerCase());
-			//Saga
+			// Saga
 			livre.setSaga(livre_titre_textfield.get(3).getText().toLowerCase());
-			//Etat
+			// Etat
 			livre.setEtat(livre_module_etat.getSelectedIndex() + 1);
-			//Image
+			// Image
 
-
-			//ISBN
+			// ISBN
 			try {
-				if(!livre_titre_textfield.get(1).getText().equals("")) {
-					if(Integer.parseInt(livre_titre_textfield.get(1).getText()) < 1000000000) {
+				if (!livre_titre_textfield.get(1).getText().equals("")) {
+					if (Integer.parseInt(livre_titre_textfield.get(1).getText()) < 1000000000) {
 						livre.setISBN(Integer.parseInt(livre_titre_textfield.get(1).getText()));
-					}else {
+					} else {
 						success = false;
 						JOptionPane.showMessageDialog(livres_panel, "ISBN non valide", "Echec",
 								JOptionPane.ERROR_MESSAGE);
 					}
-				}else {
+				} else {
 					livre.setISBN(0);
 				}
-			}catch (Exception e){
+			} catch (Exception e) {
 				success = false;
-				JOptionPane.showMessageDialog(livres_panel, "l'ISBN ne doit comporter que des chiffres",
-						"Echec", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(livres_panel, "l'ISBN ne doit comporter que des chiffres", "Echec",
+						JOptionPane.ERROR_MESSAGE);
 			}
-			//Resumé
+			// Resumé
 			livre.setResume_livre(livre_module_resume.getText_area().getText());
-			//Tome
+			// Tome
 			try {
-				if(!livre_titre_textfield.get(1).getText().equals("")) {
+				if (!livre_titre_textfield.get(1).getText().equals("")) {
 					livre.setTome_livre(Integer.parseInt(livre_titre_textfield.get(5).getText()));
-				}else {
+				} else {
 					livre.setTome_livre(0);
 				}
-			}catch(Exception e) {
+			} catch (Exception e) {
 				success = false;
 				JOptionPane.showMessageDialog(livres_panel, "le numéro du tome ne doit comporter que des chiffres",
 						"Echec", JOptionPane.ERROR_MESSAGE);
 			}
-			//Editeur
+			// Editeur
+			System.out.println(livre_module_editeur.getSelectedItem().toString());
 			livre.getEditeur().setId(Editeur.getIdInList(livre_module_editeur.getSelectedItem().toString()));
 			livre.getEditeur().setNom(livre_module_editeur.getSelectedItem().toString());
 
-			//Personne
+			// Personne
 			livre.getArtistes().clear();
 			for (int i = 0; i < livre_module_personne.getText_list().size(); i++) {
 				Artiste artiste = new Artiste();
@@ -334,7 +348,7 @@ public class C_Livre {
 				artiste.setMetiers_artiste(metier);
 				livre.addArtiste(artiste);
 			}
-			//genre
+			// genre
 			livre.getGenres().clear();
 			for (int i = 0; i < livre_module_genre.getText_list().size(); i++) {
 				Genre genre = new Genre();
@@ -362,41 +376,42 @@ public class C_Livre {
 		livre_header.autoCompleteFormHeader(livre.toRowDataForm());
 
 		// Actualise le main panel
-		//personne
+		// personne
 		ArrayList<String> tPersonneData = new ArrayList<>();
 		ArrayList<String> tPersonneDataMetier = new ArrayList<>();
-		for(int i = 0; i < livre.getArtistes().size(); i++) {
-			for(int j = 0; j < livre.getArtistes().get(i).getMetiers_artiste().size(); j++) {
+		for (int i = 0; i < livre.getArtistes().size(); i++) {
+			for (int j = 0; j < livre.getArtistes().get(i).getMetiers_artiste().size(); j++) {
 				tPersonneData.add(livre.getArtistes().get(i).getSurnom_artiste());
 				tPersonneDataMetier.add(livre.getArtistes().get(i).getMetiers_artiste().get(j).getNom());
 			}
 		}
-		this.livre_module_personne.setData(tPersonneData.toArray(new String[0]), tPersonneDataMetier.toArray(new String[0]));
-		//genre
+		this.livre_module_personne.setData(tPersonneData.toArray(new String[0]),
+				tPersonneDataMetier.toArray(new String[0]));
+		// genre
 		String[] tGenreData = new String[livre.getGenres().size()];
-		for(int i = 0; i < tGenreData.length; i++) {
+		for (int i = 0; i < tGenreData.length; i++) {
 			tGenreData[i] = livre.getGenres().get(i).getNom();
 		}
 		this.livre_module_genre.setData(tGenreData);
-		//etat
-		this.livre_module_etat.setSelectedIndex(livre.getEtat().getId()-1);
-		//editeur
+		// etat
+		this.livre_module_etat.setSelectedIndex(livre.getEtat().getId() - 1);
+		// editeur
 		this.livre_module_editeur.setSelectedItem(livre.getEditeur().getNom());
 
 		livre.getEditeur().setId(Editeur.getIdInList(livre_module_editeur.getSelectedItem().toString()));
 		livre.getEditeur().setNom(livre_module_editeur.getSelectedItem().toString());
-		//resume
+		// resume
 		this.livre_module_resume.getText_area().setText(livre.getResume_livre());
 
 	}
 
-
 	/**
 	 * Classe interne
+	 * 
 	 * @author Romain
 	 *
 	 */
-	class MouseAdapterTableau extends MouseAdapter{
+	class MouseAdapterTableau extends MouseAdapter {
 
 		C_Livre controller;
 
@@ -404,19 +419,19 @@ public class C_Livre {
 			this.controller = controller;
 		}
 
-
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			// PERMET DE RECUP LA POSITION DANS LA MATRICE DU TABLEAU
 			int row = this.controller.getLivre_results_table().rowAtPoint(e.getPoint());
 			// int column = tableau.columnAtPoint(e.getPoint());
-			//System.out.println("Test click" + row);
+			// System.out.println("Test click" + row);
 			// "getAtValue" : Permet de prendre la valeur de la case ( row , column )
-			String titre = (String)this.controller.getLivre_results_table().getValueAt(row, 0);
-			//this.controller.getLivre_titre_textfield().setText(titre);
+			String titre = (String) this.controller.getLivre_results_table().getValueAt(row, 0);
+			// this.controller.getLivre_titre_textfield().setText(titre);
 			livre.lireUn(livres.get(row).getId());
 			this.controller.actualiseLivre();
-			// Plus tard faire appelle à la méthode actualise livre qui actualise tous les champs
+			// Plus tard faire appelle à la méthode actualise livre qui actualise tous les
+			// champs
 		}
 	}
 }

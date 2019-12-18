@@ -36,11 +36,11 @@ public class C_film {
 	private Film film = new Film();
 	private ArrayList<I_recherche> films = new ArrayList<>();
 	int row;
-
-	private JTable film_results_table;
-	private ArrayList<JTextField> film_titre_textfield;
-	private String[] header = {"Titre", "Durée", "Année de sortie", "Saga"};
-	private ComboListField comboListField = new ComboListField(new String[] { "valide", "attente", "bloquer" });
+	
+	JTable film_results_table;
+	ArrayList<JTextField> film_titre_textfield;
+	String header[] = { "Titre", "DurÃ©e", "AnnÃ©e de sortie", "Saga" };
+	ComboListField comboListField = new ComboListField(new String[] { "valide", "attente", "bloquer" });
 	DualLinkModule dualLinkModule = new DualLinkModule("Personne", new String[] { "acteur", "realisateur", "scenariste" });
 	LinkModule linkModule = new LinkModule("Genre");
 	private HeaderPanel films_header;
@@ -84,7 +84,8 @@ public class C_film {
 
 		GridPanel relationComple = new GridPanel(new double[] { 1.0, 1.0 }, new double[] { 1.0, 1.0, 1.0 });
 		film_main.add(relationComple, film_main.addElement(1, 1));
-		film_module_etat = new ComboListField(Etat.lectureTout());
+		film_module_etat = new ComboListField(Etat.getAllNom());
+		film_module_etat.setSelectedIndex(1);
 		relationComple.add(film_module_etat, relationComple.addElement(0, 0));
 		relationComple.add(new TextListField(), relationComple.addElement(0, 1));
 		relationComple.add(new TextListField(), relationComple.addElement(1, 1));

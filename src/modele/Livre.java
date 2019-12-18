@@ -12,7 +12,9 @@ public class Livre extends Media {
 	protected int ISBN;
 	protected String resume_livre;
 	protected int tome_livre;
-	protected Editeur editeur = new Editeur();
+
+	protected Editeur editeur=new Editeur();
+
 
 	protected static ArrayList<Editeur> liste_editeur = new ArrayList<>();
 
@@ -178,24 +180,7 @@ public class Livre extends Media {
 
 		try {
 			Connection co = ConnexionBDD.getConnexion();
-			String query = "SELECT nom_oeuvre, id_oeuvre,\n" +
-					"date_crea_media, annee_sortie_media, nom_admin, pseudo_utilisateur,\n" +
-					"id_univers, nom_univers, " + "id_saga, nom_saga,\n" +
-					"id_image, nom_image, path_image, alt_image,\n" +
-					"id_etat, nom_etat,\n" +
-					"livre_id, isbn, resume_livre, tome_livre, id_editeur, nom_editeur FROM nestix_livre\n" +
-
-					"LEFT JOIN nestix_media ON nestix_media.id_media = livre_id\n" +
-					"LEFT JOIN nestix_oeuvre ON nestix_oeuvre.id_oeuvre = nestix_media.oeuvre_id\n" +
-					"LEFT JOIN nestix_admin ON nestix_admin.id_admin = nestix_media.admin_id\n" +
-					"LEFT JOIN nestix_univers ON nestix_univers.id_univers = nestix_media.univers_id\n" +
-					"LEFT JOIN nestix_saga ON nestix_saga.id_saga = nestix_media.saga_id\n" +
-					"LEFT JOIN nestix_image ON nestix_image.id_image = nestix_media.image_id\n" +
-					"LEFT JOIN nestix_utilisateur ON nestix_utilisateur.id_utilisateur = nestix_media.utilisateur_id\n"+
-					"LEFT JOIN nestix_editeur ON nestix_editeur.id_editeur = nestix_livre.editeur_id\n"+
-					"LEFT JOIN nestix_etat ON nestix_etat.id_etat = nestix_media.etat_id\n"+
-
-					"WHERE livre_id =  ?";
+			String query = "SELECT * FROM nestix_vue_media_livre WHERE livre_id = ?";
 
 			PreparedStatement statement = (PreparedStatement) co.prepareStatement(query);
 			statement.setInt(1, id);
@@ -252,17 +237,6 @@ public class Livre extends Media {
 			//Metier
 			for(Artiste artiste: artistes) {
 				artiste.getAllMetierById(this.id_media);
-//				artiste.getMetiers_artiste().clear();
-//				query = "SELECT id_metier, nom_metier FROM nestix_artiste_metier_media\n" +
-//						"LEFT JOIN nestix_metier ON nestix_metier.id_metier = metier_id \n" +
-//						"WHERE artiste_id = ?";
-//
-//				statement = (PreparedStatement) co.prepareStatement(query);
-//				statement.setInt(1, artiste.getId());
-//				result = statement.executeQuery();
-//				while (result.next()) {
-//					artiste.setMetiers_artiste(new Metier(result.getInt("id_artiste"), result.getString("surnom_artiste")));
-//				}
 			}
 
 			//livre.concat_genre=result.getString("nom_genre");
@@ -305,25 +279,9 @@ public class Livre extends Media {
 		ArrayList<I_recherche> livreList = new ArrayList<>();
 		try {
 			Connection co = ConnexionBDD.getConnexion();
-			String query = "SELECT nom_oeuvre, id_oeuvre,\n" +
-					"date_crea_media, annee_sortie_media, nom_admin, pseudo_utilisateur,\n" +
-					"id_univers, nom_univers, " + "id_saga, nom_saga,\n" +
-					"id_image, nom_image, path_image, alt_image,\n" +
-					"id_etat, nom_etat,\n" +
-					"livre_id, isbn, resume_livre, tome_livre, id_editeur, nom_editeur FROM nestix_livre\n" +
-
-					"LEFT JOIN nestix_media ON nestix_media.id_media = livre_id\n" +
-					"LEFT JOIN nestix_oeuvre ON nestix_oeuvre.id_oeuvre = nestix_media.oeuvre_id\n" +
-					"LEFT JOIN nestix_admin ON nestix_admin.id_admin = nestix_media.admin_id\n" +
-					"LEFT JOIN nestix_univers ON nestix_univers.id_univers = nestix_media.univers_id\n" +
-					"LEFT JOIN nestix_saga ON nestix_saga.id_saga = nestix_media.saga_id\n" +
-					"LEFT JOIN nestix_image ON nestix_image.id_image = nestix_media.image_id\n" +
-					"LEFT JOIN nestix_utilisateur ON nestix_utilisateur.id_utilisateur = nestix_media.utilisateur_id\n"+
-					"LEFT JOIN nestix_editeur ON nestix_editeur.id_editeur = nestix_livre.editeur_id\n"+
-					"LEFT JOIN nestix_etat ON nestix_etat.id_etat = nestix_media.etat_id\n"+
-
-					"GROUP BY\n"+
-					"nestix_media.id_media LIMIT ?";
+			String query = "SELECT * FROM nestix_vue_media_livre \n" +
+							"GROUP BY\n"+
+							"livre_id LIMIT ?";
 
 			PreparedStatement statement = (PreparedStatement) co.prepareStatement(query);
 			statement.setInt(1, limit);

@@ -33,19 +33,20 @@ public class C_musique {
 	private JPanel musiques_panel;
 
 	// Donn�es
-	Musique musique = new Musique();
-	ArrayList<I_recherche> musiques = new ArrayList<>();
-	int row;
+	private Musique musique = new Musique();
+	private ArrayList<I_recherche> musiques = new ArrayList<>();
+	private int row;
 
 	// Composants
-	JTable musique_results_table;
-	ArrayList<JTextField> musique_titre_textfield;
-	String[] header = { "Titre", "Duree(en secondes)", "Album", "Univers", "Annee de sortie" };
-	HeaderPanel musique_header;
-	AsidePanel musiques_aside;
-	ComboListField musique_module_etat;
-	DualLinkModule musique_module_personne = new DualLinkModule("Personne", new String[] { "interprete", "compositeur" });
-	LinkModule musique_module_genre = new LinkModule("Genre");
+	private JTable musique_results_table;
+	private ArrayList<JTextField> musique_titre_textfield;
+	private String[] header = { "Titre", "Duree(en secondes)", "Album", "Univers", "Annee de sortie" };
+	private HeaderPanel musique_header;
+	private AsidePanel musiques_aside;
+	private ComboListField musique_module_etat;
+	private DualLinkModule musique_module_personne = new DualLinkModule("Personne",
+			new String[] { "interprete", "compositeur" });
+	private LinkModule musique_module_genre = new LinkModule("Genre");
 
 	public JTable getMusique_results_table() {
 		return musique_results_table;
@@ -70,8 +71,7 @@ public class C_musique {
 		double elmsSize[] = { 1.0, 1.0, 1.0, 1.0, 1.0 };
 		musique_header = new HeaderPanel(this.musiques_panel, "Cet onglet permet de renseigner des musiques", header,
 				elmsSize);
-		ArrayList<JTextField> liste = musique_header.getJtextArrray();
-		this.musique_titre_textfield = liste;
+		this.musique_titre_textfield = musique_header.getJtextArrray();
 	}
 
 	public void ajoutMainPanel() {
@@ -86,82 +86,98 @@ public class C_musique {
 
 		GridPanel relationComple = new GridPanel(new double[] { 1.0, 1.0 }, new double[] { 1.0, 1.0, 1.0 });
 		musique_main.add(relationComple, musique_main.addElement(1, 1));
-		musique_module_etat = new ComboListField(Etat.lectureTout());
+		musique_module_etat = new ComboListField(Etat.getAllNom());
 		musique_module_etat.setSelectedIndex(1);
 		relationComple.add(musique_module_etat, relationComple.addElement(0, 0));
 		relationComple.add(new Module(), relationComple.addElement(0, 1));
 		relationComple.add(new Module(), relationComple.addElement(1, 1));
 		relationComple.add(new Module(), relationComple.addElement(0, 2));
 		musique_main.addModule(new Module(), 2, 1);
-		
+
 		/**
 		 * lie un artiste et une musique lors de l'appui sur +
 		 */
-		musique_module_personne.getMore_btn().addActionListener(new ActionListener() {		
+		musique_module_personne.getMore_btn().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(musique.getId()!=0) {
-					musique_module_personne.addTextListField();
-					Artiste artiste = new Artiste();
-					Metier metier = new Metier();
-					System.out.println(musique_module_personne.getText_list().get(musique_module_personne.getText_list().size()-1));
-					artiste.creationRapide(musique_module_personne.getText_list().get(musique_module_personne.getText_list().size()-1));
-					metier.setInfo(musique_module_personne.getCombo_list().get(musique_module_personne.getCombo_list().size()-1));
-					artiste.setMetiers_artiste(metier);
-					musique.addArtiste(artiste);
-					musique.ajoutLiaisonArtisteMetierMedia();
-					actualiseTab();
-				}else {
-					JOptionPane.showMessageDialog(musique_main, "Musique pas encore cree, veuillez cree la musique avant d'ajouter ou supprimer\n un artiste");
-				}				
+				if (!musique_module_personne.empty()) {
+					if (musique.getId() != 0) {
+						musique_module_personne.addTextListField();
+						Artiste artiste = new Artiste();
+						Metier metier = new Metier();
+						System.out.println(musique_module_personne.getText_list()
+								.get(musique_module_personne.getText_list().size() - 1));
+						artiste.creationRapide(musique_module_personne.getText_list()
+								.get(musique_module_personne.getText_list().size() - 1));
+						metier.setInfo(musique_module_personne.getCombo_list()
+								.get(musique_module_personne.getCombo_list().size() - 1));
+						artiste.setMetiers_artiste(metier);
+						musique.addArtiste(artiste);
+						musique.ajoutLiaisonArtisteMetierMedia();
+						actualiseTab();
+					} else {
+						JOptionPane.showMessageDialog(musique_main,
+								"Musique pas encore cree, veuillez cree la musique avant d'ajouter ou supprimer\n un artiste");
+					}
+				}
 			}
 		});
 		/**
 		 * delie un artiste et une musique lors de l'appui sur -
 		 */
-		musique_module_personne.getLess_btn().addActionListener(new ActionListener() {		
+		musique_module_personne.getLess_btn().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(musique.getId()!=0) {
-					musique.supprimeLiaisonArtisteMetierMedia();
-					actualiseTab();
-				}else {
-					JOptionPane.showMessageDialog(musique_main, "Musique pas encore cree, veuillez cree la musique avant d'ajouter ou supprimer\n un artiste");
+				if (!musique_module_personne.empty()) {
+					if (musique.getId() != 0) {
+						musique.supprimeLiaisonArtisteMetierMedia();
+						actualiseTab();
+					} else {
+						JOptionPane.showMessageDialog(musique_main,
+								"Musique pas encore cree, veuillez cree la musique avant d'ajouter ou supprimer\n un artiste");
+					}
 				}
-				
 			}
 		});
 		/**
 		 * lie un genre et une musique lors de l'appuie sur +
 		 */
 		musique_module_genre.getMore_btn().addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (musique.getId()!=0) {
-					musique_module_genre.addTextListField();
-					Genre genre = new Genre();
-					System.out.println(musique_module_genre.getText_list().get(musique_module_genre.getText_list().size()-1));
-					genre.setInfo(musique_module_genre.getText_list().get(musique_module_genre.getText_list().size()-1));
-					musique.addGenre(genre);
-					musique.ajoutLiasonMediaGenre();
-					actualiseTab();
-				}else {
-					JOptionPane.showMessageDialog(musique_main, "Musique pas encore cree, veuillez cree la musique avant d'ajouter ou supprimer\n un genre");
+				if (!musique_module_genre.empty()) {
+					if (musique.getId() != 0) {
+						musique_module_genre.addTextListField();
+						Genre genre = new Genre();
+						System.out.println(musique_module_genre.getText_list()
+								.get(musique_module_genre.getText_list().size() - 1));
+						genre.setInfo(musique_module_genre.getText_list()
+								.get(musique_module_genre.getText_list().size() - 1));
+						musique.addGenre(genre);
+						musique.ajoutLiasonMediaGenre();
+						actualiseTab();
+					} else {
+						JOptionPane.showMessageDialog(musique_main,
+								"Musique pas encore cree, veuillez cree la musique avant d'ajouter ou supprimer\n un genre");
+					}
 				}
 			}
 		});
 		/**
 		 * delie un genre et une musique lors de l'appuie sur -
 		 */
-		musique_module_genre.getLess_btn().addActionListener(new ActionListener() {		
+		musique_module_genre.getLess_btn().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(musique.getId()!=0) {
-					musique.supprimeLiasonMediaGenre();
-					actualiseTab();
-				}else {
-					JOptionPane.showMessageDialog(musique_main, "Musique pas encore cree, veuillez cree la musique avant d'ajouter ou supprimer\n un genre");
+				if (!musique_module_genre.empty()) {
+					if (musique.getId() != 0) {
+						musique.supprimeLiasonMediaGenre();
+						actualiseTab();
+					} else {
+						JOptionPane.showMessageDialog(musique_main,
+								"Musique pas encore cree, veuillez cree la musique avant d'ajouter ou supprimer\n un genre");
+					}
 				}
 			}
 		});
@@ -226,19 +242,20 @@ public class C_musique {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(musique.getId()!=0 && verifChamp()) {
+				if (musique.getId() != 0 && verifChamp()) {
 					musique.suppression(musique.getId());
 					actualiseTab();
-				}	
+				}
 			}
 		});
 	}
 
 	/**
-	 * permet de verifier les champ si ils sont valide enclenche la creation rapide et récupération des id ou la récupération des id simple si
-	 * deja cree
+	 * permet de verifier les champ si ils sont valide enclenche la creation rapide
+	 * et récupération des id ou la récupération des id simple si deja cree
+	 * 
 	 * @return boolean
-	 */	
+	 */
 	public boolean verifChamp() {
 		boolean success = true;
 		if (musique_titre_textfield.get(0).getText().equals("")) {
@@ -281,6 +298,7 @@ public class C_musique {
 		}
 		return success;
 	}
+
 	/**
 	 * Actualise le formulaire de musique
 	 */
