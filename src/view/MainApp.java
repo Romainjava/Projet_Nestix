@@ -15,6 +15,9 @@ import controller.C_artiste;
 import controller.C_film;
 import controller.C_musique;
 import modele.ConnexionBDD;
+import modele.Editeur;
+import modele.Etat;
+import modele.Livre;
 import modele.Musique;
 
 import javax.swing.JPanel;

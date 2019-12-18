@@ -112,6 +112,7 @@ public class M_artiste {
 				}
 			}
 
+
 		} catch (SQLException e) {
 			MessageSqlState.message(e.getErrorCode());
 			System.out.println("Erreur attrapé dans creation M_artiste : " + e.getMessage());

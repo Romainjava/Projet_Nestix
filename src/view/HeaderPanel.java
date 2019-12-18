@@ -11,14 +11,14 @@ import javax.swing.JTextField;
 
 public class HeaderPanel extends JPanel {
 	
-	private JTextField header_entete_textField;
-	private ArrayList<JTextField> jTextArray;
+	private PlaceholderTextField header_entete_textField;
+	private ArrayList<PlaceholderTextField> jTextArray;
 	
-	public ArrayList<JTextField> getJtextArrray() {
+	public ArrayList<PlaceholderTextField> getJtextArrray() {
 		return jTextArray;
 	}
 
-	public void setJtextArrray(ArrayList<JTextField> jtextArrray) {
+	public void setJtextArrray(ArrayList<PlaceholderTextField> jtextArrray) {
 		jTextArray = jtextArrray;
 	}
 
@@ -55,7 +55,7 @@ public class HeaderPanel extends JPanel {
 			gbc_header_entete_label.gridy = 1;
 			header_panel.add(header_entete_label, gbc_header_entete_label);
 			
-			header_entete_textField = new JTextField();
+			header_entete_textField = new PlaceholderTextField();
 			GridBagConstraints gbc_header_entete_textField = new GridBagConstraints();
 			gbc_header_entete_textField.insets = new Insets(0, 0, 0, 5);
 			gbc_header_entete_textField.fill = GridBagConstraints.BOTH;
@@ -75,4 +75,5 @@ public class HeaderPanel extends JPanel {
 		}
 	}
 
+	
 }
