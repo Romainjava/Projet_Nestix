@@ -9,6 +9,9 @@ import controller.C_artiste;
 import controller.C_film;
 import controller.C_musique;
 import modele.ConnexionBDD;
+import modele.Editeur;
+import modele.Etat;
+import modele.Livre;
 import modele.Musique;
 
 import javax.swing.JPanel;
@@ -53,6 +56,10 @@ public class MainApp {
 		// AJOUT DU JTabbedPane
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		frame.getContentPane().add(tabbedPane);
+		
+		// ===== Init data apres connexion ===== //
+		Etat.setListe_etat(Etat.lectureToutListe());
+		// ===== //
 
 		// ====== DEBUT LIVRE PANEL ====== //
 
