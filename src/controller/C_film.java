@@ -51,8 +51,8 @@ public class C_film {
 	AsidePanel films_aside_panel;
 	FooterPanel film_footer_panel;
 	
-	DualLinkModule film_module_personne = new DualLinkModule("Personne", new String[]{"acteur", "realisateur", "scenariste"});
-	LinkModule film_module_genre = new LinkModule("Genre");
+	DualLinkModule film_module_personne;
+	LinkModule film_module_genre;
 	ComboListField film_module_etat;
 	
 	public JTable getFilm_results_table() {
@@ -83,19 +83,12 @@ public class C_film {
 	public void ajoutMainPanel() {
 		film_main = new MainPanel(this.films_panel);
 		//ligne 1
-		film_main.addModule(film_module_personne, 0, 0, 2, 1);
-		film_main.addModule(new ImageModule(), 2, 0);
+		film_module_personne=film_main.addPanelPersonne(new String[]{"acteur", "realisateur", "scenariste"});
+		film_main.addPanelImage();
 		// ligne 2
-		film_main.addModule(film_module_genre, 0, 1);
+		film_module_genre=film_main.addPanelGenre();
 
-		GridPanel relationComple = new GridPanel(new double[] { 1.0, 1.0 }, new double[] { 1.0, 1.0, 1.0 });
-		film_main.add(relationComple, film_main.addElement(1, 1));
-		film_module_etat = new ComboListField(Etat.getAllNom());
-		film_module_etat.setSelectedIndex(1);
-		relationComple.add(film_module_etat, relationComple.addElement(0, 0));
-		relationComple.add(new TextListField(), relationComple.addElement(0, 1));
-		relationComple.add(new TextListField(), relationComple.addElement(1, 1));
-		relationComple.add(new TextListField(), relationComple.addElement(0, 2));
+		film_module_etat=film_main.addPanelEtat();
 
 		film_main.addModule(new Module(), 2, 1);
 	}

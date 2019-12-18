@@ -10,8 +10,11 @@ import java.util.Arrays;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
+
+import net.miginfocom.swing.MigLayout;
 
 public class LinkModule extends Module implements ActionListener{
 	
@@ -23,7 +26,11 @@ public class LinkModule extends Module implements ActionListener{
 
 	protected JScrollPane content_scroll;
 	protected ArrayList<String> text_list;
+	protected JList content_list;
 	
+	public JList getContent_list() {
+		return content_list;
+	}
 	public TextListField getText_list_field() {
 		return text_list_field;
 	}
@@ -46,7 +53,7 @@ public class LinkModule extends Module implements ActionListener{
 		this.less_btn = less_btn;
 	}
 
-	protected JList content_list;
+
 	
 	protected LinkModule() {
 		super();
@@ -65,7 +72,7 @@ public class LinkModule extends Module implements ActionListener{
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.fill = GridBagConstraints.BOTH;
 	    
-	    addElementLayout(gbc);
+	    addElementLayout();
 	}
 	
 	public ArrayList<String> getText_list() {
@@ -77,7 +84,7 @@ public class LinkModule extends Module implements ActionListener{
 	}
 
 	public void createElement(String ptitre) {
-		title_label = new JLabel(ptitre,SwingConstants.CENTER);
+		title_label = new LabelCustom(ptitre);
 		this.more_btn = new JButton("+");
 		text_list_field = new TextListField();
 		content_scroll = new JScrollPane();
@@ -88,35 +95,23 @@ public class LinkModule extends Module implements ActionListener{
 		this.more_btn.addActionListener(this);
 		this.less_btn.addActionListener(this);
 	}
-	public void addElementLayout(GridBagConstraints gbc) {
-		GridBagLayout gbl = new GridBagLayout();
+	public void addElementLayout() {
+		MigLayout gbl = new MigLayout("", "[grow]", "[][][][grow]");
 		
-		gbl.columnWeights = new double[] {1.0, 1.0, 1.0, 1.0, 1.0};
-	    gbl.rowWeights = new double[] {1.0,
-										0.5,
-										1.0,
-										3.5};
 	    this.setLayout(gbl);
 	    
-		gbc.gridx = 1;
-		gbc.gridy = 0;
-		gbc.gridwidth = 3;
-		gbc.gridheight = 1;
-		this.add(this.title_label, gbc);
-		gbc.gridx = 1;
-		gbc.gridy = 1;
-		gbc.gridwidth = 1;
-		this.add(this.more_btn, gbc);
-		gbc.gridx = 3;
-		this.add(this.less_btn, gbc);
-		gbc.gridx = 0;
-		gbc.gridy = 2;
-		gbc.gridwidth = GridBagConstraints.REMAINDER;
-		this.add(this.text_list_field, gbc);
-		gbc.gridx = 0;
-		gbc.gridy = 3;
-		gbc.gridwidth = GridBagConstraints.REMAINDER;
-		this.add(content_scroll, gbc);
+		this.add(this.title_label, "cell 0 0 2 1,alignx center");
+		
+		JPanel panel_btn = new JPanel();
+		this.add(panel_btn, "cell 0 1 2 1,grow");
+		panel_btn.add(this.more_btn);
+		panel_btn.add(this.less_btn);
+
+		this.add(this.text_list_field, "cell 0 2,growx");
+		this.text_list_field.setColumns(10);
+		//this.add(this.combo_list_field, "cell 1 2,growx");
+
+		this.add(content_scroll, "cell 0 3 2 1,grow");
 		content_scroll.setViewportView(content_list);
 	}
 	

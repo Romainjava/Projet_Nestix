@@ -22,6 +22,7 @@ import modele.Metier;
 import requete.M_artiste;
 import requete.M_artiste_metier_media;
 import view.AsidePanel;
+import view.ButtonCustom;
 import view.ComboListField;
 import view.FooterPanel;
 import view.GridPanel;
@@ -157,12 +158,8 @@ public class C_artiste {
 
 		});
 		artiste_main.add(metier_panel);
-		artiste_main.addModule(new ImageModule(), 2, 0);
-		GridPanel relationComple = new GridPanel(new double[] { 1.0, 1.0 }, new double[] { 1.0, 1.0, 1.0 });
-		artiste_main.add(relationComple, artiste_main.addElement(2, 1));
-		artiste_etat_combolistfield = new ComboListField(Etat.getAllNom());
-		artiste_etat_combolistfield.setSelectedIndex(1);
-		relationComple.add(artiste_etat_combolistfield, relationComple.addElement(0, 0));
+		artiste_main.addPanelImage();
+		artiste_main.addPanelEtat();
 
 		actualiseListe();
 	}
@@ -182,7 +179,7 @@ public class C_artiste {
 		double elmsSizeFooter[] = { 1.0, 1.0, 1.0 };
 		FooterPanel artiste_footer = new FooterPanel(this.artiste_panel, textBouton, elmsSizeFooter);
 
-		ArrayList<JButton> btn = artiste_footer.getBoutonTab();
+		ArrayList<ButtonCustom> btn = artiste_footer.getBoutonTab();
 
 		/**
 		 * Event btn creation un artiste avec requête creation dans M_artiste

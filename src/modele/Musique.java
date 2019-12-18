@@ -7,6 +7,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
+import requete.MessageSqlState;
+
 public class Musique extends Media {
 
 	private int duree_musique;
@@ -38,7 +43,7 @@ public class Musique extends Media {
 		String[] data = { "Titre", "Genre", "Interprete", "Etat", "Date de sortie" };
 		return data;
 	}
-
+	
 	private void fetchGenre(int id) {
 		try {
 			Connection co = ConnexionBDD.getConnexion();
@@ -78,24 +83,26 @@ public class Musique extends Media {
 	}
 
 	/**
-	 * update la table nestix_musique aprés la creation d'une musique pour set la duree et l'album si il y'en a un
+	 * update la table nestix_musique aprés la creation d'une musique pour set la
+	 * duree et l'album si il y'en a un
+	 * 
 	 * @return boolean
 	 */
 	public boolean updateDureeAlbum() {
 		boolean success = false;
 		try {
-			String query="UPDATE `nestix_musique` SET `duree_musique`=?,`album_id`=? WHERE musique_id=?";
+			String query = "UPDATE `nestix_musique` SET `duree_musique`=?,`album_id`=? WHERE musique_id=?";
 			PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
 			ConnexionBDD.prepareInt(statement, 1, this.duree_musique);
 			ConnexionBDD.prepareInt(statement, 2, this.album.getId());
 			statement.setInt(3, this.id_media);
-			success=(statement.executeUpdate()>0);
+			success = (statement.executeUpdate() > 0);
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}	
+		}
 		return success;
 	}
-	
+
 	@Override
 	public boolean creation() {
 		boolean success = false;
@@ -119,10 +126,11 @@ public class Musique extends Media {
 				throw new SQLException("Creating music failed, no ID obtained.");
 			}
 			if (success) {
-				query="INSERT INTO `nestix_musique`(`musique_id`, `duree_musique`, `album_id`) VALUES(?,?,?)";
+				query = "INSERT INTO `nestix_musique`(`musique_id`, `duree_musique`, `album_id`) VALUES(?,?,?)";
 			}
 			statement.close();
 		} catch (SQLException e) {
+			MessageSqlState.message(e.getErrorCode());
 			e.printStackTrace();
 		}
 		return success;
@@ -159,7 +167,8 @@ public class Musique extends Media {
 	}
 
 	/**
-	 * pertmer de lire un media, est utilisee lors du clique sur un items du tableau sur l'interface graphique
+	 * pertmer de lire un media, est utilisee lors du clique sur un items du tableau
+	 * sur l'interface graphique
 	 */
 	@Override
 	public boolean lireUn(int id) {
@@ -193,19 +202,12 @@ public class Musique extends Media {
 
 	@Override
 	public boolean suppression(int id) {
-		boolean success=false;
-		if (this.artistes.size()>0) {
-			this.supprimeLiaisonArtisteMetierMedia();
-		}
-		if (this.genres.size()>0) {
-			this.supprimeLiasonMediaGenre();
-		}	
-		this.supprimerLiaisonMediaType();
+		boolean success = false;
 		try {
-			String query="DELETE FROM `nestix_media` WHERE id_media=?";
-			PreparedStatement statement=(PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
+			String query = "DELETE FROM `nestix_media` WHERE id_media=?";
+			PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
 			statement.setInt(1, this.id_media);
-			success=(statement.executeUpdate()>0);
+			success = (statement.executeUpdate() > 0);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -274,11 +276,12 @@ public class Musique extends Media {
 				this.annee_sortie_media.substring(0, 4) };
 		return data;
 	}
-	
+
 	@Override
 	protected String getType() {
 		return "musique";
 	}
+
 	static class Query {
 
 		public static String queryLectureTout() {

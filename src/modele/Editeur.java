@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Editeur extends Info{
-	
 	public Editeur() {
 		super();
 	}
@@ -63,7 +62,7 @@ public class Editeur extends Info{
 			e.printStackTrace();
 			System.out.println("erreur lire tout editeur liste");
 		}
-		
+		Livre.setListe_editeur(editeurList);
 		return editeurList;
 	}
 	public static String[] getAllNom() {
