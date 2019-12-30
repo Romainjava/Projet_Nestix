@@ -13,7 +13,7 @@ public class Artiste implements I_requeteSQL, I_recherche {
 	private int id_artiste;
 	private String nom_artiste;
 	private String prenom_artiste;
-	private String surnom_artiste;
+	private String surnom_artiste="";
 	private String dob_artiste;
 	private ArrayList<Metier> metiers_artiste = new ArrayList<>();
 	private Metier metier;
