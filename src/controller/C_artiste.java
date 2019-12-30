@@ -83,7 +83,7 @@ public class C_artiste {
 		 */
 		JButton btn = metier_panel.metier_add_button;
 		btn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) {				
 				//EMPECHE LA CREATION DU BTN + SI SURNOM EST VIDE
 				if (!artiste.getSurnom_artiste().equals("")) {
 					// recupere les valeurs des combobox et les ajoutes en bdd
@@ -111,10 +111,14 @@ public class C_artiste {
 						JOptionPane.showMessageDialog(metier_panel, "Erreur lors de la creation d'un metier");
 					}
 
+				}else {
+					JOptionPane.showMessageDialog(metier_panel, "Champ vide");
 				}
 			}
 		});
-
+		/**
+		 * Action de l'event du btn Reset, bouton dessiner dans MetiersPanel
+		 */
 		JButton btn_reset = metier_panel.metier_reset_button;
 		btn_reset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -157,7 +161,7 @@ public class C_artiste {
 			}
 
 		});
-		artiste_main.add(metier_panel);
+		artiste_main.addModule(metier_panel, 0, 0,2,3);
 		artiste_main.addPanelImage();
 		artiste_main.addPanelEtat();
 
@@ -242,6 +246,7 @@ public class C_artiste {
 	 * Reset tout les champs de textfield
 	 */
 	public void resetAllDataTextfield() {
+		artiste.setSurnom_artiste("");
 		this.artiste_nom_textfield.setText("");
 		this.artiste_prenom_textfield.setText("");
 		this.artiste_surnom_textfield.setText("");
