@@ -7,6 +7,8 @@ import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel;
 
@@ -64,7 +66,7 @@ public class MainApp {
 			e.printStackTrace();
 		}
 		frame.setBounds(100, 0, 1200, 600);
-		
+
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new GridLayout(1, 0, 0, 0));
 		// AJOUT DU JTabbedPane
@@ -75,7 +77,7 @@ public class MainApp {
 
 		// ====== DEBUT LIVRE PANEL ====== //
 
-		JPanel livres_panel = new JPanel();		
+		JPanel livres_panel = new JPanel();
 		GridBagLayout gbl_livres_panel = new GridBagLayout();
 		gbl_livres_panel.columnWeights = new double[] { 1.0, 3.0 };
 		gbl_livres_panel.rowWeights = new double[] { 1.0, 3.5, 0.5 };
@@ -83,19 +85,19 @@ public class MainApp {
 		tabbedPane.addTab("Livres", null, livres_panel, null);
 		// === Construction du livre panel === //
 		C_Livre livres_controler_panel = new C_Livre(livres_panel);
-		
+
 		// ===== FIN LIVRE ===== //
 
 		// ====== DEBUT FILMS PANEL ====== //
 
-		JPanel films_panel = new JPanel();	
+		JPanel films_panel = new JPanel();
 		GridBagLayout gbl_films_panel = new GridBagLayout();
-		gbl_films_panel.columnWeights = new double[] { 1.0, 3.0 };
+		gbl_films_panel.columnWeights = new double[] { 1.0, 2.0 };
 		gbl_films_panel.rowWeights = new double[] { 1.0, 3.5, 0.5 };
 		films_panel.setLayout(gbl_films_panel);
 		tabbedPane.addTab("Films", null, films_panel, null);
-		
-		C_film film_controler_panel = new C_film(films_panel); 
+
+		C_film film_controler_panel = new C_film(films_panel);
 
 		// ===== FIN FILMS ===== //
 
@@ -103,8 +105,8 @@ public class MainApp {
 
 		JPanel musiques_panel = new JPanel();
 		GridBagLayout gbl_musique_panel = new GridBagLayout();
-		gbl_musique_panel.columnWeights = new double[] { 1.0,3.0 };
-		gbl_musique_panel.rowWeights = new double[] { 1.0, 3.5,0.5 };
+		gbl_musique_panel.columnWeights = new double[] { 1.0, 3.0 };
+		gbl_musique_panel.rowWeights = new double[] { 1.0, 3.5, 0.5 };
 		musiques_panel.setLayout(gbl_musique_panel);
 		tabbedPane.addTab("Musique", null, musiques_panel, null);
 		// === Construction du livre panel === //
@@ -116,11 +118,12 @@ public class MainApp {
 
 		JPanel artistes_panel = new JPanel();
 		GridBagLayout gbl_artistes_panel = new GridBagLayout();
-		gbl_artistes_panel.columnWeights = new double[] { 1.0, 3.0 }; 
-		//tableau ecrasé par le contenu du main, du coup j'ai modifier la fraction pour retrouvé la taille (1.0,3.0) @Romain
+		gbl_artistes_panel.columnWeights = new double[] { 1.0, 3.0 };
+		// tableau ecrasé par le contenu du main, du coup j'ai modifier la fraction pour
+		// retrouvé la taille (1.0,3.0) @Romain
 		gbl_artistes_panel.rowWeights = new double[] { 1.0, 3.5, 0.5 };
 		artistes_panel.setLayout(gbl_artistes_panel);
-		tabbedPane.addTab("Artistes", null, artistes_panel, null);		
+		tabbedPane.addTab("Artistes", null, artistes_panel, null);
 		C_artiste artiste_controler_panel = new C_artiste(artistes_panel);
 
 		// ===== FIN ARTISTES ===== //
@@ -140,6 +143,33 @@ public class MainApp {
 		netoyagebdd_panel.setLayout(new GridLayout(1, 0, 0, 0));
 
 		// ===== FIN NETTOYAGE BDD ===== //
+		
+		/**
+		 * Permet d'actualiser le tableau sur le click d'un onglet tabbedPane
+		 * @Romain
+		 */
+		tabbedPane.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				switch (tabbedPane.getSelectedIndex()) {
+				case 0:
+					livres_controler_panel.actualiseTab();
+					break;
+				case 1:
+					film_controler_panel.actualiseTab();
+					break;
+				case 2:
+					musique_controler_panel.actualiseTab();
+					break;
+				case 3:
+					artiste_controler_panel.actualiseTab();
+					break;
+				// TODO A VALIDER ET NETTOYAGE BDD QUAND CREE
+				default:
+					System.out.println("Erreur dans l'event addChangeListener MainApp");
+					break;
+				}
+			}
+		});
 
 	}
 }
