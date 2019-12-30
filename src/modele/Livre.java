@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 public class Livre extends Media {
 
 	protected int ISBN;
@@ -169,6 +171,10 @@ public class Livre extends Media {
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();
+			if(e.getSQLState().equals("45001")) {
+				JOptionPane.showMessageDialog(null, "ISBN OBLIGATOIRE");
+				
+			}
 		}
 		
 		return success;
