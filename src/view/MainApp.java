@@ -77,7 +77,7 @@ public class MainApp {
 
 		JPanel livres_panel = new JPanel();		
 		GridBagLayout gbl_livres_panel = new GridBagLayout();
-		gbl_livres_panel.columnWeights = new double[] { 3.0, 1.0 };
+		gbl_livres_panel.columnWeights = new double[] { 1.0, 3.0 };
 		gbl_livres_panel.rowWeights = new double[] { 1.0, 3.5, 0.5 };
 		livres_panel.setLayout(gbl_livres_panel);
 		tabbedPane.addTab("Livres", null, livres_panel, null);
@@ -90,7 +90,7 @@ public class MainApp {
 
 		JPanel films_panel = new JPanel();	
 		GridBagLayout gbl_films_panel = new GridBagLayout();
-		gbl_films_panel.columnWeights = new double[] { 3.0, 1.0 };
+		gbl_films_panel.columnWeights = new double[] { 1.0, 3.0 };
 		gbl_films_panel.rowWeights = new double[] { 1.0, 3.5, 0.5 };
 		films_panel.setLayout(gbl_films_panel);
 		tabbedPane.addTab("Films", null, films_panel, null);
@@ -103,7 +103,7 @@ public class MainApp {
 
 		JPanel musiques_panel = new JPanel();
 		GridBagLayout gbl_musique_panel = new GridBagLayout();
-		gbl_musique_panel.columnWeights = new double[] { 3.0,1.0 };
+		gbl_musique_panel.columnWeights = new double[] { 1.0,3.0 };
 		gbl_musique_panel.rowWeights = new double[] { 1.0, 3.5,0.5 };
 		musiques_panel.setLayout(gbl_musique_panel);
 		tabbedPane.addTab("Musique", null, musiques_panel, null);
@@ -116,7 +116,8 @@ public class MainApp {
 
 		JPanel artistes_panel = new JPanel();
 		GridBagLayout gbl_artistes_panel = new GridBagLayout();
-		gbl_artistes_panel.columnWeights = new double[] { 3.0, 1.0 };
+		gbl_artistes_panel.columnWeights = new double[] { 1.0, 3.0 }; 
+		//tableau ecrasé par le contenu du main, du coup j'ai modifier la fraction pour retrouvé la taille (1.0,3.0) @Romain
 		gbl_artistes_panel.rowWeights = new double[] { 1.0, 3.5, 0.5 };
 		artistes_panel.setLayout(gbl_artistes_panel);
 		tabbedPane.addTab("Artistes", null, artistes_panel, null);		
