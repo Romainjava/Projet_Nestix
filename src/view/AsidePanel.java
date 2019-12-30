@@ -40,7 +40,7 @@ public class AsidePanel extends JPanel {
 		this.setBackground(Color.LIGHT_GRAY);
 		GridBagConstraints gbc_aside_panel = new GridBagConstraints();
 		gbc_aside_panel.gridheight = 3;
-		gbc_aside_panel.gridwidth = 1;
+		gbc_aside_panel.gridwidth = 2;
 		gbc_aside_panel.fill = GridBagConstraints.BOTH;
 		gbc_aside_panel.gridx = 1;
 		gbc_aside_panel.gridy = 0;

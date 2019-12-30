@@ -1,33 +1,26 @@
 package controller;
 
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-
 import modele.Artiste;
-import modele.Etat;
 import modele.I_recherche;
 import modele.Metier;
 import requete.M_artiste;
 import requete.M_artiste_metier_media;
 import view.AsidePanel;
 import view.ButtonCustom;
-import view.ComboListField;
 import view.FooterPanel;
-import view.GridPanel;
 import view.HeaderPanel;
-import view.ImageModule;
 import view.MainPanel;
 import view.MetiersPanel;
 import view.PlaceholderTextField;
