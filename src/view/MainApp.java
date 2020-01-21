@@ -9,8 +9,9 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
-import com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel;
+//import com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel;
 
 import controller.C_Livre;
 import controller.C_artiste;
@@ -72,7 +73,7 @@ public class MainApp {
 		frame.getContentPane().setLayout(new GridLayout(1, 0, 0, 0));
 		// AJOUT DU JTabbedPane
 		ConnexionPanel connexionPanel = new ConnexionPanel();
-		frame.getContentPane().add(connexionPanel);
+		//frame.getContentPane().add(connexionPanel);
 
 
 
