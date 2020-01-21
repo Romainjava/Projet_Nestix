@@ -299,7 +299,7 @@ public class C_Livre {
 			// ISBN
 			try {
 				if (!livre_titre_textfield.get(1).getText().equals("")) {
-					if (Integer.parseInt(livre_titre_textfield.get(1).getText()) < 1000000000) {
+					if (Integer.parseInt(livre_titre_textfield.get(1).getText())>0) {
 						livre.setISBN(Integer.parseInt(livre_titre_textfield.get(1).getText()));
 					} else {
 						success = false;

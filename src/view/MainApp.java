@@ -72,7 +72,7 @@ public class MainApp {
 		frame.getContentPane().setLayout(new GridLayout(1, 0, 0, 0));
 		// AJOUT DU JTabbedPane
 		ConnexionPanel connexionPanel = new ConnexionPanel();
-		frame.getContentPane().add(connexionPanel);
+		//frame.getContentPane().add(connexionPanel);
 
 
 
