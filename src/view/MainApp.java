@@ -58,6 +58,7 @@ public class MainApp {
 	 */
 	@SuppressWarnings("deprecation")
 	private void initialize() {
+		boolean log = false;
 		frame = new JFrame();
 		try {
 			UIManager.setLookAndFeel(new NimbusLookAndFeel());
@@ -70,7 +71,17 @@ public class MainApp {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new GridLayout(1, 0, 0, 0));
 		// AJOUT DU JTabbedPane
+		ConnexionPanel connexionPanel = new ConnexionPanel();
+		frame.getContentPane().add(connexionPanel);
+
+
+
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+
+		// ===== Init data apres connexion ===== //
+		Etat.setListe_etat(Etat.lectureToutListe());
+		// ===== //
+
 		tabbedPane.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 20));
 		frame.getContentPane().add(tabbedPane);
 		frame.setLocationRelativeTo(null);
