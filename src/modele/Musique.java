@@ -7,43 +7,40 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
-public class Film extends Media {
-	
-	private String resume_film;
-	private int duree_film;
+import requete.MessageSqlState;
 
-	public String getResume_film() {
-		return resume_film;
+public class Musique extends Media {
+
+	private int duree_musique;
+	private Album album = new Album();
+
+	public int getDuree_musique() {
+		return duree_musique;
 	}
 
-	public void setResume_film(String resume_film) {
-		this.resume_film = resume_film;
+	public void setDuree_musique(int duree_musique) {
+		this.duree_musique = duree_musique;
 	}
 
-	public int getDuree_film() {
-		return duree_film;
-	}
-
-	public void setDuree_film(int duree_film) {
-		this.duree_film = duree_film;
-	}
-	@Override
-	public String toString() {
-		return "Film [resume_film=" + resume_film + ", duree_film=" + duree_film + ", toString()=" + super.toString()
-				+ "]";
-	}
-
+	/**
+	 * permet set les lignes de tableau
+	 */
 	@Override
 	public String[] toRowData() {
-		String[] data = { this.oeuvre.getNom(), this.concat_genre, this.concat_artistes, this.annee_sortie_media.substring(0,4),
-				 this.etat.getNom()};
+		String[] data = { this.oeuvre.getNom(), this.concat_genre, this.concat_artistes, this.etat.getNom(),
+				this.annee_sortie_media.substring(0, 4) };
 		return data;
 	}
 
+	/**
+	 * permet de set l'en-tête du tableau
+	 */
 	@Override
 	public String[] toHeaderData() {
-		String[] data = { "Titre", "Genre", "realisateur", "Date de sortie", "Etat" };
+		String[] data = { "Titre", "Genre", "Interprete", "Etat", "Date de sortie" };
 		return data;
 	}
 	
@@ -85,6 +82,27 @@ public class Film extends Media {
 		}
 	}
 
+	/**
+	 * update la table nestix_musique aprés la creation d'une musique pour set la
+	 * duree et l'album si il y'en a un
+	 * 
+	 * @return boolean
+	 */
+	public boolean updateDureeAlbum() {
+		boolean success = false;
+		try {
+			String query = "UPDATE `nestix_musique` SET `duree_musique`=?,`album_id`=? WHERE musique_id=?";
+			PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
+			ConnexionBDD.prepareInt(statement, 1, this.duree_musique);
+			ConnexionBDD.prepareInt(statement, 2, this.album.getId());
+			statement.setInt(3, this.id_media);
+			success = (statement.executeUpdate() > 0);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return success;
+	}
+
 	@Override
 	public boolean creation() {
 		boolean success = false;
@@ -93,7 +111,7 @@ public class Film extends Media {
 			PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query,
 					Statement.RETURN_GENERATED_KEYS);
 			statement.setString(1, this.annee_sortie_media);
-			statement.setInt(2, 1);
+			statement.setInt(2, 4);
 			ConnexionBDD.prepareInt(statement, 3, this.univers.getId());
 			ConnexionBDD.prepareInt(statement, 4, this.image.getId());
 			statement.setInt(5, (this.etat.getId() == 0) ? 2 : this.etat.getId());
@@ -105,98 +123,17 @@ public class Film extends Media {
 				success = true;
 				this.id_media = (int) generatedKeys.getLong(1);
 			} else {
-				throw new SQLException("Creating film failed, no ID obtained.");
+				throw new SQLException("Creating music failed, no ID obtained.");
 			}
 			if (success) {
-				for (int i = 0; i < this.artistes.size(); i++) {
-					query="INSERT INTO `nestix_artiste_metier_media`(`artiste_id`, `media_id`, `metier_id`) VALUES(?,?,?)";
-					statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
-					statement.setInt(1, this.artistes.get(i).getId());
-					statement.setInt(2, this.id_media);
-					statement.setInt(3, this.artistes.get(i).getMetiers_artiste().get(0).getId());
-					success = (statement.executeUpdate() > 0);
-				}
-				for (int i = 0; i < this.genres.size(); i++) {
-					query="INSERT INTO `nestix_media_genre` (`media_id`, `genre_id`) VALUES(?,?)";
-					statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
-					statement.setInt(1, this.id_media);
-					statement.setInt(2, this.genres.get(i).getId());
-					success = (statement.executeUpdate() > 0);
-				}
+				query = "INSERT INTO `nestix_musique`(`musique_id`, `duree_musique`, `album_id`) VALUES(?,?,?)";
 			}
 			statement.close();
 		} catch (SQLException e) {
+			MessageSqlState.message(e.getErrorCode());
 			e.printStackTrace();
 		}
 		return success;
-	}
-	
-	@Override
-	public boolean lireUn(int id) {
-		boolean sucess = false;
-		try {
-			Connection co = ConnexionBDD.getConnexion();
-			String query = Query.queryLectureUn();
-
-			PreparedStatement statement = (PreparedStatement) co.prepareStatement(query);
-			statement.setInt(1, id);
-			ResultSet result = statement.executeQuery();
-			while (result.next()) {
-				sucess = true;
-				this.id_media = result.getInt("id_media");
-				this.annee_sortie_media = result.getString("annee_sortie_media");
-				this.duree_film = result.getInt("duree_musique");
-				this.setSaga(result);
-				this.setImage(result);
-				this.setEtat(result);
-				this.setOeuvre(result);
-				this.setUnivers(result);
-				this.resume_film = result.getString("resume_film");
-				this.fetchArtiste(id);
-				this.fetchGenre(id);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return sucess;
-	}
-
-	@Override
-	public boolean suppression(int id) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public ArrayList<I_recherche> lectureTout(int limit) {
-		ArrayList<I_recherche> filmList = new ArrayList<>();
-		try {
-			Connection co = ConnexionBDD.getConnexion();
-			String query = Query.queryLectureTout();
-			PreparedStatement statement = (PreparedStatement) co.prepareStatement(query);
-			statement.setInt(1, limit);
-			ResultSet result = statement.executeQuery();
-			while (result.next()) {
-				Film film = new Film();
-				film.id_media = result.getInt("film_id");
-				film.concat_genre = result.getString("nom_genre");
-				film.oeuvre.setNom(result.getString("nom_oeuvre"));
-				film.concat_artistes = result.getString("surnom_artiste");
-				film.etat.setNom(result.getString("nom_etat"));
-				film.setAnnee_sortie_media(result.getString("annee_sortie_media"));
-				filmList.add(film);
-			}
-			// success = (statement.executeUpdate()>1);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return filmList;
-	}
-	
-	@Override
-	public boolean recherchePar(int limit) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 	@Override
@@ -215,10 +152,10 @@ public class Film extends Media {
 			statement.setInt(7, this.id_media);
 			success = (statement.executeUpdate() > 0);
 			if (success) {
-				query = "UPDATE `nestix_film` SET `duree_film`=?,`resume_film`=? WHERE musique_id=?";
+				query = "UPDATE `nestix_musique` SET `duree_musique`=?,`album_id`=? WHERE musique_id=?";
 				statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
-				ConnexionBDD.prepareInt(statement, 1, this.duree_film);
-				statement.setString(2, this.resume_film);
+				ConnexionBDD.prepareInt(statement, 1, this.duree_musique);
+				ConnexionBDD.prepareInt(statement, 2, this.album.getId());
 				statement.setInt(3, this.id_media);
 				success = (statement.executeUpdate() > 0);
 			}
@@ -228,21 +165,130 @@ public class Film extends Media {
 		}
 		return success;
 	}
-	
+
+	/**
+	 * pertmer de lire un media, est utilisee lors du clique sur un items du tableau
+	 * sur l'interface graphique
+	 */
+	@Override
+	public boolean lireUn(int id) {
+		boolean sucess = false;
+		try {
+			Connection co = ConnexionBDD.getConnexion();
+			String query = Query.queryLectureUn();
+
+			PreparedStatement statement = (PreparedStatement) co.prepareStatement(query);
+			statement.setInt(1, id);
+			ResultSet result = statement.executeQuery();
+			while (result.next()) {
+				sucess = true;
+				this.id_media = result.getInt("id_media");
+				this.annee_sortie_media = result.getString("annee_sortie_media");
+				this.duree_musique = result.getInt("duree_musique");
+				this.setSaga(result);
+				this.setImage(result);
+				this.setEtat(result);
+				this.setOeuvre(result);
+				this.setUnivers(result);
+				this.setAlbum(result);
+				this.fetchArtiste(id);
+				this.fetchGenre(id);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return sucess;
+	}
+
+	@Override
+	public boolean suppression(int id) {
+		boolean success = false;
+		try {
+			String query = "DELETE FROM `nestix_media` WHERE id_media=?";
+			PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
+			statement.setInt(1, this.id_media);
+			success = (statement.executeUpdate() > 0);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return success;
+	}
+
+	/**
+	 * pertmet de lire toute les musiques dans la BDD
+	 */
+	@Override
+	public ArrayList<I_recherche> lectureTout(int limit) {
+		ArrayList<I_recherche> musiqueList = new ArrayList<>();
+		try {
+			Connection co = ConnexionBDD.getConnexion();
+			String query = Query.queryLectureTout();
+			PreparedStatement statement = (PreparedStatement) co.prepareStatement(query);
+			statement.setInt(1, limit);
+			ResultSet result = statement.executeQuery();
+			while (result.next()) {
+				Musique musique = new Musique();
+				musique.id_media = result.getInt("musique_id");
+				musique.concat_genre = result.getString("nom_genre");
+				musique.oeuvre.setNom(result.getString("nom_oeuvre"));
+				musique.concat_artistes = result.getString("surnom_artiste");
+				musique.etat.setNom(result.getString("nom_etat"));
+				musique.setAnnee_sortie_media(result.getString("annee_sortie_media"));
+				musiqueList.add(musique);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return musiqueList;
+	}
+
+	public void setAlbum(ResultSet result) {
+		try {
+			this.album.setId(result.getInt("id_album"));
+			this.album.setNom(result.getString("nom_album"));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void setAlbum(String nom) {
+		this.album.setId(0);
+		this.album.setInfo(nom);
+	}
+
+	@Override
+	public boolean recherchePar(int limit) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public String toString() {
+		return "Musiques [duree_musique=" + duree_musique + ", nom_album=" + album.toString() + super.toString() + "]";
+	}
+
+	public String getTitreAlbum() {
+		return this.album.getNom();
+	}
+
 	public String[] toRowDataForm() {
-		String[] data = { this.getTitre(), this.duree_film + "", this.resume_film, this.getNomunivers(),
-				this.annee_sortie_media.substring(0,4) };
+		String[] data = { this.getTitre(), this.duree_musique + "", this.getTitreAlbum(), this.getNomunivers(),
+				this.annee_sortie_media.substring(0, 4) };
 		return data;
+	}
+
+	@Override
+	protected String getType() {
+		return "musique";
 	}
 
 	static class Query {
 
 		public static String queryLectureTout() {
-			return "SELECT	duree_film, resume_film,  annee_sortie_media,  film_id, 	nom_oeuvre, "
+			return "SELECT	duree_musique,  annee_sortie_media,  musique_id, 	nom_oeuvre, "
 					+ "		GROUP_CONCAT(DISTINCT surnom_artiste)AS surnom_artiste,  "
 					+ "		GROUP_CONCAT(DISTINCT nom_genre)AS nom_genre, id_genre, 	nom_etat "
-					+ "FROM  `nestix_film`  " 
-					+ "LEFT JOIN nestix_media ON nestix_media.id_media = film_id  "
+					+ "FROM  `nestix_musique`  " + "LEFT JOIN nestix_media ON nestix_media.id_media = musique_id  "
 					+ "LEFT JOIN nestix_oeuvre ON nestix_oeuvre.id_oeuvre = nestix_media.oeuvre_id "
 					+ "LEFT JOIN nestix_artiste_metier_media ON nestix_artiste_metier_media.media_id = nestix_media.id_media "
 					+ "LEFT JOIN nestix_artiste ON nestix_artiste.id_artiste = nestix_artiste_metier_media.artiste_id  "
@@ -265,12 +311,13 @@ public class Film extends Media {
 		}
 
 		public static String queryLectureUn() {
-			return "SELECT  id_media, annee_sortie_media, admin_id, nestix_media.univers_id,  nom_univers, saga_id, duree_film, resume_film,"
+			return "SELECT  id_media, annee_sortie_media, admin_id, nestix_media.univers_id,  nom_univers, saga_id, duree_musique,"
 					+ "    nom_saga,    image_id,    path_image,    nom_image, "
-					+ "    alt_image,  utilisateur_id,    nom_oeuvre,    id_etat, "
+					+ "    alt_image,  id_album, nom_album,  utilisateur_id,    nom_oeuvre,    id_etat, "
 					+ "    nom_etat,    oeuvre_id FROM    `nestix_media` "
 					+ "LEFT JOIN nestix_oeuvre ON nestix_oeuvre.id_oeuvre = nestix_media.oeuvre_id "
-					+ "LEFT JOIN nestix_film ON nestix_film.film_id = nestix_media.id_media "
+					+ "LEFT JOIN nestix_musique ON nestix_musique.musique_id = nestix_media.id_media "
+					+ "LEFT JOIN nestix_album ON nestix_album.id_album = nestix_musique.album_id  "
 					+ "LEFT JOIN nestix_etat ON nestix_media.etat_id = nestix_etat.id_etat "
 					+ "LEFT JOIN nestix_univers ON nestix_univers.id_univers = nestix_media.id_media "
 					+ "LEFT JOIN nestix_saga ON nestix_saga.id_saga = nestix_media.saga_id "
@@ -279,11 +326,4 @@ public class Film extends Media {
 
 		}
 	}
-	
-	@Override
-	protected String getType() {
-		
-		return "Film";
-	}
-
 }

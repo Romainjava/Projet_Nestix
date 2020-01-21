@@ -4,27 +4,27 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 
 public class FooterPanel extends JPanel{
 	
-	private JButton bouton;
-	private ArrayList<JButton> boutonTab;
+	private ButtonCustom bouton;
+	private ArrayList<ButtonCustom> boutonTab;
 	
-	public ArrayList<JButton> getBoutonTab() {
+	public ArrayList<ButtonCustom> getBoutonTab() {
 		return boutonTab;
 	}
 
-	public void setBoutonTab(ArrayList<JButton> boutonTab) {
+	public void setBoutonTab(ArrayList<ButtonCustom> boutonTab) {
 		this.boutonTab = boutonTab;
 	}
 	
 	public FooterPanel(JPanel parent, String tab[], double elmsSize[]) {
 		super();
-		boutonTab = new ArrayList<JButton>();
+		boutonTab = new ArrayList<ButtonCustom>();
 		JPanel footer_panel = new JPanel();
-		footer_panel.setBackground(Color.BLUE);
+		footer_panel.setBackground(Color.GRAY);
+
 		GridBagConstraints gbc_footer_panel = new GridBagConstraints();
 		gbc_footer_panel.fill = GridBagConstraints.BOTH;
 		gbc_footer_panel.gridx = 0;
@@ -37,7 +37,7 @@ public class FooterPanel extends JPanel{
 		
 		int i = 0;
 		for (String textBouton : tab) {
-			bouton = new JButton(textBouton);
+			bouton = new ButtonCustom(textBouton);
 			GridBagConstraints gbc_footer_btn = new GridBagConstraints();
 			gbc_footer_btn.gridx = i;
 			gbc_footer_btn.gridy = 0;
