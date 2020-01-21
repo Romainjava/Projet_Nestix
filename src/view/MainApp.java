@@ -49,14 +49,18 @@ public class MainApp {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		boolean log = false;
 		frame = new JFrame();
 		frame.setBounds(100, 0, 1200, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new GridLayout(1, 0, 0, 0));
 		// AJOUT DU JTabbedPane
+		ConnexionPanel connexionPanel = new ConnexionPanel();
+		frame.getContentPane().add(connexionPanel);
+
+
+
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		frame.getContentPane().add(tabbedPane);
-		
 		// ===== Init data apres connexion ===== //
 		Etat.setListe_etat(Etat.lectureToutListe());
 		// ===== //

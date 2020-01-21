@@ -36,11 +36,12 @@ public class C_film {
 	private Film film = new Film();
 	private ArrayList<I_recherche> films = new ArrayList<>();
 	int row;
-	
-	JTable film_results_table;
-	ArrayList<JTextField> film_titre_textfield;
-	String header[] = { "Titre", "Durée", "Année de sortie", "Saga" };
-	ComboListField comboListField = new ComboListField(new String[] { "valide", "attente", "bloquer" });
+
+	private JTable film_results_table;
+	private ArrayList<JTextField> film_titre_textfield;
+	private String[] header = {"Titre", "Durée", "Année de sortie", "Saga"};
+	private ComboListField comboListField = new ComboListField(new String[] { "valide", "attente", "bloquer" });
+
 	DualLinkModule dualLinkModule = new DualLinkModule("Personne", new String[] { "acteur", "realisateur", "scenariste" });
 	LinkModule linkModule = new LinkModule("Genre");
 	private HeaderPanel films_header;
@@ -260,7 +261,7 @@ public class C_film {
 			// "getAtValue" : Permet de prendre la valeur de la case ( row , column )
 			String titre = (String)this.controller.getFilm_results_table().getValueAt(row, 0);
 			this.controller.actualiseFilm(titre);
-			// Plus tard faire appelle à la méthode actualise livre qui actualise tous les champs
+			// Plus tard faire appelle Ã  la mÃ©thode actualise livre qui actualise tous les champs
 		}
 	}
 }
