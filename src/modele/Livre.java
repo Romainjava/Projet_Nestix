@@ -1,3 +1,4 @@
+
 package modele;
 
 import java.sql.Connection;
@@ -6,8 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-
-import javax.swing.JOptionPane;
 
 public class Livre extends Media {
 
@@ -171,10 +170,6 @@ public class Livre extends Media {
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();
-			if(e.getSQLState().equals("45001")) {
-				JOptionPane.showMessageDialog(null, "ISBN OBLIGATOIRE");
-				
-			}
 		}
 		
 		return success;
