@@ -10,8 +10,10 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
-import com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel;
+
+//import com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel;
 
 import controller.C_Livre;
 import controller.C_artiste;
