@@ -4,8 +4,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
@@ -21,15 +19,15 @@ import net.miginfocom.swing.MigLayout;
 
 
 @SuppressWarnings("serial")
-public class MetiersPanel extends JPanel {
+public class MetiersPanel extends Module {
 	public JTextField media_titre_textField;
 	private DefaultListModel<Metier> modelList;
 	public JButton metier_add_button;
 	public JButton metier_reset_button;
-	public JComboBox metier_comboBox;
-	public JComboBox type_comboBox;
+	public JComboBox<?> metier_comboBox;
+	public JComboBox<?> type_comboBox;
 	public JButton btnSupprimer;
-	public JList artiste_metiers_list;
+	public JList<Metier> artiste_metiers_list;
 	public Metier metier = new Metier();
 
 	/**
@@ -38,34 +36,39 @@ public class MetiersPanel extends JPanel {
 	@SuppressWarnings({ "rawtypes", "serial", "unchecked" })
 	public MetiersPanel() {
 
-		setLayout(new MigLayout("", "[600px]", "[39px][44px][]"));
-
+		this.setLayout(new MigLayout("", "[600px]", "[][][]"));
+		/* == Panel d'ajout == */
 		JPanel metier_ajouter_panel = new JPanel();
-		add(metier_ajouter_panel, "cell 0 0,alignx left,aligny top");
-
+		metier_ajouter_panel.setLayout(new MigLayout("","50[]20[]20[]20[]","[][]")); // Ajout des espaces inter-cellule
+		this.add(metier_ajouter_panel, "cell 0 0,alignx left,aligny top,grow");
+		
+		//1er ligne du panel ajouter
 		JLabel lblTitre = new JLabel("Titre");
-		metier_ajouter_panel.add(lblTitre);
+		metier_ajouter_panel.add(lblTitre,"cell 0 0, alignx right");
 
 		media_titre_textField = new JTextField();
-		metier_ajouter_panel.add(media_titre_textField);
-		media_titre_textField.setColumns(10);
-
+		media_titre_textField.setColumns(20);
+		metier_ajouter_panel.add(media_titre_textField,"cell 1 0,span 3");
+		
+		//2eme ligne du panel ajouter
 		type_comboBox = new JComboBox();
 		type_comboBox.setModel(new DefaultComboBoxModel(E_TypesMedia.values()));
-		metier_ajouter_panel.add(type_comboBox);
+		metier_ajouter_panel.add(type_comboBox,"cell 0 1,alignx center");
 
 		metier_comboBox = new JComboBox();
 		metier_comboBox.setModel(new DefaultComboBoxModel(E_Metiers.values()));
-		metier_ajouter_panel.add(metier_comboBox);
+		metier_ajouter_panel.add(metier_comboBox,"cell 1 1,alignx center");
 
-		metier_add_button = new JButton("+");
-		metier_ajouter_panel.add(metier_add_button);
+		metier_add_button =  new JButton("+");
+		metier_ajouter_panel.add(metier_add_button,"cell 2 1,alignx center");
 		
-		metier_reset_button = new JButton("RESET CHAMPS");
-		metier_ajouter_panel.add(metier_reset_button);
+		metier_reset_button = new JButton("RESET");
+		metier_ajouter_panel.add(metier_reset_button,"cell 3 1,alignx center");
+		
+		/* == Fin de Panel d'ajout == */
 		
 		JPanel metiers_liste_panel = new JPanel();
-		add(metiers_liste_panel, "cell 0 1,alignx center,aligny top");
+		this.add(metiers_liste_panel, "cell 0 1,alignx center,aligny top");
 		metiers_liste_panel.setLayout(new MigLayout("", "[300px]", "[][200px:n]"));
 
 		JLabel lblListeDesMdias = new JLabel("Liste des médias :");
@@ -83,13 +86,9 @@ public class MetiersPanel extends JPanel {
 		scrollPane.setViewportView(artiste_metiers_list);
 
 		btnSupprimer = new JButton("Supprimer");
-		add(btnSupprimer, "cell 0 2,alignx center");
-		btnSupprimer.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-			}
-		});
-
+		this.add(btnSupprimer, "cell 0 2,alignx center");
+		
+		
 	}
 
 	// === MUTATEUR ET ACCESSEUR === //

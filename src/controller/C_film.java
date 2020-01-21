@@ -34,14 +34,14 @@ public class C_film {
 	
 	private JPanel films_panel;
 	
-	Film film = new Film();
-	ArrayList<I_recherche> films = new ArrayList<>();
+	private Film film = new Film();
+	private ArrayList<I_recherche> films = new ArrayList<>();
 	int row;
 	
 	JTable film_results_table;
 
 	ArrayList<PlaceholderTextField> film_titre_textfield;
-	String header[] = { "Titre", "Dur�e", "Ann�e de sortie", "Saga" };
+	String header[] = { "Titre", "Durée", "Année de sortie", "Saga" };
 
 	ComboListField comboListField = new ComboListField(new String[] { "valide", "attente", "bloquer" });
 	DualLinkModule dualLinkModule = new DualLinkModule("Personne", new String[] { "acteur", "realisateur", "scenariste" });
@@ -55,11 +55,12 @@ public class C_film {
 	LinkModule film_module_genre;
 	ComboListField film_module_etat;
 	
-	public JTable getFilm_results_table() {
+	private JTable getFilm_results_table() {
 		return film_results_table;
 	}
 	
 	public ArrayList<PlaceholderTextField> getFilm_titre_textfield() {
+
 		return film_titre_textfield;
 	}
 	
@@ -71,17 +72,18 @@ public class C_film {
 		ajoutMainPanel();
 		footerPanel();
 	}
-	
-	public void ajouteHeader() {
-		double elmsSize[] = { 1.0, 1.0, 1.0, 1.0 };
+
+	private void ajouteHeader() {
+		double[] elmsSize = {1.0, 1.0, 1.0, 1.0};
 		films_header = new HeaderPanel(this.films_panel, "Cet onglet permet de renseigner des films",
 				header, elmsSize);
 		ArrayList<PlaceholderTextField> liste = films_header.getJtextArrray();
 		this.film_titre_textfield = liste;
+
 	}
 
-	public void ajoutMainPanel() {
-		film_main = new MainPanel(this.films_panel);
+	private void ajoutMainPanel() {
+		MainPanel film_main = new MainPanel(this.films_panel);
 		//ligne 1
 		film_module_personne=film_main.addPanelPersonne(new String[]{"acteur", "realisateur", "scenariste"});
 		film_main.addPanelImage();
@@ -92,7 +94,7 @@ public class C_film {
 
 		film_main.addModule(new Module(), 2, 1);
 	}
-	public void ajouteTab() {
+	private void ajouteTab() {
 		films_aside_panel = new AsidePanel(this.films_panel);
 		films_aside_panel.setEntetes(film.toHeaderData());
 		films = film.lectureTout(50);
@@ -103,10 +105,10 @@ public class C_film {
 
 	}
 
-	public void footerPanel() {
-		String textBouton[] = { "Creer", "Modifier", "Supprimer" };
-		double elmsSizeFooter[] = { 1.0, 1.0, 1.0 };
-		film_footer_panel = new FooterPanel(this.films_panel, textBouton, elmsSizeFooter);
+	private void footerPanel() {
+		String[] textBouton = {"Creer", "Modifier", "Supprimer"};
+		double[] elmsSizeFooter = {1.0, 1.0, 1.0};
+		FooterPanel film_footer_panel = new FooterPanel(this.films_panel, textBouton, elmsSizeFooter);
 		film_footer_panel.getBoutonTab().get(0).addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -146,8 +148,8 @@ public class C_film {
 			}
 		});
 	}
-	
-	public boolean verifChamp() {
+
+	private boolean verifChamp() {
 		boolean success = true;
 		if (film_titre_textfield.get(0).getText().equals("")) {
 			success = false;
@@ -196,7 +198,7 @@ public class C_film {
 		}
 		return success;
 	}
-	
+
 	public void actualiseTab() {
 		films = film.lectureTout(50);
 		films_aside_panel.setDonnees(films);
@@ -231,7 +233,7 @@ public class C_film {
 	/**
 	 * Actualise le formulaire de film
 	 */
-	public void actualiseFilm(String titre) {
+	private void actualiseFilm(String titre) {
 		// Actualise le titre
 		this.getFilm_titre_textfield().get(0).setText(titre);
 	}
@@ -245,8 +247,8 @@ public class C_film {
 	class MouseAdapterTableau extends MouseAdapter{
 		
 		C_film controller;
-		
-		public MouseAdapterTableau(C_film controller) {
+
+		private MouseAdapterTableau(C_film controller) {
 			this.controller = controller;
 		}
 		
@@ -259,7 +261,7 @@ public class C_film {
 			// "getAtValue" : Permet de prendre la valeur de la case ( row , column )
 			String titre = (String)this.controller.getFilm_results_table().getValueAt(row, 0);
 			this.controller.actualiseFilm(titre);
-			// Plus tard faire appelle à la méthode actualise livre qui actualise tous les champs
+			// Plus tard faire appelle Ã  la mÃ©thode actualise livre qui actualise tous les champs
 		}
 	}
 }

@@ -1,33 +1,26 @@
 package controller;
 
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-
 import modele.Artiste;
-import modele.Etat;
 import modele.I_recherche;
 import modele.Metier;
 import requete.M_artiste;
 import requete.M_artiste_metier_media;
 import view.AsidePanel;
 import view.ButtonCustom;
-import view.ComboListField;
 import view.FooterPanel;
-import view.GridPanel;
 import view.HeaderPanel;
-import view.ImageModule;
 import view.MainPanel;
 import view.MetiersPanel;
 import view.PlaceholderTextField;
@@ -83,7 +76,7 @@ public class C_artiste {
 		 */
 		JButton btn = metier_panel.metier_add_button;
 		btn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) {				
 				//EMPECHE LA CREATION DU BTN + SI SURNOM EST VIDE
 				if (!artiste.getSurnom_artiste().equals("")) {
 					// recupere les valeurs des combobox et les ajoutes en bdd
@@ -111,10 +104,14 @@ public class C_artiste {
 						JOptionPane.showMessageDialog(metier_panel, "Erreur lors de la creation d'un metier");
 					}
 
+				}else {
+					JOptionPane.showMessageDialog(metier_panel, "Champ vide");
 				}
 			}
 		});
-
+		/**
+		 * Action de l'event du btn Reset, bouton dessiner dans MetiersPanel
+		 */
 		JButton btn_reset = metier_panel.metier_reset_button;
 		btn_reset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -157,7 +154,7 @@ public class C_artiste {
 			}
 
 		});
-		artiste_main.add(metier_panel);
+		artiste_main.addModule(metier_panel, 0, 0,2,3);
 		artiste_main.addPanelImage();
 		artiste_main.addPanelEtat();
 
@@ -242,6 +239,7 @@ public class C_artiste {
 	 * Reset tout les champs de textfield
 	 */
 	public void resetAllDataTextfield() {
+		artiste.setSurnom_artiste("");
 		this.artiste_nom_textfield.setText("");
 		this.artiste_prenom_textfield.setText("");
 		this.artiste_surnom_textfield.setText("");
