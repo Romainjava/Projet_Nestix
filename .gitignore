@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /bin/
 src/creation.txt
 src/modele/ConnexionBDD.java
@@ -5,3 +6,11 @@ out/
 .idea
 .settings/
 Projet_Nestix.iml
+=======
+/bin/
+src/creation.txt
+src/modele/ConnexionBDD.java
+src/package.bluej
+*.bluej
+
+>>>>>>> 192bb0f044166c7ddeedb691c1e11296641f2dd9

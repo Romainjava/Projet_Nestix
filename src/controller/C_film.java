@@ -27,6 +27,7 @@ import view.ImageModule;
 import view.LinkModule;
 import view.MainPanel;
 import view.Module;
+import view.PlaceholderTextField;
 import view.TextListField;
 
 public class C_film {
@@ -36,26 +37,30 @@ public class C_film {
 	private Film film = new Film();
 	private ArrayList<I_recherche> films = new ArrayList<>();
 	int row;
+	
+	JTable film_results_table;
 
-	private JTable film_results_table;
-	private ArrayList<JTextField> film_titre_textfield;
-	private String[] header = {"Titre", "Durée", "Année de sortie", "Saga"};
-	private ComboListField comboListField = new ComboListField(new String[] { "valide", "attente", "bloquer" });
+	ArrayList<PlaceholderTextField> film_titre_textfield;
+	String header[] = { "Titre", "Durée", "Année de sortie", "Saga" };
 
+	ComboListField comboListField = new ComboListField(new String[] { "valide", "attente", "bloquer" });
 	DualLinkModule dualLinkModule = new DualLinkModule("Personne", new String[] { "acteur", "realisateur", "scenariste" });
 	LinkModule linkModule = new LinkModule("Genre");
-	private HeaderPanel films_header;
-	private AsidePanel films_aside_panel;
-
-	private DualLinkModule film_module_personne = new DualLinkModule("Personne", new String[]{"acteur", "realisateur", "scenariste"});
-	private LinkModule film_module_genre = new LinkModule("Genre");
-	private ComboListField film_module_etat;
+	HeaderPanel films_header;
+	MainPanel film_main;
+	AsidePanel films_aside_panel;
+	FooterPanel film_footer_panel;
+	
+	DualLinkModule film_module_personne;
+	LinkModule film_module_genre;
+	ComboListField film_module_etat;
 	
 	private JTable getFilm_results_table() {
 		return film_results_table;
 	}
+	
+	public ArrayList<PlaceholderTextField> getFilm_titre_textfield() {
 
-	private ArrayList<JTextField> getFilm_titre_textfield() {
 		return film_titre_textfield;
 	}
 	
@@ -72,25 +77,20 @@ public class C_film {
 		double[] elmsSize = {1.0, 1.0, 1.0, 1.0};
 		films_header = new HeaderPanel(this.films_panel, "Cet onglet permet de renseigner des films",
 				header, elmsSize);
-		this.film_titre_textfield = films_header.getJtextArrray();
+		ArrayList<PlaceholderTextField> liste = films_header.getJtextArrray();
+		this.film_titre_textfield = liste;
+
 	}
 
 	private void ajoutMainPanel() {
 		MainPanel film_main = new MainPanel(this.films_panel);
 		//ligne 1
-		film_main.addModule(film_module_personne, 0, 0, 2, 1);
-		film_main.addModule(new ImageModule(), 2, 0);
+		film_module_personne=film_main.addPanelPersonne(new String[]{"acteur", "realisateur", "scenariste"});
+		film_main.addPanelImage();
 		// ligne 2
-		film_main.addModule(film_module_genre, 0, 1);
+		film_module_genre=film_main.addPanelGenre();
 
-		GridPanel relationComple = new GridPanel(new double[] { 1.0, 1.0 }, new double[] { 1.0, 1.0, 1.0 });
-		film_main.add(relationComple, film_main.addElement(1, 1));
-		film_module_etat = new ComboListField(Etat.getAllNom());
-		film_module_etat.setSelectedIndex(1);
-		relationComple.add(film_module_etat, relationComple.addElement(0, 0));
-		relationComple.add(new TextListField(), relationComple.addElement(0, 1));
-		relationComple.add(new TextListField(), relationComple.addElement(1, 1));
-		relationComple.add(new TextListField(), relationComple.addElement(0, 2));
+		film_module_etat=film_main.addPanelEtat();
 
 		film_main.addModule(new Module(), 2, 1);
 	}
@@ -199,7 +199,7 @@ public class C_film {
 		return success;
 	}
 
-	private void actualiseTab() {
+	public void actualiseTab() {
 		films = film.lectureTout(50);
 		films_aside_panel.setDonnees(films);
 	}

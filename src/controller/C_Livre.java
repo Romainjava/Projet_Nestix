@@ -32,6 +32,7 @@ import view.ImageModule;
 import view.LinkModule;
 import view.MainPanel;
 import view.Module;
+import view.PlaceholderTextField;
 import view.TextAreaScrollField;
 
 public class C_Livre {
@@ -43,14 +44,14 @@ public class C_Livre {
 
 	// Composants
 	JTable livre_results_table;
-	ArrayList<JTextField> livre_titre_textfield;
+	ArrayList<PlaceholderTextField> livre_titre_textfield;
 
 	HeaderPanel livre_header;
 	String[] header_title = { "Titre", "ISBN", "Annee de sortie", "Saga", "Univers", "Tome" };
 	AsidePanel livres_aside_panel;
 
-	DualLinkModule livre_module_personne = new DualLinkModule("Personne", new String[] { "ecrivain" });
-	LinkModule livre_module_genre = new LinkModule("Genre");
+	DualLinkModule livre_module_personne;
+	LinkModule livre_module_genre;
 	ComboListField livre_module_etat;
 	ComboListField livre_module_editeur;
 	TextAreaScrollField livre_module_resume;
@@ -69,7 +70,7 @@ public class C_Livre {
 		return livre_results_table;
 	}
 
-	public ArrayList<JTextField> getLivre_titre_textfield() {
+	public ArrayList<PlaceholderTextField> getLivre_titre_textfield() {
 		return livre_titre_textfield;
 	}
 
@@ -77,37 +78,27 @@ public class C_Livre {
 		double elmsSize[] = { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0 };
 		livre_header = new HeaderPanel(this.livres_panel, "Cet onglet permet de renseigner des livres",
 				this.header_title, elmsSize);
-		ArrayList<JTextField> liste = livre_header.getJtextArrray();
+		ArrayList<PlaceholderTextField> liste = livre_header.getJtextArrray();
 		this.livre_titre_textfield = liste;
 	}
 
 	public void ajoutMainPanel() {
 		MainPanel livre_main = new MainPanel(this.livres_panel);
+		this.livre_module_personne=livre_main.addPanelPersonne(new String[] { "ecrivain" });
+		
 		// Add element
 		// ligne 1
-		livre_main.addModule(livre_module_personne, 0, 0, 2, 1);
 
-		livre_main.addModule(new ImageModule(), 2, 0);
+		livre_main.addPanelImage();
 		// ligne 2
-		livre_main.addModule(livre_module_genre, 0, 1);
+		livre_module_genre=livre_main.addPanelGenre();
 
-		GridPanel relation_panel = new GridPanel(new double[] { 1.0, 1.0 }, new double[] { 1.0, 1.0, 1.0, 1.0 });
-		livre_main.add(relation_panel, livre_main.addElement(1, 1));
-		relation_panel.add(new JLabel("Etat"), relation_panel.addElement(0, 0));
-		livre_module_etat = new ComboListField(Etat.getAllNom());
-		livre_module_etat.setSelectedIndex(1);
-		relation_panel.add(livre_module_etat, relation_panel.addElement(0, 1));
-		relation_panel.add(new JLabel("Editeur"), relation_panel.addElement(1, 0));
-		Livre.setListe_editeur(Editeur.lectureToutListe());
-		livre_module_editeur = new ComboListField(Editeur.getAllNom());
-		relation_panel.add(livre_module_editeur, relation_panel.addElement(1, 1));
-		relation_panel.add(new Module(), relation_panel.addElement(0, 2, 2, 2));
 
-		GridPanel resume_panel = new GridPanel(new double[] { 1.0 }, new double[] { 1.0, 5.0 });
-		livre_main.add(resume_panel, livre_main.addElement(2, 1));
-		resume_panel.add(new JLabel("Resumé"), resume_panel.addElement(0, 0));
-		livre_module_resume = new TextAreaScrollField(5, 10);
-		resume_panel.add(livre_module_resume, resume_panel.addElement(0, 1));
+		livre_module_etat = livre_main.addPanelEtat(2,2);
+
+		livre_module_editeur = livre_main.addPanelEditeur();
+
+		livre_module_resume = livre_main.addPanelResume();
 
 		/**
 		 * lie un artiste et un livre lors de l'appui sur +
@@ -142,7 +133,7 @@ public class C_Livre {
 		livre_module_personne.getLess_btn().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (!livre_module_personne.empty()) {
+				if(livre_module_personne.getContent_list().getSelectedIndices().length>0) {
 					if (livre.getId() != 0) {
 						livre.supprimeLiaisonArtisteMetierMedia();
 						actualiseTab();
@@ -150,6 +141,8 @@ public class C_Livre {
 						JOptionPane.showMessageDialog(livre_main,
 								"Livre pas encore cree, veuillez cree le livre avant d'ajouter ou supprimer\n un artiste");
 					}
+				}else {
+					JOptionPane.showMessageDialog(livre_main,"Veuillez selectionner un element dans la liste ");
 				}
 			}
 		});
@@ -183,7 +176,7 @@ public class C_Livre {
 		livre_module_genre.getLess_btn().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (!livre_module_genre.empty()) {
+				if(livre_module_genre.getContent_list().getSelectedIndices().length>0) {
 					if (livre.getId() != 0) {
 						livre.supprimeLiasonMediaGenre();
 						actualiseTab();
@@ -191,6 +184,8 @@ public class C_Livre {
 						JOptionPane.showMessageDialog(livre_main,
 								"Livre pas encore cree, veuillez cree le livre avant d'ajouter ou supprimer\n un genre");
 					}
+				}else {
+					JOptionPane.showMessageDialog(livre_main,"Veuillez selectionner un element dans la liste ");
 				}
 			}
 		});

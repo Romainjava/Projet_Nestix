@@ -6,20 +6,19 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.ArrayList;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class HeaderPanel extends JPanel {
 	
-	private JTextField header_entete_textField;
-	private ArrayList<JTextField> jTextArray;
+	private PlaceholderTextField header_entete_textField;
+	private ArrayList<PlaceholderTextField> jTextArray;
 	
-	public ArrayList<JTextField> getJtextArrray() {
+	public ArrayList<PlaceholderTextField> getJtextArrray() {
 		return jTextArray;
 	}
 
-	public void setJtextArrray(ArrayList<JTextField> jtextArrray) {
+	public void setJtextArrray(ArrayList<PlaceholderTextField> jtextArrray) {
 		jTextArray = jtextArrray;
 	}
 
@@ -39,7 +38,7 @@ public class HeaderPanel extends JPanel {
 		gbl_header_panel.rowWeights = new double[]{1.0, 1.0, 1.0};
 		header_panel.setLayout(gbl_header_panel);
 		
-		JLabel header_info_label = new JLabel(infoOnglet);
+		LabelCustom header_info_label = new LabelCustom(infoOnglet);
 		GridBagConstraints gbc_header_info_label = new GridBagConstraints();
 		gbc_header_info_label.gridwidth = 3;
 		gbc_header_info_label.anchor = GridBagConstraints.WEST;
@@ -49,14 +48,14 @@ public class HeaderPanel extends JPanel {
 		int i = 0;
 		
 		for (String entete : tab) {
-			JLabel header_entete_label = new JLabel(entete);
+			LabelCustom header_entete_label = new LabelCustom(entete);
 			GridBagConstraints gbc_header_entete_label = new GridBagConstraints();
 			gbc_header_entete_label.insets = new Insets(0, 0, 5, 5);
 			gbc_header_entete_label.gridx = i;
 			gbc_header_entete_label.gridy = 1;
 			header_panel.add(header_entete_label, gbc_header_entete_label);
 			
-			header_entete_textField = new JTextField();
+			header_entete_textField = new PlaceholderTextField();
 			GridBagConstraints gbc_header_entete_textField = new GridBagConstraints();
 			gbc_header_entete_textField.insets = new Insets(0, 0, 0, 5);
 			gbc_header_entete_textField.fill = GridBagConstraints.BOTH;
@@ -76,4 +75,5 @@ public class HeaderPanel extends JPanel {
 		}
 	}
 
+	
 }

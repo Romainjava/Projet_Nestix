@@ -1,13 +1,12 @@
 package view;
 
 import java.awt.Color;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import net.miginfocom.swing.MigLayout;
 
 public class ImageModule extends Module{
 	
@@ -18,36 +17,28 @@ public class ImageModule extends Module{
 			
 		
 		//Element
-		JLabel textField_label = new JLabel("Titre de l'image");
+		LabelCustom textField_label = new LabelCustom("Titre de l'image");
 		textField = new JTextField();
 		
-		JLabel btn_label = new JLabel("Ajouter une image");
+		LabelCustom btn_label = new LabelCustom("Ajouter une image");
 		JButton btn = new JButton("Parcourir");
 
-		//Layout
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.fill = GridBagConstraints.BOTH;
-		
-		GridBagLayout gbl = new GridBagLayout();
+		//Layout		
+		MigLayout gbl = new MigLayout("", "[grow]", "[][][n:500px][]");
 
-		gbl.columnWeights = new double[] {1.0};
-	    gbl.rowWeights = new double[] {1.0,
-	    								1.0,
-	    								1.0,
-	    								1.0};
 	    this.setLayout(gbl);
 	    
-	    gbc.gridx = 0;
-		gbc.gridy = 0;
-		gbc.gridwidth = 1;
-		gbc.gridheight = 1;
-		this.add(textField_label, gbc);
-		gbc.gridy = 1;
-		this.add(textField, gbc);
-		gbc.gridy = 2;
-		this.add(btn_label, gbc);
-		gbc.gridy = 3;
-		this.add(btn, gbc);
+		this.add(textField_label, "cell 0 0,alignx center");
+
+		this.add(textField, "cell 0 1,growx");
+
+		JPanel panel_preview = new JPanel();
+		panel_preview.setBackground(Color.GRAY);
+		this.add(panel_preview, "cell 0 2,grow");
+		
+		this.add(btn_label, "cell 0 3,alignx center");
+
+		this.add(btn, "cell 0 4,grow");
 		
 	}
 

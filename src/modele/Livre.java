@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 public class Livre extends Media {
 
 	protected int ISBN;
@@ -169,6 +171,10 @@ public class Livre extends Media {
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();
+			if(e.getSQLState().equals("45001")) {
+				JOptionPane.showMessageDialog(null, "ISBN OBLIGATOIRE");
+				
+			}
 		}
 		
 		return success;
@@ -256,13 +262,6 @@ public class Livre extends Media {
 	@Override
 	public boolean suppression(int id) {
 		boolean success=false;
-		if (this.artistes.size()>0) {
-			this.supprimeLiaisonArtisteMetierMedia();
-		}
-		if (this.genres.size()>0) {
-			this.supprimeLiasonMediaGenre();
-		}	
-		this.supprimerLiaisonMediaType();
 		try {
 			String query="DELETE FROM `nestix_media` WHERE id_media=?";
 			PreparedStatement statement=(PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
