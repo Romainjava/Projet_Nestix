@@ -23,7 +23,7 @@ public class MetiersPanel extends Module {
 	public JTextField media_titre_textField;
 	private DefaultListModel<Metier> modelList;
 	public JButton metier_add_button;
-	public JButton metier_reset_button;
+	public ButtonCustom metier_reset_button;
 	public JComboBox<?> metier_comboBox;
 	public JComboBox<?> type_comboBox;
 	public JButton btnSupprimer;
@@ -62,7 +62,7 @@ public class MetiersPanel extends Module {
 		metier_add_button =  new JButton("+");
 		metier_ajouter_panel.add(metier_add_button,"cell 2 1,alignx center");
 		
-		metier_reset_button = new JButton("RESET");
+		metier_reset_button = new ButtonCustom("RESET",15);
 		metier_ajouter_panel.add(metier_reset_button,"cell 3 1,alignx center");
 		
 		/* == Fin de Panel d'ajout == */

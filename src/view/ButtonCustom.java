@@ -16,4 +16,9 @@ public class ButtonCustom extends JButton{
 		super();
 		setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 20));
 	}
+	public ButtonCustom(String text,int fontSize) {
+		super();
+		this.setText(text);
+		setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, fontSize));
+	}
 }

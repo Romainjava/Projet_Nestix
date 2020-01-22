@@ -204,7 +204,7 @@ public class C_Livre {
 	}
 
 	public void footerPanel() {
-		String textBouton[] = { "Creer", "Modifier", "Supprimer" };
+		String textBouton[] = { "Creer", "Modifier", "Supprimer","Reset" };
 		double elmsSizeFooter[] = { 1.0, 1.0, 1.0 };
 		FooterPanel livre_footer_panel = new FooterPanel(this.livres_panel, textBouton, elmsSizeFooter);
 		// Event
@@ -257,6 +257,15 @@ public class C_Livre {
 					JOptionPane.showMessageDialog(livres_panel, "Erreur id media inexistant", "Echec delete",
 							JOptionPane.ERROR_MESSAGE);
 				}
+			}
+		});
+		livre_footer_panel.getBoutonTab().get(3).addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				for (PlaceholderTextField text : livre_titre_textfield) {
+					text.setText("");
+				}
+				
 			}
 		});
 	}
@@ -430,3 +439,4 @@ public class C_Livre {
 		}
 	}
 }
+
