@@ -10,7 +10,10 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel;
+import javax.swing.plaf.nimbus.NimbusLookAndFeel;
+
+
+//import com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel;
 
 import controller.C_Livre;
 import controller.C_artiste;
@@ -82,6 +85,7 @@ public class MainApp {
 		Etat.setListe_etat(Etat.lectureToutListe());
 		// ===== //
 
+
 		tabbedPane.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 20));
 		frame.getContentPane().add(tabbedPane);
 		frame.setLocationRelativeTo(null);
@@ -116,8 +120,9 @@ public class MainApp {
 
 		JPanel musiques_panel = new JPanel();
 		GridBagLayout gbl_musique_panel = new GridBagLayout();
-		gbl_musique_panel.columnWeights = new double[] { 1.0, 3.0 };
-		gbl_musique_panel.rowWeights = new double[] { 1.0, 3.5, 0.5 };
+
+		gbl_musique_panel.columnWeights = new double[] { 3.0,1.0 };
+		gbl_musique_panel.rowWeights = new double[] { 1.0, 3.5,0.5 };
 		musiques_panel.setLayout(gbl_musique_panel);
 		tabbedPane.addTab("Musique", null, musiques_panel, null);
 		// === Construction du livre panel === //

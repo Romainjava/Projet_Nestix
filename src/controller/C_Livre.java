@@ -259,7 +259,6 @@ public class C_Livre {
 				}
 			}
 		});
-		//Reset
 		livre_footer_panel.getBoutonTab().get(3).addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -269,7 +268,6 @@ public class C_Livre {
 				
 			}
 		});
-		
 	}
 
 	public boolean verifChamp() {
@@ -310,7 +308,7 @@ public class C_Livre {
 			// ISBN
 			try {
 				if (!livre_titre_textfield.get(1).getText().equals("")) {
-					if (Integer.parseInt(livre_titre_textfield.get(1).getText())>0) {
+					if (Integer.parseInt(livre_titre_textfield.get(1).getText()) < 1000000000) {
 						livre.setISBN(Integer.parseInt(livre_titre_textfield.get(1).getText()));
 					} else {
 						success = false;
@@ -441,3 +439,4 @@ public class C_Livre {
 		}
 	}
 }
+

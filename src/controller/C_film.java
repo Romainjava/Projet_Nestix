@@ -261,7 +261,7 @@ public class C_film {
 			// "getAtValue" : Permet de prendre la valeur de la case ( row , column )
 			String titre = (String)this.controller.getFilm_results_table().getValueAt(row, 0);
 			this.controller.actualiseFilm(titre);
-			// Plus tard faire appelle Ã  la mÃ©thode actualise livre qui actualise tous les champs
+			// Plus tard faire appelle Ã  la mÃ©thode actualise livre qui actualise tous les champs
 		}
 	}
 }
