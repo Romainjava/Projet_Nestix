@@ -9,10 +9,8 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 
 import modele.Artiste;
-import modele.Etat;
 import modele.Genre;
 import modele.I_recherche;
 import modele.Metier;
@@ -21,15 +19,10 @@ import view.AsidePanel;
 import view.ComboListField;
 import view.DualLinkModule;
 import view.FooterPanel;
-import view.GridPanel;
 import view.HeaderPanel;
-import view.ImageModule;
 import view.LinkModule;
 import view.MainPanel;
-import view.Module;
-
 import view.PlaceholderTextField;
-import view.TextListField;
 
 
 public class C_musique {
@@ -203,7 +196,7 @@ public class C_musique {
 	}
 
 	public void footerPanel() {
-		String textBouton[] = { "Creer", "Modifier", "Supprimer" };
+		String textBouton[] = { "Creer", "Modifier", "Supprimer","Reset" };
 		double elmsSizeFooter[] = { 1.0, 1.0, 1.0 };
 		FooterPanel musique_footer_panel = new FooterPanel(this.musiques_panel, textBouton, elmsSizeFooter);
 		/**
@@ -250,6 +243,18 @@ public class C_musique {
 					musique.suppression(musique.getId());
 					actualiseTab();
 				}
+			}
+		});
+		musique_footer_panel.getBoutonTab().get(3).addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				for (PlaceholderTextField text : musique_titre_textfield) {
+					text.setText("");
+				}
+				musique_module_etat.setSelectedIndex(1);
+				musique_module_genre.resetTextListField();
+				musique_module_personne.resetTextListField();
+				
 			}
 		});
 	}
@@ -313,6 +318,7 @@ public class C_musique {
 
 	public void actualiseMusique() {
 		// Actualise le header panel
+		System.out.println(musique.getNomunivers());
 		musique_header.autoCompleteFormHeader(musique.toRowDataForm());
 		musique_module_etat.setSelectedIndex(musique.getEtatId() - 1);
 
