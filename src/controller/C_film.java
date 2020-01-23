@@ -28,6 +28,7 @@ import view.LinkModule;
 import view.MainPanel;
 import view.Module;
 import view.PlaceholderTextField;
+import view.TextAreaScrollField;
 import view.TextListField;
 
 public class C_film {
@@ -54,6 +55,7 @@ public class C_film {
 	DualLinkModule film_module_personne;
 	LinkModule film_module_genre;
 	ComboListField film_module_etat;
+	TextAreaScrollField film_module_resume;
 	
 	private JTable getFilm_results_table() {
 		return film_results_table;
@@ -91,6 +93,8 @@ public class C_film {
 		film_module_genre=film_main.addPanelGenre();
 
 		film_module_etat=film_main.addPanelEtat();
+		
+		film_module_resume = film_main.addPanelResume();
 
 		film_main.addModule(new Module(), 2, 1);
 	}
@@ -106,7 +110,7 @@ public class C_film {
 	}
 
 	private void footerPanel() {
-		String[] textBouton = {"Creer", "Modifier", "Supprimer"};
+		String[] textBouton = {"Creer", "Modifier", "Supprimer","Reset"};
 		double[] elmsSizeFooter = {1.0, 1.0, 1.0};
 		FooterPanel film_footer_panel = new FooterPanel(this.films_panel, textBouton, elmsSizeFooter);
 		film_footer_panel.getBoutonTab().get(0).addActionListener(new ActionListener() {
@@ -147,6 +151,19 @@ public class C_film {
 				System.out.println(film_module_personne.getText_list().size());
 			}
 		});
+		film_footer_panel.getBoutonTab().get(3).addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				for (PlaceholderTextField text : film_titre_textfield) {
+					text.setText("");
+				}
+				film_module_resume.getText_area().setText("");
+				film_module_etat.setSelectedIndex(1);
+				film_module_genre.resetTextListField();
+				film_module_personne.resetTextListField();
+				
+			}
+		});
 	}
 
 	private boolean verifChamp() {
@@ -179,7 +196,8 @@ public class C_film {
 				JOptionPane.showMessageDialog(films_panel, "l'annee de sortie ne doit comporter que des chiffres",
 						"Echec", JOptionPane.ERROR_MESSAGE);
 			}
-			//film.setAlbum(film_titre_textfield.get(2).getText().toLowerCase());
+			// Resumé
+			film.setResume_film(film_module_resume.getText_area().getText());
 			//film.setUnivers(film_titre_textfield.get(3).getText().toLowerCase());
 			film.setEtat(comboListField.getSelectedIndex() + 1);
 			for (int i = 0; i < film_module_personne.getText_list().size(); i++) {
@@ -236,6 +254,7 @@ public class C_film {
 	private void actualiseFilm(String titre) {
 		// Actualise le titre
 		this.getFilm_titre_textfield().get(0).setText(titre);
+		this.film_module_resume.getText_area().setText(film.getResume_film());
 	}
 	
 	

@@ -285,7 +285,7 @@ public class C_Livre {
 			livre.setOeuvre(livre_titre_textfield.get(0).getText().toLowerCase());
 			// Annee sortie
 			try {
-				if (!livre_titre_textfield.get(1).getText().equals("")) {
+				if (!livre_titre_textfield.get(2).getText().equals("")) {
 					if (livre_titre_textfield.get(2).getText().toLowerCase().length() == 4
 							&& Integer.parseInt(livre_titre_textfield.get(2).getText().toLowerCase()) > 1900) {
 						livre.setAnnee_sortie_media(livre_titre_textfield.get(2).getText().toLowerCase());

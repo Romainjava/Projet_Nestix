@@ -196,7 +196,7 @@ public class C_musique {
 	}
 
 	public void footerPanel() {
-		String textBouton[] = { "Creer", "Modifier", "Supprimer" };
+		String textBouton[] = { "Creer", "Modifier", "Supprimer","Reset" };
 		double elmsSizeFooter[] = { 1.0, 1.0, 1.0 };
 		FooterPanel musique_footer_panel = new FooterPanel(this.musiques_panel, textBouton, elmsSizeFooter);
 		/**
@@ -243,6 +243,18 @@ public class C_musique {
 					musique.suppression(musique.getId());
 					actualiseTab();
 				}
+			}
+		});
+		musique_footer_panel.getBoutonTab().get(3).addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				for (PlaceholderTextField text : musique_titre_textfield) {
+					text.setText("");
+				}
+				musique_module_etat.setSelectedIndex(1);
+				musique_module_genre.resetTextListField();
+				musique_module_personne.resetTextListField();
+				
 			}
 		});
 	}
