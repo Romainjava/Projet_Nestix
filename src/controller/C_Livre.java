@@ -262,6 +262,7 @@ public class C_Livre {
 		livre_footer_panel.getBoutonTab().get(3).addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				livre= new Livre();
 				for (PlaceholderTextField text : livre_titre_textfield) {
 					text.setText("");
 				}

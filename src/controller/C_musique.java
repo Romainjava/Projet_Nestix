@@ -248,6 +248,7 @@ public class C_musique {
 		musique_footer_panel.getBoutonTab().get(3).addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				musique = new Musique();
 				for (PlaceholderTextField text : musique_titre_textfield) {
 					text.setText("");
 				}

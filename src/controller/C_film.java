@@ -154,6 +154,7 @@ public class C_film {
 		film_footer_panel.getBoutonTab().get(3).addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				film=new Film();
 				for (PlaceholderTextField text : film_titre_textfield) {
 					text.setText("");
 				}
