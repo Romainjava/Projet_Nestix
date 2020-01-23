@@ -9,10 +9,8 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 
 import modele.Artiste;
-import modele.Etat;
 import modele.Genre;
 import modele.I_recherche;
 import modele.Metier;
@@ -21,15 +19,10 @@ import view.AsidePanel;
 import view.ComboListField;
 import view.DualLinkModule;
 import view.FooterPanel;
-import view.GridPanel;
 import view.HeaderPanel;
-import view.ImageModule;
 import view.LinkModule;
 import view.MainPanel;
-import view.Module;
-
 import view.PlaceholderTextField;
-import view.TextListField;
 
 
 public class C_musique {
@@ -313,6 +306,7 @@ public class C_musique {
 
 	public void actualiseMusique() {
 		// Actualise le header panel
+		System.out.println(musique.getNomunivers());
 		musique_header.autoCompleteFormHeader(musique.toRowDataForm());
 		musique_module_etat.setSelectedIndex(musique.getEtatId() - 1);
 

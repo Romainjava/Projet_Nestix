@@ -10,7 +10,7 @@ public class TextAreaScrollField extends JScrollPane{
 	public TextAreaScrollField(int pRow, int pColumn){
 		
 		text_area = new JTextArea(pRow, pColumn);
-		
+		text_area.setLineWrap(true);
 		this.setViewportView(text_area);
 	}
 	

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class Livre extends Media {
 
-	protected int ISBN;
+	protected Long ISBN;
 	protected String resume_livre;
 	protected int tome_livre;
 
@@ -65,11 +65,11 @@ public class Livre extends Media {
 		this.tome_livre = tome_livre;
 	}
 
-	public int getISBN() {
+	public Long getISBN() {
 		return ISBN;
 	}
 
-	public void setISBN(int iSBN) {
+	public void setISBN(Long iSBN) {
 		ISBN = iSBN;
 	}
 
@@ -116,7 +116,7 @@ public class Livre extends Media {
 						"SET isbn = ?, resume_livre = ?, tome_livre = ?, editeur_id = ? \n" + 
 						"WHERE livre_id = ?";
 				statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
-				ConnexionBDD.prepareInt(statement, 1, this.ISBN);
+				ConnexionBDD.prepareLong(statement, 1, this.ISBN);
 				statement.setString(2, this.resume_livre);
 				ConnexionBDD.prepareInt(statement, 3, this.tome_livre);
 				ConnexionBDD.prepareInt(statement, 4, this.editeur.getId());
@@ -160,7 +160,7 @@ public class Livre extends Media {
 						"SET isbn = ?, resume_livre = ?, tome_livre = ?, editeur_id = ? \n" +
 						"WHERE livre_id = ?";
 				statement = (PreparedStatement) co.prepareStatement(query);
-				statement.setInt(1, this.ISBN);
+				statement.setLong(1, this.ISBN);
 				statement.setString(2, this.resume_livre);
 				statement.setInt(3, this.tome_livre);
 				statement.setInt(4, this.editeur.getId());
@@ -200,7 +200,7 @@ public class Livre extends Media {
 			//this.concat_artistes
 			//this.concat_genre
 
-			this.ISBN = result.getInt("isbn");
+			this.ISBN = result.getLong("isbn");
 			this.resume_livre = result.getString("resume_livre");
 			this.tome_livre = result.getInt("tome_livre");
 
@@ -296,7 +296,7 @@ public class Livre extends Media {
 				//livre.concat_artistes
 				//livre.concat_genre
 
-				livre.ISBN = result.getInt("isbn");
+				livre.ISBN = result.getLong("isbn");
 				//livre.resume_livre = result.getString("resume_livre");
 				//livre.tome_livre = result.getInt("tome_livre");
 
