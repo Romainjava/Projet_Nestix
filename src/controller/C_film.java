@@ -42,7 +42,7 @@ public class C_film {
 	JTable film_results_table;
 
 	ArrayList<PlaceholderTextField> film_titre_textfield;
-	String header[] = { "Titre", "Durée", "Année de sortie", "Saga" };
+	String header[] = { "Titre", "Durée", "Année de sortie", "Saga","Univers" };
 
 	ComboListField comboListField = new ComboListField(new String[] { "valide", "attente", "bloquer" });
 	DualLinkModule dualLinkModule = new DualLinkModule("Personne", new String[] { "acteur", "realisateur", "scenariste" });
@@ -154,10 +154,11 @@ public class C_film {
 		film_footer_panel.getBoutonTab().get(3).addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				film=new Film();
 				for (PlaceholderTextField text : film_titre_textfield) {
 					text.setText("");
 				}
-				film_module_resume.getText_area().setText("");
+				film_module_resume.getText_area().setText(null);
 				film_module_etat.setSelectedIndex(1);
 				film_module_genre.resetTextListField();
 				film_module_personne.resetTextListField();
@@ -198,7 +199,8 @@ public class C_film {
 			}
 			// Resumé
 			film.setResume_film(film_module_resume.getText_area().getText());
-			//film.setUnivers(film_titre_textfield.get(3).getText().toLowerCase());
+			film.setSaga(film_titre_textfield.get(3).getText().toLowerCase());
+			film.setUnivers(film_titre_textfield.get(4).getText().toLowerCase());
 			film.setEtat(comboListField.getSelectedIndex() + 1);
 			for (int i = 0; i < film_module_personne.getText_list().size(); i++) {
 				Artiste artiste = new Artiste();
@@ -222,7 +224,7 @@ public class C_film {
 		films_aside_panel.setDonnees(films);
 	}
 	
-	public void actualiseMusique() {
+	public void actualiseFilm() {
 		// Actualise le header panel
 		films_header.autoCompleteFormHeader(film.toRowDataForm());
 		comboListField.setSelectedIndex(film.getEtatId() - 1);
@@ -246,17 +248,8 @@ public class C_film {
 		this.film_module_genre.setData(tGenreData);
 		// etat
 		this.film_module_etat.setSelectedIndex(film.getEtat().getId() - 1);
-	}
-	
-	/**
-	 * Actualise le formulaire de film
-	 */
-	private void actualiseFilm(String titre) {
-		// Actualise le titre
-		this.getFilm_titre_textfield().get(0).setText(titre);
 		this.film_module_resume.getText_area().setText(film.getResume_film());
 	}
-	
 	
 	/**
 	 * Classe interne
@@ -278,8 +271,8 @@ public class C_film {
 			int row = this.controller.getFilm_results_table().rowAtPoint(e.getPoint());
 			// int column = tableau.columnAtPoint(e.getPoint());
 			// "getAtValue" : Permet de prendre la valeur de la case ( row , column )
-			String titre = (String)this.controller.getFilm_results_table().getValueAt(row, 0);
-			this.controller.actualiseFilm(titre);
+			film.lireUn(films.get(row).getId());
+			this.controller.actualiseFilm();
 			// Plus tard faire appelle Ã  la mÃ©thode actualise livre qui actualise tous les champs
 		}
 	}
