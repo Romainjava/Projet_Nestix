@@ -265,7 +265,7 @@ public class C_Livre {
 				for (PlaceholderTextField text : livre_titre_textfield) {
 					text.setText("");
 				}
-				livre_module_resume.getText_area().setText("");
+				livre_module_resume.getText_area().setText(null);
 				livre_module_editeur.setSelectedIndex(0);
 				livre_module_etat.setSelectedIndex(1);
 				livre_module_genre.resetTextListField();
