@@ -1,42 +1,40 @@
 package modele;
 
-
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import requete.M_artiste;
 
-
 public class Artiste implements I_requeteSQL, I_recherche {
 
 	private int id_artiste;
 	private String nom_artiste;
 	private String prenom_artiste;
-	private String surnom_artiste="";
+	private String surnom_artiste = "";
 	private String dob_artiste;
 	private ArrayList<Metier> metiers_artiste = new ArrayList<>();
 	private Metier metier;
 	private String etat;
 	private String group_concact;
-	
-	
+
 	/**
-	 * Fonction qui va verifier le format de la date avec une regex 
+	 * Fonction qui va verifier le format de la date avec une regex
+	 * 
 	 * @return boolean
 	 */
 	public boolean verifDateForm() {
 		boolean reponse = false;
-		if(dob_artiste.equals("")) {
+		if (dob_artiste.equals("")) {
 			reponse = true;
-		}else {
+		} else {
 			Pattern pattern = Pattern.compile("^\\d{2}/\\d{2}/\\d{4}$");
 			Matcher matcher = pattern.matcher(dob_artiste);
 			reponse = matcher.matches();
 		}
 		return reponse;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Artiste [id_artiste=" + id_artiste + ", nom_artiste=" + nom_artiste + ", prenom_artiste="
@@ -47,23 +45,25 @@ public class Artiste implements I_requeteSQL, I_recherche {
 	public boolean creation() {
 		return M_artiste.creation(this);
 	}
-	
+
 	/**
-	 * Permet de faire une creation rapide  par rapport à l'attribut surnom de l'objet
+	 * Permet de faire une creation rapide par rapport à l'attribut surnom de
+	 * l'objet
 	 */
 	public void creationRapide() {
 		M_artiste.creationRapide(this);
 	}
-	
+
 	/**
 	 * Permet de faire une creation rapide via le surnom en parametre
+	 * 
 	 * @param nom:String
 	 */
 	public void creationRapide(String surnom) {
 		this.setSurnom_artiste(surnom);
 		M_artiste.creationRapide(this);
 	}
-	
+
 	@Override
 	public boolean modification() {
 		return (M_artiste.modifier(this) > 0);
@@ -91,7 +91,7 @@ public class Artiste implements I_requeteSQL, I_recherche {
 	 * Affiche dynamiquement les données de l'instance artiste ligne par ligne
 	 */
 	public Object[] toRowData() {
-		Object[] tab = { this.surnom_artiste,this.group_concact, this.etat, this.dob_artiste };
+		Object[] tab = { this.surnom_artiste, this.group_concact, this.etat, this.dob_artiste };
 		return tab;
 	}
 
@@ -110,7 +110,7 @@ public class Artiste implements I_requeteSQL, I_recherche {
 	}
 
 	public boolean rechercheParMetier() {
-		//TODO	à coder
+		// TODO à coder
 		return false;
 	}
 
@@ -119,9 +119,8 @@ public class Artiste implements I_requeteSQL, I_recherche {
 
 	}
 
-	
 	// ==== MUTATEUR && ACCESSEURS ==== //
-	
+
 	public int getId_artiste() {
 		return id_artiste;
 	}
@@ -198,5 +197,18 @@ public class Artiste implements I_requeteSQL, I_recherche {
 		this.group_concact = group_concact;
 	}
 
+	public int getId_etat() {
+		int id = 0;
+		if (this.etat.equals("valide")) {
+			id = 1;
+		} else if (this.etat.equals("attente")) {
+			id = 2;
+		} else if (this.etat.equals("bloquer")) {
+			id = 3;
+		} else if (this.etat.equals("suggere")) {
+			id = 4;
+		}
+		return id;
+	}
 
 }
