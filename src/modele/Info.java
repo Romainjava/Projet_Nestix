@@ -3,6 +3,9 @@ package modele;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
+
+import com.sun.org.apache.bcel.internal.generic.Type;
 
 
 public abstract class Info implements I_requeteSQL, I_recherche {
@@ -31,7 +34,7 @@ public abstract class Info implements I_requeteSQL, I_recherche {
 	}
 
 	public int getId() {
-		return id;
+		return (this.getNom() !=null && this.getNom().isEmpty())?0:id;
 	}
 
 	public String getNom() {
@@ -134,7 +137,7 @@ public abstract class Info implements I_requeteSQL, I_recherche {
 		ResultSet result;
 		String query;
 		try {
-			query = "INSERT IGNORE INTO nestix_" + this.getTableName() + "(" + this.getColumnName() + ") VALUES(?)";
+			query = "INSERT IGNORE INTO nestix_" + this.getTableName() + "(" + this.getColumnName() + "_id) VALUES(?)";
 			statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
 			statement.setString(1, value);
 			result = statement.executeQuery();
@@ -162,6 +165,20 @@ public abstract class Info implements I_requeteSQL, I_recherche {
 		}
 	}
 
+	public void resetInfo() {
+		PreparedStatement statement;
+
+		String query;
+		try {
+			query = "UPDATE `nestix_media` SET " + this.getTableName() + "_id=?";
+			statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
+			statement.setNull(1, Types.VARCHAR);
+			statement.executeUpdate();
+			statement.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	public boolean lireUn(int id) {
 		PreparedStatement statement;
 		ResultSet result;

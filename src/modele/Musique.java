@@ -7,9 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-
 import requete.MessageSqlState;
 
 public class Musique extends Media {
