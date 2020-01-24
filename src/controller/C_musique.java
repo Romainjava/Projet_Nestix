@@ -240,6 +240,7 @@ public class C_musique {
 			public void actionPerformed(ActionEvent e) {
 				if (musique.getId() != 0 && verifChamp()) {
 					musique.suppression(musique.getId());
+					musique=new Musique();
 					actualiseTab();
 				}
 			}
