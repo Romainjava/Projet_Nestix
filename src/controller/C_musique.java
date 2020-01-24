@@ -24,7 +24,6 @@ import view.LinkModule;
 import view.MainPanel;
 import view.PlaceholderTextField;
 
-
 public class C_musique {
 
 	private JPanel musiques_panel;
@@ -79,17 +78,16 @@ public class C_musique {
 
 	public void ajoutMainPanel() {
 		MainPanel musique_main = new MainPanel(this.musiques_panel);
-		this.musique_module_personne=musique_main.addPanelPersonne(new String[] { "interprete", "compositeur" });
-		
+		this.musique_module_personne = musique_main.addPanelPersonne(new String[] { "interprete", "compositeur" });
+
 		// Add element
 		// ligne 1
 
 		musique_main.addPanelImage();
 		// ligne 2
-		musique_module_genre=musique_main.addPanelGenre();
+		musique_module_genre = musique_main.addPanelGenre();
 
 		musique_module_etat = musique_main.addPanelEtat();
-
 
 		/**
 		 * lie un artiste et une musique lors de l'appui sur +
@@ -125,7 +123,7 @@ public class C_musique {
 		musique_module_personne.getLess_btn().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(musique_module_personne.getContent_list().getSelectedIndices().length>0) {
+				if (musique_module_personne.getContent_list().getSelectedIndices().length > 0) {
 					if (musique.getId() != 0) {
 						musique.supprimeLiaisonArtisteMetierMedia();
 						actualiseTab();
@@ -133,8 +131,8 @@ public class C_musique {
 						JOptionPane.showMessageDialog(musique_main,
 								"Musique pas encore cree, veuillez cree la musique avant d'ajouter ou supprimer\n un artiste");
 					}
-				}else {
-					JOptionPane.showMessageDialog(musique_main,"Veuillez selectionner un element dans la liste ");
+				} else {
+					JOptionPane.showMessageDialog(musique_main, "Veuillez selectionner un element dans la liste ");
 				}
 			}
 		});
@@ -145,8 +143,9 @@ public class C_musique {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (!musique_module_genre.empty()) {
-					if (musique.getId() != 0) {
+				System.out.println(musique.getId());
+				if (musique.getId() != 0) {
+					if (!musique_module_genre.empty()) {
 						musique_module_genre.addTextListField();
 						Genre genre = new Genre();
 						System.out.println(musique_module_genre.getText_list()
@@ -156,10 +155,10 @@ public class C_musique {
 						musique.addGenre(genre);
 						musique.ajoutLiasonMediaGenre();
 						actualiseTab();
-					} else {
-						JOptionPane.showMessageDialog(musique_main,
-								"Musique pas encore cree, veuillez cree la musique avant d'ajouter ou supprimer\n un genre");
 					}
+				} else {
+					JOptionPane.showMessageDialog(musique_main,
+							"Musique pas encore cree, veuillez cree la musique avant d'ajouter ou supprimer\n un genre");
 				}
 			}
 		});
@@ -169,16 +168,16 @@ public class C_musique {
 		musique_module_genre.getLess_btn().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(musique_module_genre.getContent_list().getSelectedIndices().length>0) {
-					if (musique.getId() != 0) {
+				if (musique.getId() != 0) {
+					if (musique_module_genre.getContent_list().getSelectedIndices().length > 0) {
 						musique.supprimeLiasonMediaGenre();
 						actualiseTab();
 					} else {
-						JOptionPane.showMessageDialog(musique_main,
-								"Musique pas encore cree, veuillez cree la musique avant d'ajouter ou supprimer\n un genre");
+						JOptionPane.showMessageDialog(musique_main, "Veuillez selectionner un element dans la liste ");
 					}
-				}else {
-					JOptionPane.showMessageDialog(musique_main,"Veuillez selectionner un element dans la liste ");
+				} else {
+					JOptionPane.showMessageDialog(musique_main,
+							"Musique pas encore cree, veuillez cree la musique avant d'ajouter ou supprimer\n un genre");
 				}
 			}
 		});
@@ -196,7 +195,7 @@ public class C_musique {
 	}
 
 	public void footerPanel() {
-		String textBouton[] = { "Creer", "Modifier", "Supprimer","Reset" };
+		String textBouton[] = { "Creer", "Modifier", "Supprimer", "Reset" };
 		double elmsSizeFooter[] = { 1.0, 1.0, 1.0 };
 		FooterPanel musique_footer_panel = new FooterPanel(this.musiques_panel, textBouton, elmsSizeFooter);
 		/**
@@ -206,7 +205,7 @@ public class C_musique {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (verifChamp()) {
-					if (musique.creation()&& musique.updateDureeAlbum()) {
+					if (musique.creation() && musique.updateDureeAlbum()) {
 						JOptionPane.showMessageDialog(musiques_panel, "Insertion faites", "Validation",
 								JOptionPane.INFORMATION_MESSAGE);
 						actualiseTab();
@@ -255,7 +254,7 @@ public class C_musique {
 				musique_module_etat.setSelectedIndex(1);
 				musique_module_genre.resetTextListField();
 				musique_module_personne.resetTextListField();
-				
+
 			}
 		});
 	}
@@ -296,7 +295,6 @@ public class C_musique {
 				JOptionPane.showMessageDialog(musiques_panel, "l'annee de sortie ne doit comporter que des chiffres",
 						"Echec", JOptionPane.ERROR_MESSAGE);
 			}
-			System.out.println(musique_titre_textfield.get(2).getText().toLowerCase());
 			musique.setAlbum(musique_titre_textfield.get(2).getText().toLowerCase());
 			musique.setUnivers(musique_titre_textfield.get(3).getText().toLowerCase());
 			musique.setEtat(musique_module_etat.getSelectedIndex() + 1);
@@ -319,7 +317,6 @@ public class C_musique {
 
 	public void actualiseMusique() {
 		// Actualise le header panel
-		System.out.println(musique.getNomunivers());
 		musique_header.autoCompleteFormHeader(musique.toRowDataForm());
 		musique_module_etat.setSelectedIndex(musique.getEtatId() - 1);
 
