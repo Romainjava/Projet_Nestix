@@ -38,6 +38,18 @@ public class MainApp {
      * Permet l'affichage de la fenètre swing.
      */
     public static void main(String[] args) {
+        EventQueue.invokeLater(() -> {
+            try {
+                MainApp window = new MainApp();
+                window.frame.setVisible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+    /*Remplacement par une fonction lambda
+
+    public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
@@ -48,7 +60,7 @@ public class MainApp {
                 }
             }
         });
-    }
+    }*/
 
     /**
      * Constructeur de l'application.
