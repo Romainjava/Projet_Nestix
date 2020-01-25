@@ -153,14 +153,14 @@ public class MainApp {
         C_artiste artiste_controler_panel = new C_artiste(artistes_panel);
 
 
-        //-- Paramétrage du pannel à valider (en cour) --\\
+        //-- Paramétrage du pannel à valider (en cours) --\\
         //--
         JPanel a_valider_panel = new JPanel();
         tabbedPane.addTab("A valider", null, a_valider_panel, null);
         a_valider_panel.setLayout(new GridLayout(1, 0, 0, 0));
 
 
-        //-- Paramétrage du pannel de netoyage (en cour) --\\
+        //-- Paramétrage du pannel de netoyage (en cours) --\\
         //--
         JPanel netoyagebdd_panel = new JPanel();
         tabbedPane.addTab("Nettoyage BDD", null, netoyagebdd_panel, null);

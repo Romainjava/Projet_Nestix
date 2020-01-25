@@ -1,7 +1,6 @@
 package view;
 
 import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -12,7 +11,6 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.SwingConstants;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -118,7 +116,7 @@ public class LinkModule extends Module implements ActionListener{
 	
 	public void setData(String [] data) {
 		this.text_list = new ArrayList<String>(Arrays.asList(data));
-		this.content_list = new JList(data);
+		this.content_list = new JList<>(data);
 		this.content_scroll.setViewportView(content_list);
 	}
 	
@@ -129,7 +127,7 @@ public class LinkModule extends Module implements ActionListener{
 			text_list_field.setText("");
 //			System.out.println(text_list);
 			
-			this.content_list = new JList(text_list.toArray());
+			this.content_list = new JList<>(text_list.toArray());
 			
 			content_scroll.setViewportView(content_list);
 		}
@@ -146,7 +144,7 @@ public class LinkModule extends Module implements ActionListener{
 		
 		//System.out.println(text_list);
 		
-		this.content_list = new JList(text_list.toArray());
+		this.content_list = new JList<>(text_list.toArray());
 		//System.out.println(this.content_list.getModel().getSize());
 		
 		content_scroll.setViewportView(content_list);
