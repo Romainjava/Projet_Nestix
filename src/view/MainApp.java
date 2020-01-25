@@ -6,8 +6,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
 //-- imports awt
@@ -24,10 +22,6 @@ import controller.C_musique;
 
 //-- imports internes Modèles
 import modele.Etat;
-import modele.ConnexionBDD;
-import modele.Editeur;
-import modele.Livre;
-import modele.Musique;
 
 public class MainApp {
 
