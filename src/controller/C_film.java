@@ -28,6 +28,7 @@ import view.LinkModule;
 import view.MainPanel;
 import view.Module;
 import view.PlaceholderTextField;
+import view.TextAreaScrollField;
 import view.TextListField;
 
 public class C_film {
@@ -41,7 +42,7 @@ public class C_film {
 	JTable film_results_table;
 
 	ArrayList<PlaceholderTextField> film_titre_textfield;
-	String header[] = { "Titre", "Durée", "Année de sortie", "Saga" };
+	String header[] = { "Titre", "Durée", "Année de sortie", "Saga","Univers" };
 
 	ComboListField comboListField = new ComboListField(new String[] { "valide", "attente", "bloquer" });
 	DualLinkModule dualLinkModule = new DualLinkModule("Personne", new String[] { "acteur", "realisateur", "scenariste" });
@@ -54,6 +55,7 @@ public class C_film {
 	DualLinkModule film_module_personne;
 	LinkModule film_module_genre;
 	ComboListField film_module_etat;
+	TextAreaScrollField film_module_resume;
 	
 	private JTable getFilm_results_table() {
 		return film_results_table;
@@ -91,6 +93,8 @@ public class C_film {
 		film_module_genre=film_main.addPanelGenre();
 
 		film_module_etat=film_main.addPanelEtat();
+		
+		film_module_resume = film_main.addPanelResume();
 
 		film_main.addModule(new Module(), 2, 1);
 	}
@@ -106,7 +110,7 @@ public class C_film {
 	}
 
 	private void footerPanel() {
-		String[] textBouton = {"Creer", "Modifier", "Supprimer"};
+		String[] textBouton = {"Creer", "Modifier", "Supprimer","Reset"};
 		double[] elmsSizeFooter = {1.0, 1.0, 1.0};
 		FooterPanel film_footer_panel = new FooterPanel(this.films_panel, textBouton, elmsSizeFooter);
 		film_footer_panel.getBoutonTab().get(0).addActionListener(new ActionListener() {
@@ -147,6 +151,20 @@ public class C_film {
 				System.out.println(film_module_personne.getText_list().size());
 			}
 		});
+		film_footer_panel.getBoutonTab().get(3).addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				film=new Film();
+				for (PlaceholderTextField text : film_titre_textfield) {
+					text.setText("");
+				}
+				film_module_resume.getText_area().setText(null);
+				film_module_etat.setSelectedIndex(1);
+				film_module_genre.resetTextListField();
+				film_module_personne.resetTextListField();
+				
+			}
+		});
 	}
 
 	private boolean verifChamp() {
@@ -179,8 +197,10 @@ public class C_film {
 				JOptionPane.showMessageDialog(films_panel, "l'annee de sortie ne doit comporter que des chiffres",
 						"Echec", JOptionPane.ERROR_MESSAGE);
 			}
-			//film.setAlbum(film_titre_textfield.get(2).getText().toLowerCase());
-			//film.setUnivers(film_titre_textfield.get(3).getText().toLowerCase());
+			// Resumé
+			film.setResume_film(film_module_resume.getText_area().getText());
+			film.setSaga(film_titre_textfield.get(3).getText().toLowerCase());
+			film.setUnivers(film_titre_textfield.get(4).getText().toLowerCase());
 			film.setEtat(comboListField.getSelectedIndex() + 1);
 			for (int i = 0; i < film_module_personne.getText_list().size(); i++) {
 				Artiste artiste = new Artiste();
@@ -204,7 +224,7 @@ public class C_film {
 		films_aside_panel.setDonnees(films);
 	}
 	
-	public void actualiseMusique() {
+	public void actualiseFilm() {
 		// Actualise le header panel
 		films_header.autoCompleteFormHeader(film.toRowDataForm());
 		comboListField.setSelectedIndex(film.getEtatId() - 1);
@@ -228,16 +248,8 @@ public class C_film {
 		this.film_module_genre.setData(tGenreData);
 		// etat
 		this.film_module_etat.setSelectedIndex(film.getEtat().getId() - 1);
+		this.film_module_resume.getText_area().setText(film.getResume_film());
 	}
-	
-	/**
-	 * Actualise le formulaire de film
-	 */
-	private void actualiseFilm(String titre) {
-		// Actualise le titre
-		this.getFilm_titre_textfield().get(0).setText(titre);
-	}
-	
 	
 	/**
 	 * Classe interne
@@ -259,9 +271,9 @@ public class C_film {
 			int row = this.controller.getFilm_results_table().rowAtPoint(e.getPoint());
 			// int column = tableau.columnAtPoint(e.getPoint());
 			// "getAtValue" : Permet de prendre la valeur de la case ( row , column )
-			String titre = (String)this.controller.getFilm_results_table().getValueAt(row, 0);
-			this.controller.actualiseFilm(titre);
-			// Plus tard faire appelle Ã  la mÃ©thode actualise livre qui actualise tous les champs
+			film.lireUn(films.get(row).getId());
+			this.controller.actualiseFilm();
+			// Plus tard faire appelle Ã  la mÃ©thode actualise livre qui actualise tous les champs
 		}
 	}
 }

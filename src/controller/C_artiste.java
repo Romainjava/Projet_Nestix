@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
@@ -38,6 +39,7 @@ public class C_artiste {
 	PlaceholderTextField artiste_prenom_textfield;
 	PlaceholderTextField artiste_surnom_textfield;
 	PlaceholderTextField artiste_dob_textfield;
+	JComboBox<String> artiste_etat;
 
 	AsidePanel artiste_aside;
 	MetiersPanel metier_panel;
@@ -156,7 +158,7 @@ public class C_artiste {
 		});
 		artiste_main.addModule(metier_panel, 0, 0,2,3);
 		artiste_main.addPanelImage();
-		artiste_main.addPanelEtat();
+		this.artiste_etat  = artiste_main.addPanelEtat();
 
 		actualiseListe();
 	}
@@ -255,6 +257,8 @@ public class C_artiste {
 		artiste.setNom_artiste(getArtiste_nom_textfield().getText());
 		artiste.setPrenom_artiste(getArtiste_prenom_textfield().getText());
 		artiste.setDob_artiste(getArtiste_dob_textfield().getText());
+		artiste.setEtat(artiste_etat.getModel().getSelectedItem().toString());//renvoie le texte correspondant du model et avec des elseif rentre le bon id correspondant
+		
 	}
 
 	/**

@@ -77,7 +77,6 @@ public class M_artiste {
 		} catch (SQLException e) {
 			System.out.println("Erreur attrapé dans lireTout M_artiste : " + e.getMessage());
 		}
-		System.out.println(artistes);
 		return artistes;
 	}
 
@@ -155,13 +154,14 @@ public class M_artiste {
 		try {
 			Connection co = ConnexionBDD.getConnexion();
 			String query = "UPDATE nestix_artiste SET nom_artiste = ?, prenom_artiste = ?, surnom_artiste = ?"
-					+ ", dob_artiste = ? WHERE id_artiste = ?";
+					+ ", dob_artiste = ?,etat_id = ?  WHERE id_artiste = ?";
 			PreparedStatement statement = (PreparedStatement) co.prepareStatement(query);
 			statement.setString(1, artiste.getNom_artiste());
 			statement.setString(2, artiste.getPrenom_artiste());
 			statement.setString(3, artiste.getSurnom_artiste());
 			statement.setString(4, parseFormatDateFromForm(artiste.getDob_artiste()));
-			statement.setInt(5, artiste.getId_artiste());
+			statement.setInt(5,artiste.getId_etat());
+			statement.setInt(6, artiste.getId_artiste());
 			nb_row = statement.executeUpdate();
 
 		} catch (SQLException e) {

@@ -29,14 +29,12 @@ import view.LinkModule;
 import view.MainPanel;
 import view.PlaceholderTextField;
 
-
 /**
  * - Classe Controleur de la vue aux données de Musiques.
  *
  * @author Kévin
  */
 public class C_musique {
-
 
     //-- Atributs de la classe C_musique --\\
     //--

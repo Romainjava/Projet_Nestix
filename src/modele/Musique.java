@@ -437,5 +437,21 @@ public class Musique extends Media {
 					+ "JOIN nestix_artiste_metier_media ON nestix_artiste_metier_media.artiste_id = nestix_artiste.id_artiste "
 					+ "WHERE   media_id = ?";
 		}
+
+		public static String queryLectureUn() {
+			return "SELECT  id_media, annee_sortie_media, admin_id, nestix_media.univers_id,  nom_univers, saga_id, duree_musique,"
+					+ "    nom_saga,    image_id,    path_image,    nom_image, "
+					+ "    alt_image,  id_album, nom_album,  utilisateur_id,    nom_oeuvre,    id_etat, "
+					+ "    nom_etat,    oeuvre_id FROM    `nestix_media` "
+					+ "LEFT JOIN nestix_oeuvre ON nestix_oeuvre.id_oeuvre = nestix_media.oeuvre_id "
+					+ "LEFT JOIN nestix_musique ON nestix_musique.musique_id = nestix_media.id_media "
+					+ "LEFT JOIN nestix_album ON nestix_album.id_album = nestix_musique.album_id  "
+					+ "LEFT JOIN nestix_etat ON nestix_media.etat_id = nestix_etat.id_etat "
+					+ "LEFT JOIN nestix_univers ON nestix_univers.id_univers = nestix_media.univers_id "
+					+ "LEFT JOIN nestix_saga ON nestix_saga.id_saga = nestix_media.saga_id "
+					+ "LEFT JOIN nestix_image ON nestix_image.id_image=nestix_media.image_id "
+					+ " WHERE   id_media = ?";
+
+		}
 	}
 }

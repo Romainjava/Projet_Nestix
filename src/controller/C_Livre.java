@@ -204,7 +204,7 @@ public class C_Livre {
 	}
 
 	public void footerPanel() {
-		String textBouton[] = { "Creer", "Modifier", "Supprimer" };
+		String textBouton[] = { "Creer", "Modifier", "Supprimer","Reset" };
 		double elmsSizeFooter[] = { 1.0, 1.0, 1.0 };
 		FooterPanel livre_footer_panel = new FooterPanel(this.livres_panel, textBouton, elmsSizeFooter);
 		// Event
@@ -259,6 +259,21 @@ public class C_Livre {
 				}
 			}
 		});
+		livre_footer_panel.getBoutonTab().get(3).addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				livre= new Livre();
+				for (PlaceholderTextField text : livre_titre_textfield) {
+					text.setText("");
+				}
+				livre_module_resume.getText_area().setText(null);
+				livre_module_editeur.setSelectedIndex(0);
+				livre_module_etat.setSelectedIndex(1);
+				livre_module_genre.resetTextListField();
+				livre_module_personne.resetTextListField();
+				
+			}
+		});
 	}
 
 	public boolean verifChamp() {
@@ -271,7 +286,7 @@ public class C_Livre {
 			livre.setOeuvre(livre_titre_textfield.get(0).getText().toLowerCase());
 			// Annee sortie
 			try {
-				if (!livre_titre_textfield.get(1).getText().equals("")) {
+				if (!livre_titre_textfield.get(2).getText().equals("")) {
 					if (livre_titre_textfield.get(2).getText().toLowerCase().length() == 4
 							&& Integer.parseInt(livre_titre_textfield.get(2).getText().toLowerCase()) > 1900) {
 						livre.setAnnee_sortie_media(livre_titre_textfield.get(2).getText().toLowerCase());
@@ -299,18 +314,19 @@ public class C_Livre {
 			// ISBN
 			try {
 				if (!livre_titre_textfield.get(1).getText().equals("")) {
-					if (Integer.parseInt(livre_titre_textfield.get(1).getText()) < 1000000000) {
-						livre.setISBN(Integer.parseInt(livre_titre_textfield.get(1).getText()));
+					if (Long.parseLong(livre_titre_textfield.get(1).getText()) >0) {
+						livre.setISBN(Long.parseLong(livre_titre_textfield.get(1).getText()));
 					} else {
 						success = false;
 						JOptionPane.showMessageDialog(livres_panel, "ISBN non valide", "Echec",
 								JOptionPane.ERROR_MESSAGE);
 					}
 				} else {
-					livre.setISBN(0);
+					livre.setISBN((long)0);
 				}
 			} catch (Exception e) {
 				success = false;
+				e.printStackTrace();
 				JOptionPane.showMessageDialog(livres_panel, "l'ISBN ne doit comporter que des chiffres", "Echec",
 						JOptionPane.ERROR_MESSAGE);
 			}
@@ -430,3 +446,4 @@ public class C_Livre {
 		}
 	}
 }
+

@@ -151,6 +151,12 @@ public class LinkModule extends Module implements ActionListener{
 
 	}
 
+	public void resetTextListField(){
+		this.text_list.clear();
+		this.content_list = new JList(text_list.toArray());
+		content_scroll.setViewportView(content_list);
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 

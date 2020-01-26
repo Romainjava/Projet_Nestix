@@ -141,7 +141,7 @@ public class Film extends Media {
 				sucess = true;
 				this.id_media = result.getInt("id_media");
 				this.annee_sortie_media = result.getString("annee_sortie_media");
-				this.duree_film = result.getInt("duree_musique");
+				this.duree_film = result.getInt("duree_film");
 				this.setSaga(result);
 				this.setImage(result);
 				this.setEtat(result);
@@ -211,7 +211,7 @@ public class Film extends Media {
 			statement.setInt(7, this.id_media);
 			success = (statement.executeUpdate() > 0);
 			if (success) {
-				query = "UPDATE `nestix_film` SET `duree_film`=?,`resume_film`=? WHERE musique_id=?";
+				query = "UPDATE `nestix_film` SET `duree_film`=?,`resume_film`=? WHERE film_id=?";
 				statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
 				ConnexionBDD.prepareInt(statement, 1, this.duree_film);
 				statement.setString(2, this.resume_film);
@@ -226,8 +226,8 @@ public class Film extends Media {
 	}
 	
 	public String[] toRowDataForm() {
-		return new String[]{ this.getTitre(), this.duree_film + "", this.resume_film, this.getNomunivers(),
-				this.annee_sortie_media.substring(0,4) };
+		return new String[]{ this.getTitre(), this.duree_film + "", this.annee_sortie_media.substring(0,4), this.saga.getNom(),
+				this.getNomunivers() };
 	}
 
 	static class Query {
@@ -267,7 +267,7 @@ public class Film extends Media {
 					+ "LEFT JOIN nestix_oeuvre ON nestix_oeuvre.id_oeuvre = nestix_media.oeuvre_id "
 					+ "LEFT JOIN nestix_film ON nestix_film.film_id = nestix_media.id_media "
 					+ "LEFT JOIN nestix_etat ON nestix_media.etat_id = nestix_etat.id_etat "
-					+ "LEFT JOIN nestix_univers ON nestix_univers.id_univers = nestix_media.id_media "
+					+ "LEFT JOIN nestix_univers ON nestix_univers.id_univers = nestix_media.univers_id "
 					+ "LEFT JOIN nestix_saga ON nestix_saga.id_saga = nestix_media.saga_id "
 					+ "LEFT JOIN nestix_image ON nestix_image.id_image=nestix_media.image_id "
 					+ " WHERE   id_media = ?";
