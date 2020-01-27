@@ -6,8 +6,6 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 
 //-- imports awt
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -214,7 +212,6 @@ public class C_film {
 		//--
 		film_footer_panel.getBoutonTab().get(0).addActionListener(e -> {
 			if (verifChamp()) {
-				System.out.println(film.getOeuvre().getId());
 				if (film.creation()) {
 					JOptionPane.showMessageDialog(films_panel, "Insertion faites", "Validation",
 							JOptionPane.INFORMATION_MESSAGE);
