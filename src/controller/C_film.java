@@ -47,11 +47,6 @@ public class C_film {
 	private LinkModule film_module_genre;
 	private TextAreaScrollField film_module_resume;
 
-	//-- surement à delete
-	private ComboListField comboListField = new ComboListField(new String[] { "valide", "attente", "bloquer" });
-	private DualLinkModule dualLinkModule = new DualLinkModule("Personne", new String[] { "acteur", "realisateur", "scenariste" });
-	private LinkModule linkModule = new LinkModule("Genre");
-
 
 	/**
 	 * - Partage le tableau des films à la classe interne.
@@ -60,11 +55,6 @@ public class C_film {
 	 */
 	private JTable getFilm_results_table() {
 		return film_results_table;
-	}
-
-	//-- surement à delete
-	private ArrayList<PlaceholderTextField> getFilm_titre_textfield() {
-		return film_titre_textfield;
 	}
 
 
@@ -229,58 +219,71 @@ public class C_film {
 					JOptionPane.showMessageDialog(films_panel, "Insertion faites", "Validation",
 							JOptionPane.INFORMATION_MESSAGE);
 					actualiseTab();
+				}
+			}
+		});
+
+
+		//-- Bouton Modifier --\\
+		//--
+		film_footer_panel.getBoutonTab().get(1).addActionListener(e -> {
+			if (verifChamp()) {
+				if (film.modification()) {
+					JOptionPane.showMessageDialog(films_panel, "Modification faites", "Modifie",
+							JOptionPane.INFORMATION_MESSAGE);
+					actualiseTab();
 				} else {
-					JOptionPane.showMessageDialog(films_panel, "Erreur lors de l'insertion", "Echec insertion",
-							JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(films_panel, "Erreur lors de la modification",
+							"Echec insertion", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
-		film_footer_panel.getBoutonTab().get(1).addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (verifChamp()) {
-					if (film.modification()) {
-						JOptionPane.showMessageDialog(films_panel, "Modification faites", "Modifie",
-								JOptionPane.INFORMATION_MESSAGE);
-						actualiseTab();
-					} else {
-						JOptionPane.showMessageDialog(films_panel, "Erreur lors de la modification",
-								"Echec insertion", JOptionPane.ERROR_MESSAGE);
-					}
-				}
-			}
-		});
-		film_footer_panel.getBoutonTab().get(2).addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
+
+
+		//-- Bouton supprimer --\\
+		//--
+		film_footer_panel.getBoutonTab().get(2).addActionListener(e -> {
+			//-- Si L'id de la musique en cour de traitement n'est pas = à 0 les champs valides.
+			if (film.getId() != 0 && verifChamp()) {
 				film.suppression(film.getId());
-				System.out.println(film_module_personne.getText_list().size());
+				actualiseTab();
 			}
 		});
-		film_footer_panel.getBoutonTab().get(3).addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				film=new Film();
-				for (PlaceholderTextField text : film_titre_textfield) {
-					text.setText("");
-				}
-				film_module_resume.getText_area().setText(null);
-				film_module_etat.setSelectedIndex(1);
-				film_module_genre.resetTextListField();
-				film_module_personne.resetTextListField();
-				
+
+
+		//-- Bouton reset --\\
+		//--
+		film_footer_panel.getBoutonTab().get(3).addActionListener(e -> {
+			film=new Film();
+			for (PlaceholderTextField text : film_titre_textfield) {
+				text.setText("");
 			}
+			film_module_resume.getText_area().setText(null);
+			film_module_etat.setSelectedIndex(1);
+			film_module_genre.resetTextListField();
+			film_module_personne.resetTextListField();
+
 		});
 	}
 
+
+	/**
+	 * - Methode de vérifications des champs de textes.
+	 * Vérifie que les champs du header soit correctements remplis.
+	 * Ajoute les données des champs du header ainsi que l'état et le genre dans l'objet musique.
+	 *
+	 * @return false si un des champs n'a pas bien été rempli.
+	 */
 	private boolean verifChamp() {
 		boolean success = true;
+		//-- Si le champ titre est vide
 		if (film_titre_textfield.get(0).getText().equals("")) {
 			success = false;
 			JOptionPane.showMessageDialog(films_panel, "Veuillez saisir un titre");
 		} else {
 			film.setOeuvre(film_titre_textfield.get(0).getText().toLowerCase());
 			try {
+				//-- Si la durée du film est supérieur à 0
 				if (film_titre_textfield.get(1).getText().length() > 0) {
 					film.setDuree_film(Integer.parseInt(film_titre_textfield.get(1).getText()));
 				}
@@ -290,6 +293,7 @@ public class C_film {
 						"la dure du film ne doit comporter que des chiffres", "Echec", JOptionPane.ERROR_MESSAGE);
 			}
 			try {
+				//-- Si L'année de sortie contien bien 4 chifres et est supérieur = 1900
 				if (film_titre_textfield.get(2).getText().toLowerCase().length() == 4
 						&& Integer.parseInt(film_titre_textfield.get(2).getText().toLowerCase()) > 1900) {
 					film.setAnnee_sortie_media(film_titre_textfield.get(2).getText().toLowerCase());
@@ -303,39 +307,35 @@ public class C_film {
 				JOptionPane.showMessageDialog(films_panel, "l'annee de sortie ne doit comporter que des chiffres",
 						"Echec", JOptionPane.ERROR_MESSAGE);
 			}
-			// Resumé
 			film.setResume_film(film_module_resume.getText_area().getText());
 			film.setSaga(film_titre_textfield.get(3).getText().toLowerCase());
 			film.setUnivers(film_titre_textfield.get(4).getText().toLowerCase());
-			film.setEtat(comboListField.getSelectedIndex() + 1);
-			for (int i = 0; i < film_module_personne.getText_list().size(); i++) {
-				Artiste artiste = new Artiste();
-				Metier metier = new Metier();
-				artiste.creationRapide(film_module_personne.getText_list().get(i));
-				metier.setInfo(film_module_personne.getCombo_list().get(i));
-				artiste.setMetiers_artiste(metier);
-				film.addArtiste(artiste);
-			}
-			for (int i = 0; i < film_module_genre.getText_list().size(); i++) {
-				Genre genre = new Genre();
-				genre.setInfo(film_module_genre.getText_list().get(i));
-				film.addGenre(genre);
-			}
+			film.setEtat(film_module_etat.getSelectedIndex() + 1);
 		}
 		return success;
 	}
 
+
+	/**
+	 * - Rafraichie le tableau de données.
+	 */
 	public void actualiseTab() {
 		films = film.lectureTout(50);
 		films_aside_panel.setDonnees(films);
 	}
-	
-	public void actualiseFilm() {
-		// Actualise le header panel
-		films_header.autoCompleteFormHeader(film.toRowDataForm());
-		comboListField.setSelectedIndex(film.getEtatId() - 1);
 
-		// personne
+
+	/**
+	 * - Rempli les champs avec les données de l'élément cliqué dans le tableau de données.
+	 * Ajouter les données des champs du header.
+	 * puis ceux des personnes, des genres et l'état.
+	 */
+	private void actualiseFilm() {
+		//-- header
+		films_header.autoCompleteFormHeader(film.toRowDataForm());
+
+
+		//-- personne
 		ArrayList<String> tPersonneData = new ArrayList<>();
 		ArrayList<String> tPersonneDataMetier = new ArrayList<>();
 		for (int i = 0; i < film.getArtistes().size(); i++) {
@@ -346,21 +346,25 @@ public class C_film {
 		}
 		this.film_module_personne.setData(tPersonneData.toArray(new String[0]),
 				tPersonneDataMetier.toArray(new String[0]));
-		// genre
+
+
+		//-- genre
 		String[] tGenreData = new String[film.getGenres().size()];
 		for (int i = 0; i < tGenreData.length; i++) {
 			tGenreData[i] = film.getGenres().get(i).getNom();
 		}
 		this.film_module_genre.setData(tGenreData);
-		// etat
-		this.film_module_etat.setSelectedIndex(film.getEtat().getId() - 1);
+
+
+		//-- etat
+		this.film_module_etat.setSelectedIndex(film.getEtatId() - 1);
 		this.film_module_resume.getText_area().setText(film.getResume_film());
 	}
-	
+
 	/**
-	 * Classe interne
-	 * @author Romain
+	 * - Classe interne instancié dans le controleur au moment de la création de l'aside.
 	 *
+	 * @author Romain
 	 */
 	class MouseAdapterTableau extends MouseAdapter{
 		
@@ -369,17 +373,20 @@ public class C_film {
 		private MouseAdapterTableau(C_film controller) {
 			this.controller = controller;
 		}
-		
-		
+
+
+		/**
+		 * - Récupère la position y de la souris dans le tableau de données.
+		 * Récupère dans l'objet fillm les données de la ligne sélectionné.
+		 * Actualise les données de la page avec celles de l'object sélectionné.
+		 *
+		 * @param e Gestion de l'évènement du clique de la souris.
+		 */
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			// PERMET DE RECUP LA POSITION DANS LA MATRICE DU TABLEAU
 			int row = this.controller.getFilm_results_table().rowAtPoint(e.getPoint());
-			// int column = tableau.columnAtPoint(e.getPoint());
-			// "getAtValue" : Permet de prendre la valeur de la case ( row , column )
 			film.lireUn(films.get(row).getId());
 			this.controller.actualiseFilm();
-			// Plus tard faire appelle Ã  la mÃ©thode actualise livre qui actualise tous les champs
 		}
 	}
 }
