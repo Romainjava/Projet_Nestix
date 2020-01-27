@@ -1,6 +1,7 @@
 package controller;
 
 //-- imports swing
+
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
@@ -151,8 +152,8 @@ public class C_musique {
         //-- Lie un genre et une musique lors de l'appuie sur le bouton '+' --\\
         //--
         musique_module_genre.getMore_btn().addActionListener(e -> {
-            if (!musique_module_genre.empty()) {
-                if (musique.getId() != 0) {
+            if (musique.getId() != 0) {
+                if (!musique_module_genre.empty()) {
                     musique_module_genre.addTextListField();
                     Genre genre = new Genre();
                     genre.setInfo(musique_module_genre.getText_list()
@@ -171,8 +172,8 @@ public class C_musique {
         //-- Delie un genre et une musique lors de l'appuie sur le bouton '-' --\\
         //--
         musique_module_genre.getLess_btn().addActionListener(e -> {
-            if (musique_module_genre.getContent_list().getSelectedIndices().length > 0) {
-                if (musique.getId() != 0) {
+            if (musique.getId() != 0) {
+                if (musique_module_genre.getContent_list().getSelectedIndices().length > 0) {
                     musique.supprimeLiasonMediaGenre();
                     actualiseTab();
                 } else {
@@ -256,17 +257,17 @@ public class C_musique {
         });
 
 
-		//-- Bouton reset --\\
-		//--
-		musique_footer_panel.getBoutonTab().get(3).addActionListener(e -> {
-			musique = new Musique();
-			for (PlaceholderTextField text : musique_titre_textfield) {
-				text.setText("");
-			}
-			musique_module_etat.setSelectedIndex(1);
-			musique_module_genre.resetTextListField();
-			musique_module_personne.resetTextListField();
-		});
+        //-- Bouton reset --\\
+        //--
+        musique_footer_panel.getBoutonTab().get(3).addActionListener(e -> {
+            musique = new Musique();
+            for (PlaceholderTextField text : musique_titre_textfield) {
+                text.setText("");
+            }
+            musique_module_etat.setSelectedIndex(1);
+            musique_module_genre.resetTextListField();
+            musique_module_personne.resetTextListField();
+        });
     }
 
 
