@@ -61,7 +61,11 @@ public class Musique extends Media {
 	}
 
 	/**
+<<<<<<< HEAD
+	 *
+=======
 	 * ???
+>>>>>>> 7eec8f415a0ee8f44b569ce62a820a21c91eda3d
 	 * @return
 	 */
 	public String[] toRowDataForm() {
@@ -124,7 +128,11 @@ public class Musique extends Media {
 	}
 
 	/**
+<<<<<<< HEAD
+	 *
+=======
 	 * ???
+>>>>>>> 7eec8f415a0ee8f44b569ce62a820a21c91eda3d
 	 * update la table nestix_musique aprés la creation d'une musique pour set la
 	 * duree et l'album si il y'en a un
 	 * 
@@ -147,7 +155,11 @@ public class Musique extends Media {
 
 
 	/**
+<<<<<<< HEAD
+	 *
+=======
 	 * ???
+>>>>>>> 7eec8f415a0ee8f44b569ce62a820a21c91eda3d
 	 * @return
 	 */
 	@Override
@@ -167,13 +179,12 @@ public class Musique extends Media {
 			success = (statement.executeUpdate() > 0);
 			ResultSet generatedKeys = statement.getGeneratedKeys();
 			if (generatedKeys.next()) {
-				success = true;
 				this.id_media = (int) generatedKeys.getLong(1);
 			} else {
 				throw new SQLException("Creating music failed, no ID obtained.");
 			}
 			if (success) {
-				query = "INSERT INTO `nestix_musique`(`musique_id`, `duree_musique`, `album_id`) VALUES(?,?,?)";
+				success = this.updateDureeAlbum();
 			}
 			statement.close();
 		} catch (SQLException e) {
@@ -205,12 +216,7 @@ public class Musique extends Media {
 			statement.setInt(7, this.id_media);
 			success = (statement.executeUpdate() > 0);
 			if (success) {
-				query = "UPDATE `nestix_musique` SET `duree_musique`=?,`album_id`=? WHERE musique_id=?";
-				statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
-				ConnexionBDD.prepareInt(statement, 1, this.duree_musique);
-				ConnexionBDD.prepareInt(statement, 2, this.album.getId());
-				statement.setInt(3, this.id_media);
-				success = (statement.executeUpdate() > 0);
+				success = this.updateDureeAlbum();
 			}
 			statement.close();
 		} catch (SQLException e) {
@@ -332,7 +338,11 @@ public class Musique extends Media {
 
 
 	/**
+<<<<<<< HEAD
+	 * Barre de recherche (en cours)
+=======
 	 * ???
+>>>>>>> 7eec8f415a0ee8f44b569ce62a820a21c91eda3d
 	 * @param limit
 	 * @return
 	 */
@@ -391,7 +401,7 @@ public class Musique extends Media {
 					+ "LEFT JOIN nestix_musique ON nestix_musique.musique_id = nestix_media.id_media "
 					+ "LEFT JOIN nestix_album ON nestix_album.id_album = nestix_musique.album_id  "
 					+ "LEFT JOIN nestix_etat ON nestix_media.etat_id = nestix_etat.id_etat "
-					+ "LEFT JOIN nestix_univers ON nestix_univers.id_univers = nestix_media.id_media "
+					+ "LEFT JOIN nestix_univers ON nestix_univers.id_univers = nestix_media.univers_id "
 					+ "LEFT JOIN nestix_saga ON nestix_saga.id_saga = nestix_media.saga_id "
 					+ "LEFT JOIN nestix_image ON nestix_image.id_image=nestix_media.image_id "
 					+ " WHERE   id_media = ?";
@@ -436,22 +446,6 @@ public class Musique extends Media {
 			return "SELECT    artiste_id, surnom_artiste " + "FROM    nestix_artiste "
 					+ "JOIN nestix_artiste_metier_media ON nestix_artiste_metier_media.artiste_id = nestix_artiste.id_artiste "
 					+ "WHERE   media_id = ?";
-		}
-
-		public static String queryLectureUn() {
-			return "SELECT  id_media, annee_sortie_media, admin_id, nestix_media.univers_id,  nom_univers, saga_id, duree_musique,"
-					+ "    nom_saga,    image_id,    path_image,    nom_image, "
-					+ "    alt_image,  id_album, nom_album,  utilisateur_id,    nom_oeuvre,    id_etat, "
-					+ "    nom_etat,    oeuvre_id FROM    `nestix_media` "
-					+ "LEFT JOIN nestix_oeuvre ON nestix_oeuvre.id_oeuvre = nestix_media.oeuvre_id "
-					+ "LEFT JOIN nestix_musique ON nestix_musique.musique_id = nestix_media.id_media "
-					+ "LEFT JOIN nestix_album ON nestix_album.id_album = nestix_musique.album_id  "
-					+ "LEFT JOIN nestix_etat ON nestix_media.etat_id = nestix_etat.id_etat "
-					+ "LEFT JOIN nestix_univers ON nestix_univers.id_univers = nestix_media.univers_id "
-					+ "LEFT JOIN nestix_saga ON nestix_saga.id_saga = nestix_media.saga_id "
-					+ "LEFT JOIN nestix_image ON nestix_image.id_image=nestix_media.image_id "
-					+ " WHERE   id_media = ?";
-
 		}
 	}
 }

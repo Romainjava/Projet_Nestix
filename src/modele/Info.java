@@ -137,7 +137,7 @@ public abstract class Info implements I_requeteSQL, I_recherche {
 		ResultSet result;
 		String query;
 		try {
-			query = "INSERT IGNORE INTO nestix_" + this.getTableName() + "(" + this.getColumnName() + "_id) VALUES(?)";
+			query = "INSERT IGNORE INTO nestix_" + this.getTableName() + "(" + this.getColumnName() + ") VALUES(?)";
 			statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
 			statement.setString(1, value);
 			result = statement.executeQuery();
@@ -162,6 +162,8 @@ public abstract class Info implements I_requeteSQL, I_recherche {
 		this.fetchId();
 		if (this.getId() == 0 && !this.getNom().equals("")) {
 			this.creation();
+		} else {
+			//resetInfo();
 		}
 	}
 
