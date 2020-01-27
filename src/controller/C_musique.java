@@ -1,7 +1,6 @@
 package controller;
 
 //-- imports swing
-
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
@@ -255,8 +254,6 @@ public class C_musique {
                 actualiseTab();
             }
         });
-
-
         //-- Bouton reset --\\
         //--
         musique_footer_panel.getBoutonTab().get(3).addActionListener(e -> {

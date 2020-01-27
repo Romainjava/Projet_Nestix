@@ -61,7 +61,11 @@ public class Musique extends Media {
 	}
 
 	/**
+<<<<<<< HEAD
 	 *
+=======
+	 * ???
+>>>>>>> 7eec8f415a0ee8f44b569ce62a820a21c91eda3d
 	 * @return
 	 */
 	public String[] toRowDataForm() {
@@ -124,7 +128,11 @@ public class Musique extends Media {
 	}
 
 	/**
+<<<<<<< HEAD
 	 *
+=======
+	 * ???
+>>>>>>> 7eec8f415a0ee8f44b569ce62a820a21c91eda3d
 	 * update la table nestix_musique aprés la creation d'une musique pour set la
 	 * duree et l'album si il y'en a un
 	 * 
@@ -147,7 +155,11 @@ public class Musique extends Media {
 
 
 	/**
+<<<<<<< HEAD
 	 *
+=======
+	 * ???
+>>>>>>> 7eec8f415a0ee8f44b569ce62a820a21c91eda3d
 	 * @return
 	 */
 	@Override
@@ -326,7 +338,11 @@ public class Musique extends Media {
 
 
 	/**
+<<<<<<< HEAD
 	 * Barre de recherche (en cours)
+=======
+	 * ???
+>>>>>>> 7eec8f415a0ee8f44b569ce62a820a21c91eda3d
 	 * @param limit
 	 * @return
 	 */
