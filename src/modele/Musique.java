@@ -61,7 +61,7 @@ public class Musique extends Media {
 	}
 
 	/**
-	 * ???
+	 *
 	 * @return
 	 */
 	public String[] toRowDataForm() {
@@ -124,7 +124,7 @@ public class Musique extends Media {
 	}
 
 	/**
-	 * ???
+	 *
 	 * update la table nestix_musique aprés la creation d'une musique pour set la
 	 * duree et l'album si il y'en a un
 	 * 
@@ -147,7 +147,7 @@ public class Musique extends Media {
 
 
 	/**
-	 * ???
+	 *
 	 * @return
 	 */
 	@Override
@@ -167,13 +167,12 @@ public class Musique extends Media {
 			success = (statement.executeUpdate() > 0);
 			ResultSet generatedKeys = statement.getGeneratedKeys();
 			if (generatedKeys.next()) {
-				success = true;
 				this.id_media = (int) generatedKeys.getLong(1);
 			} else {
 				throw new SQLException("Creating music failed, no ID obtained.");
 			}
 			if (success) {
-				query = "INSERT INTO `nestix_musique`(`musique_id`, `duree_musique`, `album_id`) VALUES(?,?,?)";
+				success = this.updateDureeAlbum();
 			}
 			statement.close();
 		} catch (SQLException e) {
@@ -205,12 +204,7 @@ public class Musique extends Media {
 			statement.setInt(7, this.id_media);
 			success = (statement.executeUpdate() > 0);
 			if (success) {
-				query = "UPDATE `nestix_musique` SET `duree_musique`=?,`album_id`=? WHERE musique_id=?";
-				statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
-				ConnexionBDD.prepareInt(statement, 1, this.duree_musique);
-				ConnexionBDD.prepareInt(statement, 2, this.album.getId());
-				statement.setInt(3, this.id_media);
-				success = (statement.executeUpdate() > 0);
+				success = this.updateDureeAlbum();
 			}
 			statement.close();
 		} catch (SQLException e) {
@@ -332,7 +326,7 @@ public class Musique extends Media {
 
 
 	/**
-	 * ???
+	 * Barre de recherche (en cours)
 	 * @param limit
 	 * @return
 	 */

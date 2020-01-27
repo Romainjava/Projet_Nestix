@@ -87,12 +87,10 @@ public class C_musique {
         double[] elmsSize = {1.0, 1.0, 1.0, 1.0, 1.0};
         musique_header = new HeaderPanel(this.musiques_panel, "Cet onglet permet de renseigner des musiques", header,
                 elmsSize);
-
         ArrayList<PlaceholderTextField> liste = musique_header.getJtextArrray();
         this.musique_titre_textfield = liste;
         PlaceholderTextField musique_duree_textfield = liste.get(1);
-        musique_duree_textfield.setPlaceholder("Durée en seconde");
-
+        musique_duree_textfield.setPlaceholder("Durée en secondes");
     }
 
 
@@ -117,8 +115,6 @@ public class C_musique {
                     musique_module_personne.addTextListField();
                     Artiste artiste = new Artiste();
                     Metier metier = new Metier();
-                    System.out.println(musique_module_personne.getText_list()
-                            .get(musique_module_personne.getText_list().size() - 1));
                     artiste.creationRapide(musique_module_personne.getText_list()
                             .get(musique_module_personne.getText_list().size() - 1));
                     metier.setInfo(musique_module_personne.getCombo_list()
@@ -159,8 +155,6 @@ public class C_musique {
                 if (musique.getId() != 0) {
                     musique_module_genre.addTextListField();
                     Genre genre = new Genre();
-                    System.out.println(musique_module_genre.getText_list()
-                            .get(musique_module_genre.getText_list().size() - 1));
                     genre.setInfo(musique_module_genre.getText_list()
                             .get(musique_module_genre.getText_list().size() - 1));
                     musique.addGenre(genre);
@@ -225,7 +219,7 @@ public class C_musique {
         musique_footer_panel.getBoutonTab().get(0).addActionListener(e -> {
             if (verifChamp()) {
                 //-- Si la musique est bien crée.
-                if (musique.creation() && musique.updateDureeAlbum()) {
+                if (musique.creation()) {
                     JOptionPane.showMessageDialog(musiques_panel, "Insertion faites", "Validation",
                             JOptionPane.INFORMATION_MESSAGE);
                     actualiseTab();
@@ -239,7 +233,7 @@ public class C_musique {
         musique_footer_panel.getBoutonTab().get(1).addActionListener(e -> {
             if (verifChamp()) {
                 //-- Si une ligne à bien été modifié.
-                if (musique.modification() && musique.updateDureeAlbum()) {
+                if (musique.modification()) {
                     JOptionPane.showMessageDialog(musiques_panel, "Modification faites", "Modifie",
                             JOptionPane.INFORMATION_MESSAGE);
                     actualiseTab();
