@@ -254,6 +254,8 @@ public class C_musique {
                 actualiseTab();
             }
         });
+
+
         //-- Bouton reset --\\
         //--
         musique_footer_panel.getBoutonTab().get(3).addActionListener(e -> {
@@ -277,7 +279,6 @@ public class C_musique {
      */
     private boolean verifChamp() {
         boolean success = true;
-
         //-- Si le champ titre est vide
         if (musique_titre_textfield.get(0).getText().equals("")) {
             success = false;
@@ -312,11 +313,6 @@ public class C_musique {
             musique.setAlbum(musique_titre_textfield.get(2).getText().toLowerCase());
             musique.setUnivers(musique_titre_textfield.get(3).getText().toLowerCase());
             musique.setEtat(musique_module_etat.getSelectedIndex() + 1);
-            for (int i = 0; i < musique_module_genre.getText_list().size(); i++) {
-                Genre genre = new Genre();
-                genre.setInfo(musique_module_genre.getText_list().get(i));
-                musique.addGenre(genre);
-            }
         }
         return success;
     }
@@ -363,7 +359,7 @@ public class C_musique {
 
 
         //-- etat
-        this.musique_module_etat.setSelectedIndex(musique.getEtat().getId() - 1);
+        this.musique_module_etat.setSelectedIndex(musique.getEtatId() - 1);
     }
 
 
