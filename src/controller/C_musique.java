@@ -29,12 +29,14 @@ import view.LinkModule;
 import view.MainPanel;
 import view.PlaceholderTextField;
 
+
 /**
  * - Classe Controleur de la vue aux données de Musiques.
  *
  * @author Kévin
  */
 public class C_musique {
+
 
     //-- Atributs de la classe C_musique --\\
     //--
@@ -85,12 +87,10 @@ public class C_musique {
         double[] elmsSize = {1.0, 1.0, 1.0, 1.0, 1.0};
         musique_header = new HeaderPanel(this.musiques_panel, "Cet onglet permet de renseigner des musiques", header,
                 elmsSize);
-
         ArrayList<PlaceholderTextField> liste = musique_header.getJtextArrray();
         this.musique_titre_textfield = liste;
         PlaceholderTextField musique_duree_textfield = liste.get(1);
-        musique_duree_textfield.setPlaceholder("Durée en seconde");
-
+        musique_duree_textfield.setPlaceholder("Durée en secondes");
     }
 
 
@@ -115,8 +115,6 @@ public class C_musique {
                     musique_module_personne.addTextListField();
                     Artiste artiste = new Artiste();
                     Metier metier = new Metier();
-                    System.out.println(musique_module_personne.getText_list()
-                            .get(musique_module_personne.getText_list().size() - 1));
                     artiste.creationRapide(musique_module_personne.getText_list()
                             .get(musique_module_personne.getText_list().size() - 1));
                     metier.setInfo(musique_module_personne.getCombo_list()
@@ -153,12 +151,10 @@ public class C_musique {
         //-- Lie un genre et une musique lors de l'appuie sur le bouton '+' --\\
         //--
         musique_module_genre.getMore_btn().addActionListener(e -> {
-            if (!musique_module_genre.empty()) {
-                if (musique.getId() != 0) {
+            if (musique.getId() != 0) {
+                if (!musique_module_genre.empty()) {
                     musique_module_genre.addTextListField();
                     Genre genre = new Genre();
-                    System.out.println(musique_module_genre.getText_list()
-                            .get(musique_module_genre.getText_list().size() - 1));
                     genre.setInfo(musique_module_genre.getText_list()
                             .get(musique_module_genre.getText_list().size() - 1));
                     musique.addGenre(genre);
@@ -175,8 +171,8 @@ public class C_musique {
         //-- Delie un genre et une musique lors de l'appuie sur le bouton '-' --\\
         //--
         musique_module_genre.getLess_btn().addActionListener(e -> {
-            if (musique_module_genre.getContent_list().getSelectedIndices().length > 0) {
-                if (musique.getId() != 0) {
+            if (musique.getId() != 0) {
+                if (musique_module_genre.getContent_list().getSelectedIndices().length > 0) {
                     musique.supprimeLiasonMediaGenre();
                     actualiseTab();
                 } else {
@@ -213,8 +209,8 @@ public class C_musique {
      * Définit le comportement des boutons.
      */
     private void footerPanel() {
-        String[] textBouton = {"Creer", "Modifier", "Supprimer"};
-        double[] elmsSizeFooter = {1.0, 1.0, 1.0};
+        String[] textBouton = {"Creer", "Modifier", "Supprimer", "Reset"};
+        double[] elmsSizeFooter = {1.0, 1.0, 1.0, 1.0};
         FooterPanel musique_footer_panel = new FooterPanel(this.musiques_panel, textBouton, elmsSizeFooter);
 
 
@@ -223,7 +219,7 @@ public class C_musique {
         musique_footer_panel.getBoutonTab().get(0).addActionListener(e -> {
             if (verifChamp()) {
                 //-- Si la musique est bien crée.
-                if (musique.creation() && musique.updateDureeAlbum()) {
+                if (musique.creation()) {
                     JOptionPane.showMessageDialog(musiques_panel, "Insertion faites", "Validation",
                             JOptionPane.INFORMATION_MESSAGE);
                     actualiseTab();
@@ -237,7 +233,7 @@ public class C_musique {
         musique_footer_panel.getBoutonTab().get(1).addActionListener(e -> {
             if (verifChamp()) {
                 //-- Si une ligne à bien été modifié.
-                if (musique.modification() && musique.updateDureeAlbum()) {
+                if (musique.modification()) {
                     JOptionPane.showMessageDialog(musiques_panel, "Modification faites", "Modifie",
                             JOptionPane.INFORMATION_MESSAGE);
                     actualiseTab();
@@ -258,6 +254,19 @@ public class C_musique {
                 actualiseTab();
             }
         });
+
+
+        //-- Bouton reset --\\
+        //--
+        musique_footer_panel.getBoutonTab().get(3).addActionListener(e -> {
+            musique = new Musique();
+            for (PlaceholderTextField text : musique_titre_textfield) {
+                text.setText("");
+            }
+            musique_module_etat.setSelectedIndex(1);
+            musique_module_genre.resetTextListField();
+            musique_module_personne.resetTextListField();
+        });
     }
 
 
@@ -270,7 +279,6 @@ public class C_musique {
      */
     private boolean verifChamp() {
         boolean success = true;
-
         //-- Si le champ titre est vide
         if (musique_titre_textfield.get(0).getText().equals("")) {
             success = false;
@@ -305,11 +313,6 @@ public class C_musique {
             musique.setAlbum(musique_titre_textfield.get(2).getText().toLowerCase());
             musique.setUnivers(musique_titre_textfield.get(3).getText().toLowerCase());
             musique.setEtat(musique_module_etat.getSelectedIndex() + 1);
-            for (int i = 0; i < musique_module_genre.getText_list().size(); i++) {
-                Genre genre = new Genre();
-                genre.setInfo(musique_module_genre.getText_list().get(i));
-                musique.addGenre(genre);
-            }
         }
         return success;
     }
@@ -356,7 +359,7 @@ public class C_musique {
 
 
         //-- etat
-        this.musique_module_etat.setSelectedIndex(musique.getEtat().getId() - 1);
+        this.musique_module_etat.setSelectedIndex(musique.getEtatId() - 1);
     }
 
 
