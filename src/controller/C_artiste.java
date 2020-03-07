@@ -55,7 +55,7 @@ public class C_artiste {
 	public void ajouteHeader() {
 		String[] tabHeader = { "Nom", "Prenom","Date de naissance", "Surnom" };
 		double[] elmSize = { 1.0, 1.0, 1.0, 1.0 };
-		HeaderPanel artiste_header = new HeaderPanel(this.artiste_panel, "Cet onglet permet de renseigner des livres",
+		HeaderPanel artiste_header = new HeaderPanel(this.artiste_panel, "Cet onglet permet de renseigner des artistes",
 				tabHeader, elmSize);
 		ArrayList<PlaceholderTextField> liste = artiste_header.getJtextArrray();
 		this.artiste_nom_textfield = liste.get(0);
