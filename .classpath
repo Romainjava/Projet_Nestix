@@ -9,5 +9,6 @@
 	<classpathentry kind="lib" path="miglayout15-swing.jar" sourcepath="miglayout-src.zip"/>
 	<classpathentry exported="true" kind="lib" path="mysql-connector-java-8.0.18.jar"/>
 	<classpathentry kind="lib" path="mariadb-java-client-2.5.2.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -364,7 +364,7 @@ public class Film extends Media {
          */
         static String queryLectureUn() {
             return "SELECT  id_media, annee_sortie_media, admin_id, nestix_media.univers_id,  nom_univers, saga_id, duree_film, resume_film,"
-                    + "    nom_saga,    image_id,    path_image,    nom_image, "
+                    + "    nom_saga,    image_id,    path_image,    extension_image, "
                     + "    alt_image,  utilisateur_id,    nom_oeuvre,    id_etat, "
                     + "    nom_etat,    oeuvre_id FROM    `nestix_media` "
                     + "LEFT JOIN nestix_oeuvre ON nestix_oeuvre.id_oeuvre = nestix_media.oeuvre_id "

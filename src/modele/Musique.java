@@ -236,7 +236,6 @@ public class Musique extends Media {
             statement.setInt(1, id);
             ResultSet result = statement.executeQuery();
             while (result.next()) {
-                sucess = true;
                 this.id_media = result.getInt("id_media");
                 this.annee_sortie_media = result.getString("annee_sortie_media");
                 this.duree_musique = result.getInt("duree_musique");
@@ -247,6 +246,7 @@ public class Musique extends Media {
                 this.fetchArtiste(id);
                 this.fetchGenre(id);
             }
+            sucess = true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -391,7 +391,7 @@ public class Musique extends Media {
          */
         static String queryLectureUn() {
             return "SELECT  id_media, annee_sortie_media, admin_id, nestix_media.univers_id,  nom_univers, saga_id, duree_musique,"
-                    + "    nom_saga,    image_id,    path_image,    nom_image, "
+                    + "    nom_saga,    image_id,    path_image,    extension_image, "
                     + "    alt_image,  id_album, nom_album,  utilisateur_id,    nom_oeuvre,    id_etat, "
                     + "    nom_etat,    oeuvre_id FROM    `nestix_media` "
                     + "LEFT JOIN nestix_oeuvre ON nestix_oeuvre.id_oeuvre = nestix_media.oeuvre_id "
