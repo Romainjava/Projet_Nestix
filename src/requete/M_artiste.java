@@ -10,9 +10,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
-
-import javax.swing.JOptionPane;
-
 import modele.Artiste;
 import modele.ConnexionBDD;
 import modele.I_recherche;
@@ -28,7 +25,7 @@ public class M_artiste {
 		boolean success = false;
 		try {
 			Connection co = ConnexionBDD.getConnection();
-			String query = "SELECT * FROM nestix_artiste WHERE id = ?";
+			String query = "SELECT * FROM nestix_artiste WHERE id_artiste = ?";
 			PreparedStatement statement = (PreparedStatement) co.prepareStatement(query);
 			statement.setInt(1, artiste.getId_artiste());
 			success = statement.execute();
