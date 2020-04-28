@@ -69,6 +69,7 @@ public class MainApp {
      * Affiche le pannel à onglet, ainsi que tout le contenu de ces onglets.
      * Ajoute également les états des media à l'objet Etat.
      * Gestion du rafraichissement des tableaux au changement d'onglet.
+     * @wbp.parser.entryPoint
      */
     @SuppressWarnings("deprecation")
     private void initialize() {

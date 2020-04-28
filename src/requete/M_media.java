@@ -22,7 +22,7 @@ public class M_media {
 		int id = 0;
 		int nb_row = 0;
 		try {
-			Connection co = ConnexionBDD.getConnexion();
+			Connection co = ConnexionBDD.getConnection();
 			String query = "SELECT id_media FROM nestix_media "
 					+ "JOIN nestix_oeuvre ON nestix_media.oeuvre_id = nestix_oeuvre.id_oeuvre "
 					+ "WHERE nom_oeuvre = ? AND type_media = ?";
@@ -69,7 +69,7 @@ public class M_media {
 		int id = 0;
 		int nb_row = 0;
 		try {
-			Connection co = ConnexionBDD.getConnexion();
+			Connection co = ConnexionBDD.getConnection();
 			String query = "SELECT id_oeuvre FROM nestix_oeuvre " + "WHERE nom_oeuvre = ? ";
 			PreparedStatement state = (PreparedStatement) co.prepareStatement(query);
 			state.setString(1, titre);

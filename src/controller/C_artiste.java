@@ -1,6 +1,5 @@
 package controller;
 
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -52,10 +51,14 @@ public class C_artiste {
 		footerPanel();
 	}
 
+	/**
+	 * Permet de définir les en-tête du bloc principal Il est au dessus du main
+	 * panel
+	 */
 	public void ajouteHeader() {
-		String[] tabHeader = { "Nom", "Prenom","Date de naissance", "Surnom" };
+		String[] tabHeader = { "Nom", "Prenom", "Date de naissance", "Surnom" };
 		double[] elmSize = { 1.0, 1.0, 1.0, 1.0 };
-		HeaderPanel artiste_header = new HeaderPanel(this.artiste_panel, "Cet onglet permet de renseigner des livres",
+		HeaderPanel artiste_header = new HeaderPanel(this.artiste_panel, "Cet onglet permet de renseigner des artistes",
 				tabHeader, elmSize);
 		ArrayList<PlaceholderTextField> liste = artiste_header.getJtextArrray();
 		this.artiste_nom_textfield = liste.get(0);
@@ -63,11 +66,14 @@ public class C_artiste {
 		this.artiste_dob_textfield = liste.get(2);
 		this.artiste_dob_textfield.setPlaceholder("Format : jj/mm/aaaa");
 		this.artiste_surnom_textfield = liste.get(3);
-		
+
 		// affiche le text en hover
-		//this.artiste_dob_textfield.setToolTipText("(Format jj/mm/aaaa");
+		// this.artiste_dob_textfield.setToolTipText("(Format jj/mm/aaaa");
 	}
 
+	/**
+	 * MainPanel contient les champs formulaire et les boutons d'evenements
+	 */
 	public void ajoutMainPanel() {
 		MainPanel artiste_main = new MainPanel(this.artiste_panel);
 
@@ -78,8 +84,8 @@ public class C_artiste {
 		 */
 		JButton btn = metier_panel.metier_add_button;
 		btn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {				
-				//EMPECHE LA CREATION DU BTN + SI SURNOM EST VIDE
+			public void actionPerformed(ActionEvent e) {
+				// EMPECHE LA CREATION DU BTN + SI SURNOM EST VIDE
 				if (!artiste.getSurnom_artiste().equals("")) {
 					// recupere les valeurs des combobox et les ajoutes en bdd
 					metier_panel.getInfoMetier();
@@ -106,7 +112,7 @@ public class C_artiste {
 						JOptionPane.showMessageDialog(metier_panel, "Erreur lors de la creation d'un metier");
 					}
 
-				}else {
+				} else {
 					JOptionPane.showMessageDialog(metier_panel, "Champ vide");
 				}
 			}
@@ -156,9 +162,9 @@ public class C_artiste {
 			}
 
 		});
-		artiste_main.addModule(metier_panel, 0, 0,2,3);
+		artiste_main.addModule(metier_panel, 0, 0, 2, 3);
 		artiste_main.addPanelImage();
-		this.artiste_etat  = artiste_main.addPanelEtat();
+		this.artiste_etat = artiste_main.addPanelEtat();
 
 		actualiseListe();
 	}
@@ -223,7 +229,6 @@ public class C_artiste {
 			}
 		});
 
-		
 		/**
 		 * suppression d'un artiste
 		 */
@@ -257,8 +262,10 @@ public class C_artiste {
 		artiste.setNom_artiste(getArtiste_nom_textfield().getText());
 		artiste.setPrenom_artiste(getArtiste_prenom_textfield().getText());
 		artiste.setDob_artiste(getArtiste_dob_textfield().getText());
-		artiste.setEtat(artiste_etat.getModel().getSelectedItem().toString());//renvoie le texte correspondant du model et avec des elseif rentre le bon id correspondant
-		
+		artiste.setEtat(artiste_etat.getModel().getSelectedItem().toString());// renvoie le texte correspondant du model
+																				// et avec des elseif rentre le bon id
+																				// correspondant
+
 	}
 
 	/**

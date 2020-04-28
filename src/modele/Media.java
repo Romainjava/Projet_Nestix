@@ -5,8 +5,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import javax.swing.JOptionPane;
-
 import view.I_dataListable;
 
 public abstract class Media implements I_requeteSQL, I_dataListable, I_recherche {
@@ -94,6 +92,15 @@ public abstract class Media implements I_requeteSQL, I_dataListable, I_recherche
 
 	public void setOeuvre(Oeuvre oeuvre) {
 		this.oeuvre = oeuvre;
+	}
+	
+	public Image getImage() {
+		return image;
+	}
+
+	public void setImage(Image image) {
+		System.out.println("toto");
+		this.image = image;
 	}
 
 	public String getTitre() {
@@ -190,7 +197,7 @@ public abstract class Media implements I_requeteSQL, I_dataListable, I_recherche
 		boolean success = false;
 		String query = "INSERT INTO `nestix_artiste_metier_media`(`artiste_id`, `media_id`, `metier_id`) VALUES(?,?,?)";
 		try {
-			PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
+			PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnection().prepareStatement(query);
 			statement.setInt(1, this.artistes.get(this.artistes.size() - 1).getId());
 			statement.setInt(2, this.id_media);
 			statement.setInt(3, this.artistes.get(this.artistes.size() - 1).getMetiers_artiste().get(0).getId());
@@ -205,10 +212,68 @@ public abstract class Media implements I_requeteSQL, I_dataListable, I_recherche
 		boolean success = false;
 		String query = "DELETE FROM `nestix_artiste_metier_media` WHERE artiste_id=? &&media_id=?";
 		try {
-			PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
+			PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnection().prepareStatement(query);
 			statement.setInt(1, this.artistes.get(this.artistes.size() - 1).getId());
 			statement.setInt(2, this.id_media);
 			success = (statement.executeUpdate() > 0);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return success;
+	}
+
+	public boolean insertOrUpdateImage() {
+		boolean success = false;
+		try {
+			String query = "INSERT INTO `nestix_media_genre` (`media_id`, `genre_id`) VALUES(?,?)";
+			PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnection().prepareStatement(query);
+			statement.setInt(1, this.id_media);
+			statement.setInt(2, this.genres.get(this.genres.size() - 1).getId());
+			success = (statement.executeUpdate() > 0);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return success;
+	}
+
+	public void fetchIdImage() {
+		ResultSet result;
+		try {
+			String query = "SELECT `id_image` FROM `nestix_image` WHERE `id_image` = ?";
+			PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnection().prepareStatement(query);
+			statement.setInt(1, this.image.getId());
+			result = statement.executeQuery();
+			if(result.next()) {
+				this.image.setId(result.getInt(0));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	/**
+	 * Met à jour ou insert 
+	 * @return
+	 */
+	public boolean updateOrInsetImage() {
+		boolean success = false;
+		this.fetchIdImage();
+		try {
+			if(this.image.getId() > 0) {
+				String query = "UPDATE SET `alt_image` = ? WHERE `id_image` = ?";
+				PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnection().prepareStatement(query);
+				statement.setString(1, this.image.getAlt_image());
+				statement.setInt(2, this.image.getId());
+				success = (statement.executeUpdate() > 0);
+				
+			}else {
+				//Manque le nom_image
+				String query = "INSERT INTO `nestix_image` (`alt_image`) VALUES(?)";
+				PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnection().prepareStatement(query);
+				statement.setString(1, this.image.getAlt_image());
+				success = (statement.executeUpdate() > 0);
+			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -219,7 +284,7 @@ public abstract class Media implements I_requeteSQL, I_dataListable, I_recherche
 		boolean success = false;
 		try {
 			String query = "INSERT INTO `nestix_media_genre` (`media_id`, `genre_id`) VALUES(?,?)";
-			PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
+			PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnection().prepareStatement(query);
 			statement.setInt(1, this.id_media);
 			statement.setInt(2, this.genres.get(this.genres.size() - 1).getId());
 			success = (statement.executeUpdate() > 0);
@@ -233,7 +298,7 @@ public abstract class Media implements I_requeteSQL, I_dataListable, I_recherche
 		boolean success = false;
 		try {
 			String query = "DELETE FROM `nestix_media_genre` WHERE genre_id=? && media_id=?";
-			PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
+			PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnection().prepareStatement(query);
 			statement.setInt(1, this.genres.get(this.genres.size() - 1).getId());
 			statement.setInt(2, this.id_media);
 			success = (statement.executeUpdate() > 0);
@@ -247,7 +312,7 @@ public abstract class Media implements I_requeteSQL, I_dataListable, I_recherche
 		boolean success = false;
 		try {
 			String query = "DELETE FROM `nestix_" + this.getType() + "` WHERE " + this.getType() + "_id=?";
-			PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
+			PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnection().prepareStatement(query);
 			statement.setInt(1, this.id_media);
 			success = (statement.executeUpdate() > 0);
 		} catch (SQLException e) {
