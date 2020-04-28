@@ -192,7 +192,7 @@ public class Livre extends Media {
 			this.oeuvre.setProp(result.getInt("id_oeuvre"), result.getString("nom_oeuvre"));
 			this.date_crea_media = result.getString("date_crea_media");
 			this.annee_sortie_media = result.getString("annee_sortie_media").substring(0,4);
-			this.image.setProp(result.getInt("id_image"), result.getString("nom_image"), result.getString("path_image"), result.getString("alt_image"));
+			this.image.setProp(result.getInt("id_image"), result.getString("extension_image"), result.getString("path_image"), result.getString("alt_image"));
 			this.univers.setProp(result.getInt("id_univers"), result.getString("nom_univers"));
 			this.saga.setProp(result.getInt("id_saga"), result.getString("nom_saga"));
 			this.etat.setProp(result.getInt("id_etat"), result.getString("nom_etat"));
@@ -287,7 +287,7 @@ public class Livre extends Media {
 				livre.oeuvre.setProp(result.getInt("id_oeuvre"), result.getString("nom_oeuvre"));
 				//livre.date_crea_media = result.getString("date_crea_media");
 				livre.annee_sortie_media = result.getString("annee_sortie_media").substring(0,4);
-				//livre.image.setProp(result.getInt("id_image"), result.getString("nom_image"), result.getString("path_image"), result.getString("alt_image"));
+				//livre.image.setProp(result.getInt("id_image"), result.getString("extension_image"), result.getString("path_image"), result.getString("alt_image"));
 				//livre.univers.setProp(result.getInt("id_univers"), result.getString("nom_univers"));
 				//livre.saga.setProp(result.getInt("id_saga"), result.getString("nom_saga"));
 				livre.etat.setProp(result.getInt("id_etat"), result.getString("nom_etat") );

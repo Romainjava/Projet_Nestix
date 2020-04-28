@@ -46,8 +46,14 @@ public class GridPanel extends JPanel {
 		
 		return gbc;
 	}
+	
+	/**
+	 * add a Module with predefine width and height
+	 * @param pModule
+	 * @param x
+	 * @param y
+	 */
 	public void addModule(Module pModule, int x, int y) {
-		//this.moduleList.add(pModule);
 		
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.fill = GridBagConstraints.BOTH;
@@ -58,8 +64,16 @@ public class GridPanel extends JPanel {
 		gbc.gridheight = 1;
 		this.add(pModule, gbc);	
 	}
+	
+	/**
+	 * add a Module 
+	 * @param pModule
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
+	 */
 	public void addModule(Module pModule, int x, int y, int width, int height) {
-		//this.moduleList.add(pModule);
 		
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.fill = GridBagConstraints.BOTH;

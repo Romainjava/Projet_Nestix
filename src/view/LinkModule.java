@@ -93,6 +93,10 @@ public class LinkModule extends Module implements ActionListener{
 		this.more_btn.addActionListener(this);
 		this.less_btn.addActionListener(this);
 	}
+	
+	/**
+	 * add an linkModule to the layout
+	 */
 	public void addElementLayout() {
 		MigLayout gbl = new MigLayout("", "[grow]", "[][][][grow]");
 		
@@ -107,7 +111,6 @@ public class LinkModule extends Module implements ActionListener{
 
 		this.add(this.text_list_field, "cell 0 2,growx");
 		this.text_list_field.setColumns(10);
-		//this.add(this.combo_list_field, "cell 1 2,growx");
 
 		this.add(content_scroll, "cell 0 3 2 1,grow");
 		content_scroll.setViewportView(content_list);

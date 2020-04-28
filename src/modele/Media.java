@@ -140,7 +140,7 @@ public abstract class Media implements I_requeteSQL, I_dataListable, I_recherche
 	public void setImage(ResultSet result) {
 		try {
 			this.image.setId(result.getInt("image_id"));
-			this.image.setNom(result.getString("nom_image"));
+			this.image.setNom(result.getString("extension_image"));
 			this.image.setPath_image(result.getString("path_image"));
 			this.image.setAlt_image(result.getString("alt_image"));
 		} catch (SQLException e) {
