@@ -61,7 +61,7 @@ public abstract class Info implements I_requeteSQL, I_recherche {
 			}
 			query = "SELECT " + this.getIdName() + " FROM nestix_" + this.getTableName() + " WHERE "
 					+ this.getColumnName() + "=?";
-			statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
+			statement = (PreparedStatement) ConnexionBDD.getConnection().prepareStatement(query);
 			statement.setString(1, this.nom);
 			result = statement.executeQuery();
 			if (result.next()) {
@@ -99,7 +99,7 @@ public abstract class Info implements I_requeteSQL, I_recherche {
 			}
 			query = "SELECT " + this.getColumnName() + " FROM nestix_" + this.getTableName() + " WHERE "
 					+ this.getIdName() + "=?";
-			statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
+			statement = (PreparedStatement) ConnexionBDD.getConnection().prepareStatement(query);
 			statement.setInt(1, this.id);
 			result = statement.executeQuery();
 			if (result.next()) {
@@ -138,7 +138,7 @@ public abstract class Info implements I_requeteSQL, I_recherche {
 		String query;
 		try {
 			query = "INSERT IGNORE INTO nestix_" + this.getTableName() + "(" + this.getColumnName() + ") VALUES(?)";
-			statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
+			statement = (PreparedStatement) ConnexionBDD.getConnection().prepareStatement(query);
 			statement.setString(1, value);
 			result = statement.executeQuery();
 			if (result.next()) {
@@ -173,7 +173,7 @@ public abstract class Info implements I_requeteSQL, I_recherche {
 		String query;
 		try {
 			query = "UPDATE `nestix_media` SET " + this.getTableName() + "_id=?";
-			statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
+			statement = (PreparedStatement) ConnexionBDD.getConnection().prepareStatement(query);
 			statement.setNull(1, Types.VARCHAR);
 			statement.executeUpdate();
 			statement.close();
@@ -188,7 +188,7 @@ public abstract class Info implements I_requeteSQL, I_recherche {
 		try {
 			query = "SELECT " + this.getColumnName() + " FROM nestix_" + this.getTableName() + " WHERE "
 					+ this.getIdName() + "=?";
-			statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
+			statement = (PreparedStatement) ConnexionBDD.getConnection().prepareStatement(query);
 			statement.setInt(1, id);
 			result = statement.executeQuery();
 			if (result.next()) {
@@ -212,7 +212,7 @@ public abstract class Info implements I_requeteSQL, I_recherche {
 			}
 			query = "UPDATE nestix_" + this.getTableName() + " SET " + this.getColumnName() + "=? WHERE "
 					+ this.getIdName() + "=?";
-			statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
+			statement = (PreparedStatement) ConnexionBDD.getConnection().prepareStatement(query);
 			statement.setString(1, this.nom);
 			statement.setInt(2, this.id);
 			result = statement.executeUpdate();

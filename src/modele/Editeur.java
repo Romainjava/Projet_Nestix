@@ -31,7 +31,7 @@ public class Editeur extends Info{
 		ArrayList<String> editeurList = new ArrayList<>();
 		editeurList.add("");
 		try {
-			Connection co = ConnexionBDD.getConnexion();
+			Connection co = ConnexionBDD.getConnection();
 			String query = "SELECT nom_editeur FROM nestix_editeur";
 			
 			PreparedStatement statement = (PreparedStatement) co.prepareStatement(query);
@@ -50,7 +50,7 @@ public class Editeur extends Info{
 		ArrayList<Editeur> editeurList = new ArrayList<>();
 		editeurList.add(new Editeur(0, ""));
 		try {
-			Connection co = ConnexionBDD.getConnexion();
+			Connection co = ConnexionBDD.getConnection();
 			String query = "SELECT id_editeur, nom_editeur FROM nestix_editeur";
 			
 			PreparedStatement statement = (PreparedStatement) co.prepareStatement(query);

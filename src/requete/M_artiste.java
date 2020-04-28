@@ -27,7 +27,7 @@ public class M_artiste {
 	public static boolean lireUn(Artiste artiste) {
 		boolean success = false;
 		try {
-			Connection co = ConnexionBDD.getConnexion();
+			Connection co = ConnexionBDD.getConnection();
 			String query = "SELECT * FROM nestix_artiste WHERE id = ?";
 			PreparedStatement statement = (PreparedStatement) co.prepareStatement(query);
 			statement.setInt(1, artiste.getId_artiste());
@@ -49,7 +49,7 @@ public class M_artiste {
 	public static ArrayList<I_recherche> lireTout(int limite) {
 		ArrayList<I_recherche> artistes = new ArrayList<>();
 		try {
-			Connection co = ConnexionBDD.getConnexion();
+			Connection co = ConnexionBDD.getConnection();
 			String query = "SELECT id_artiste,nom_artiste,prenom_artiste,surnom_artiste,nom_etat,dob_artiste,"
 					+ " GROUP_CONCAT(DISTINCT nom_metier) as metiers "
 					+ " FROM nestix_artiste "
@@ -90,7 +90,7 @@ public class M_artiste {
 	public static boolean creation(Artiste artiste) {
 		int nb_row = 0;
 		try {
-			Connection co = ConnexionBDD.getConnexion();
+			Connection co = ConnexionBDD.getConnection();
 			String query = "INSERT INTO nestix_artiste(nom_artiste,prenom_artiste,surnom_artiste,dob_artiste)"
 					+ " VALUES(?,?,?,?)";
 			PreparedStatement statement = (PreparedStatement) co.prepareStatement(query,
@@ -126,7 +126,7 @@ public class M_artiste {
 	 */
 	public static void creationRapide(Artiste artiste) {
 		try {
-			Connection co = ConnexionBDD.getConnexion();
+			Connection co = ConnexionBDD.getConnection();
 			String query = "SELECT id_artiste FROM nestix_artiste WHERE surnom_artiste = ?";
 			PreparedStatement statement = (PreparedStatement) co.prepareStatement(query);
 			statement.setString(1, artiste.getSurnom_artiste());
@@ -152,7 +152,7 @@ public class M_artiste {
 	public static int modifier(Artiste artiste) {
 		int nb_row = 0;
 		try {
-			Connection co = ConnexionBDD.getConnexion();
+			Connection co = ConnexionBDD.getConnection();
 			String query = "UPDATE nestix_artiste SET nom_artiste = ?, prenom_artiste = ?, surnom_artiste = ?"
 					+ ", dob_artiste = ?,etat_id = ?  WHERE id_artiste = ?";
 			PreparedStatement statement = (PreparedStatement) co.prepareStatement(query);
@@ -181,7 +181,7 @@ public class M_artiste {
 	public static void getAllMetierById(Artiste artiste, int id) {
 
 		try {
-			Connection co = ConnexionBDD.getConnexion();
+			Connection co = ConnexionBDD.getConnection();
 			String query = "SELECT nom_metier, id_metier FROM nestix_artiste JOIN nestix_artiste_metier_media ON nestix_artiste_metier_media.artiste_id = nestix_artiste.id_artiste"
 					+ " JOIN nestix_metier ON nestix_metier.id_metier = nestix_artiste_metier_media.metier_id WHERE media_id= ? AND id_artiste = ?";
 			PreparedStatement statement = (PreparedStatement) co.prepareStatement(query);
@@ -210,7 +210,7 @@ public class M_artiste {
 	public static boolean supprime(Artiste artiste) {
 		int nb_row = 0;
 		try {
-			Connection co = ConnexionBDD.getConnexion();
+			Connection co = ConnexionBDD.getConnection();
 			String query = "DELETE FROM nestix_artiste WHERE id_artiste = ?";
 			PreparedStatement statement = (PreparedStatement) co.prepareStatement(query);
 			statement.setInt(1, artiste.getId());

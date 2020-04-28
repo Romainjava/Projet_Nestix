@@ -42,7 +42,7 @@ public class Etat extends Info{
 	public ArrayList<I_recherche> lectureTout(int limit) {
 		ArrayList<I_recherche> etatList = new ArrayList<>();
 		try {
-			Connection co = ConnexionBDD.getConnexion();
+			Connection co = ConnexionBDD.getConnection();
 			String query = "SELECT id_etat, nom_etat FROM nestix_etat\n" +
 						"GROUP BY\n"+ 
 						"nestix_etat.id_etat LIMIT ?";
@@ -71,7 +71,7 @@ public class Etat extends Info{
 	public static String[] lectureTout() {
 		ArrayList<String> etatList = new ArrayList<>();
 		try {
-			Connection co = ConnexionBDD.getConnexion();
+			Connection co = ConnexionBDD.getConnection();
 			String query = "SELECT nom_etat FROM nestix_etat";
 			
 			PreparedStatement statement = (PreparedStatement) co.prepareStatement(query);
@@ -89,7 +89,7 @@ public class Etat extends Info{
 	public static ArrayList<Etat> lectureToutListe() {
 		ArrayList<Etat> etatList = new ArrayList<>();
 		try {
-			Connection co = ConnexionBDD.getConnexion();
+			Connection co = ConnexionBDD.getConnection();
 			String query = "SELECT id_etat, nom_etat FROM nestix_etat";
 			
 			PreparedStatement statement = (PreparedStatement) co.prepareStatement(query);

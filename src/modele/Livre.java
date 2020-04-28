@@ -83,7 +83,7 @@ public class Livre extends Media {
 	public boolean creation() {
 		boolean success = false;
 		try {
-			Connection co = ConnexionBDD.getConnexion();
+			Connection co = ConnexionBDD.getConnection();
 			String query;
 			PreparedStatement statement;
 			ResultSet generatedKeys;
@@ -115,7 +115,7 @@ public class Livre extends Media {
 				query = "UPDATE nestix_livre \n" + 
 						"SET isbn = ?, resume_livre = ?, tome_livre = ?, editeur_id = ? \n" + 
 						"WHERE livre_id = ?";
-				statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
+				statement = (PreparedStatement) ConnexionBDD.getConnection().prepareStatement(query);
 				ConnexionBDD.prepareLong(statement, 1, this.ISBN);
 				statement.setString(2, this.resume_livre);
 				ConnexionBDD.prepareInt(statement, 3, this.tome_livre);
@@ -136,7 +136,7 @@ public class Livre extends Media {
 	public boolean modification() {
 		boolean success = false;
 		try {
-			Connection co = ConnexionBDD.getConnexion();
+			Connection co = ConnexionBDD.getConnection();
 			String query;
 			PreparedStatement statement;
 			//modification media
@@ -180,7 +180,7 @@ public class Livre extends Media {
 		boolean success = true;
 
 		try {
-			Connection co = ConnexionBDD.getConnexion();
+			Connection co = ConnexionBDD.getConnection();
 			String query = "SELECT * FROM nestix_vue_media_livre WHERE livre_id = ?";
 
 			PreparedStatement statement = (PreparedStatement) co.prepareStatement(query);
@@ -259,7 +259,7 @@ public class Livre extends Media {
 		boolean success=false;
 		try {
 			String query="DELETE FROM `nestix_media` WHERE id_media=?";
-			PreparedStatement statement=(PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
+			PreparedStatement statement=(PreparedStatement) ConnexionBDD.getConnection().prepareStatement(query);
 			statement.setInt(1, this.id_media);
 			success=(statement.executeUpdate()>0);
 		} catch (SQLException e) {
@@ -272,7 +272,7 @@ public class Livre extends Media {
 	public ArrayList<I_recherche> lectureTout(int limit) {
 		ArrayList<I_recherche> livreList = new ArrayList<>();
 		try {
-			Connection co = ConnexionBDD.getConnexion();
+			Connection co = ConnexionBDD.getConnection();
 			String query = "SELECT * FROM nestix_vue_media_livre \n" +
 							"GROUP BY\n"+
 							"livre_id LIMIT ?";

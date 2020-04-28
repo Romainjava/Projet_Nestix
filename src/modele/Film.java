@@ -87,7 +87,7 @@ public class Film extends Media {
      */
     private void fetchGenre(int id) {
         try {
-            Connection co = ConnexionBDD.getConnexion();
+            Connection co = ConnexionBDD.getConnection();
             String query = Query.queryFetchGenre();
             PreparedStatement statement = (PreparedStatement) co.prepareStatement(query);
             statement.setInt(1, id);
@@ -113,7 +113,7 @@ public class Film extends Media {
      */
     private void fetchArtiste(int id) {
         try {
-            Connection co = ConnexionBDD.getConnexion();
+            Connection co = ConnexionBDD.getConnection();
             String query = Query.queryFetchArtiste();
             PreparedStatement statement = (PreparedStatement) co.prepareStatement(query);
             statement.setInt(1, id);
@@ -142,7 +142,7 @@ public class Film extends Media {
         boolean success = false;
         try {
             String query = "UPDATE `nestix_film` SET `duree_film`=?,`resume_film`=? WHERE musique_id=?";
-            PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
+            PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnection().prepareStatement(query);
             ConnexionBDD.prepareInt(statement, 1, this.duree_film);
             statement.setString(2, this.resume_film);
             statement.setInt(3, this.id_media);
@@ -163,7 +163,7 @@ public class Film extends Media {
         boolean success = false;
         try {
             String query = "INSERT INTO `nestix_media`( `annee_sortie_media`, `admin_id`, `univers_id`, `image_id`, `saga_id`, `etat_id`, `oeuvre_id`,type_media) VALUES (?,?,?,?,?,?,?,?)";
-            PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query,
+            PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnection().prepareStatement(query,
                     Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, this.annee_sortie_media);
             statement.setInt(2, 1);
@@ -201,7 +201,7 @@ public class Film extends Media {
     public boolean lireUn(int id) {
         boolean sucess = false;
         try {
-            Connection co = ConnexionBDD.getConnexion();
+            Connection co = ConnexionBDD.getConnection();
             String query = Query.queryLectureUn();
 
             PreparedStatement statement = (PreparedStatement) co.prepareStatement(query);
@@ -239,7 +239,7 @@ public class Film extends Media {
         boolean success = false;
         try {
             String query = "DELETE FROM `nestix_media` WHERE id_media=?";
-            PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
+            PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnection().prepareStatement(query);
             statement.setInt(1, this.id_media);
             success = (statement.executeUpdate() > 0);
         } catch (SQLException e) {
@@ -259,7 +259,7 @@ public class Film extends Media {
     public ArrayList<I_recherche> lectureTout(int limit) {
         ArrayList<I_recherche> filmList = new ArrayList<>();
         try {
-            Connection co = ConnexionBDD.getConnexion();
+            Connection co = ConnexionBDD.getConnection();
             String query = Query.queryLectureTout();
             PreparedStatement statement = (PreparedStatement) co.prepareStatement(query);
             statement.setInt(1, limit);
@@ -307,7 +307,7 @@ public class Film extends Media {
         try {
             String query = "UPDATE `nestix_media` SET `annee_sortie_media`=?,`admin_id`=?,`univers_id`=?,`image_id`=?, `saga_id`=?, `etat_id`=?,`oeuvre_id`=?"
                     + " WHERE id_media=?";
-            PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnexion().prepareStatement(query);
+            PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnection().prepareStatement(query);
             statement.setString(1, this.annee_sortie_media);
             statement.setInt(2, 4);
             ConnexionBDD.prepareInt(statement, 3, this.univers.getId());

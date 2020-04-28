@@ -34,7 +34,7 @@ public class AsidePanel extends JPanel {
 	public DefaultTableModel getTab_model() {
 		return tab_model;
 	}
-
+	
 	public AsidePanel(JPanel panel_container) {
 
 		this.setBackground(Color.LIGHT_GRAY);
