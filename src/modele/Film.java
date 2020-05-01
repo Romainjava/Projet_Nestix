@@ -62,7 +62,8 @@ public class Film extends Media {
      */
     @Override
     public String[] toRowData() {
-        return new String[]{this.oeuvre.getNom(), this.concat_genre, this.concat_artistes, this.annee_sortie_media.substring(0, 4),
+    	String annee = (this.annee_sortie_media != null)? this.annee_sortie_media.substring(0, 4):"";
+        return new String[]{this.oeuvre.getNom(), this.concat_genre, this.concat_artistes,annee,
                 this.etat.getNom()};
     }
 
@@ -73,7 +74,8 @@ public class Film extends Media {
      * @return un tableau avec les données à entrer dans les champs.
      */
     public String[] toRowDataForm() {
-        return new String[]{this.getTitre(), this.duree_film + "", this.annee_sortie_media.substring(0, 4), this.saga.getNom(),
+    	String annee = (this.annee_sortie_media != null)? this.annee_sortie_media.substring(0, 4):"";
+        return new String[]{this.getTitre(), this.duree_film + "", annee, this.saga.getNom(),
                 this.getNomunivers()};
     }
 
@@ -141,7 +143,7 @@ public class Film extends Media {
     public boolean updateDureeEtResume() {
         boolean success = false;
         try {
-            String query = "UPDATE `nestix_film` SET `duree_film`=?,`resume_film`=? WHERE musique_id=?";
+            String query = "UPDATE `nestix_film` SET `duree_film`=?,`resume_film`=? WHERE film_id=?";
             PreparedStatement statement = (PreparedStatement) ConnexionBDD.getConnection().prepareStatement(query);
             ConnexionBDD.prepareInt(statement, 1, this.duree_film);
             statement.setString(2, this.resume_film);
@@ -317,7 +319,7 @@ public class Film extends Media {
             ConnexionBDD.prepareInt(statement, 7, this.oeuvre.getId());
             statement.setInt(8, this.id_media);
             success = (statement.executeUpdate() > 0);
-            if (success) {
+            if (success && this.duree_film > 0) {
                 success = this.updateDureeEtResume();
             }
             statement.close();
@@ -364,7 +366,7 @@ public class Film extends Media {
          */
         static String queryLectureUn() {
             return "SELECT  id_media, annee_sortie_media, admin_id, nestix_media.univers_id,  nom_univers, saga_id, duree_film, resume_film,"
-                    + "    nom_saga,    image_id,    path_image,    extension_image, "
+                    + "    nom_saga,    image_id,    path_image,   "
                     + "    alt_image,  utilisateur_id,    nom_oeuvre,    id_etat, "
                     + "    nom_etat,    oeuvre_id FROM    `nestix_media` "
                     + "LEFT JOIN nestix_oeuvre ON nestix_oeuvre.id_oeuvre = nestix_media.oeuvre_id "

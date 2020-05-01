@@ -35,7 +35,8 @@ public class Livre extends Media {
 	}
 
 	public String[] toRowData() {
-		String[] data = {this.oeuvre.getNom(), this.ISBN + "", this.editeur.getNom(), this.etat.getNom(), this.annee_sortie_media};
+    	String annee = (this.annee_sortie_media != null)? this.annee_sortie_media.substring(0, 4):"";
+		String[] data = {this.oeuvre.getNom(), this.ISBN + "", this.editeur.getNom(), this.etat.getNom(), annee};
 		return data;
 	}
 
@@ -192,7 +193,7 @@ public class Livre extends Media {
 			this.oeuvre.setProp(result.getInt("id_oeuvre"), result.getString("nom_oeuvre"));
 			this.date_crea_media = result.getString("date_crea_media");
 			this.annee_sortie_media = result.getString("annee_sortie_media").substring(0,4);
-			this.image.setProp(result.getInt("id_image"), result.getString("extension_image"), result.getString("path_image"), result.getString("alt_image"));
+			this.image.setProp(result.getInt("id_image"), ".jpg", result.getString("path_image"), result.getString("alt_image"));
 			this.univers.setProp(result.getInt("id_univers"), result.getString("nom_univers"));
 			this.saga.setProp(result.getInt("id_saga"), result.getString("nom_saga"));
 			this.etat.setProp(result.getInt("id_etat"), result.getString("nom_etat"));

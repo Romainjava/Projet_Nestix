@@ -60,8 +60,9 @@ public class Musique extends Media {
      */
     @Override
     public String[] toRowData() {
+    	String annee = (this.annee_sortie_media != null)? this.annee_sortie_media.substring(0, 4):"";
         return new String[]{this.oeuvre.getNom(), this.concat_genre, this.concat_artistes, this.etat.getNom(),
-                this.annee_sortie_media.substring(0, 4)};
+                annee};
     }
 
     /**
