@@ -28,7 +28,16 @@ public class M_artiste {
 			String query = "SELECT * FROM nestix_artiste WHERE id_artiste = ?";
 			PreparedStatement statement = (PreparedStatement) co.prepareStatement(query);
 			statement.setInt(1, artiste.getId_artiste());
-			success = statement.execute();
+			ResultSet result = statement.executeQuery();
+			while (result.next()) {
+				success = true;
+				artiste.setNom_artiste(result.getString("nom_artiste"));
+				artiste.setPrenom_artiste(result.getString("prenom_artiste"));
+				artiste.setSurnom_artiste(result.getString("surnom_artiste"));
+				artiste.setEtat_id(result.getInt("etat_id"));
+				artiste.setDob_artiste(parseFormatDateFromSQL(result.getString("dob_artiste")));
+				artiste.setId_artiste(result.getInt("id_artiste"));
+			}
 
 		} catch (SQLException e) {
 			System.out.println("Erreur attrapé dans lireUn M_artiste : " + e.getMessage());

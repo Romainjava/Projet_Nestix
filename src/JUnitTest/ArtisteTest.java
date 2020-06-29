@@ -13,25 +13,27 @@ import modele.Artiste;
 
 public class ArtisteTest {
 	Artiste artiste;
+	Artiste artiste_faux;
 	Media media;
 
 	@Before
 	public void setUp() throws Exception {
 		try {
 			artiste = new Artiste();
-			artiste.setId_artiste(57);
+			artiste_faux = new Artiste();
+			artiste_faux.lireUn(9999999);
 			artiste.lireUn(57);
 		} catch (Exception e) {
 			System.out.println("Voici l'erreur attrapé " + e.getMessage());
 		}
-
 	}
 
 	@Test
-	public void test() {
-		artiste.setId_artiste(57);
+	public void testLireArtiste() {
 		assertEquals(true, M_artiste.lireUn(artiste));
+		assertEquals(false, M_artiste.lireUn(artiste_faux));
 	}
+	
 
 	@Test
 	public void testLireTout() {
@@ -69,14 +71,21 @@ public class ArtisteTest {
 	}
 
 	@Test
+	/**
+	 * Test Création d'un nom et vérification de son type
+	 */
 	public void testCreatePrenomArtiste() {
-		assertNull(artiste.getPrenom_artiste());
-		artiste.setPrenom_artiste("John");
+		assertNull(artiste_faux.getPrenom_artiste());
 		assertNotNull(artiste.getPrenom_artiste());
+		artiste.setPrenom_artiste("John");
+		assertEquals(artiste.getPrenom_artiste(), "John");
 		assertTrue(artiste.getPrenom_artiste() instanceof String);
 	}
 
 	@Test
+	/**
+	 * Vérifie la fonction retourne l'id par rapport à un string
+	 */
 	public void testGetIdEtat() {
 		artiste.setEtat("valide");
 		assertEquals(1, artiste.getId_etat());

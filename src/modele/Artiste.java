@@ -17,6 +17,7 @@ public class Artiste implements I_requeteSQL, I_recherche {
 	private Metier metier;
 	private String etat;
 	private String group_concact;
+	private int etat_id;
 
 	/**
 	 * Fonction qui va verifier le format de la date avec une regex
@@ -71,6 +72,7 @@ public class Artiste implements I_requeteSQL, I_recherche {
 
 	@Override
 	public boolean lireUn(int id) {
+		this.setId_artiste(id);
 		return (M_artiste.lireUn(this));
 	}
 
@@ -210,5 +212,15 @@ public class Artiste implements I_requeteSQL, I_recherche {
 		}
 		return id;
 	}
+
+	public int getEtat_id() {
+		return etat_id;
+	}
+
+	public void setEtat_id(int etat_id) {
+		this.etat_id = etat_id;
+	}
+	
+	
 
 }
